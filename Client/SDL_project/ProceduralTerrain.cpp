@@ -35,6 +35,21 @@ void ProceduralTerrain::makeGrid(int Width, int Height)
 	}
 }
 
+void ProceduralTerrain::spawnTrees()
+{
+	for (int i = numberOfTrees; i > 0; i--)
+	{
+		int x = rand() % grid.size();
+		int y = rand() % grid[0].size();
+		grid[x][y]->isTree = true;
+		int treeType = rand() % 2;
+		if (treeType <= 0)
+			grid[x][y]->isOakTree = true;
+		else
+			grid[x][y]->isFernTree = true;
+	}
+}
+
 
 void ProceduralTerrain::populateTerrain()
 {
@@ -56,4 +71,5 @@ void ProceduralTerrain::populateTerrain()
 			//cellrenderer.RenderCells(level, renderer, x, y);
 		}
 	}
+	spawnTrees();
 }

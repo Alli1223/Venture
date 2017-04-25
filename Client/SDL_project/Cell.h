@@ -80,7 +80,10 @@ public:
 	//! Whether the cell is a kitchen
 	bool isKitchen = false;
 
-	bool isGrass = true;
+	bool isGrass = false;
+	bool isTree = false;
+	bool isOakTree = false;
+	bool isFernTree = false;
 
 	
 

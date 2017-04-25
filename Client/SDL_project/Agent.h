@@ -21,6 +21,10 @@ public:
 	int getX() { return x; }
 	//! Gets the characters Y value
 	int getY() { return y; }
+	//! Gets the characters X offsetvalue
+	int getOffsetX() { return offsetX; }
+	//! Gets the characters Y offsetvalue
+	int getOffsetY() { return offsetY; }
 	//! Gets the characters X value
 	int getCellX() { return cellX; }
 	//! Gets the characters Y value
@@ -35,6 +39,10 @@ public:
 	int setX(int newX) { return x = newX; }
 	//! Sets the characters Y value
 	int setY(int newY) { return y = newY; }
+	//! Sets the characters cellX offset value
+	int setOffsetX(int newOffsetX) { return offsetX = newOffsetX; }
+	//! Sets the characters Y offset value
+	int setOffsetY(int newOffsetY) { return offsetY = newOffsetY; }
 	//! Sets the characters cellX value
 	int setCellX(int newCellX) { return cellX = newCellX; }
 	//! Sets the characters cellY value
@@ -106,6 +114,7 @@ private:
 	//! string stores agent ID/Name
 	std::string ID = "";
 	//! Integers for the agent's X and Y position
+	int offsetX = 0, offsetY = 0;
 	int x = 0; int y = 0;
 	//! Integers for the agent's cellX and cellY positions below agent
 	int cellX = 0; int cellY = 0;

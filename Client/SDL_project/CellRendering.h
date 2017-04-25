@@ -66,8 +66,10 @@ private:
 	
 
 
-	//! Is the texture for the Grass
+	//! Is the textures for the terrain
 	Texture GrassTexture;
+	Texture OakTreeTexture;
+	Texture FernTreeTexture;
 
 
 	//! Is the texture for hull breaches

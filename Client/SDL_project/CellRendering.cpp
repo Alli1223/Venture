@@ -25,7 +25,9 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	bedSideTexture(RoomSpriteTextureLocation + "Bed.png"),
 	toiletTexture(RoomSpriteTextureLocation + "wc.png"),
 	kitchenTexture(RoomSpriteTextureLocation + "cargoBayStorage.png"),
-	GrassTexture(TerrainSpriteTextureLocation + "Grass.png")
+	GrassTexture(TerrainSpriteTextureLocation + "Grass.png"),
+	OakTreeTexture(TerrainSpriteTextureLocation + "OakTree.png"),
+	FernTreeTexture(TerrainSpriteTextureLocation + "FernTree.png")
 {
 }
 
@@ -47,8 +49,15 @@ void CellRendering::RenderCells(ProceduralTerrain& level, SDL_Renderer* renderer
 	// Checks if the cell is a room
 	if (level.grid[x][y]->isGrass)
 	{
-		GrassTexture.alterTextureColour(level.grid[x][y]->noiseValue, 0, 0);
+		//GrassTexture.alterTextureColour(level.grid[x][y]->noiseValue, 0, 0);
 		GrassTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+	}
+	if (level.grid[x][y]->isTree)
+	{
+		if(level.grid[x][y]->isFernTree)
+			FernTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		else if(level.grid[x][y]->isOakTree)
+			OakTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 	}
 	if (level.grid[x][y]->isRoom)
 	{
