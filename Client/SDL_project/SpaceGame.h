@@ -93,7 +93,7 @@ public:
 
 	bool spawnPlayer = true;
 	
-	bool useNetworking = false;
+	bool useNetworking = true;
 	
 
 	//! Network update tick

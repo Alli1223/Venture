@@ -9,8 +9,8 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH;
+	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
+	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
 	window = SDL_CreateWindow("SpaceGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
@@ -146,56 +146,32 @@ void SpaceGame::run()
 			else if (state[SDL_SCANCODE_ESCAPE] && menu == true)
 				menu = false;
 
-			//Pathfinding
-			if (false)
-			{
-				if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
-				{
-					Agent NPC;
-					NPC.characterType = "NPC";
-					NPC.setX(mouse_X);
-					NPC.setY(mouse_Y);
-					//NPC.agentWonderWhenIdle = true;
-					NPC.setID("TEST");
-					agentManager.SpawnAgent(NPC);
-					std::cout << "spawningAgent\n";
-				}
-
-				if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
-				{
-					Point endpoint(mouse_X / cellSize, mouse_Y / cellSize);
-					Point agentPoint(agentManager.allAgents[agentManager.GetAgentNumberFomID("TEST")].getX() / cellSize, agentManager.allAgents[agentManager.GetAgentNumberFomID("TEST")].getY() / cellSize);
-
-					agentManager.allAgents[agentManager.GetAgentNumberFomID("TEST")].Move(level, agentPoint, endpoint);
-				}
-			}
-
 			// Player Movement
-			if (state[SDL_SCANCODE_S])
+			else if (state[SDL_SCANCODE_S])
 			{
-				agentManager.allAgents[0].setY(agentManager.allAgents[0].getY() + agentManager.allAgents[0].getSpeed());
-				agentManager.allAgents[0].agentRotation = 0;
+				//agentManager.allAgents[0].setY(agentManager.allAgents[0].getY() + agentManager.allAgents[0].getSpeed());
+				//agentManager.allAgents[0].agentRotation = 0;
 				networkManager.sendTCPMessage("MOVE_SOUTH\n", socket);
 
 			}
-			if (state[SDL_SCANCODE_A])
+			else if (state[SDL_SCANCODE_A])
 			{
-				agentManager.allAgents[0].setX(agentManager.allAgents[0].getX() - agentManager.allAgents[0].getSpeed());
-				agentManager.allAgents[0].agentRotation = 90;
+				//agentManager.allAgents[0].setX(agentManager.allAgents[0].getX() - agentManager.allAgents[0].getSpeed());
+				//agentManager.allAgents[0].agentRotation = 90;
 				networkManager.sendTCPMessage("MOVE_WEST\n", socket);
 				//xoffset--;
 			}
-			if (state[SDL_SCANCODE_D])
+			else if (state[SDL_SCANCODE_D])
 			{
-				agentManager.allAgents[0].setX(agentManager.allAgents[0].getX() + agentManager.allAgents[0].getSpeed());
-				agentManager.allAgents[0].agentRotation = 270;
+				//agentManager.allAgents[0].setX(agentManager.allAgents[0].getX() + agentManager.allAgents[0].getSpeed());
+				//agentManager.allAgents[0].agentRotation = 270;
 				networkManager.sendTCPMessage("MOVE_EAST\n", socket);
 				//xoffset++;
 			}
-			if (state[SDL_SCANCODE_W])
+			else if (state[SDL_SCANCODE_W])
 			{
-				agentManager.allAgents[0].agentRotation = 180;
-				agentManager.allAgents[0].setY(agentManager.allAgents[0].getY() - agentManager.allAgents[0].getSpeed());
+				//agentManager.allAgents[0].agentRotation = 180;
+				//agentManager.allAgents[0].setY(agentManager.allAgents[0].getY() - agentManager.allAgents[0].getSpeed());
 				networkManager.sendTCPMessage("MOVE_NORTH\n", socket);
 				//yoffset--;
 			}
@@ -204,25 +180,29 @@ void SpaceGame::run()
 			if (state[SDL_SCANCODE_RIGHT])
 			{
 				xoffset++;
-				agentManager.allAgents[0].setOffsetX(-xoffset * cellSize);
+				for(int i = 0; i < agentManager.allAgents.size(); i++)
+					agentManager.allAgents[i].setOffsetX(-xoffset * cellSize);
 				
 			}
 			if (state[SDL_SCANCODE_DOWN])
 			{
 				yoffset++;
-				agentManager.allAgents[0].setOffsetY(-yoffset * cellSize);
+				for (int i = 0; i < agentManager.allAgents.size(); i++)
+					agentManager.allAgents[i].setOffsetY(-yoffset * cellSize);
 				
 			}
 			if (state[SDL_SCANCODE_LEFT])
 			{
 				xoffset--;
-				agentManager.allAgents[0].setOffsetX(-xoffset * cellSize);
+				for (int i = 0; i < agentManager.allAgents.size(); i++)
+					agentManager.allAgents[i].setOffsetX(-xoffset * cellSize);
 				
 			}
 			if (state[SDL_SCANCODE_UP])
 			{
 				yoffset--;
-				agentManager.allAgents[0].setOffsetY(-yoffset * cellSize);
+				for (int i = 0; i < agentManager.allAgents.size(); i++)
+					agentManager.allAgents[i].setOffsetY(-yoffset * cellSize);
 				
 			}
 
@@ -247,7 +227,7 @@ void SpaceGame::run()
 		SDL_RenderClear(renderer);
 
 		// Renders the background image
-		backgroundTexture.render(renderer, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT);
+		//backgroundTexture.render(renderer, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		int playerX = 0;
 		int playerY = 0;
@@ -277,9 +257,7 @@ void SpaceGame::run()
 
 			} //End for Y loop
 		}//End for X loop
-		
 
-		std::cout << playerX << std::endl;
 
 
 		//Right

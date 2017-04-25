@@ -165,7 +165,7 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 						updatenumber.erase(std::remove(updatenumber.begin(), updatenumber.end(), ' '), updatenumber.end());
 						//convert string to int
 						int pos = std::stoi(updatenumber, &sz);
-						pos *= level.getCellSize();
+						//pos *= level.getCellSize();
 						// Only update if the y position has changed
 						//if (agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() != pos)
 							agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].setX(pos);
@@ -183,7 +183,7 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 						updatenumber.erase(std::remove(updatenumber.begin(), updatenumber.end(), ' '), updatenumber.end());
 						//convert string to int
 						int pos = std::stoi(updatenumber, &sz);
-						pos *= level.getCellSize();
+						//pos *= level.getCellSize();
 						// Only update if the y position has changed
 						//if (agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() != pos)
 							agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].setY(pos);
