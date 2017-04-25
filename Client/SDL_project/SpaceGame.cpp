@@ -42,10 +42,10 @@ void SpaceGame::run()
 	running = true;
 	// Creates a grid of cells
 	level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	int cellSize = level.getCellSize();
+	terrainGen.makeGrid(500, 500);
+	terrainGen.populateTerrain();
 
-	//generate noise from seed
-	perlinNoise.GenerateNoise(SDL_GetTicks());
+	int cellSize = level.getCellSize();
 	
 	
 
@@ -87,12 +87,14 @@ void SpaceGame::run()
 	{
 		Agent player;
 		player.characterType = "Player";
-		player.setX(50);
-		player.setY(50);
+		player.setX(WINDOW_WIDTH / 2);
+		player.setY(WINDOW_HEIGHT / 2);
 		agentManager.SpawnAgent(player);
 	}
 	
-	
+	int Xoffset = 0;
+	int gridXTriggerValue = 0;
+	int oldPlayerX = 0, oldPlayerY = 0;;
 	
 
 	// values for the network update timer
@@ -190,36 +192,49 @@ void SpaceGame::run()
 		if (agentManager.allAgents.size() >= 1)
 		{
 			playerX = agentManager.allAgents[0].getX() / cellSize;
-			playerY = agentManager.allAgents[0].getY();
+			playerY = agentManager.allAgents[0].getY() / cellSize;
 		}
 
+		
+		
 		//////////////////////////////////
 		//MAIN CELL LOOP
 		///////////////////////////////////
-
-		for (int x = 0; x < level.grid.size() ; x++)
+		if (true)
 		{
-			for (int y = 0; y < level.grid[0].size(); y++)
+			for (int x = cameraX; x < cameraX + (WINDOW_WIDTH / cellSize); x++)
 			{
-				double noise = perlinNoise.noise((double)x / 180.0, (double)y / 180.0, 0.0);
-				//noise = (char)((noise - 0) * (255 / (noise - 0)));
-
-				level.grid[x][y]->noiseValue = noise  * 1000;
-
-				//Renders all he cells
-				cellrenderer.RenderCells(level, renderer, x, y);
-
-				
-				if (FillLevelWithCells)
+				for (int y = cameraY; y < cameraY +  (WINDOW_HEIGHT / cellSize); y++)
 				{
-					level.grid[x][y]->isRoom = true;
-					
-				}
 
-			} //End for Y loop
-		}//End for X loop
-		FillLevelWithCells = false;
+					//Renders all he cells
+					cellrenderer.RenderCells(terrainGen, renderer, x, y);
 
+
+				} //End for Y loop
+			}//End for X loop
+		}
+
+		if (playerX > oldPlayerX)
+		{
+			oldPlayerX = playerX;
+			cameraX++;
+		}
+		else if (playerY > oldPlayerY)
+		{
+			oldPlayerY = playerY;
+			cameraY++;
+		}
+		
+		/* If player is more than the Center of the screen plus 10s grid value
+		if (playerX > terrainGen.grid[(WINDOW_WIDTH / cellSize) - 10 + gridXTriggerValue][playerY]->getX())
+		{
+			Xoffset++;
+			gridXTriggerValue += 10;
+		}
+		else if (playerX < terrainGen.grid[playerX][playerY]->getX() - 10)
+			Xoffset--;
+			*/
 
 		// Render characters
 		agentManager.UpdateAgents(agentManager.allAgents, renderer, level);

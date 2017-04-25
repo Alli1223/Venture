@@ -24,7 +24,8 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	goalTexture("Resources\\roomSprites\\crate1.png"),
 	bedSideTexture(RoomSpriteTextureLocation + "Bed.png"),
 	toiletTexture(RoomSpriteTextureLocation + "wc.png"),
-	kitchenTexture(RoomSpriteTextureLocation + "cargoBayStorage.png")
+	kitchenTexture(RoomSpriteTextureLocation + "cargoBayStorage.png"),
+	GrassTexture(TerrainSpriteTextureLocation + "Grass.png")
 {
 }
 
@@ -34,14 +35,19 @@ CellRendering::~CellRendering()
 }
 
 //! Renders the cells
-void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int x, int y)
+void CellRendering::RenderCells(ProceduralTerrain& level, SDL_Renderer* renderer, int x, int y)
 {
-	int cellSize = level.getCellSize();
+	int cellSize = 50;
 	int xPos = x * cellSize + cellSize / 2;
 	int yPos = y * cellSize + cellSize / 2;
 	//RENDERING THE CELLS
 
 	// Checks if the cell is a room
+	if (level.grid[x][y]->isGrass)
+	{
+		//GrassTexture.alterTextureColour(level.grid[x][y]->noiseValue, 0, 0);
+		GrassTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+	}
 	if (level.grid[x][y]->isRoom)
 	{
 		roomCell.alterTextureColour(level.grid[x][y]->noiseValue, 0, 0);

@@ -25,6 +25,7 @@
 #include "NetworkManager.h"
 #include "NetworkClient.h"
 #include "PerlinNoise.h"
+#include "ProceduralTerrain.h"
 
 //! The main class
 /*!
@@ -62,7 +63,7 @@ public:
 	Hydroponics hydroponics;
 	NetworkManager networkManager;
 	NetworkClient networkClient;
-	PerlinNoise perlinNoise;
+	ProceduralTerrain terrainGen;
 
 	
 
@@ -86,7 +87,8 @@ public:
 	//! Coordinates of the mouse 
 	int mouse_X, mouse_Y;
 
-	bool FillLevelWithCells = true;
+	int cameraX = 0, cameraY = 0;
+
 	bool spawnPlayer = true;
 	
 	bool useNetworking = false;

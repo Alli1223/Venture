@@ -80,6 +80,8 @@ public:
 	//! Whether the cell is a kitchen
 	bool isKitchen = false;
 
+	bool isGrass = true;
+
 	
 
 	//! cell Orientation

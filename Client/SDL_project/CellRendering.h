@@ -1,5 +1,6 @@
 #pragma once
 #include "Level.h"
+#include "ProceduralTerrain.h"
 
 class CellRendering
 {
@@ -7,11 +8,12 @@ public:
 	CellRendering();
 	~CellRendering();
 
-	void RenderCells(Level& level, SDL_Renderer* renderer, int x, int y);
+	void RenderCells(ProceduralTerrain& level, SDL_Renderer* renderer, int x, int y);
 
 private:
 	const std::string RoomSpriteTextureLocation = "Resources\\roomSprites\\texturePack\\";
 	const std::string ItemsSpriteTextureLocation = "Resources\\SpawnItems\\";
+	const std::string TerrainSpriteTextureLocation = "Resources\\Terrain\\";
 
 	// Textures for game objects
 	//! For cells that are a room
@@ -61,6 +63,11 @@ private:
 	Texture toiletTexture;
 	//! Is the texture for the kitchen
 	Texture kitchenTexture;
+	
+
+
+	//! Is the texture for the Grass
+	Texture GrassTexture;
 
 
 	//! Is the texture for hull breaches
