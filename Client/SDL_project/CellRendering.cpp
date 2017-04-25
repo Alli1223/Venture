@@ -35,17 +35,19 @@ CellRendering::~CellRendering()
 }
 
 //! Renders the cells
-void CellRendering::RenderCells(ProceduralTerrain& level, SDL_Renderer* renderer, int x, int y)
+void CellRendering::RenderCells(ProceduralTerrain& level, SDL_Renderer* renderer, int x, int y, int xOffset, int yOffset)
 {
 	int cellSize = 50;
 	int xPos = x * cellSize + cellSize / 2;
 	int yPos = y * cellSize + cellSize / 2;
+	y = y + yOffset;
+	x = x + xOffset;
 	//RENDERING THE CELLS
 
 	// Checks if the cell is a room
 	if (level.grid[x][y]->isGrass)
 	{
-		//GrassTexture.alterTextureColour(level.grid[x][y]->noiseValue, 0, 0);
+		GrassTexture.alterTextureColour(level.grid[x][y]->noiseValue, 0, 0);
 		GrassTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 	}
 	if (level.grid[x][y]->isRoom)

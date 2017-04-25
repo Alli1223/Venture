@@ -103,6 +103,9 @@
     <ClCompile Include="ProceduralTerrain.cpp">
       <Filter>Source Files\Level Classes\PathFinding</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Main Game Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fire.h">
@@ -215,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="ProceduralTerrain.h">
       <Filter>Headers\Level Classes\PCG</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Headers\Main Game Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -42,7 +42,7 @@ void SpaceGame::run()
 	running = true;
 	// Creates a grid of cells
 	level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	terrainGen.makeGrid(500, 500);
+	terrainGen.makeGrid(1000, 1000);
 	terrainGen.populateTerrain();
 
 	int cellSize = level.getCellSize();
@@ -92,9 +92,9 @@ void SpaceGame::run()
 		agentManager.SpawnAgent(player);
 	}
 	
-	int Xoffset = 0;
-	int gridXTriggerValue = 0;
-	int oldPlayerX = 0, oldPlayerY = 0;;
+	int oldPlayerX = 0, oldPlayerY = 0;
+	int xoffset = 0, yoffset = 0;
+	camera.SetPos(0, 0);
 	
 
 	// values for the network update timer
@@ -151,24 +151,36 @@ void SpaceGame::run()
 			// Player Movement
 			else if (state[SDL_SCANCODE_S])
 			{
-				agentManager.allAgents[0].setY(agentManager.allAgents[0].getY() + agentManager.allAgents[0].getSpeed());
-				networkManager.sendTCPMessage("MOVE_SOUTH\n", socket);
+				//agentManager.allAgents[0].setY(agentManager.allAgents[0].getY() + agentManager.allAgents[0].getSpeed());
+				//networkManager.sendTCPMessage("MOVE_SOUTH\n", socket);
+				yoffset++;
 			}
-			else if (state[SDL_SCANCODE_A])
+			if (state[SDL_SCANCODE_A])
 			{
-				agentManager.allAgents[0].setX(agentManager.allAgents[0].getX() - agentManager.allAgents[0].getSpeed());
+				//agentManager.allAgents[0].setX(agentManager.allAgents[0].getX() - agentManager.allAgents[0].getSpeed());
 				networkManager.sendTCPMessage("MOVE_WEST\n", socket);
+				xoffset--;
 			}
-			else if (state[SDL_SCANCODE_D])
+			if (state[SDL_SCANCODE_D])
 			{
-				agentManager.allAgents[0].setX(agentManager.allAgents[0].getX() + agentManager.allAgents[0].getSpeed());
+				//agentManager.allAgents[0].setX(agentManager.allAgents[0].getX() + agentManager.allAgents[0].getSpeed());
 				networkManager.sendTCPMessage("MOVE_EAST\n", socket);
+				xoffset++;
 			}
-			else if (state[SDL_SCANCODE_W])
+			if (state[SDL_SCANCODE_W])
 			{
-				agentManager.allAgents[0].setY(agentManager.allAgents[0].getY() - agentManager.allAgents[0].getSpeed());
+				//agentManager.allAgents[0].setY(agentManager.allAgents[0].getY() - agentManager.allAgents[0].getSpeed());
 				networkManager.sendTCPMessage("MOVE_NORTH\n", socket);
+				yoffset--;
 			}
+			if (state[SDL_SCANCODE_RIGHT])
+				xoffset++;
+			if (state[SDL_SCANCODE_DOWN])
+				yoffset++;
+			if (state[SDL_SCANCODE_LEFT])
+				xoffset--;
+			if(state[SDL_SCANCODE_UP])
+				yoffset--;
 
 
 			// Player Actions
@@ -176,6 +188,11 @@ void SpaceGame::run()
 				networkManager.sendTCPMessage("PLACE_BED\n", socket);
 			else if (state[SDL_SCANCODE_C])
 				networkManager.sendTCPMessage("PLACE_BOX\n", socket);
+			if (state[SDL_SCANCODE_G])
+			{
+				camera.SetPos(agentManager.allAgents[0].getX() - WINDOW_WIDTH / 2, agentManager.allAgents[0].getY() - WINDOW_HEIGHT / 2);
+			}
+				
 
 
 		}//End pollevent if
@@ -188,42 +205,52 @@ void SpaceGame::run()
 		// Renders the background image
 		backgroundTexture.render(renderer, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-		int playerX = 0, playerY = 0;
+		int playerX = 0;
+		int playerY = 0;
 		if (agentManager.allAgents.size() >= 1)
 		{
-			playerX = agentManager.allAgents[0].getX() / cellSize;
-			playerY = agentManager.allAgents[0].getY() / cellSize;
+			//playerX = agentManager.allAgents[0].getX() / cellSize;
+			//playerY = agentManager.allAgents[0].getY() / cellSize;
 		}
-
+		
+		
 		
 		
 		//////////////////////////////////
 		//MAIN CELL LOOP
 		///////////////////////////////////
+
+
 		if (true)
 		{
-			for (int x = cameraX; x < cameraX + (WINDOW_WIDTH / cellSize); x++)
+			for (int x = camera.GetX() / cellSize; x < camera.GetX() / cellSize + WINDOW_WIDTH / cellSize; x++)
 			{
-				for (int y = cameraY; y < cameraY +  (WINDOW_HEIGHT / cellSize); y++)
+				for (int y = camera.GetY() / cellSize; y < camera.GetY() / cellSize +  WINDOW_HEIGHT  / cellSize; y++)
 				{
 
 					//Renders all he cells
-					cellrenderer.RenderCells(terrainGen, renderer, x, y);
+					cellrenderer.RenderCells(terrainGen, renderer, x, y, xoffset, yoffset);
+
+					if (x > 0 && x < terrainGen.grid.size())
+					{
+						
+					}
 
 
 				} //End for Y loop
 			}//End for X loop
 		}
 
+		std::cout << playerX << std::endl;
 		if (playerX > oldPlayerX)
 		{
 			oldPlayerX = playerX;
-			cameraX++;
+			
 		}
 		else if (playerY > oldPlayerY)
 		{
 			oldPlayerY = playerY;
-			cameraY++;
+			
 		}
 		
 		/* If player is more than the Center of the screen plus 10s grid value

@@ -26,6 +26,7 @@
 #include "NetworkClient.h"
 #include "PerlinNoise.h"
 #include "ProceduralTerrain.h"
+#include "Camera.h"
 
 //! The main class
 /*!
@@ -64,6 +65,7 @@ public:
 	NetworkManager networkManager;
 	NetworkClient networkClient;
 	ProceduralTerrain terrainGen;
+	Camera camera;
 
 	
 

@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="Agent.h" />
     <ClInclude Include="AgentBehaviour.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="CargoShip.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="CellRendering.h" />
@@ -202,6 +203,7 @@
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="AgentBehaviour.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CargoShip.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="CellRendering.cpp" />

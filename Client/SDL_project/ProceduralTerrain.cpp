@@ -42,13 +42,16 @@ void ProceduralTerrain::populateTerrain()
 	perlinNoise.GenerateNoise(SDL_GetTicks());
 	for (int x = 0; x < grid.size() - 1; x++)
 	{
+		std::cout << "Loading Line : " << x << std::endl;
 		for (int y = 0; y < grid[0].size() - 1; y++)
 		{
 			grid[x][y]->isGrass = true;
 			double noise = perlinNoise.noise((double)x / 180.0, (double)y / 180.0, 0.0);
-			//noise = (char)((noise - 0) * (255 / (noise - 0)));
+			noise = (char)((noise - 0) * (255 / (noise - 0)));
 			
-			grid[x][y]->noiseValue = noise * 1000;
+			grid[x][y]->noiseValue = noise;
+
+			grid[10][30]->isCargo = true;
 			//Renders all he cells
 			//cellrenderer.RenderCells(level, renderer, x, y);
 		}
