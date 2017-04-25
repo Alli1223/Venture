@@ -37,7 +37,7 @@ CellRendering::~CellRendering()
 }
 
 //! Renders the cells
-void CellRendering::RenderCells(ProceduralTerrain& level, SDL_Renderer* renderer, int x, int y, int xOffset, int yOffset)
+void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int x, int y, int xOffset, int yOffset)
 {
 	int cellSize = 50;
 	int xPos = x * cellSize + cellSize / 2;
@@ -59,6 +59,7 @@ void CellRendering::RenderCells(ProceduralTerrain& level, SDL_Renderer* renderer
 		else if(level.grid[x][y]->isOakTree)
 			OakTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 	}
+	/*
 	if (level.grid[x][y]->isRoom)
 	{
 		roomCell.alterTextureColour(level.grid[x][y]->noiseValue, 0, 0);
@@ -70,6 +71,7 @@ void CellRendering::RenderCells(ProceduralTerrain& level, SDL_Renderer* renderer
 		if (level.grid[x][y]->getOxygenLevel() > 0 && level.grid[x][y]->getOxygenLevel() <= 100)
 			level.grid[x][y]->setOxygenLevel(level.grid[x][y]->getOxygenLevel() - 0.5);
 	}
+	*/
 	if (!level.grid[x][y]->isRoom)
 	{
 		level.grid[x][y]->setOxygenLevel(0);

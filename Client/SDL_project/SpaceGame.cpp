@@ -41,9 +41,9 @@ void SpaceGame::run()
 {
 	running = true;
 	// Creates a grid of cells
-	level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	terrainGen.makeGrid(300, 300);
-	terrainGen.populateTerrain();
+	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
+	level.makeGrid(300, 300);
+	terrainGen.populateTerrain(level);
 
 	int cellSize = level.getCellSize();
 	
@@ -146,7 +146,29 @@ void SpaceGame::run()
 			else if (state[SDL_SCANCODE_ESCAPE] && menu == true)
 				menu = false;
 
+			//Pathfinding
+			if (false)
+			{
+				if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
+				{
+					Agent NPC;
+					NPC.characterType = "NPC";
+					NPC.setX(mouse_X);
+					NPC.setY(mouse_Y);
+					//NPC.agentWonderWhenIdle = true;
+					NPC.setID("TEST");
+					agentManager.SpawnAgent(NPC);
+					std::cout << "spawningAgent\n";
+				}
 
+				if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
+				{
+					Point endpoint(mouse_X / cellSize, mouse_Y / cellSize);
+					Point agentPoint(agentManager.allAgents[agentManager.GetAgentNumberFomID("TEST")].getX() / cellSize, agentManager.allAgents[agentManager.GetAgentNumberFomID("TEST")].getY() / cellSize);
+
+					agentManager.allAgents[agentManager.GetAgentNumberFomID("TEST")].Move(level, agentPoint, endpoint);
+				}
+			}
 
 			// Player Movement
 			if (state[SDL_SCANCODE_S])
@@ -250,7 +272,7 @@ void SpaceGame::run()
 			{
 
 				//Renders all he cells
-				cellrenderer.RenderCells(terrainGen, renderer, x, y, xoffset, yoffset);
+				cellrenderer.RenderCells(level, renderer, x, y, xoffset, yoffset);
 
 
 			} //End for Y loop

@@ -1,6 +1,5 @@
 #pragma once
 #include "Level.h"
-#include "ProceduralTerrain.h"
 
 class CellRendering
 {
@@ -8,7 +7,7 @@ public:
 	CellRendering();
 	~CellRendering();
 
-	void RenderCells(ProceduralTerrain& level, SDL_Renderer* renderer, int x, int y, int xOffset, int yOffset);
+	void RenderCells(Level& level, SDL_Renderer* renderer, int x, int y, int xOffset, int yOffset);
 
 private:
 	const std::string RoomSpriteTextureLocation = "Resources\\roomSprites\\texturePack\\";

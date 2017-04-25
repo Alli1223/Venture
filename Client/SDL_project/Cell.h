@@ -34,7 +34,7 @@ public:
 	int setOxygenLevel(int newOxygenLevel) { return oxygenLevel = newOxygenLevel; }
 
 	//! Whether the cell is part of a room
-	bool isRoom = false;
+	bool isRoom = true;
 	//! Whether the cell is walkable
 	bool isWalkable = false;
 	//! Whether the cell is a door is open

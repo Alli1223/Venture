@@ -100,11 +100,11 @@
     <ClCompile Include="PerlinNoise.cpp">
       <Filter>Source Files\Level Classes\PCG</Filter>
     </ClCompile>
-    <ClCompile Include="ProceduralTerrain.cpp">
-      <Filter>Source Files\Level Classes\PathFinding</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Main Game Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ProceduralTerrain.cpp">
+      <Filter>Source Files\Level Classes\PCG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

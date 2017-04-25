@@ -2,6 +2,7 @@
 #include "Map.h"
 #include "Point.h"
 
+
 enum class NodeStatus { None, Closed, Open };
 
 class Node

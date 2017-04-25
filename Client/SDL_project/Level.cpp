@@ -6,8 +6,8 @@
 void Level::makeGrid(int Window_Width, int Window_Height)
 {
 	// Calculate the number of cells on each axis
-	int XAxis_Max = (Window_Width / cellSize);
-	int YAxis_Max = (Window_Width / cellSize);
+	int XAxis_Max = (Window_Width);
+	int YAxis_Max = (Window_Width);
 	levelWidth = Window_Width / cellSize;
 	levelHeight = Window_Height / cellSize;
 	for (int x = 0; x < XAxis_Max; x++)
@@ -25,6 +25,7 @@ void Level::makeGrid(int Window_Width, int Window_Height)
 		}
 	}
 }
+
 
 Level::Level()
 {
