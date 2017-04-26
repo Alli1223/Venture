@@ -31,7 +31,8 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	FernTreeTexture(TerrainSpriteTextureLocation + "FernTree.png"),
 	DirtTexture(TerrainSpriteTextureLocation + "Dirt.png"),
 	Flower1Texture(TerrainSpriteTextureLocation + "Flower1.png"),
-	Flower2Texture(TerrainSpriteTextureLocation + "Flower2.png")
+	Flower2Texture(TerrainSpriteTextureLocation + "Flower2.png"),
+	WaterTexture(TerrainSpriteTextureLocation + "Water.png")
 {
 }
 
@@ -49,32 +50,39 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int x, int
 	y = y + yOffset;
 	x = x + xOffset;
 	//RENDERING THE CELLS
+	//Grass1Texture.alterTextureColour(level.grid[x][y]->noiseValue * 10, 0, 0);
 
-	// Checks if the cell is a room
-	if (level.grid[x][y]->isGrass1)
+	// VEGETATION
+
+	if (level.grid[x][y]->iswater)
+		WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+	else
 	{
-		//GrassTexture.alterTextureColour(level.grid[x][y]->noiseValue, 0, 0);
-		Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
-		
+		if (level.grid[x][y]->isGrass1)
+			Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
+		if (level.grid[x][y]->isGrass2)
+			Grass2Texture.render(renderer, xPos, yPos, cellSize, cellSize);
+		if (level.grid[x][y]->isDirt)
+			DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+
+		if (level.grid[x][y]->isVegetation)
+		{
+			if (level.grid[x][y]->isTree)
+			{
+				if (level.grid[x][y]->isFernTree)
+					FernTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
+				else if (level.grid[x][y]->isOakTree)
+					OakTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize / 2, cellSize / 2);
+			}
+
+			if (level.grid[x][y]->isFlower1)
+				Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
+			if (level.grid[x][y]->isFlower2)
+				Flower2Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
+		}
 	}
-	if (level.grid[x][y]->isGrass2)
-		Grass2Texture.render(renderer, xPos, yPos, cellSize, cellSize);
-	if(level.grid[x][y]->isDirt)
-		DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	if (level.grid[x][y]->isTree)
-	{
-		if(level.grid[x][y]->isFernTree)
-			FernTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize * 3);
-		else if(level.grid[x][y]->isOakTree)
-			OakTreeTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 2);
-	}
-	if (level.grid[x][y]->isVegetation)
-	{
-		if (level.grid[x][y]->isFlower1)
-			Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
-		if(level.grid[x][y]->isFlower2)
-			Flower2Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
-	}
+
+	
 	/*
 	if (level.grid[x][y]->isRoom)
 	{
@@ -88,167 +96,171 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int x, int
 			level.grid[x][y]->setOxygenLevel(level.grid[x][y]->getOxygenLevel() - 0.5);
 	}
 	*/
-	if (!level.grid[x][y]->isRoom)
-	{
-		level.grid[x][y]->setOxygenLevel(0);
-		emptyCell.alterTransparency(0);
-		emptyCell.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
 
-	// Renders the top cell orientation
-	if (level.grid[x][y]->cellOrientation == 0)
+	// Old code
 	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-		topRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->cellOrientation == 1)
-	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-		topRightRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->cellOrientation == 2)
-	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-		rightRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->cellOrientation == 3)
-	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-		bottomRightRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->cellOrientation == 4)
-	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-		bottomRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->cellOrientation == 5)
-	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-		bottomLeftRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->cellOrientation == 6)
-	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-		leftRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->cellOrientation == 7)
-	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-		topLeftRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->cellOrientation == 8)
-	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-		roomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->cellOrientation == 10)
-	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
-		roomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		level.grid[x][y]->isWalkable = true;
-	}
-	if (level.grid[x][y]->cellOrientation == 11)
-	{
-		level.grid[x][y]->setOxygenLevel(0);
-		emptyCell.alterTransparency(0);
-		emptyCell.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
+		if (!level.grid[x][y]->isRoom)
+		{
+			level.grid[x][y]->setOxygenLevel(0);
+			emptyCell.alterTransparency(0);
+			emptyCell.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
 
-	// Checks if the cell is a door
-	if (level.grid[x][y]->isOpenDoor)
-	{
-		openDoorTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
+		// Renders the top cell orientation
+		if (level.grid[x][y]->cellOrientation == 0)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
+			topRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->cellOrientation == 1)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
+			topRightRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->cellOrientation == 2)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
+			rightRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->cellOrientation == 3)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
+			bottomRightRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->cellOrientation == 4)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
+			bottomRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->cellOrientation == 5)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
+			bottomLeftRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->cellOrientation == 6)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
+			leftRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->cellOrientation == 7)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
+			topLeftRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->cellOrientation == 8)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
+			roomCell.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->cellOrientation == 10)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
+			roomCell.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+			level.grid[x][y]->isWalkable = true;
+		}
+		if (level.grid[x][y]->cellOrientation == 11)
+		{
+			level.grid[x][y]->setOxygenLevel(0);
+			emptyCell.alterTransparency(0);
+			emptyCell.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
 
-	// Checks if the cell is a door
-	if (level.grid[x][y]->isDockingPath)
-	{
-		hullBreachTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
+		// Checks if the cell is a door
+		if (level.grid[x][y]->isOpenDoor)
+		{
+			openDoorTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
 
-	// Renders the fire cells
-	if (level.grid[x][y]->isOnFire)
-	{
-		fireTexture.alterTransparency(150);
-		fireTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	// Renders the hullBreach
-	if (level.grid[x][y]->isHullBreach)
-	{
-		level.grid[x][y]->setOxygenLevel(0);
-		hullBreachTexture.alterTransparency(150);
-		hullBreachTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	// Renders the oxygen Tanks
-	if (level.grid[x][y]->isOxygenTank)
-	{
-		oxygenTank.alterTransparency(200);
-		oxygenTank.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->isHealthPack)
-	{
-		healthPack.alterTransparency(200);
-		healthPack.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	// Renders open doors
-	if (level.grid[x][y]->isOpenDoor)
-	{
-		level.grid[x][y]->setOxygenLevel(0);
-		closedDoorTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	// Renders closed doors
-	if (level.grid[x][y]->isClosedDoor)
-	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
-		openDoorTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	//Checks if the cell has the goal on it.
-	if (level.grid[x][y]->isGoal)
-	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
-		roomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		goalTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->isVerticalAirlock)
-	{
-		closedDoorTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->isAirlockWall)
-	{
-		goalTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->isShipCargoBay)
-	{
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
-		cargoBayTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->isCargo)
-	{
-		cargoTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->isBed)
-	{
-		bedSideTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->isToilet)
-	{
-		toiletTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	}
-	if (level.grid[x][y]->isKitchen)
-	{
-		kitchenTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		// Checks if the cell is a door
+		if (level.grid[x][y]->isDockingPath)
+		{
+			hullBreachTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+
+		// Renders the fire cells
+		if (level.grid[x][y]->isOnFire)
+		{
+			fireTexture.alterTransparency(150);
+			fireTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		// Renders the hullBreach
+		if (level.grid[x][y]->isHullBreach)
+		{
+			level.grid[x][y]->setOxygenLevel(0);
+			hullBreachTexture.alterTransparency(150);
+			hullBreachTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		// Renders the oxygen Tanks
+		if (level.grid[x][y]->isOxygenTank)
+		{
+			oxygenTank.alterTransparency(200);
+			oxygenTank.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->isHealthPack)
+		{
+			healthPack.alterTransparency(200);
+			healthPack.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		// Renders open doors
+		if (level.grid[x][y]->isOpenDoor)
+		{
+			level.grid[x][y]->setOxygenLevel(0);
+			closedDoorTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		// Renders closed doors
+		if (level.grid[x][y]->isClosedDoor)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
+			openDoorTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		//Checks if the cell has the goal on it.
+		if (level.grid[x][y]->isGoal)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
+			roomCell.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+			goalTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->isVerticalAirlock)
+		{
+			closedDoorTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->isAirlockWall)
+		{
+			goalTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->isShipCargoBay)
+		{
+			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
+			cargoBayTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->isCargo)
+		{
+			cargoTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->isBed)
+		{
+			bedSideTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->isToilet)
+		{
+			toiletTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
+		if (level.grid[x][y]->isKitchen)
+		{
+			kitchenTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		}
 	}
 }

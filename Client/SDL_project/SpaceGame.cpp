@@ -82,6 +82,7 @@ void SpaceGame::run()
 	{
 		Agent player;
 		player.characterType = "Player";
+		player.setID(playerName);
 		player.setX(WINDOW_WIDTH / 2);
 		player.setY(WINDOW_HEIGHT / 2);
 		agentManager.SpawnAgent(player);
@@ -138,41 +139,60 @@ void SpaceGame::run()
 			{
 				menu = true;
 			}
-			else if (state[SDL_SCANCODE_ESCAPE] && menu == true)
+			if (state[SDL_SCANCODE_ESCAPE] && menu == true)
 				menu = false;
 
 			// Player Movement
-			else if (state[SDL_SCANCODE_S])
+			if (state[SDL_SCANCODE_S])
 			{
 				if (agentManager.allAgents.size() > 0)
 					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 0;
-				networkManager.sendTCPMessage("MOVE_SOUTH\n", socket);
-				networkManager.NetworkUpdate(level, agentManager, socket);
+				if (useNetworking)
+				{
+					networkManager.sendTCPMessage("MOVE_SOUTH\n", socket);
+					networkManager.NetworkUpdate(level, agentManager, socket);
+				}
+				else
+					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() + agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 
 			}
-			else if (state[SDL_SCANCODE_A])
+			if (state[SDL_SCANCODE_A])
 			{
 				if(agentManager.allAgents.size() > 0)
 					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 90;
-				networkManager.sendTCPMessage("MOVE_WEST\n", socket);
-				networkManager.NetworkUpdate(level, agentManager, socket);
+				if (useNetworking)
+				{
+					networkManager.sendTCPMessage("MOVE_WEST\n", socket);
+					networkManager.NetworkUpdate(level, agentManager, socket);
+				}
+				else
+					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() - agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 
 			}
-			else if (state[SDL_SCANCODE_D])
+			if (state[SDL_SCANCODE_D])
 			{
 				if (agentManager.allAgents.size() > 0)
 					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 270;
-				networkManager.sendTCPMessage("MOVE_EAST\n", socket);
-				networkManager.NetworkUpdate(level, agentManager, socket);
+				if (useNetworking)
+				{
+					networkManager.sendTCPMessage("MOVE_EAST\n", socket);
+					networkManager.NetworkUpdate(level, agentManager, socket);
+				}
+				else
+					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() + agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 
 			}
-			else if (state[SDL_SCANCODE_W])
+			if (state[SDL_SCANCODE_W])
 			{
 				if (agentManager.allAgents.size() > 0)
 					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 180;
-				
-				networkManager.sendTCPMessage("MOVE_NORTH\n", socket);
-				networkManager.NetworkUpdate(level, agentManager, socket);
+				if (useNetworking)
+				{
+					networkManager.sendTCPMessage("MOVE_NORTH\n", socket);
+					networkManager.NetworkUpdate(level, agentManager, socket);
+				}
+				else
+					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() - agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 			}
 
 			//Set offset to camera
@@ -211,10 +231,6 @@ void SpaceGame::run()
 				networkManager.sendTCPMessage("PLACE_BED\n", socket);
 			else if (state[SDL_SCANCODE_C])
 				networkManager.sendTCPMessage("PLACE_BOX\n", socket);
-			if (state[SDL_SCANCODE_G])
-			{
-				camera.SetPos(agentManager.allAgents[0].getX() - WINDOW_WIDTH / 2, agentManager.allAgents[0].getY() - WINDOW_HEIGHT / 2);
-			}
 				
 
 

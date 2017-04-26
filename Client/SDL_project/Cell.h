@@ -87,6 +87,9 @@ public:
 	bool isOakTree = false;
 	bool isFernTree = false;
 
+
+	bool iswater = false;
+
 	bool isVegetation = false;
 	bool isFlower1 = false;
 	bool isFlower2 = false;

@@ -74,6 +74,8 @@ private:
 	Texture Flower1Texture;
 	Texture Flower2Texture;
 
+	Texture WaterTexture;
+
 
 	//! Is the texture for hull breaches
 	Texture hullBreachTexture;
