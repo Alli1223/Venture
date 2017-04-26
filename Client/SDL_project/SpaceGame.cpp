@@ -9,8 +9,8 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
+	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT;
+	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH;
 	window = SDL_CreateWindow("SpaceGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
@@ -42,7 +42,7 @@ void SpaceGame::run()
 	running = true;
 	// Creates a grid of cells
 	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	level.makeGrid(200, 200);
+	level.makeGrid(2000, 2000);
 	terrainGen.populateTerrain(level);
 
 	int cellSize = level.getCellSize();
@@ -82,6 +82,7 @@ void SpaceGame::run()
 	{
 		Agent player;
 		player.characterType = "Player";
+		player.setID(playerName);
 		player.setX(WINDOW_WIDTH / 2);
 		player.setY(WINDOW_HEIGHT / 2);
 		agentManager.SpawnAgent(player);
@@ -138,41 +139,60 @@ void SpaceGame::run()
 			{
 				menu = true;
 			}
-			else if (state[SDL_SCANCODE_ESCAPE] && menu == true)
+			if (state[SDL_SCANCODE_ESCAPE] && menu == true)
 				menu = false;
 
 			// Player Movement
-			else if (state[SDL_SCANCODE_S])
+			if (state[SDL_SCANCODE_S])
 			{
 				if (agentManager.allAgents.size() > 0)
 					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 0;
-				networkManager.sendTCPMessage("MOVE_SOUTH\n", socket);
-				networkManager.NetworkUpdate(level, agentManager, socket);
+				if (useNetworking)
+				{
+					networkManager.sendTCPMessage("MOVE_SOUTH\n", socket);
+					networkManager.NetworkUpdate(level, agentManager, socket);
+				}
+				else
+					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() + agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 
 			}
-			else if (state[SDL_SCANCODE_A])
+			if (state[SDL_SCANCODE_A])
 			{
 				if(agentManager.allAgents.size() > 0)
 					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 90;
-				networkManager.sendTCPMessage("MOVE_WEST\n", socket);
-				networkManager.NetworkUpdate(level, agentManager, socket);
+				if (useNetworking)
+				{
+					networkManager.sendTCPMessage("MOVE_WEST\n", socket);
+					networkManager.NetworkUpdate(level, agentManager, socket);
+				}
+				else
+					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() - agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 
 			}
-			else if (state[SDL_SCANCODE_D])
+			if (state[SDL_SCANCODE_D])
 			{
 				if (agentManager.allAgents.size() > 0)
 					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 270;
-				networkManager.sendTCPMessage("MOVE_EAST\n", socket);
-				networkManager.NetworkUpdate(level, agentManager, socket);
+				if (useNetworking)
+				{
+					networkManager.sendTCPMessage("MOVE_EAST\n", socket);
+					networkManager.NetworkUpdate(level, agentManager, socket);
+				}
+				else
+					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() + agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 
 			}
-			else if (state[SDL_SCANCODE_W])
+			if (state[SDL_SCANCODE_W])
 			{
 				if (agentManager.allAgents.size() > 0)
 					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 180;
-				
-				networkManager.sendTCPMessage("MOVE_NORTH\n", socket);
-				networkManager.NetworkUpdate(level, agentManager, socket);
+				if (useNetworking)
+				{
+					networkManager.sendTCPMessage("MOVE_NORTH\n", socket);
+					networkManager.NetworkUpdate(level, agentManager, socket);
+				}
+				else
+					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() - agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 			}
 
 			//Set offset to camera
@@ -202,8 +222,11 @@ void SpaceGame::run()
 				yoffset--;
 				for (int i = 0; i < agentManager.allAgents.size(); i++)
 					agentManager.allAgents[i].setOffsetY(-yoffset * cellSize);
-				
 			}
+			if (state[SDL_SCANCODE_PAGEUP])
+				level.setCellSize(level.getCellSize() + 1);
+			if (state[SDL_SCANCODE_PAGEDOWN])
+				level.setCellSize(level.getCellSize() - 1);
 
 
 			// Player Actions
@@ -211,11 +234,13 @@ void SpaceGame::run()
 				networkManager.sendTCPMessage("PLACE_BED\n", socket);
 			else if (state[SDL_SCANCODE_C])
 				networkManager.sendTCPMessage("PLACE_BOX\n", socket);
-			if (state[SDL_SCANCODE_G])
-			{
-				camera.SetPos(agentManager.allAgents[0].getX() - WINDOW_WIDTH / 2, agentManager.allAgents[0].getY() - WINDOW_HEIGHT / 2);
-			}
 				
+
+			if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
+			{
+				
+				std::cout << level.grid[mouse_X / cellSize][mouse_Y / cellSize]->terrainNoiseValue << std::endl;
+			}
 
 
 		}//End pollevent if
@@ -294,7 +319,6 @@ void SpaceGame::run()
 
 void SpaceGame::deleteVectors()
 {
-	allHydroponicsFarms.erase(allHydroponicsFarms.begin(), allHydroponicsFarms.end());
 }
 
 bool static isMouseOverRoomCell(Level& level)

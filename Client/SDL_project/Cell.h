@@ -67,7 +67,7 @@ public:
 	bool isHydroponicsBay = false;
 	std::string hydroponicsOrientation = "NA";
 
-	double noiseValue = 0;
+	double terrainNoiseValue = 0;
 
 	//! Whether the cell is a bed
 	bool isBed = false;
@@ -80,12 +80,15 @@ public:
 	//! Whether the cell is a kitchen
 	bool isKitchen = false;
 
-	bool isGrass1 = false;
-	bool isGrass2 = false;
+	bool isGrass = false;
+	bool isLongGrass = false;
 	bool isDirt = false;
-	bool isTree = false;
 	bool isOakTree = false;
 	bool isFernTree = false;
+
+
+	bool isWater = false;
+	bool isSand = false;
 
 	bool isVegetation = false;
 	bool isFlower1 = false;

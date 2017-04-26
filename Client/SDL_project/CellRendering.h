@@ -73,6 +73,13 @@ private:
 	Texture DirtTexture;
 	Texture Flower1Texture;
 	Texture Flower2Texture;
+	Texture LongGrass1;
+	Texture LongGrass2;
+	Texture LongGrass3;
+
+
+	Texture WaterTexture;
+	Texture SandTexture;
 
 
 	//! Is the texture for hull breaches

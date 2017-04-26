@@ -23,8 +23,6 @@ public:
 	//! The base grid that contains the cells
 	std::vector<std::vector<std::shared_ptr<Cell>>> grid;
 
-
-
 	//! Fills grid with vectors of shared pointers to cells
 	void makeGrid(int Window_Width, int Window_Height);
 

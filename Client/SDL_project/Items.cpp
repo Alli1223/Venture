@@ -2,12 +2,11 @@
 #include "Items.h"
 
 
-Items::Items()
+Item::Item() : berryTexture(itemFileDirectory + "Berry.png")
 {
 }
 
 
-Items::~Items()
+Item::~Item()
 {
 }
-
