@@ -95,7 +95,6 @@ void ProceduralTerrain::generateGrass(Level& level, int x, int y)
 	//FORREST NOISE
 	if (level.grid[x][y]->isGrass && fNoise > 10.0)
 	{
-
 		level.grid[x][y]->isVegetation = true;
 		level.grid[x][y]->isFernTree = true;
 	}
@@ -108,7 +107,12 @@ void ProceduralTerrain::generateGrass(Level& level, int x, int y)
 
 	//PATH NOISE
 	if (pNoise > 0.5 && pNoise < 1.0)
+	{
 		level.grid[x][y]->isDirt = true;
+		level.grid[x][y]->isVegetation = false;
+		level.grid[x][y]->isOakTree = false;
+		level.grid[x][y]->isFernTree = false;
+	}
 }
 
 void ProceduralTerrain::populateTerrain(Level& level)

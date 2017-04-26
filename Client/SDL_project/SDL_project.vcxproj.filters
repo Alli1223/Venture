@@ -52,9 +52,6 @@
     <ClCompile Include="Items.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
-    <ClCompile Include="Hydroponics.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
     <ClCompile Include="EscapeMenu.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
@@ -106,6 +103,7 @@
     <ClCompile Include="ProceduralTerrain.cpp">
       <Filter>Source Files\Level Classes\PCG</Filter>
     </ClCompile>
+    <ClCompile Include="Inventory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fire.h">
@@ -165,9 +163,6 @@
     <ClInclude Include="Items.h">
       <Filter>Headers\Items</Filter>
     </ClInclude>
-    <ClInclude Include="Hydroponics.h">
-      <Filter>Headers\Items</Filter>
-    </ClInclude>
     <ClInclude Include="EscapeMenu.h">
       <Filter>Headers\GUI</Filter>
     </ClInclude>
@@ -222,6 +217,7 @@
     <ClInclude Include="Camera.h">
       <Filter>Headers\Main Game Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Inventory.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />

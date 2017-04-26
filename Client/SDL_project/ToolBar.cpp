@@ -170,11 +170,11 @@ void ToolBar::RenderToolbar(SDL_Renderer* renderer, int& WINDOW_WIDTH, int& WIND
 	}
 }
 
-
+/*
 void ToolBar::ToolBarFunctionality(Level& level, RoomDesign& designroom,DockingDoors& dockingdoors, Hydroponics& hydroponics, std::vector<Hydroponics>& allHydroponicsFarms, SDL_Renderer* renderer, int& mouse_X, int& mouse_Y)
 {
 	int toolbarSelection = getToolbarSelection();
-	/*Toolbar functionality */
+	
 
 	//Item One (RoomCells)
 	if (mouse_Y > level.getLevelHeight() - (level.getLevelHeight() / 10))
@@ -254,4 +254,6 @@ void ToolBar::ToolBarFunctionality(Level& level, RoomDesign& designroom,DockingD
 				level.grid[mouse_X / level.getCellSize()][mouse_Y / level.getCellSize()]->isToilet = true;
 		}
 	}
+	
 }
+*/

@@ -1,6 +1,8 @@
 #pragma once
 #include "Point.h"
 #include "PathFinder.h"
+#include "Inventory.h"
+#include "Items.h"
 
 class Agent
 {
@@ -8,12 +10,16 @@ public:
 	Agent();
 	~Agent();
 
+	Inventory inventory;
 
 
 	//! Update method for Agent
 	void Agent::Update(Level& level);
 	//! Movement method for Agent
 	void Agent::Move(Level& level, Point& StartPoint, Point& EndPoint);
+
+	//Additem to inventory
+	void Agent::AddItem(Item& item);
 
 	
 	//Getter methods

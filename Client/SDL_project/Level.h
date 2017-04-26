@@ -29,7 +29,7 @@ public:
 
 protected:
 	//! The size that the cell will be rendered at
-	int cellSize = 10;
+	int cellSize = 50;
 	int levelWidth, levelHeight;
 };
 

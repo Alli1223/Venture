@@ -11,6 +11,7 @@ Agent::~Agent()
 {
 }
 
+
 void Agent::Update(Level& level)
 {
 	// Set agents cell x & y tile values & point values

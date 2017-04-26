@@ -2,7 +2,6 @@
 #include "GUI.h"
 #include "Level.h"
 #include "RoomDesign.h"
-#include "Hydroponics.h"
 #include "Icon.h"
 #include "DockingDoors.h"
 
@@ -18,7 +17,7 @@ public:
 	//! Function that renders the toolbar
 	void ToolBar::RenderToolbar(SDL_Renderer* renderer, int& WINDOW_WIDTH, int& WINDOW_HEIGHT, int& mouseX, int& mouseY);
 
-	void ToolBar::ToolBarFunctionality(Level& level, RoomDesign& designroom, DockingDoors& dockingdoors,Hydroponics& hydroponics, std::vector<Hydroponics>& allHydroponicsFarms, SDL_Renderer* renderer, int& mouseX, int& mouseY);
+	void ToolBar::ToolBarFunctionality(Level& level, RoomDesign& designroom, DockingDoors& dockingdoors, SDL_Renderer* renderer, int& mouseX, int& mouseY);
 
 	//! The getters and setters for the toolbar selection
 	int getToolbarSelection() const { return toolbarSelection; }

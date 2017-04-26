@@ -15,7 +15,6 @@
 #include "GUI.h"
 #include "ToolBar.h"
 #include "Items.h"
-#include "Hydroponics.h"
 #include "EscapeMenu.h"
 #include "DockingDoors.h"
 #include "ShipManager.h"
@@ -27,6 +26,7 @@
 #include "PerlinNoise.h"
 #include "ProceduralTerrain.h"
 #include "Camera.h"
+#include "Inventory.h"
 
 //! The main class
 /*!
@@ -61,7 +61,6 @@ public:
 	ShipManager shipmanager;
 	PlayerStats playerstats;
 	CellRendering cellrenderer;
-	Hydroponics hydroponics;
 	NetworkManager networkManager;
 	NetworkClient networkClient;
 	ProceduralTerrain terrainGen;
@@ -72,9 +71,6 @@ public:
 
 	//! Conains the list of nodes that makes the path
 	//std::vector<Point> path;
-	
-	//! Contains a list of all the hydroponic farms
-	std::vector<Hydroponics> allHydroponicsFarms;
 
 	//! Contains a list of all the ship
 	std::vector<Ship> allShips;
