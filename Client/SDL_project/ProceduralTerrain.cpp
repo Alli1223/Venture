@@ -13,6 +13,7 @@ ProceduralTerrain::~ProceduralTerrain()
 
 void ProceduralTerrain::spawnTrees(Level& level)
 {
+	std::cout << "Spawning Plants.." << std::endl;
 	for (int i = numberOfTrees; i > 0; i--)
 	{
 		int x = rand() % level.grid.size();
@@ -24,10 +25,12 @@ void ProceduralTerrain::spawnTrees(Level& level)
 		else
 			level.grid[x][y]->isFernTree = true;
 	}
+	std::cout << numberOfTrees << " Trees spawned." << std::endl;
 }
 
 void ProceduralTerrain::spawnVegetation(Level& level)
 {
+	std::cout << "Spawning Plants.." << std::endl;
 	for (int i = numberOfPlants; i > 0; i--)
 	{
 		int x = rand() % level.grid.size();
@@ -39,6 +42,7 @@ void ProceduralTerrain::spawnVegetation(Level& level)
 		else
 			level.grid[x][y]->isFlower2 = true;
 	}
+	std::cout << numberOfPlants << " Plants spawned." << std::endl;
 }
 
 

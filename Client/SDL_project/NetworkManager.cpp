@@ -159,6 +159,8 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 						// Convert string to int
 						std::string::size_type sz;
 						std::string updatenumber = "        ";
+						if (updateMessage[i] + 5 != *"." || updateMessage[i] + 5 != *"Y")
+							updatenumber[3] = updateMessage[i + 5];
 						// Get the three digits after
 						updatenumber[0] = updateMessage[i + 2]; updatenumber[1] = updateMessage[i + 3]; updatenumber[2] = updateMessage[i + 4];
 						// Remove white space
@@ -166,17 +168,18 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 						//convert string to int
 						int pos = std::stoi(updatenumber, &sz);
 						//pos *= level.getCellSize();
-						// Only update if the y position has changed
-						//if (agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() != pos)
-							agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].setX(pos);
+						agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].setX(pos);
 					
 					}
 					//Process Y position
 					if (updateMessage[i] == *"Y" && updateMessage[i + 1] == *":")
 					{
+						
 						// Convert string to int
 						std::string::size_type sz;
 						std::string updatenumber = "            ";
+						if (updateMessage[i] + 5 != *"." || updateMessage[i] + 5 != *"A")
+							updatenumber[3] = updateMessage[i + 5];
 						// Get the three digits after
 						updatenumber[0] = updateMessage[i + 2]; updatenumber[1] = updateMessage[i + 3]; updatenumber[2] = updateMessage[i + 4];
 						// Remove white space
@@ -184,9 +187,7 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 						//convert string to int
 						int pos = std::stoi(updatenumber, &sz);
 						//pos *= level.getCellSize();
-						// Only update if the y position has changed
-						//if (agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() != pos)
-							agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].setY(pos);
+						agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].setY(pos);
 					}
 					
 

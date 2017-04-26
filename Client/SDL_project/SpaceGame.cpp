@@ -9,8 +9,8 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH;
+	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
+	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
 	window = SDL_CreateWindow("SpaceGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
@@ -42,7 +42,7 @@ void SpaceGame::run()
 	running = true;
 	// Creates a grid of cells
 	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	level.makeGrid(300, 300);
+	level.makeGrid(200, 200);
 	terrainGen.populateTerrain(level);
 
 	int cellSize = level.getCellSize();
@@ -64,10 +64,6 @@ void SpaceGame::run()
 	if (useNetworking)
 	{
 		socket.connect(endpoint);
-
-
-
-
 		// Or Get player name
 		if (networkManager.clientCanEnterName)
 		{
@@ -75,7 +71,6 @@ void SpaceGame::run()
 			std::cin >> playerName;
 			std::cout << "NAME: " << playerName << std::endl;
 		}
-
 
 		// Send initial message with player name
 		networkManager.sendTCPMessage(playerName + "\n", socket);
@@ -115,7 +110,7 @@ void SpaceGame::run()
 			timebehind -= networkManager.networkUpdateInterval;
 		}
 
-
+		runNetworkTick = true;
 		// Update network
 		if (runNetworkTick && useNetworking)
 		{
@@ -149,56 +144,60 @@ void SpaceGame::run()
 			// Player Movement
 			else if (state[SDL_SCANCODE_S])
 			{
-				//agentManager.allAgents[0].setY(agentManager.allAgents[0].getY() + agentManager.allAgents[0].getSpeed());
-				//agentManager.allAgents[0].agentRotation = 0;
+				if (agentManager.allAgents.size() > 0)
+					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 0;
 				networkManager.sendTCPMessage("MOVE_SOUTH\n", socket);
+				networkManager.NetworkUpdate(level, agentManager, socket);
 
 			}
 			else if (state[SDL_SCANCODE_A])
 			{
-				//agentManager.allAgents[0].setX(agentManager.allAgents[0].getX() - agentManager.allAgents[0].getSpeed());
-				//agentManager.allAgents[0].agentRotation = 90;
+				if(agentManager.allAgents.size() > 0)
+					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 90;
 				networkManager.sendTCPMessage("MOVE_WEST\n", socket);
-				//xoffset--;
+				networkManager.NetworkUpdate(level, agentManager, socket);
+
 			}
 			else if (state[SDL_SCANCODE_D])
 			{
-				//agentManager.allAgents[0].setX(agentManager.allAgents[0].getX() + agentManager.allAgents[0].getSpeed());
-				//agentManager.allAgents[0].agentRotation = 270;
+				if (agentManager.allAgents.size() > 0)
+					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 270;
 				networkManager.sendTCPMessage("MOVE_EAST\n", socket);
-				//xoffset++;
+				networkManager.NetworkUpdate(level, agentManager, socket);
+
 			}
 			else if (state[SDL_SCANCODE_W])
 			{
-				//agentManager.allAgents[0].agentRotation = 180;
-				//agentManager.allAgents[0].setY(agentManager.allAgents[0].getY() - agentManager.allAgents[0].getSpeed());
+				if (agentManager.allAgents.size() > 0)
+					agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 180;
+				
 				networkManager.sendTCPMessage("MOVE_NORTH\n", socket);
-				//yoffset--;
+				networkManager.NetworkUpdate(level, agentManager, socket);
 			}
 
 			//Set offset to camera
-			if (state[SDL_SCANCODE_RIGHT])
+			if (state[SDL_SCANCODE_RIGHT] && camera.GetX() / cellSize < level.grid.size())
 			{
 				xoffset++;
 				for(int i = 0; i < agentManager.allAgents.size(); i++)
 					agentManager.allAgents[i].setOffsetX(-xoffset * cellSize);
 				
 			}
-			if (state[SDL_SCANCODE_DOWN])
+			if (state[SDL_SCANCODE_DOWN] && yoffset < level.grid[0].size())
 			{
 				yoffset++;
 				for (int i = 0; i < agentManager.allAgents.size(); i++)
 					agentManager.allAgents[i].setOffsetY(-yoffset * cellSize);
 				
 			}
-			if (state[SDL_SCANCODE_LEFT])
+			if (state[SDL_SCANCODE_LEFT] && xoffset > 0)
 			{
 				xoffset--;
 				for (int i = 0; i < agentManager.allAgents.size(); i++)
 					agentManager.allAgents[i].setOffsetX(-xoffset * cellSize);
 				
 			}
-			if (state[SDL_SCANCODE_UP])
+			if (state[SDL_SCANCODE_UP] && yoffset > 0)
 			{
 				yoffset--;
 				for (int i = 0; i < agentManager.allAgents.size(); i++)
@@ -228,14 +227,6 @@ void SpaceGame::run()
 
 		// Renders the background image
 		//backgroundTexture.render(renderer, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-		int playerX = 0;
-		int playerY = 0;
-		if (agentManager.allAgents.size() >= 1)
-		{
-			playerX = agentManager.allAgents[0].getX() / cellSize;
-			playerY = agentManager.allAgents[0].getY() / cellSize;
-		}
 		
 		
 		
@@ -258,33 +249,6 @@ void SpaceGame::run()
 			} //End for Y loop
 		}//End for X loop
 
-
-
-		//Right
-		if (playerX > oldPlayerX)
-		{
-			//agentManager.allAgents[0].setX(playerX - 1 * cellSize );
-			oldPlayerX = playerX;
-			//xoffset++;
-		}
-		//Down
-		else if (playerY > oldPlayerY)
-		{
-			oldPlayerY = playerY;
-			//yoffset++;
-		}
-		//Left
-		else if (playerX < oldPlayerX)
-		{
-			oldPlayerX = playerX;
-			//xoffset--;
-		}
-		//Up
-		else if (playerY < oldPlayerY)
-		{
-			oldPlayerY = playerY;
-			//yoffset--;
-		}
 		
 		// Render characters
 		agentManager.UpdateAgents(agentManager.allAgents, renderer, level);

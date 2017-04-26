@@ -111,7 +111,7 @@ void AgentManager::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& lev
 	if (agent.characterType == "NPC" && agent.isAlive)
 	{
 		//npcDown.alterTextureColour(0, rand(), 0);
-		npcDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.agentRotation);
+		npcDown.renderRotation(renderer, x + agent.getOffsetX(), y + agent.getOffsetY(), agent.getSize(), agent.getSize(), agent.agentRotation);
 		
 
 		//Render agent stats to the right of agent
