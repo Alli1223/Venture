@@ -80,11 +80,16 @@ public:
 	//! Whether the cell is a kitchen
 	bool isKitchen = false;
 
-	bool isGrass = false;
+	bool isGrass1 = false;
+	bool isGrass2 = false;
+	bool isDirt = false;
 	bool isTree = false;
 	bool isOakTree = false;
 	bool isFernTree = false;
 
+	bool isVegetation = false;
+	bool isFlower1 = false;
+	bool isFlower2 = false;
 	
 
 	//! cell Orientation

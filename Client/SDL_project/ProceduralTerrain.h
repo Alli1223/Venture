@@ -12,6 +12,7 @@ public:
 	//void ProceduralTerrain::makeGrid(int Window_Width, int Window_Height);
 
 	void ProceduralTerrain::spawnTrees(Level& level);
+	void ProceduralTerrain::spawnVegetation(Level& level);
 
 	void ProceduralTerrain::populateTerrain(Level& level);
 
@@ -19,6 +20,7 @@ public:
 	//std::vector<std::vector<std::shared_ptr<Cell>>> grid;
 
 	int numberOfTrees = 5000;
+	int numberOfPlants = 10000;
 
 };
 

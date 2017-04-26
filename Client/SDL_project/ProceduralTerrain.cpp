@@ -26,6 +26,21 @@ void ProceduralTerrain::spawnTrees(Level& level)
 	}
 }
 
+void ProceduralTerrain::spawnVegetation(Level& level)
+{
+	for (int i = numberOfPlants; i > 0; i--)
+	{
+		int x = rand() % level.grid.size();
+		int y = rand() % level.grid[0].size();
+		level.grid[x][y]->isVegetation = true;
+		int vegType = rand() % 2;
+		if (vegType <= 0)
+			level.grid[x][y]->isFlower1 = true;
+		else
+			level.grid[x][y]->isFlower2 = true;
+	}
+}
+
 
 void ProceduralTerrain::populateTerrain(Level& level)
 {
@@ -36,17 +51,25 @@ void ProceduralTerrain::populateTerrain(Level& level)
 		std::cout << "Loading Line : " << x << std::endl;
 		for (int y = 0; y < level.grid[0].size() - 1; y++)
 		{
-			level.grid[x][y]->isGrass = true;
+			if (rand() % 2 <= 0)
+				level.grid[x][y]->isGrass1 = true;
+			else
+				level.grid[x][y]->isGrass2 = true;
 			level.grid[x][y]->isWalkable = true;
 			double noise = perlinNoise.noise((double)x / 180.0, (double)y / 180.0, 0.0);
-			noise = (char)((noise - 0) * (255 / (noise - 0)));
-			
+			//noise = (char)((noise - 0) * (255 / (noise - 0)));
+
+			noise *= 10;
+
 			level.grid[x][y]->noiseValue = noise;
+
+			if (noise > 0.5)
+				level.grid[x][y]->isDirt = true;
 
 			level.grid[10][30]->isCargo = true;
 			//Renders all he cells
-			//cellrenderer.RenderCells(level, renderer, x, y);
 		}
 	}
 	spawnTrees(level);
+	spawnVegetation(level);
 }

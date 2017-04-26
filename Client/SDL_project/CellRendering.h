@@ -66,9 +66,13 @@ private:
 
 
 	//! Is the textures for the terrain
-	Texture GrassTexture;
+	Texture Grass1Texture;
+	Texture Grass2Texture;
 	Texture OakTreeTexture;
 	Texture FernTreeTexture;
+	Texture DirtTexture;
+	Texture Flower1Texture;
+	Texture Flower2Texture;
 
 
 	//! Is the texture for hull breaches

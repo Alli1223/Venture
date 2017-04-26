@@ -25,9 +25,13 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	bedSideTexture(RoomSpriteTextureLocation + "Bed.png"),
 	toiletTexture(RoomSpriteTextureLocation + "wc.png"),
 	kitchenTexture(RoomSpriteTextureLocation + "cargoBayStorage.png"),
-	GrassTexture(TerrainSpriteTextureLocation + "Grass.png"),
+	Grass1Texture(TerrainSpriteTextureLocation + "Grass.png"),
+	Grass2Texture(TerrainSpriteTextureLocation + "Grass2.png"),
 	OakTreeTexture(TerrainSpriteTextureLocation + "OakTree.png"),
-	FernTreeTexture(TerrainSpriteTextureLocation + "FernTree.png")
+	FernTreeTexture(TerrainSpriteTextureLocation + "FernTree.png"),
+	DirtTexture(TerrainSpriteTextureLocation + "Dirt.png"),
+	Flower1Texture(TerrainSpriteTextureLocation + "Flower1.png"),
+	Flower2Texture(TerrainSpriteTextureLocation + "Flower2.png")
 {
 }
 
@@ -39,7 +43,7 @@ CellRendering::~CellRendering()
 //! Renders the cells
 void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int x, int y, int xOffset, int yOffset)
 {
-	int cellSize = 50;
+	int cellSize = level.getCellSize();
 	int xPos = x * cellSize + cellSize / 2;
 	int yPos = y * cellSize + cellSize / 2;
 	y = y + yOffset;
@@ -47,17 +51,29 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int x, int
 	//RENDERING THE CELLS
 
 	// Checks if the cell is a room
-	if (level.grid[x][y]->isGrass)
+	if (level.grid[x][y]->isGrass1)
 	{
 		//GrassTexture.alterTextureColour(level.grid[x][y]->noiseValue, 0, 0);
-		GrassTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
+		
 	}
+	if (level.grid[x][y]->isGrass2)
+		Grass2Texture.render(renderer, xPos, yPos, cellSize, cellSize);
+	if(level.grid[x][y]->isDirt)
+		DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 	if (level.grid[x][y]->isTree)
 	{
 		if(level.grid[x][y]->isFernTree)
-			FernTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+			FernTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize * 3);
 		else if(level.grid[x][y]->isOakTree)
-			OakTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+			OakTreeTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 2);
+	}
+	if (level.grid[x][y]->isVegetation)
+	{
+		if (level.grid[x][y]->isFlower1)
+			Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
+		if(level.grid[x][y]->isFlower2)
+			Flower2Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
 	}
 	/*
 	if (level.grid[x][y]->isRoom)
