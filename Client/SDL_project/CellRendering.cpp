@@ -32,7 +32,11 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	DirtTexture(TerrainSpriteTextureLocation + "Dirt.png"),
 	Flower1Texture(TerrainSpriteTextureLocation + "Flower1.png"),
 	Flower2Texture(TerrainSpriteTextureLocation + "Flower2.png"),
-	WaterTexture(TerrainSpriteTextureLocation + "Water.png")
+	WaterTexture(TerrainSpriteTextureLocation + "Water.png"),
+	SandTexture(TerrainSpriteTextureLocation + "Sand.png"),
+	LongGrass1(TerrainSpriteTextureLocation + "LongGrass1.png"),
+	LongGrass2(TerrainSpriteTextureLocation + "LongGrass2.png"),
+	LongGrass3(TerrainSpriteTextureLocation + "LongGrass3.png")
 {
 }
 
@@ -54,35 +58,50 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int x, int
 
 	// VEGETATION
 
-	if (level.grid[x][y]->iswater)
-		WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	else
-	{
-		if (level.grid[x][y]->isGrass1)
+
+	//Base Ground Textures
+	if (level.grid[x][y]->isGrass)
+		if (rand() % 2 < 0)
 			Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
-		if (level.grid[x][y]->isGrass2)
+		else
 			Grass2Texture.render(renderer, xPos, yPos, cellSize, cellSize);
-		if (level.grid[x][y]->isDirt)
-			DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+	if (level.grid[x][y]->isDirt)
+		DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+	if (level.grid[x][y]->isWater)
+		WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+	if (level.grid[x][y]->isSand)
+		SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 
-		if (level.grid[x][y]->isVegetation)
+
+	if (level.grid[x][y]->isVegetation)
+	{
+		//Trees
+		if (level.grid[x][y]->isFernTree)
+			FernTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
+		else if (level.grid[x][y]->isOakTree)
+			OakTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
+
+		//Flowers
+		if (level.grid[x][y]->isFlower1)
+			Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
+		if (level.grid[x][y]->isFlower2)
+			Flower2Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
+
+		//Grass
+		if (level.grid[x][y]->isLongGrass)
 		{
-			if (level.grid[x][y]->isTree)
-			{
-				if (level.grid[x][y]->isFernTree)
-					FernTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
-				else if (level.grid[x][y]->isOakTree)
-					OakTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize / 2, cellSize / 2);
-			}
-
-			if (level.grid[x][y]->isFlower1)
-				Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
-			if (level.grid[x][y]->isFlower2)
-				Flower2Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
+			int randVal = 0;
+			if (randVal == 0)
+				LongGrass1.render(renderer, xPos, yPos, cellSize, cellSize);
+			else if (randVal == 1)
+				LongGrass2.render(renderer, xPos, yPos, cellSize, cellSize);
+			else
+				LongGrass3.render(renderer, xPos, yPos, cellSize, cellSize);
 		}
 	}
 
-	
+
+
 	/*
 	if (level.grid[x][y]->isRoom)
 	{

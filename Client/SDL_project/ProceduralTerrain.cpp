@@ -11,6 +11,7 @@ ProceduralTerrain::~ProceduralTerrain()
 {
 }
 
+
 void ProceduralTerrain::spawnTrees(Level& level)
 {
 	std::cout << "Spawning Plants.." << std::endl;
@@ -18,10 +19,9 @@ void ProceduralTerrain::spawnTrees(Level& level)
 	{
 		int x = rand() % level.grid.size();
 		int y = rand() % level.grid[0].size();
-		if (!level.grid[x][y]->isVegetation)
+		if (!level.grid[x][y]->isVegetation && !level.grid[x][y]->isWater && !level.grid[x][y]->isSand)
 		{
 			level.grid[x][y]->isVegetation = true;
-			level.grid[x][y]->isTree = true;
 			int treeType = rand() % 2;
 			if (treeType <= 0)
 				level.grid[x][y]->isOakTree = true;
@@ -35,13 +35,14 @@ void ProceduralTerrain::spawnTrees(Level& level)
 void ProceduralTerrain::spawnVegetation(Level& level)
 {
 	std::cout << "Spawning Plants.." << std::endl;
+	
 	int numPlants = 0;
 	for (int i = numberOfPlants; i > 0; i--)
 	{
 		int x = rand() % level.grid.size();
 		int y = rand() % level.grid[0].size();
 		
-		if (level.grid[x][y]->isVegetation == false)
+		if (!level.grid[x][y]->isVegetation && !level.grid[x][y]->isWater && !level.grid[x][y]->isSand)
 		{
 			level.grid[x][y]->isVegetation = true;
 			int vegType = rand() % 2;
@@ -59,66 +60,72 @@ void ProceduralTerrain::spawnVegetation(Level& level)
 		}
 	}
 	std::cout << numPlants << " Plants spawned." << std::endl;
+	
 }
 
-void ProceduralTerrain::generateLakes(Level& level, int x, int y)
-{
 
-	double lakeNoiseTemp = LakeNoise.noise((double)x / 180.0, (double)y / 180.0, 0.0) * 10;
-	if (lakeNoiseTemp > 0.5)
-	{
-		level.grid[x][y]->iswater = true;
-		level.grid[x][y]->isVegetation = false;
-	}
-}
 void ProceduralTerrain::generateGrass(Level& level, int x, int y)
 {
-	if (rand() % 2 <= 0)
+	double noise = groundNoise.noise((double)x / terrainNoiseOffest, (double)y / terrainNoiseOffest, 0.0) * 20;
+	double FNoise = forrestNoise.noise((double)x / forrestNoiseOffset, (double)y / forrestNoiseOffset, 0.0) * 20;
+	//noise = (char)((noise - 0) * (255 / (noise - 0)));
+	level.grid[x][y]->terrainNoiseValue = noise;
+
+	//TERRAIN NOISE
+	if (noise > -0.7)
 	{
-		level.grid[x][y]->isGrass1 = true;
+		level.grid[x][y]->isGrass = true;
+	}
+	else if (noise > -0.5 && noise < -0.7)
+	{
+		level.grid[x][y]->isDirt = true;
+	}
+	else if (noise > -1 && noise < -0.5)
+	{
+		level.grid[x][y]->isSand = true;
+		level.grid[x][y]->isGrass = false;
+		level.grid[x][y]->isWater = false;
 	}
 	else
 	{
-		level.grid[x][y]->isGrass2 = true;
+		level.grid[x][y]->isWater = true;
 	}
 
+	//FORREST NOISE
+	if (level.grid[x][y]->isGrass && FNoise > forrestAmplifier)
+	{
 
-	double noise = groundNoise.noise((double)x / 180.0, (double)y / 180.0, 0.0);
-	//noise = (char)((noise - 0) * (255 / (noise - 0)));
+		level.grid[x][y]->isVegetation = true;
+		level.grid[x][y]->isFernTree = true;
+	}
+	else if (level.grid[x][y]->isGrass && FNoise > 0 && FNoise < forrestAmplifier)
+	{
 
-	noise *= 10;
-
-	level.grid[x][y]->noiseValue = noise;
-
-	if (noise > 0.5)
-		level.grid[x][y]->isDirt = true;
+		level.grid[x][y]->isVegetation = true;
+		level.grid[x][y]->isOakTree = true;
+	}
 }
 
 void ProceduralTerrain::populateTerrain(Level& level)
 {
 	//generate noise from seed
+	
 	groundNoise.GenerateNoise(groundSeed);
-	LakeNoise.GenerateNoise(lakeSeed);
+	forrestNoise.GenerateNoise(grassSeed);
 
 	//Renders all he cells
 	for (int x = 0; x < level.grid.size() - 1; x++)
 	{
-		std::cout << "Loading Line : " << x << std::endl;
+		std::cout << "Generating Terrain: " << x << " OF " << level.grid.size() << std::endl;
 		for (int y = 0; y < level.grid[0].size() - 1; y++)
 		{
 			//Spawn the grass
 			level.grid[x][y]->isWalkable = true;
 			
-			level.grid[10][30]->isCargo = true;
+			level.grid[10][30]->isRoom = true;
 			
-
-			
-
 			//Generate the grass
 			generateGrass(level, x, y);
-
-			//Generate the lakes
-			generateLakes(level, x, y);
 			
 		}
 	}

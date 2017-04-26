@@ -9,8 +9,8 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
+	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT;
+	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH;
 	window = SDL_CreateWindow("SpaceGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
@@ -42,7 +42,7 @@ void SpaceGame::run()
 	running = true;
 	// Creates a grid of cells
 	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	level.makeGrid(200, 200);
+	level.makeGrid(500, 500);
 	terrainGen.populateTerrain(level);
 
 	int cellSize = level.getCellSize();
@@ -232,6 +232,11 @@ void SpaceGame::run()
 			else if (state[SDL_SCANCODE_C])
 				networkManager.sendTCPMessage("PLACE_BOX\n", socket);
 				
+
+			if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
+			{
+				std::cout << level.grid[mouse_X / cellSize][mouse_Y / cellSize]->isSand << std::endl;
+			}
 
 
 		}//End pollevent if

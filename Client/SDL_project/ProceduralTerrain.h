@@ -2,13 +2,15 @@
 #include "cell.h"
 #include "PerlinNoise.h"
 #include "Level.h"
+#include "point.h"
+
 class ProceduralTerrain
 {
 public:
 	ProceduralTerrain();
 	~ProceduralTerrain();
 	PerlinNoise groundNoise;
-	PerlinNoise LakeNoise;
+	PerlinNoise forrestNoise;
 
 
 	//! Getters and setters for seed
@@ -19,7 +21,6 @@ public:
 
 	void ProceduralTerrain::spawnTrees(Level& level);
 	void ProceduralTerrain::spawnVegetation(Level& level);
-	void ProceduralTerrain::generateLakes(Level& level, int x, int y);
 	void ProceduralTerrain::generateGrass(Level& level, int x, int y);
 
 	void ProceduralTerrain::populateTerrain(Level& level);
@@ -28,11 +29,16 @@ public:
 	//std::vector<std::vector<std::shared_ptr<Cell>>> grid;
 
 private:
-	int seed = 150;
-	int lakeSeed = seed + 12;
+	int seed = SDL_GetTicks();
+	int grassSeed = seed + 12;
 	int groundSeed = seed + 30;
 
-	int numberOfTrees = 5000;
+	float terrainNoiseOffest = 180.0;
+	float forrestNoiseOffset = 180.0;
+
+	float forrestAmplifier = 1.5;
+
+	int numberOfTrees = rand();
 	int numberOfPlants = 10000;
 
 };
