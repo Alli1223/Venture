@@ -67,12 +67,13 @@ void ProceduralTerrain::spawnVegetation(Level& level)
 void ProceduralTerrain::generateGrass(Level& level, int x, int y)
 {
 	double noise = groundNoise.noise((double)x / terrainNoiseOffest, (double)y / terrainNoiseOffest, 0.0) * 20;
-	double FNoise = forrestNoise.noise((double)x / forrestNoiseOffset, (double)y / forrestNoiseOffset, 0.0) * 20;
+	double fNoise = forrestNoise.noise((double)x / forrestNoiseOffset, (double)y / forrestNoiseOffset, 0.0) * 20;
+	double pNoise = pathNoise.noise((double)x / forrestNoiseOffset, (double)y / forrestNoiseOffset, 0.0) * 20;
 	//noise = (char)((noise - 0) * (255 / (noise - 0)));
 	level.grid[x][y]->terrainNoiseValue = noise;
 
 	//TERRAIN NOISE
-	if (noise > -0.7)
+	if (noise > -0.7 && noise < 13.0)
 	{
 		level.grid[x][y]->isGrass = true;
 	}
@@ -92,18 +93,22 @@ void ProceduralTerrain::generateGrass(Level& level, int x, int y)
 	}
 
 	//FORREST NOISE
-	if (level.grid[x][y]->isGrass && FNoise > forrestAmplifier)
+	if (level.grid[x][y]->isGrass && fNoise > 10.0)
 	{
 
 		level.grid[x][y]->isVegetation = true;
 		level.grid[x][y]->isFernTree = true;
 	}
-	else if (level.grid[x][y]->isGrass && FNoise > 0 && FNoise < forrestAmplifier)
+	else if (level.grid[x][y]->isGrass && fNoise > 0.8 && fNoise < 1.0)
 	{
 
 		level.grid[x][y]->isVegetation = true;
 		level.grid[x][y]->isOakTree = true;
 	}
+
+	//PATH NOISE
+	if (pNoise > 0.5 && pNoise < 1.0)
+		level.grid[x][y]->isDirt = true;
 }
 
 void ProceduralTerrain::populateTerrain(Level& level)
@@ -111,7 +116,8 @@ void ProceduralTerrain::populateTerrain(Level& level)
 	//generate noise from seed
 	
 	groundNoise.GenerateNoise(groundSeed);
-	forrestNoise.GenerateNoise(grassSeed);
+	forrestNoise.GenerateNoise(forrestSeed);
+	pathNoise.GenerateNoise(groundSeed);
 
 	//Renders all he cells
 	for (int x = 0; x < level.grid.size() - 1; x++)

@@ -235,7 +235,7 @@ void SpaceGame::run()
 
 			if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 			{
-				std::cout << level.grid[mouse_X / cellSize][mouse_Y / cellSize]->isSand << std::endl;
+				std::cout << level.grid[mouse_X / cellSize][mouse_Y / cellSize]->terrainNoiseValue << std::endl;
 			}
 
 

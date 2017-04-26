@@ -11,6 +11,7 @@ public:
 	~ProceduralTerrain();
 	PerlinNoise groundNoise;
 	PerlinNoise forrestNoise;
+	PerlinNoise pathNoise;
 
 
 	//! Getters and setters for seed
@@ -22,23 +23,22 @@ public:
 	void ProceduralTerrain::spawnTrees(Level& level);
 	void ProceduralTerrain::spawnVegetation(Level& level);
 	void ProceduralTerrain::generateGrass(Level& level, int x, int y);
-
 	void ProceduralTerrain::populateTerrain(Level& level);
 
 	//! The base grid that contains the cells
 	//std::vector<std::vector<std::shared_ptr<Cell>>> grid;
 
 private:
-	int seed = SDL_GetTicks();
-	int grassSeed = seed + 12;
-	int groundSeed = seed + 30;
+	int seed = 3058;
+	int forrestSeed = seed + 30;
+	int groundSeed = seed + 36945;
 
 	float terrainNoiseOffest = 180.0;
 	float forrestNoiseOffset = 180.0;
 
 	float forrestAmplifier = 1.5;
 
-	int numberOfTrees = rand();
+	int numberOfTrees = 50000;
 	int numberOfPlants = 10000;
 
 };
