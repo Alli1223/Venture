@@ -44,10 +44,13 @@ int GetGameInfo(std::string message)
 //! main netwrok update function
 void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager)
 {
-	
+	//("{<" + clientName + "> X:" +  character.getX() + ". Y:" +  character.getY() + ". ACT:" + Action + "." + "}");
+
 
 	// Request player locations
-	//sendTCPMessage("PLAYER_LOCATIONS_REQUEST\n");
+	sendTCPMessage("PLAYER_LOCATIONS_REQUEST\n");
+
+	
 
 	// process the list of players
 	std::string updateMessage = RecieveMessage();
@@ -56,13 +59,17 @@ void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager)
 
 }
 
+
 void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager)
 {
+	//std::thread readerThread;
+	//boost::thread_group g;
+	//g.create_thread(&NetworkManager::RecieveMessage);
+	//g.join_all();
 	//std::thread t2(this);
 	//some_threads.push_back(t2);
 	//std::string receiveMessage = RecieveMessage();
 	//ProcessArrayOfPlayerLocations(receiveMessage, level, agentManager);
-
 }
 
 
@@ -89,21 +96,23 @@ void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Le
 	// if the update message is not null
 	if (updateMessage != "NULL" && updateMessage != "QUIT")
 	{
-		int playerStart = 0, playerStop = 0;
+		std::vector<int> playerStart;
+		std::vector<int> playerStop;
 		//loop through the message and mark the start and stop point for the player
 		for (int i = 1; i < updateMessage.size(); i++)
 		{
 			if (updateMessage[i] == *"{")
-				playerStart = i;
+				playerStart.push_back(i);
 			else if (updateMessage[i] == *"}")
-				playerStop = i;
+				playerStop.push_back(i);
 		}
 		// if the start and stop point exist in the mesage
-		if (playerStart != 0 && playerStop != 0)
+		for (int k = 0; k < playerStart.size(); k++)
+		if (playerStart[k] != 0 && playerStop[k] != 0)
 		{
 			int j = 0;
 			// push the player data to the temp string
-			for (int S = playerStart + 1; S < playerStop; S++)
+			for (int S = playerStart[k] + 1; S < playerStop[k]; S++)
 			{
 				temp[j] = updateMessage[S];
 				j++;

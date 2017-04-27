@@ -73,6 +73,8 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() - agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 		}
 
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//CAMERA
 		//Set offset to camera
 		if (state[SDL_SCANCODE_RIGHT] && camera.getX() / cellSize < level.grid.size())
 		{
@@ -101,11 +103,13 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 			for (int i = 0; i < agentManager.allAgents.size(); i++)
 				agentManager.allAgents[i].setOffsetY(-camera.yoffset * cellSize);
 		}
+
 		if (state[SDL_SCANCODE_PAGEUP])
 			level.setCellSize(level.getCellSize() + 1);
 		if (state[SDL_SCANCODE_PAGEDOWN])
 			level.setCellSize(level.getCellSize() - 1);
 
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Player Actions
 		else if (state[SDL_SCANCODE_B])
 			networkManager.sendTCPMessage("PLACE_BED\n");
