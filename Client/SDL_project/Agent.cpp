@@ -11,7 +11,7 @@ Agent::~Agent()
 {
 }
 
-void Agent::HandleUserInput(Level& level)
+void Agent::Update(Level& level)
 {
 	// Set agents cell x & y tile values & point values
 	int cellSize = level.getCellSize();

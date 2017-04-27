@@ -55,9 +55,6 @@ void SpaceGame::run()
 	else
 		networkManager.setServerIP(networkManager.ExternalIPAddress);
 
-
-
-	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(networkManager.getServerIP()), networkManager.port);
 	// Create a unique playername
 	std::string playerName = std::to_string(SDL_GetTicks());
 	if (useNetworking)
@@ -118,7 +115,6 @@ void SpaceGame::run()
 			networkManager.NetworkUpdate(level, agentManager);
 		}
 
-
 		// Synchronse the network update thread
 		//networkUpdateThread.join();
 		input.HandleUserInput(level, agentManager, networkManager, camera, playerName, useNetworking, running);
@@ -136,12 +132,6 @@ void SpaceGame::run()
 		// Rendering process:
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
-
-		// Renders the background image
-		//backgroundTexture.render(renderer, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-
-
 
 		//////////////////////////////////
 		//MAIN CELL LOOP
@@ -194,11 +184,10 @@ void SpaceGame::run()
 
 		SDL_RenderPresent(renderer);
 		// End while running
-
-		// Send quit message and close socket when game ends
-		//networkManager.sendTCPMessage("QUIT\n");
-		//networkManager.socket->close();
 	}
+	// Send quit message and close socket when game ends
+	networkManager.sendTCPMessage("QUIT\n");
+	networkManager.socket->close();
 }
 
 
