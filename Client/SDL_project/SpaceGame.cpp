@@ -241,7 +241,7 @@ void SpaceGame::run()
 				Item berry;
 				berry.isBerry = true;
 				agentManager.allAgents[0].inventory.add(berry);
-				std::cout << level.grid[mouse_X / cellSize][mouse_Y / cellSize]->terrainNoiseValue << std::endl;
+				std::cout << agentManager.allAgents[0].inventory.getSize() << std::endl;
 			}
 
 

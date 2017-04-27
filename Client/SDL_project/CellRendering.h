@@ -74,6 +74,7 @@ private:
 	Texture Flower1Texture;
 	Texture Flower2Texture;
 	Texture BerryPlantTexture;
+	Texture BushTexture;
 	Texture LongGrass1;
 	Texture LongGrass2;
 	Texture LongGrass3;

@@ -94,6 +94,7 @@ public:
 	bool isFlower1 = false;
 	bool isFlower2 = false;
 	bool isBerryPlant = false;
+	bool isBush = false;
 
 
 	//Item cellItem;
