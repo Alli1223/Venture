@@ -9,8 +9,8 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH;
+	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
+	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
 	window = SDL_CreateWindow("SpaceGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
@@ -72,9 +72,7 @@ void SpaceGame::run()
 		networkManager.RecieveMessage();
 		networkManager.setPlayerName(playerName);
 		std::cout << "PlayerName: " << playerName << std::endl;
-	}
-	else
-	{
+
 		Agent player;
 		player.characterType = "Player";
 		player.setID(playerName);
@@ -106,7 +104,7 @@ void SpaceGame::run()
 			timebehind -= networkManager.networkUpdateInterval;
 		}
 
-		runNetworkTick = true;
+		
 		// Update network
 		if (runNetworkTick && useNetworking)
 		{

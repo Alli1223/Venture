@@ -48,13 +48,19 @@ void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager)
 
 
 	// Request player locations
-	sendTCPMessage("PLAYER_LOCATIONS_REQUEST\n");
+	//sendTCPMessage("PLAYER_LOCATIONS_REQUEST\n");
 
-	
 
+
+	std::string name = localPlayerName;
+	//std::string Action = "ACT:" + agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].characterType + ".";
+	std::string playerPosition = "X:" + std::to_string(agentManager.allAgents[0].getX()) + "Y:" + std::to_string(agentManager.allAgents[0].getY());
+
+	sendTCPMessage("{<" + localPlayerName + "> " + playerPosition + "}\n");
 	// process the list of players
 	std::string updateMessage = RecieveMessage();
 	ProcessArrayOfPlayerLocations(updateMessage, level, agentManager);
+	//ProcessPlayerLocations(updateMessage, level, agentManager);
 
 
 }
@@ -70,6 +76,11 @@ void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager)
 	//some_threads.push_back(t2);
 	//std::string receiveMessage = RecieveMessage();
 	//ProcessArrayOfPlayerLocations(receiveMessage, level, agentManager);
+
+	//boost::thread_group g;
+	//g.create_thread(&NetworkManager::RecieveMessage);
+	//boost::this_thread::sleep_for(boost::chrono::milliseconds(100));
+	//g.create_thread([] { &NetworkManager::RecieveMessage; });
 }
 
 
@@ -96,6 +107,62 @@ void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Le
 	// if the update message is not null
 	if (updateMessage != "NULL" && updateMessage != "QUIT")
 	{
+
+		//TODO: get string of data between { and }
+
+		for (int i = 1; i < updateMessage.size(); i++)
+		{
+
+			if (updateMessage[i] == *"{")
+			{
+				int dataSize = 0;
+				for (int j = i; j < updateMessage.size(); j++)
+				{
+					if (updateMessage[j] == *"}")
+						break;
+					else
+						dataSize++;
+				}
+				//Fill string with the data
+				std::string playerData = "                                                                                                ";
+				int t = 1;
+				for (int d = i; d < i + dataSize; d++)
+				{
+					playerData[t] = updateMessage[d];
+					t++;
+				}
+				playerData.erase(std::remove(playerData.begin(), playerData.end(), ' '), playerData.end());
+				ProcessPlayerLocations(playerData, level, agentManager);
+			}
+			iterator++;
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		/*
 		std::vector<int> playerStart;
 		std::vector<int> playerStop;
 		//loop through the message and mark the start and stop point for the player
@@ -122,7 +189,9 @@ void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Le
 			allPlayers.push_back(temp);
 			iterator++;
 		}
-	}
+		*/
+		
+	
 	//Send the player data to the process playerlocations fucntion
 	for (int i = 0; i < allPlayers.size(); i++)
 	{
@@ -284,6 +353,7 @@ void NetworkManager::sendTCPMessage(std::string message)
 //! returns a string from the socket
 std::string NetworkManager::RecieveMessage()
 {
+	std::cout << "Recieveing message.." <<  std::endl;
 	//Create return messages and an instream to put the buffer data into
 	std::string returnMessage;
 	std::stringstream inStream;

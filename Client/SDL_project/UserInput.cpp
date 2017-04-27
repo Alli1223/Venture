@@ -25,12 +25,6 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 		{
 			if (agentManager.allAgents.size() > 0)
 				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 0;
-			if (useNetworking)
-			{
-				networkManager.sendTCPMessage("MOVE_SOUTH\n");
-				networkManager.NetworkUpdate(level, agentManager);
-			}
-			else
 				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() + agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 
 		}
@@ -38,12 +32,6 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 		{
 			if (agentManager.allAgents.size() > 0)
 				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 90;
-			if (useNetworking)
-			{
-				networkManager.sendTCPMessage("MOVE_WEST\n");
-				networkManager.NetworkUpdate(level, agentManager);
-			}
-			else
 				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() - agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 
 		}
@@ -51,12 +39,6 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 		{
 			if (agentManager.allAgents.size() > 0)
 				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 270;
-			if (useNetworking)
-			{
-				networkManager.sendTCPMessage("MOVE_EAST\n");
-				networkManager.NetworkUpdate(level, agentManager);
-			}
-			else
 				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() + agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 
 		}
@@ -64,13 +46,8 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 		{
 			if (agentManager.allAgents.size() > 0)
 				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 180;
-			if (useNetworking)
-			{
-				networkManager.sendTCPMessage("MOVE_NORTH\n");
-				networkManager.NetworkUpdate(level, agentManager);
-			}
-			else
-				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() - agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
+
+			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() - agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
