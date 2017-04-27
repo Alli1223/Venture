@@ -103,8 +103,6 @@ void SpaceGame::run()
 			runNetworkTick = true;
 			timebehind -= networkManager.networkUpdateInterval;
 		}
-
-		
 		// Update network
 		if (runNetworkTick && useNetworking)
 		{
