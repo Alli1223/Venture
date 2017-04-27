@@ -22,7 +22,7 @@ public:
 	//! Return a string from recieve message
 	std::string NetworkManager::RecieveMessage();
 
-	void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket);
+	void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager);
 
 	// Server connection deets
 	int port = 2222;

@@ -92,8 +92,10 @@ public:
 	bool spawnPlayer = true;
 	
 	bool useNetworking = true;
-	
 
+	//! Whether the game is running or not
+	bool running = true;
+	bool menu;
 	//! Network update tick
 	float timer;
 private:
@@ -108,8 +110,6 @@ private:
 
 	Texture backgroundTexture;
 
-	//! Whether the game is running or not
-	bool running;
-	bool menu;
+	
 };
 

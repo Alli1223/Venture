@@ -44,20 +44,10 @@ int GetGameInfo(std::string message)
 //! main netwrok update function
 void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager)
 {
-	//Gets the number of current players in the game
-	if (GetNumPlayers)
-	{
-		//Request number of current players
-		sendTCPMessage("NUMBER_OF_PLAYERS_REQUEST\n");
-		std::string playerNumberString = RecieveMessage();
-
-		numberOfPlayers = GetGameInfo(playerNumberString);
-		std::cout << "Number Of Players: " << numberOfPlayers << std::endl;
-		GetNumPlayers = false;
-	}
+	
 
 	// Request player locations
-	sendTCPMessage("PLAYER_LOCATIONS_REQUEST\n");
+	//sendTCPMessage("PLAYER_LOCATIONS_REQUEST\n");
 
 	// process the list of players
 	std::string updateMessage = RecieveMessage();
@@ -66,9 +56,12 @@ void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager)
 
 }
 
-void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket)
+void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager)
 {
-	//std::thread t2(&NetworkManager::runMultiThread, std::ref(socket), 32);
+	//std::thread t2(this);
+	//some_threads.push_back(t2);
+	//std::string receiveMessage = RecieveMessage();
+	//ProcessArrayOfPlayerLocations(receiveMessage, level, agentManager);
 
 }
 

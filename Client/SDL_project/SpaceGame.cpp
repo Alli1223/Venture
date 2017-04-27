@@ -39,7 +39,6 @@ SpaceGame::~SpaceGame()
 
 void SpaceGame::run()
 {
-	running = true;
 	// Creates a grid of cells
 	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
 	level.makeGrid(200, 200);
@@ -117,8 +116,10 @@ void SpaceGame::run()
 
 		// Synchronse the network update thread
 		//networkUpdateThread.join();
-		input.HandleUserInput(level, agentManager, networkManager, camera, playerName, useNetworking, running);
-
+		input.HandleUserInput(level, agentManager, networkManager, camera, playerName, useNetworking);
+		const Uint8 *state = SDL_GetKeyboardState(NULL);
+		if (state[SDL_SCANCODE_ESCAPE])
+			running = false;
 
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 		{
