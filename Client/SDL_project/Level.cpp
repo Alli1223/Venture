@@ -8,8 +8,8 @@ void Level::makeGrid(int Window_Width, int Window_Height)
 	// Calculate the number of cells on each axis
 	int XAxis_Max = (Window_Width);
 	int YAxis_Max = (Window_Width);
-	levelWidth = Window_Width / cellSize;
-	levelHeight = Window_Height / cellSize;
+	levelWidth = Window_Width;
+	levelHeight = Window_Height;
 	for (int x = 0; x < XAxis_Max; x++)
 	{
 		// Pushes back a column into the row

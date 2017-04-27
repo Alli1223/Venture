@@ -42,7 +42,7 @@ void SpaceGame::run()
 	running = true;
 	// Creates a grid of cells
 	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	level.makeGrid(2000, 2000);
+	level.makeGrid(200, 200);
 	terrainGen.populateTerrain(level);
 
 	int cellSize = level.getCellSize();
@@ -138,6 +138,7 @@ void SpaceGame::run()
 			if (state[SDL_SCANCODE_ESCAPE] && menu == false)
 			{
 				menu = true;
+				running = false;
 			}
 			if (state[SDL_SCANCODE_ESCAPE] && menu == true)
 				menu = false;
@@ -228,7 +229,6 @@ void SpaceGame::run()
 			if (state[SDL_SCANCODE_PAGEDOWN])
 				level.setCellSize(level.getCellSize() - 1);
 
-
 			// Player Actions
 			else if (state[SDL_SCANCODE_B])
 				networkManager.sendTCPMessage("PLACE_BED\n", socket);
@@ -238,9 +238,15 @@ void SpaceGame::run()
 
 			if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 			{
-				
+				Item berry;
+				berry.isBerry = true;
+				agentManager.allAgents[0].inventory.add(berry);
 				std::cout << level.grid[mouse_X / cellSize][mouse_Y / cellSize]->terrainNoiseValue << std::endl;
 			}
+
+
+
+			
 
 
 		}//End pollevent if

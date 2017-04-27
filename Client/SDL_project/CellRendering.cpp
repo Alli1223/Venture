@@ -32,6 +32,7 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	DirtTexture(TerrainSpriteTextureLocation + "Dirt.png"),
 	Flower1Texture(TerrainSpriteTextureLocation + "Flower1.png"),
 	Flower2Texture(TerrainSpriteTextureLocation + "Flower2.png"),
+	BerryPlantTexture(TerrainSpriteTextureLocation + "Berry.png"),
 	WaterTexture(TerrainSpriteTextureLocation + "Water.png"),
 	SandTexture(TerrainSpriteTextureLocation + "Sand.png"),
 	LongGrass1(TerrainSpriteTextureLocation + "LongGrass1.png"),
@@ -86,6 +87,8 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int x, int
 			Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
 		if (level.grid[x][y]->isFlower2)
 			Flower2Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
+		if (level.grid[x][y]->isBerryPlant)
+			BerryPlantTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
 
 		//Grass
 		if (level.grid[x][y]->isLongGrass)

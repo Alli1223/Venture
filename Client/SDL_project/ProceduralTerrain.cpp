@@ -45,22 +45,30 @@ void ProceduralTerrain::spawnVegetation(Level& level)
 		if (!level.grid[x][y]->isVegetation && !level.grid[x][y]->isWater && !level.grid[x][y]->isSand)
 		{
 			level.grid[x][y]->isVegetation = true;
-			int vegType = rand() % 2;
-			if (vegType <= 0)
+			int vegType = rand() % 3;
+			//Item item;
+			switch (vegType)
 			{
+			case 0:
 				level.grid[x][y]->isVegetation = true;
 				level.grid[x][y]->isFlower1 = true;
-			}
-			else
-			{
+				break;
+			case 1:
+				level.grid[x][y]->isVegetation = true;
+				level.grid[x][y]->isBerryPlant = true;
+				//item.isBerry = true;
+				//level.grid[x][y]->cellItem = item;
+				break;
+			case 2:
 				level.grid[x][y]->isVegetation = true;
 				level.grid[x][y]->isFlower2 = true;
+				break;
 			}
+			
 			numPlants++;
 		}
 	}
 	std::cout << numPlants << " Plants spawned." << std::endl;
-	
 }
 
 

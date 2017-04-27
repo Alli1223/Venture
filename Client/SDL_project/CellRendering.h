@@ -73,6 +73,7 @@ private:
 	Texture DirtTexture;
 	Texture Flower1Texture;
 	Texture Flower2Texture;
+	Texture BerryPlantTexture;
 	Texture LongGrass1;
 	Texture LongGrass2;
 	Texture LongGrass3;
