@@ -11,7 +11,6 @@ Agent::~Agent()
 {
 }
 
-
 void Agent::Update(Level& level)
 {
 	// Set agents cell x & y tile values & point values
@@ -29,8 +28,8 @@ void Agent::Update(Level& level)
 	// If the agent has a path move along it
 	if (movementStatus == TraversingPath && path.size() > 0)
 	{
-		float deltaY = getY() - path[pathPointIterator].getY() * 50.0;
-		float deltaX = getX() - path[pathPointIterator].getX() * 50.0;
+		float deltaY = getY() - path[pathPointIterator].getY() * level.getCellSize();
+		float deltaX = getX() - path[pathPointIterator].getX() * level.getCellSize();
 		
 
 		float length = sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -69,12 +68,22 @@ void Agent::Update(Level& level)
 	//if (this->getHealth() <= 0)
 		//this->isAlive = false;
 
-	/* if agent reaches bed || toilet then reset values
+    //if agent reaches bed || toilet then reset values
 	if (level.grid[cellX][cellY]->isToilet)
 		this->setToiletNeed(0.0);
 	if (level.grid[cellX][cellY]->isBed)
 		this->setTiredness(0.0);
-		*/
+	const Uint8 *state = SDL_GetKeyboardState(NULL);
+
+	//Add berry to inventory
+	if (level.grid[cellX][cellY]->isBerryPlant && state[SDL_SCANCODE_F])
+	{
+		Item berry;
+		berry.isBerry = true;
+		inventory.add(berry);
+		level.grid[cellX][cellY]->isBerryPlant = false;
+		level.grid[cellX][cellY]->isBush = true;
+	}
 
 	// Agent will wonder randomly when idle
 	if (movementStatus == Idle && agentWonderWhenIdle)

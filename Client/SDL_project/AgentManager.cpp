@@ -81,7 +81,6 @@ void drawPath(Point& point, Level& level, std::vector<Point>& path, SDL_Renderer
 
 void AgentManager::UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* renderer, Level& level)
 {
-
 	// Update agents and draw agent paths
 	for (int i = 0; i < allAgents.size(); i++)
 	{

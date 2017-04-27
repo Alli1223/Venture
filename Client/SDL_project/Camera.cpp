@@ -23,7 +23,7 @@ void Camera::OnMove(int MoveX, int MoveY) {
 	Y += MoveY;
 }
 
-int Camera::GetX() {
+int Camera::getX() {
 	if (TargetX != NULL) {
 		if (TargetMode == TARGET_MODE_CENTER) {
 			return *TargetX - (WindowWidth / 2);
@@ -35,7 +35,7 @@ int Camera::GetX() {
 	return X;
 }
 
-int Camera::GetY() {
+int Camera::getY() {
 	if (TargetY != NULL) {
 		if (TargetMode == TARGET_MODE_CENTER) {
 			return *TargetY - (WindowHeight / 2);

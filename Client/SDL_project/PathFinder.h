@@ -63,9 +63,11 @@ private:
 	bool isInClosedSet(Point& point);
 
 	//! A bool that enables stringpulling
-	bool StringPullPath = true;
+	bool StringPullPath = false;
 	//! A bool that enables pathfinding to use diagonal paths
 	bool diagonalPaths = true;
+
+	bool OnlyUsePaths = true;
 };
 
 class PathfinderError : public std::exception

@@ -103,7 +103,10 @@
     <ClCompile Include="ProceduralTerrain.cpp">
       <Filter>Source Files\Level Classes\PCG</Filter>
     </ClCompile>
-    <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fire.h">
@@ -217,7 +220,10 @@
     <ClInclude Include="Camera.h">
       <Filter>Headers\Main Game Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Inventory.h" />
+    <ClInclude Include="Inventory.h">
+      <Filter>Headers\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />

@@ -18,9 +18,6 @@ public:
 	//! Movement method for Agent
 	void Agent::Move(Level& level, Point& StartPoint, Point& EndPoint);
 
-	//Additem to inventory
-	void Agent::AddItem(Item& item);
-
 	
 	//Getter methods
 	//! Gets the characters X value
