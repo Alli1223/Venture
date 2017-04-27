@@ -199,6 +199,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="ToolBar.h" />
     <ClInclude Include="BehaviourTree.h" />
+    <ClInclude Include="UserInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
@@ -241,6 +242,7 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="ToolBar.cpp" />
+    <ClCompile Include="UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />

@@ -9,6 +9,14 @@ NetworkManager::~NetworkManager()
 {
 }
 
+void NetworkManager::Connect()
+{
+
+	socket = std::shared_ptr<tcp::socket>(new tcp::socket(io_service));
+	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(getServerIP()), port);
+
+	socket->connect(endpoint);
+}
 //! Gets integer values from the string
 int GetGameInfo(std::string message)
 {
@@ -34,14 +42,14 @@ int GetGameInfo(std::string message)
 	}
 }
 //! main netwrok update function
-void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket)
+void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager)
 {
 	//Gets the number of current players in the game
 	if (GetNumPlayers)
 	{
 		//Request number of current players
-		sendTCPMessage("NUMBER_OF_PLAYERS_REQUEST\n", socket);
-		std::string playerNumberString = RecieveMessage(socket);
+		sendTCPMessage("NUMBER_OF_PLAYERS_REQUEST\n");
+		std::string playerNumberString = RecieveMessage();
 
 		numberOfPlayers = GetGameInfo(playerNumberString);
 		std::cout << "Number Of Players: " << numberOfPlayers << std::endl;
@@ -49,11 +57,11 @@ void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager, boo
 	}
 
 	// Request player locations
-	sendTCPMessage("PLAYER_LOCATIONS_REQUEST\n", socket);
+	sendTCPMessage("PLAYER_LOCATIONS_REQUEST\n");
 
 	// process the list of players
-	std::string updateMessage = RecieveMessage(socket);
-	ProcessArrayOfPlayerLocations(updateMessage, level, agentManager, socket);
+	std::string updateMessage = RecieveMessage();
+	ProcessArrayOfPlayerLocations(updateMessage, level, agentManager);
 
 
 }
@@ -79,7 +87,7 @@ bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playerna
 }
 
 //! Processes an array of player locations
-void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket)
+void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager)
 {
 	std::string temp = "                                                                                                                                     ";
 	//Create a list of all the players in the update message
@@ -116,13 +124,13 @@ void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Le
 	//Send the player data to the process playerlocations fucntion
 	for (int i = 0; i < allPlayers.size(); i++)
 	{
-		ProcessPlayerLocations(allPlayers[i], level, agentManager, socket);
+		ProcessPlayerLocations(allPlayers[i], level, agentManager);
 		std::cout << allPlayers[i] << std::endl;
 	}
 
 }
 //! loops through the playerdata string and puts that into the agent manager
-void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket)
+void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager)
 {
 	if (updateMessage != "NULL" && updateMessage != "QUIT")
 	{
@@ -249,7 +257,7 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 
 
 //! sends a tcp message to the socket
-void NetworkManager::sendTCPMessage(std::string message, boost::asio::ip::tcp::socket& socket)
+void NetworkManager::sendTCPMessage(std::string message)
 {
 	// Fill the buffer with the data from the string
 	boost::array<char, 128> buf;
@@ -261,7 +269,7 @@ void NetworkManager::sendTCPMessage(std::string message, boost::asio::ip::tcp::s
 	try
 	{
 		boost::system::error_code error;
-		socket.write_some(boost::asio::buffer(buf, message.size()), error);
+		socket->write_some(boost::asio::buffer(buf, message.size()), error);
 		//std::cout << "Message sent: " << message << std::endl;
 	}
 	catch (std::exception& e)
@@ -272,7 +280,7 @@ void NetworkManager::sendTCPMessage(std::string message, boost::asio::ip::tcp::s
 
 
 //! returns a string from the socket
-std::string NetworkManager::RecieveMessage(boost::asio::ip::tcp::socket& socket)
+std::string NetworkManager::RecieveMessage()
 {
 	//Create return messages and an instream to put the buffer data into
 	std::string returnMessage;
@@ -283,7 +291,7 @@ std::string NetworkManager::RecieveMessage(boost::asio::ip::tcp::socket& socket)
 		boost::system::error_code error;
 
 		// Read the data from the socket
-		size_t len = socket.read_some(boost::asio::buffer(buffer), error);
+		size_t len = socket->read_some(boost::asio::buffer(buffer), error);
 		if (error == boost::asio::error::eof)
 			return "QUIT"; // Connection closed cleanly by peer.
 		else if (error)

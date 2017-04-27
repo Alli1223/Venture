@@ -10,16 +10,17 @@ class NetworkManager
 public:
 	NetworkManager();
 	~NetworkManager();
+	void NetworkManager::Connect();
 	//! Main Network update function
-	void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket);
+	void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager);
 	//! Send a message using TCP
-	void NetworkManager::sendTCPMessage(std::string message, boost::asio::ip::tcp::socket& socket);
+	void NetworkManager::sendTCPMessage(std::string message);
 	//! Process the players location from string
-	void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket);
+	void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
 	//! Process a list of player locations
-	void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket);
+	void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
 	//! Return a string from recieve message
-	std::string NetworkManager::RecieveMessage(boost::asio::ip::tcp::socket& socket);
+	std::string NetworkManager::RecieveMessage();
 
 	void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket);
 
@@ -54,8 +55,11 @@ public:
 
 	//! Vector of all other players names in the game
 	std::vector<std::string> otherPlayerNames;
+
 	//! the io service for creating the socket
-	boost::asio::io_service ios;
+	boost::asio::io_service io_service;
+	std::shared_ptr<tcp::socket> socket;
+	
 
 private:
 	//! for when I get round to making the client multi threaded

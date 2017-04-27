@@ -64,7 +64,6 @@ void ProceduralTerrain::spawnVegetation(Level& level)
 				level.grid[x][y]->isFlower2 = true;
 				break;
 			}
-			
 			numPlants++;
 		}
 	}

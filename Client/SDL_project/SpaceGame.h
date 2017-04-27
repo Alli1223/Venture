@@ -27,6 +27,7 @@
 #include "ProceduralTerrain.h"
 #include "Camera.h"
 #include "Inventory.h"
+#include "UserInput.h"
 
 //! The main class
 /*!
@@ -65,6 +66,7 @@ public:
 	NetworkClient networkClient;
 	ProceduralTerrain terrainGen;
 	Camera camera;
+	UserInput input;
 
 	
 

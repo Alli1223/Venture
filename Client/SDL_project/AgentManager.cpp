@@ -84,7 +84,7 @@ void AgentManager::UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* ren
 	// Update agents and draw agent paths
 	for (int i = 0; i < allAgents.size(); i++)
 	{
-		allAgents[i].Update(level);
+		allAgents[i].HandleUserInput(level);
 
 		// DRAW THE PATH FOR ALL AGENTS
 		if (drawAgentPaths)

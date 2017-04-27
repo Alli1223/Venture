@@ -14,7 +14,7 @@ public:
 
 
 	//! Update method for Agent
-	void Agent::Update(Level& level);
+	void Agent::HandleUserInput(Level& level);
 	//! Movement method for Agent
 	void Agent::Move(Level& level, Point& StartPoint, Point& EndPoint);
 

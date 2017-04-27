@@ -106,6 +106,7 @@
     <ClCompile Include="Inventory.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
+    <ClCompile Include="UserInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fire.h">
@@ -222,6 +223,7 @@
     <ClInclude Include="Inventory.h">
       <Filter>Headers\Items</Filter>
     </ClInclude>
+    <ClInclude Include="UserInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />
