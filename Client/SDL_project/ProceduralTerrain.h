@@ -30,7 +30,7 @@ public:
 	//std::vector<std::vector<std::shared_ptr<Cell>>> grid;
 
 private:
-	int seed = 3058;
+	int seed = 1837;
 	int forrestSeed = seed + 30;
 	int groundSeed = seed + 36945;
 	int pathSeed = seed + 1255;
@@ -40,7 +40,7 @@ private:
 
 	float forrestAmplifier = 1.5;
 
-	int numberOfTrees = 500;
+	int numberOfTrees = 50000;
 	int numberOfPlants = 10000;
 
 };

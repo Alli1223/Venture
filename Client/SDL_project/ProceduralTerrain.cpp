@@ -76,7 +76,7 @@ void ProceduralTerrain::generateGrass(Level& level, int x, int y)
 	double noise = groundNoise.noise((double)x / terrainNoiseOffest, (double)y / terrainNoiseOffest, 0.0) * 20;
 	double fNoise = forrestNoise.noise((double)x / forrestNoiseOffset, (double)y / forrestNoiseOffset, 0.0) * 20;
 	double pNoise = pathNoise.noise((double)x / forrestNoiseOffset, (double)y / forrestNoiseOffset, 0.0) * 20;
-	double layerdNoise = noise + pNoise;
+	double layerdNoise = noise;
 	//noise = (char)((noise - 0) * (255 / (noise - 0)));
 	level.grid[x][y]->terrainNoiseValue = noise;
 
