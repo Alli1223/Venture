@@ -108,7 +108,7 @@ void AgentManager::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& lev
 
 	int x = agent.getX() + (agent.getSize() / 2);
 	int y = agent.getY() + (agent.getSize() / 2);
-	if (agent.characterType == "NPC" && agent.isAlive)
+	if (agent.characterType == "NPC")
 	{
 		//npcDown.alterTextureColour(0, rand(), 0);
 		npcDown.renderRotation(renderer, x + agent.getOffsetX(), y + agent.getOffsetY(), agent.getSize(), agent.getSize(), agent.agentRotation);

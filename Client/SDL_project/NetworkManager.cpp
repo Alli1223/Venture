@@ -109,7 +109,6 @@ void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Le
 	{
 
 		//TODO: get string of data between { and }
-
 		for (int i = 1; i < updateMessage.size(); i++)
 		{
 
@@ -133,70 +132,10 @@ void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Le
 				}
 				playerData.erase(std::remove(playerData.begin(), playerData.end(), ' '), playerData.end());
 				ProcessPlayerLocations(playerData, level, agentManager);
+				iterator++;
 			}
-			iterator++;
 		}
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		/*
-		std::vector<int> playerStart;
-		std::vector<int> playerStop;
-		//loop through the message and mark the start and stop point for the player
-		for (int i = 1; i < updateMessage.size(); i++)
-		{
-			if (updateMessage[i] == *"{")
-				playerStart.push_back(i);
-			else if (updateMessage[i] == *"}")
-				playerStop.push_back(i);
-		}
-		// if the start and stop point exist in the mesage
-		for (int k = 0; k < playerStart.size(); k++)
-		if (playerStart[k] != 0 && playerStop[k] != 0)
-		{
-			int j = 0;
-			// push the player data to the temp string
-			for (int S = playerStart[k] + 1; S < playerStop[k]; S++)
-			{
-				temp[j] = updateMessage[S];
-				j++;
-			}
-			//remove any spaces and push that into the list of players
-			temp.erase(std::remove(temp.begin(), temp.end(), ' '), temp.end());
-			allPlayers.push_back(temp);
-			iterator++;
-		}
-		*/
-		
-	
-	//Send the player data to the process playerlocations fucntion
-	for (int i = 0; i < allPlayers.size(); i++)
-	{
-		ProcessPlayerLocations(allPlayers[i], level, agentManager);
-		std::cout << allPlayers[i] << std::endl;
+		std::cout << iterator << std::endl;
 	}
 
 }
@@ -211,9 +150,9 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 		std::string otherPlayerName = "                                                          ";
 
 		// loop throuh the message to get the player name
-		for (int i = 1; i < updateMessage.size(); i++)
+		for (int i = 2; i < updateMessage.size(); i++)
 		{
-			if (updateMessage[i] != *">" && updateMessage[i + 1] != *" " && updateMessage[0] == *"<")
+			if (updateMessage[i] != *">" && updateMessage[i + 1] != *" " && updateMessage[1] == *"<")
 				otherPlayerName[i] = updateMessage[i];
 			else
 				break;
@@ -303,19 +242,20 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 		//Spawn new player
 		else
 		{
+			if (otherPlayerName.size() > 1)
+			{
 
-			otherPlayerNames.push_back(otherPlayerName);
-			Agent newPlayer;
-			// If the agent is first player
-			if (agentManager.allAgents.size() < 1)
-				newPlayer.characterType = "Player";
-			else
+
+				otherPlayerNames.push_back(otherPlayerName);
+				Agent newPlayer;
+				// If the agent is first player
+
 				newPlayer.characterType = "NPC";
-			newPlayer.agentWonderWhenIdle = false;
-			newPlayer.agentCanRotate = true;
+				newPlayer.agentCanRotate = true;
 
-			newPlayer.setID(otherPlayerName);
-			agentManager.SpawnAgent(newPlayer);
+				newPlayer.setID(otherPlayerName);
+				agentManager.SpawnAgent(newPlayer);
+			}
 		}
 
 	}
