@@ -54,7 +54,7 @@ void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager)
 
 	std::string name = localPlayerName;
 	//std::string Action = "ACT:" + agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].characterType + ".";
-	std::string playerPosition = "X:" + std::to_string(agentManager.allAgents[0].getX()) + "Y:" + std::to_string(agentManager.allAgents[0].getY());
+	std::string playerPosition = "X:" + std::to_string(agentManager.allAgents[0].getX()) + ".Y:" + std::to_string(agentManager.allAgents[0].getY()) + ".";
 
 	sendTCPMessage("{<" + localPlayerName + "> " + playerPosition + "}\n");
 	// process the list of players
@@ -248,12 +248,12 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 						int pos = std::stoi(updatenumber, &sz);
 						//pos *= level.getCellSize();
 						agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].setX(pos);
-					
+
 					}
 					//Process Y position
 					if (updateMessage[i] == *"Y" && updateMessage[i + 1] == *":")
 					{
-						
+
 						// Convert string to int
 						std::string::size_type sz;
 						std::string updatenumber = "            ";
@@ -268,7 +268,7 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 						//pos *= level.getCellSize();
 						agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].setY(pos);
 					}
-					
+
 
 
 					// Update Player Actions
@@ -303,23 +303,21 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 		//Spawn new player
 		else
 		{
-			// Fix double spawn issue
-			if (updateMessage.size() > 1)
-			{
-				otherPlayerNames.push_back(otherPlayerName);
-				Agent newPlayer;
-				// If the agent is first player
-				if (agentManager.allAgents.size() < 1)
-					newPlayer.characterType = "Player";
-				else
-					newPlayer.characterType = "NPC";
-				newPlayer.agentWonderWhenIdle = false;
-				newPlayer.agentCanRotate = true;
 
-				newPlayer.setID(otherPlayerName);
-				agentManager.SpawnAgent(newPlayer);
-			}
+			otherPlayerNames.push_back(otherPlayerName);
+			Agent newPlayer;
+			// If the agent is first player
+			if (agentManager.allAgents.size() < 1)
+				newPlayer.characterType = "Player";
+			else
+				newPlayer.characterType = "NPC";
+			newPlayer.agentWonderWhenIdle = false;
+			newPlayer.agentCanRotate = true;
+
+			newPlayer.setID(otherPlayerName);
+			agentManager.SpawnAgent(newPlayer);
 		}
+
 	}
 }
 

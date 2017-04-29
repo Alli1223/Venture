@@ -43,10 +43,9 @@ void SpaceGame::run()
 	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
 	level.makeGrid(200, 200);
 	terrainGen.populateTerrain(level);
-
 	int cellSize = level.getCellSize();
 	
-	
+
 
 	// If the client wants to connect to loopback address or external server
 	if (networkManager.isServerLocal)

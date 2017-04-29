@@ -3,6 +3,7 @@
 #include "PerlinNoise.h"
 #include "Level.h"
 #include "point.h"
+#include "Camera.h"
 
 class ProceduralTerrain
 {
@@ -32,6 +33,7 @@ private:
 	int seed = 3058;
 	int forrestSeed = seed + 30;
 	int groundSeed = seed + 36945;
+	int pathSeed = seed + 1255;
 
 	float terrainNoiseOffest = 180.0;
 	float forrestNoiseOffset = 180.0;

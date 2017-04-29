@@ -97,6 +97,7 @@ void AgentManager::UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* ren
 	//Render Agents
 	for (Agent& agent : allAgents)
 	{
+
 		RenderAgents(agent, renderer, level);
 		//agentBehaviour.DecideTask(level, agent);
 	}

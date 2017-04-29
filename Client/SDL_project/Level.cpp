@@ -26,6 +26,23 @@ void Level::makeGrid(int Window_Width, int Window_Height)
 	}
 }
 
+//TODO add cells to grid
+void Level::addRowToGrid(std::string direction, int numberOfRows)
+{
+	std::vector<std::shared_ptr<Cell>> column;
+	if (direction == "RIGHT")
+	{
+
+		for (int y = 0; y < levelHeight; y++)
+		{
+			Cell cell(grid.size(), y);
+
+			auto sharedCell = std::make_shared<Cell>(cell);
+			grid[grid.size()].push_back(sharedCell);
+		}
+	}
+
+}
 
 Level::Level()
 {
