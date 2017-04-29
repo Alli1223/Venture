@@ -40,7 +40,6 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 			if (agentManager.allAgents.size() > 0)
 				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 270;
 				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() + agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
-
 		}
 		if (state[SDL_SCANCODE_W])
 		{

@@ -25,11 +25,13 @@ public:
 
 	//! Fills grid with vectors of shared pointers to cells
 	void makeGrid(int Window_Width, int Window_Height);
+	void Level::addRowToGrid(std::string direction, int numberOfRows);
 
 
 protected:
+	int x = 0, y = 0;
 	//! The size that the cell will be rendered at
-	int cellSize = 50;
+	int cellSize = 10;
 	int levelWidth, levelHeight;
 };
 

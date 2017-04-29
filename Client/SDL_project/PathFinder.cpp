@@ -108,6 +108,8 @@ std::vector<Point> Pathfinder::findPath(Level& level, const Point& start, const 
 	// Clear all the node for fresh pathfind
 	nodes.clear();
 
+	std::cout << "Computing Path" << std::endl;
+
 	// Create nodes for every cell in the grid
 	for (int x = 0; x < level.grid.size(); x++)
 	{
