@@ -9,6 +9,14 @@ NetworkManager::~NetworkManager()
 {
 }
 
+void NetworkManager::Connect()
+{
+
+	socket = std::shared_ptr<tcp::socket>(new tcp::socket(io_service));
+	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(getServerIP()), port);
+
+	socket->connect(endpoint);
+}
 //! Gets integer values from the string
 int GetGameInfo(std::string message)
 {
@@ -34,34 +42,36 @@ int GetGameInfo(std::string message)
 	}
 }
 //! main netwrok update function
-void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket)
+void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager)
 {
-	//Gets the number of current players in the game
-	if (GetNumPlayers)
-	{
-		//Request number of current players
-		sendTCPMessage("NUMBER_OF_PLAYERS_REQUEST\n", socket);
-		std::string playerNumberString = RecieveMessage(socket);
+	std::string name = localPlayerName;
+	std::string playerPosition = "X:" + std::to_string(agentManager.allAgents[0].getX()) + ".Y:" + std::to_string(agentManager.allAgents[0].getY()) + ".";
 
-		numberOfPlayers = GetGameInfo(playerNumberString);
-		std::cout << "Number Of Players: " << numberOfPlayers << std::endl;
-		GetNumPlayers = false;
-	}
-
-	// Request player locations
-	sendTCPMessage("PLAYER_LOCATIONS_REQUEST\n", socket);
-
+	sendTCPMessage("{<" + localPlayerName + "> " + playerPosition + "}\n");
 	// process the list of players
-	std::string updateMessage = RecieveMessage(socket);
-	ProcessArrayOfPlayerLocations(updateMessage, level, agentManager, socket);
+	std::string updateMessage = RecieveMessage();
+	ProcessArrayOfPlayerLocations(updateMessage, level, agentManager);
+	//ProcessPlayerLocations(updateMessage, level, agentManager);
 
 
 }
 
-void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket)
-{
-	//std::thread t2(&NetworkManager::runMultiThread, std::ref(socket), 32);
 
+void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager)
+{
+	//std::thread readerThread;
+	//boost::thread_group g;
+	//g.create_thread(&NetworkManager::RecieveMessage);
+	//g.join_all();
+	//std::thread t2(this);
+	//some_threads.push_back(t2);
+	//std::string receiveMessage = RecieveMessage();
+	//ProcessArrayOfPlayerLocations(receiveMessage, level, agentManager);
+
+	//boost::thread_group g;
+	//g.create_thread(&NetworkManager::RecieveMessage);
+	//boost::this_thread::sleep_for(boost::chrono::milliseconds(100));
+	//g.create_thread([] { &NetworkManager::RecieveMessage; });
 }
 
 
@@ -79,7 +89,7 @@ bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playerna
 }
 
 //! Processes an array of player locations
-void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket)
+void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager)
 {
 	std::string temp = "                                                                                                                                     ";
 	//Create a list of all the players in the update message
@@ -88,41 +98,40 @@ void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Le
 	// if the update message is not null
 	if (updateMessage != "NULL" && updateMessage != "QUIT")
 	{
-		int playerStart = 0, playerStop = 0;
-		//loop through the message and mark the start and stop point for the player
+
+		//TODO: get string of data between { and }
 		for (int i = 1; i < updateMessage.size(); i++)
 		{
+
 			if (updateMessage[i] == *"{")
-				playerStart = i;
-			else if (updateMessage[i] == *"}")
-				playerStop = i;
-		}
-		// if the start and stop point exist in the mesage
-		if (playerStart != 0 && playerStop != 0)
-		{
-			int j = 0;
-			// push the player data to the temp string
-			for (int S = playerStart + 1; S < playerStop; S++)
 			{
-				temp[j] = updateMessage[S];
-				j++;
+				int dataSize = 0;
+				for (int j = i; j < updateMessage.size(); j++)
+				{
+					if (updateMessage[j] == *"}")
+						break;
+					else
+						dataSize++;
+				}
+				//Fill string with the data
+				std::string playerData = "                                                                                                ";
+				int t = 1;
+				for (int d = i; d < i + dataSize; d++)
+				{
+					playerData[t] = updateMessage[d];
+					t++;
+				}
+				playerData.erase(std::remove(playerData.begin(), playerData.end(), ' '), playerData.end());
+				ProcessPlayerLocations(playerData, level, agentManager);
+				iterator++;
 			}
-			//remove any spaces and push that into the list of players
-			temp.erase(std::remove(temp.begin(), temp.end(), ' '), temp.end());
-			allPlayers.push_back(temp);
-			iterator++;
 		}
-	}
-	//Send the player data to the process playerlocations fucntion
-	for (int i = 0; i < allPlayers.size(); i++)
-	{
-		ProcessPlayerLocations(allPlayers[i], level, agentManager, socket);
-		std::cout << allPlayers[i] << std::endl;
+		std::cout << iterator << std::endl;
 	}
 
 }
 //! loops through the playerdata string and puts that into the agent manager
-void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager, boost::asio::ip::tcp::socket& socket)
+void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager)
 {
 	if (updateMessage != "NULL" && updateMessage != "QUIT")
 	{
@@ -132,9 +141,9 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 		std::string otherPlayerName = "                                                          ";
 
 		// loop throuh the message to get the player name
-		for (int i = 1; i < updateMessage.size(); i++)
+		for (int i = 2; i < updateMessage.size(); i++)
 		{
-			if (updateMessage[i] != *">" && updateMessage[i + 1] != *" " && updateMessage[0] == *"<")
+			if (updateMessage[i] != *">" && updateMessage[i + 1] != *" " && updateMessage[1] == *"<")
 				otherPlayerName[i] = updateMessage[i];
 			else
 				break;
@@ -169,12 +178,12 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 						int pos = std::stoi(updatenumber, &sz);
 						//pos *= level.getCellSize();
 						agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].setX(pos);
-					
+
 					}
 					//Process Y position
 					if (updateMessage[i] == *"Y" && updateMessage[i + 1] == *":")
 					{
-						
+
 						// Convert string to int
 						std::string::size_type sz;
 						std::string updatenumber = "            ";
@@ -189,7 +198,7 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 						//pos *= level.getCellSize();
 						agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].setY(pos);
 					}
-					
+
 
 
 					// Update Player Actions
@@ -224,23 +233,22 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 		//Spawn new player
 		else
 		{
-			// Fix double spawn issue
-			if (updateMessage.size() > 1)
+			if (otherPlayerName.size() > 1)
 			{
+
+
 				otherPlayerNames.push_back(otherPlayerName);
 				Agent newPlayer;
 				// If the agent is first player
-				if (agentManager.allAgents.size() < 1)
-					newPlayer.characterType = "Player";
-				else
-					newPlayer.characterType = "NPC";
-				newPlayer.agentWonderWhenIdle = false;
+
+				newPlayer.characterType = "NPC";
 				newPlayer.agentCanRotate = true;
 
 				newPlayer.setID(otherPlayerName);
 				agentManager.SpawnAgent(newPlayer);
 			}
 		}
+
 	}
 }
 
@@ -249,7 +257,7 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 
 
 //! sends a tcp message to the socket
-void NetworkManager::sendTCPMessage(std::string message, boost::asio::ip::tcp::socket& socket)
+void NetworkManager::sendTCPMessage(std::string message)
 {
 	// Fill the buffer with the data from the string
 	boost::array<char, 128> buf;
@@ -261,7 +269,7 @@ void NetworkManager::sendTCPMessage(std::string message, boost::asio::ip::tcp::s
 	try
 	{
 		boost::system::error_code error;
-		socket.write_some(boost::asio::buffer(buf, message.size()), error);
+		socket->write_some(boost::asio::buffer(buf, message.size()), error);
 		//std::cout << "Message sent: " << message << std::endl;
 	}
 	catch (std::exception& e)
@@ -272,8 +280,9 @@ void NetworkManager::sendTCPMessage(std::string message, boost::asio::ip::tcp::s
 
 
 //! returns a string from the socket
-std::string NetworkManager::RecieveMessage(boost::asio::ip::tcp::socket& socket)
+std::string NetworkManager::RecieveMessage()
 {
+	std::cout << "Recieveing message.." <<  std::endl;
 	//Create return messages and an instream to put the buffer data into
 	std::string returnMessage;
 	std::stringstream inStream;
@@ -283,7 +292,7 @@ std::string NetworkManager::RecieveMessage(boost::asio::ip::tcp::socket& socket)
 		boost::system::error_code error;
 
 		// Read the data from the socket
-		size_t len = socket.read_some(boost::asio::buffer(buffer), error);
+		size_t len = socket->read_some(boost::asio::buffer(buffer), error);
 		if (error == boost::asio::error::eof)
 			return "QUIT"; // Connection closed cleanly by peer.
 		else if (error)

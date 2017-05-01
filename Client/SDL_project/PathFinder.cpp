@@ -33,28 +33,25 @@ std::vector<std::shared_ptr<Node>> Pathfinder::getNeighbours(std::shared_ptr<Nod
 	{
 		if (node->point.getY() - 1 >= 0 && node->point.getY() + 1 <= level.getLevelHeight())
 		{
-			if (node->point.getY() - 1 >= 0 && node->point.getX() - 1 >= 0)
+			//left
+			result.push_back(getOrCreateNode(node->point.getX() - 1, node->point.getY()));
+			//right
+			result.push_back(getOrCreateNode(node->point.getX() + 1, node->point.getY()));
+			//up
+			result.push_back(getOrCreateNode(node->point.getX(), node->point.getY() - 1));
+			//down
+			result.push_back(getOrCreateNode(node->point.getX(), node->point.getY() + 1));
+
+			// Diagonal paths
+			if (diagonalPaths)
 			{
-				//left
-				result.push_back(getOrCreateNode(node->point.getX() - 1, node->point.getY()));
-				//right
-				result.push_back(getOrCreateNode(node->point.getX() + 1, node->point.getY()));
-				//up
-				result.push_back(getOrCreateNode(node->point.getX(), node->point.getY() - 1));
-				//down
-				result.push_back(getOrCreateNode(node->point.getX(), node->point.getY() + 1));
-
-				// Diagonal paths
-				if (diagonalPaths)
-				{
-					result.push_back(getOrCreateNode(node->point.getX() - 1, node->point.getY() - 1));
-					result.push_back(getOrCreateNode(node->point.getX() - 1, node->point.getY() + 1));
-					result.push_back(getOrCreateNode(node->point.getX() + 1, node->point.getY() - 1));
-					result.push_back(getOrCreateNode(node->point.getX() + 1, node->point.getY() + 1));
-				}
-
-				return result;
+				result.push_back(getOrCreateNode(node->point.getX() - 1, node->point.getY() - 1));
+				result.push_back(getOrCreateNode(node->point.getX() - 1, node->point.getY() + 1));
+				result.push_back(getOrCreateNode(node->point.getX() + 1, node->point.getY() - 1));
+				result.push_back(getOrCreateNode(node->point.getX() + 1, node->point.getY() + 1));
 			}
+
+			return result;
 		}
 	}
 }
@@ -111,6 +108,8 @@ std::vector<Point> Pathfinder::findPath(Level& level, const Point& start, const 
 	// Clear all the node for fresh pathfind
 	nodes.clear();
 
+	std::cout << "Computing Path" << std::endl;
+
 	// Create nodes for every cell in the grid
 	for (int x = 0; x < level.grid.size(); x++)
 	{
@@ -142,8 +141,9 @@ std::vector<Point> Pathfinder::findPath(Level& level, const Point& start, const 
 		for (auto neighbour : getNeighbours(currentNode, level))
 		{
 			//if the cell is a room and not in closed set and not on fire
-			if (level.grid[neighbour->point.getX()][neighbour->point.getY()]->isWalkable && !isInClosedSet(neighbour->point))
+			if (level.grid[neighbour->point.getX()][neighbour->point.getY()]->isWalkable && !level.grid[neighbour->point.getX()][neighbour->point.getY()]->isWater && !isInClosedSet(neighbour->point) && level.grid[neighbour->point.getX()][neighbour->point.getY()]->isDirt)
 			{
+
 				double gTentative = currentNode->g + euclideanDistance(neighbour->point, goal);
 
 				if (neighbour->status != NodeStatus::Open || gTentative < neighbour->g)
@@ -158,9 +158,11 @@ std::vector<Point> Pathfinder::findPath(Level& level, const Point& start, const 
 						addToOpenSet(neighbour);
 					}
 				}
+
 			}
 		}
 	}
+	//Return empty path if there is no route
 	std::vector<Point> EmptyPath;
 	return EmptyPath;
 	//throw PathfinderError();

@@ -81,7 +81,6 @@ void drawPath(Point& point, Level& level, std::vector<Point>& path, SDL_Renderer
 
 void AgentManager::UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* renderer, Level& level)
 {
-
 	// Update agents and draw agent paths
 	for (int i = 0; i < allAgents.size(); i++)
 	{
@@ -98,6 +97,7 @@ void AgentManager::UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* ren
 	//Render Agents
 	for (Agent& agent : allAgents)
 	{
+
 		RenderAgents(agent, renderer, level);
 		//agentBehaviour.DecideTask(level, agent);
 	}
@@ -108,7 +108,7 @@ void AgentManager::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& lev
 
 	int x = agent.getX() + (agent.getSize() / 2);
 	int y = agent.getY() + (agent.getSize() / 2);
-	if (agent.characterType == "NPC" && agent.isAlive)
+	if (agent.characterType == "NPC")
 	{
 		//npcDown.alterTextureColour(0, rand(), 0);
 		npcDown.renderRotation(renderer, x + agent.getOffsetX(), y + agent.getOffsetY(), agent.getSize(), agent.getSize(), agent.agentRotation);

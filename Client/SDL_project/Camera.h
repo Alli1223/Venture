@@ -9,23 +9,26 @@ public:
 		TARGET_MODE_NORMAL = 0,
 		TARGET_MODE_CENTER
 	};
-public:
 	void OnMove(int MoveX, int MoveY);
 
 	int TargetMode;
 
-	int GetX();
-	int GetY();
+	int getX();
+	int getY();
 
 	void SetPos(int X, int Y);
 
 	void SetTarget(int* X, int* Y);
+
+	int xoffset = 0, yoffset = 0;
 
 	static Camera CameraControl;
 
 private:
 	int X;
 	int Y;
+
+	
 
 	int* TargetX;
 	int* TargetY;

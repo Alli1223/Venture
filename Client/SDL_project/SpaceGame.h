@@ -27,6 +27,8 @@
 #include "ProceduralTerrain.h"
 #include "Camera.h"
 #include "Inventory.h"
+#include "UserInput.h"
+
 
 //! The main class
 /*!
@@ -65,6 +67,7 @@ public:
 	NetworkClient networkClient;
 	ProceduralTerrain terrainGen;
 	Camera camera;
+	UserInput input;
 
 	
 
@@ -89,9 +92,11 @@ public:
 
 	bool spawnPlayer = true;
 	
-	bool useNetworking = false;
-	
+	bool useNetworking = true;
 
+	//! Whether the game is running or not
+	bool running = true;
+	bool menu;
 	//! Network update tick
 	float timer;
 private:
@@ -106,8 +111,6 @@ private:
 
 	Texture backgroundTexture;
 
-	//! Whether the game is running or not
-	bool running;
-	bool menu;
+	
 };
 

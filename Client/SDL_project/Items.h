@@ -19,6 +19,8 @@ public:
 		};
 	};
 
+	bool isBerry = false;
+
 	bool isInInventory = false;
 
 
