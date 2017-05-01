@@ -3,25 +3,26 @@
 
 
 // Populates a 2 dimentional vector with pointers to cells
-void Level::makeGrid(int Window_Width, int Window_Height)
+void Level::makeOrExtendGrid(int Level_Width, int Level_Height, int originX, int originY)
 {
 	// Calculate the number of cells on each axis
-	int XAxis_Max = (Window_Width);
-	int YAxis_Max = (Window_Width);
-	levelWidth = Window_Width;
-	levelHeight = Window_Height;
-	for (int x = 0; x < XAxis_Max; x++)
+	levelWidth = Level_Width;
+	levelHeight = Level_Height;
+	int center = 2000;
+	
+	for (int x = originX; x < Level_Width + originX; x++)
 	{
 		// Pushes back a column into the row
 		std::vector<std::shared_ptr<Cell>> column;
 		grid.push_back(column);
-		for (int y = 0; y < YAxis_Max; y++)
+		for (int y = originY; y < Level_Height + originY; y++)
 		{
 			// Populates the column with pointers to cells
-			Cell cell(x,y);
+			Cell cell(x + center,y + center);
 			
 			auto sharedCell = std::make_shared<Cell> (cell);
 			grid[x].push_back(sharedCell);
+	
 		}
 	}
 }
@@ -32,13 +33,12 @@ void Level::addRowToGrid(std::string direction, int numberOfRows)
 	std::vector<std::shared_ptr<Cell>> column;
 	if (direction == "RIGHT")
 	{
-
 		for (int y = 0; y < levelHeight; y++)
 		{
 			Cell cell(grid.size(), y);
 
 			auto sharedCell = std::make_shared<Cell>(cell);
-			grid[grid.size()].push_back(sharedCell);
+			grid[0].push_back(sharedCell);
 		}
 	}
 

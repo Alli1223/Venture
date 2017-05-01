@@ -21,6 +21,8 @@ public:
 	void SetTarget(int* X, int* Y);
 
 	int xoffset = 0, yoffset = 0;
+	int WindowWidth = 0;
+	int WindowHeight = 0;
 
 	static Camera CameraControl;
 
@@ -28,13 +30,10 @@ private:
 	int X;
 	int Y;
 
-	
-
 	int* TargetX;
 	int* TargetY;
 
-	int WindowWidth = 1920;
-	int WindowHeight = 1080;
+	
 
 
 

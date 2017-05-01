@@ -52,14 +52,14 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//CAMERA
 		//Set offset to camera
-		if (state[SDL_SCANCODE_RIGHT] && camera.getX() / cellSize < level.grid.size())
+		if (state[SDL_SCANCODE_RIGHT] && camera.xoffset < level.grid.size() - camera.WindowWidth / cellSize )
 		{
 			camera.xoffset++;
 			for (int i = 0; i < agentManager.allAgents.size(); i++)
 				agentManager.allAgents[i].setOffsetX(-camera.xoffset * cellSize);
 
 		}
-		if (state[SDL_SCANCODE_DOWN] && camera.yoffset < level.grid[0].size())
+		if (state[SDL_SCANCODE_DOWN] && camera.yoffset < level.grid[0].size() - camera.WindowHeight / cellSize)
 		{
 			camera.yoffset++;
 			for (int i = 0; i < agentManager.allAgents.size(); i++)
@@ -84,6 +84,12 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 			level.setCellSize(level.getCellSize() + 1);
 		if (state[SDL_SCANCODE_PAGEDOWN])
 			level.setCellSize(level.getCellSize() - 1);
+
+		if (state[SDL_SCANCODE_SPACE])
+		{
+			camera.xoffset = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() / cellSize + ((camera.WindowWidth) / cellSize);
+			camera.yoffset = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() / cellSize + ((camera.WindowHeight) / cellSize);
+		}
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Player Actions

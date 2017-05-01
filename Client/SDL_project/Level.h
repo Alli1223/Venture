@@ -23,8 +23,11 @@ public:
 	//! The base grid that contains the cells
 	std::vector<std::vector<std::shared_ptr<Cell>>> grid;
 
+	//! Stores the value for the center of the level so that the grid can spawn cells in the negative direction
+	const unsigned int centerOfArray = 1000000;
+
 	//! Fills grid with vectors of shared pointers to cells
-	void makeGrid(int Window_Width, int Window_Height);
+	void makeOrExtendGrid(int Level_Width, int Level_Height, int originX, int originY);
 	void Level::addRowToGrid(std::string direction, int numberOfRows);
 
 

@@ -63,7 +63,7 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int x, int
 
 	//Base Ground Textures
 	if (level.grid[x][y]->isGrass)
-		if (rand() % 2 < 0)
+		if (sin(level.grid[x][y]->terrainNoiseValue) > 0.5)
 			Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
 		else
 			Grass2Texture.render(renderer, xPos, yPos, cellSize, cellSize);

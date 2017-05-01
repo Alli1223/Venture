@@ -9,8 +9,8 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH;
+	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
+	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
 	window = SDL_CreateWindow("SpaceGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
@@ -38,9 +38,11 @@ void SpaceGame::run()
 {
 	// Creates a grid of cells
 	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	level.makeGrid(200, 200);
+	level.makeOrExtendGrid(200, 200, 0, 0);
+
 	terrainGen.populateTerrain(level);
 	int cellSize = level.getCellSize();
+
 	
 
 
@@ -78,6 +80,8 @@ void SpaceGame::run()
 	}
 	//int xoffset = 0, yoffset = 0;
 	camera.SetPos(0, 0);
+	camera.WindowHeight = WINDOW_HEIGHT;
+	camera.WindowWidth = WINDOW_WIDTH;
 	
 
 	// values for the network update timer
@@ -117,7 +121,15 @@ void SpaceGame::run()
 			berry.isBerry = true;
 			agentManager.allAgents[0].inventory.add(berry);
 			std::cout << agentManager.allAgents[0].inventory.getSize() << std::endl;
+			level.makeOrExtendGrid(200, 200, 200, 0);
+			terrainGen.populateTerrain(level);
+			
 		}
+
+		//Move player
+		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
+			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].Move(level, Point(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() / cellSize, agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() / cellSize), Point(mouse_X / cellSize, mouse_Y / cellSize));
+
 
 
 		// Rendering process:
