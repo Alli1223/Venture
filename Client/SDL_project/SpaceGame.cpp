@@ -9,8 +9,8 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
+	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT;
+	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH;
 	window = SDL_CreateWindow("SpaceGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
@@ -23,9 +23,6 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 	{
 		throw InitialisationError("SDL_CreateRenderer failed");
 	}
-
-	
-	
 }
 
 SpaceGame::~SpaceGame()
@@ -79,8 +76,6 @@ void SpaceGame::run()
 		player.setY(WINDOW_HEIGHT / 2);
 		agentManager.SpawnAgent(player);
 	}
-	
-	int oldPlayerX = 0, oldPlayerY = 0;
 	//int xoffset = 0, yoffset = 0;
 	camera.SetPos(0, 0);
 	

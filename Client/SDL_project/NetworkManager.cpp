@@ -44,16 +44,7 @@ int GetGameInfo(std::string message)
 //! main netwrok update function
 void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager)
 {
-	//("{<" + clientName + "> X:" +  character.getX() + ". Y:" +  character.getY() + ". ACT:" + Action + "." + "}");
-
-
-	// Request player locations
-	//sendTCPMessage("PLAYER_LOCATIONS_REQUEST\n");
-
-
-
 	std::string name = localPlayerName;
-	//std::string Action = "ACT:" + agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].characterType + ".";
 	std::string playerPosition = "X:" + std::to_string(agentManager.allAgents[0].getX()) + ".Y:" + std::to_string(agentManager.allAgents[0].getY()) + ".";
 
 	sendTCPMessage("{<" + localPlayerName + "> " + playerPosition + "}\n");
