@@ -38,12 +38,10 @@ void SpaceGame::run()
 {
 	// Creates a grid of cells
 	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	level.makeOrExtendGrid(200, 200, 0, 0);
+	level.makeOrExtendGrid(800, 800, 0, 0);
 
 	terrainGen.populateTerrain(level);
 	int cellSize = level.getCellSize();
-
-	
 
 
 	// If the client wants to connect to loopback address or external server
@@ -73,6 +71,7 @@ void SpaceGame::run()
 
 		Agent player;
 		player.characterType = "Player";
+		player.setSpeed(5);
 		player.setID(playerName);
 		player.setX(WINDOW_WIDTH / 2);
 		player.setY(WINDOW_HEIGHT / 2);
@@ -106,8 +105,10 @@ void SpaceGame::run()
 		{
 			runNetworkTick = false;
 			networkManager.NetworkUpdate(level, agentManager);
+			std::cout << level.grid.size() << " " << level.grid[0].size() << std::endl;
 		}
-
+		terrainGen.GenerateTerrain(level, agentManager);
+		
 		// Synchronse the network update thread
 		//networkUpdateThread.join();
 		input.HandleUserInput(level, agentManager, networkManager, camera, playerName, useNetworking);
@@ -121,14 +122,14 @@ void SpaceGame::run()
 			berry.isBerry = true;
 			agentManager.allAgents[0].inventory.add(berry);
 			std::cout << agentManager.allAgents[0].inventory.getSize() << std::endl;
-			level.makeOrExtendGrid(200, 200, 200, 0);
-			terrainGen.populateTerrain(level);
+			//level.makeOrExtendGrid(200, 200, 200, 0);
+			//terrainGen.populateTerrain(level);
 			
 		}
 
 		//Move player
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
-			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].Move(level, Point(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() / cellSize, agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() / cellSize), Point(mouse_X / cellSize, mouse_Y / cellSize));
+			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].Move(level, Point((agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() / cellSize) + camera.xoffset, (agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() / cellSize) + camera.yoffset), Point(mouse_X / cellSize, mouse_Y / cellSize));
 
 
 
@@ -146,15 +147,10 @@ void SpaceGame::run()
 		{
 			for (int y = camera.getY() / cellSize; y < camera.getY() / cellSize + WINDOW_HEIGHT / cellSize; y++)
 			{
-
 				//Renders all he cells
 				cellrenderer.RenderCells(level, renderer, x, y, camera.xoffset, camera.yoffset);
-
-
-			} //End for Y loop
-		}//End for X loop
-
-
+			} 
+		}
 		// Render characters
 		agentManager.UpdateAgents(agentManager.allAgents, renderer, level);
 
@@ -165,7 +161,7 @@ void SpaceGame::run()
 
 		///////////////////////////////////////
 		//MENU
-		//////////////////////////////////////
+		///////////////////////////////////////
 
 		if (menu)
 		{

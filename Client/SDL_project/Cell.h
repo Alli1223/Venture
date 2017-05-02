@@ -96,6 +96,9 @@ public:
 	bool isBerryPlant = false;
 	bool isBush = false;
 
+	bool isTown = false;
+	bool isBuilding = false;
+
 
 	//Item cellItem;
 	

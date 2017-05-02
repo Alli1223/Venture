@@ -34,7 +34,7 @@ public:
 protected:
 	int x = 0, y = 0;
 	//! The size that the cell will be rendered at
-	int cellSize = 50;
+	int cellSize = 5;
 	int levelWidth, levelHeight;
 };
 

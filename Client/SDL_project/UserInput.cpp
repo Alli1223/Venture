@@ -52,7 +52,7 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//CAMERA
 		//Set offset to camera
-		if (state[SDL_SCANCODE_RIGHT] && camera.xoffset < level.grid.size() - camera.WindowWidth / cellSize )
+		if (state[SDL_SCANCODE_RIGHT] && camera.xoffset < level.grid.size() - camera.WindowWidth / cellSize)
 		{
 			camera.xoffset++;
 			for (int i = 0; i < agentManager.allAgents.size(); i++)
@@ -87,8 +87,8 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 
 		if (state[SDL_SCANCODE_SPACE])
 		{
-			camera.xoffset = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() / cellSize + ((camera.WindowWidth) / cellSize);
-			camera.yoffset = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() / cellSize + ((camera.WindowHeight) / cellSize);
+			camera.xoffset = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() / cellSize + (camera.WindowWidth / cellSize / 2);
+			camera.yoffset = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() / cellSize + (camera.WindowHeight / cellSize / 2);
 		}
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

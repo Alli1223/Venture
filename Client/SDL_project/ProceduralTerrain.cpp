@@ -11,6 +11,43 @@ ProceduralTerrain::~ProceduralTerrain()
 {
 }
 
+void ProceduralTerrain::GenerateTerrain(Level& level, AgentManager& agentManager)
+{
+	if (agentManager.allAgents[0].getCellX() > level.grid.size() / 2)
+	{
+		//level.makeOrExtendGrid(level.getLevelWidth(), level.getLevelHeight(), generateTerrainXPos, generateTerrainYPos);
+		//generateTerrainXPos += level.getLevelWidth();
+		//generateTerrainYPos += 200;
+	}
+}
+
+void ProceduralTerrain::SpawnTown(Level& level)
+{
+	if (numOfTowns >= 1)
+	{
+		bool townFound = false;
+		numOfTowns--;
+		while (!townFound)
+		{
+			int x = rand() % level.grid.size();
+			int y = rand() % level.grid[0].size();
+			if (level.grid[x][y]->terrainNoiseValue > 3)
+			{
+				for (int tX = x; tX < townSize + x; tX++)
+					for (int tY = y; tY < townSize + y; tY++)
+					{
+						// Clear the ground
+						level.grid[tX][tY]->isGrass = true;
+						level.grid[tX][tY]->isVegetation = false;
+						level.grid[tX][tY]->isDirt = true;
+						level.grid[tX][tY]->isWater = false;
+					}
+				townFound = true;
+			}
+		}
+	}
+}
+
 
 void ProceduralTerrain::spawnTrees(Level& level)
 {
@@ -19,7 +56,7 @@ void ProceduralTerrain::spawnTrees(Level& level)
 	{
 		int x = rand() % level.grid.size();
 		int y = rand() % level.grid[0].size();
-		if (!level.grid[x][y]->isVegetation && !level.grid[x][y]->isWater && !level.grid[x][y]->isSand)
+		if (!level.grid[x][y]->isVegetation && !level.grid[x][y]->isWater && !level.grid[x][y]->isSand && !level.grid[x][y]->isTown)
 		{
 			level.grid[x][y]->isVegetation = true;
 			int treeType = rand() % 2;
@@ -147,6 +184,7 @@ void ProceduralTerrain::populateTerrain(Level& level)
 			
 		}
 	}
+	SpawnTown(level);
 	spawnTrees(level);
 	spawnVegetation(level);
 }

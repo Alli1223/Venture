@@ -4,6 +4,7 @@
 #include "Level.h"
 #include "point.h"
 #include "Camera.h"
+#include "AgentManager.h"
 
 class ProceduralTerrain
 {
@@ -25,6 +26,9 @@ public:
 	void ProceduralTerrain::spawnVegetation(Level& level);
 	void ProceduralTerrain::generateGrass(Level& level, int x, int y);
 	void ProceduralTerrain::populateTerrain(Level& level);
+	void ProceduralTerrain::GenerateTerrain(Level& level, AgentManager& agentManager);
+	void ProceduralTerrain::SpawnTown(Level& level);
+
 
 	//! The base grid that contains the cells
 	//std::vector<std::vector<std::shared_ptr<Cell>>> grid;
@@ -35,13 +39,18 @@ private:
 	int groundSeed = seed + 36945;
 	int pathSeed = seed + 1255;
 
+	int numOfTowns = 2;
+	int townSize = 50;
+
+	int generateTerrainXPos = 0, generateTerrainYPos = 0;
+
 	float terrainNoiseOffest = 180.0;
 	float forrestNoiseOffset = 180.0;
 
 	float forrestAmplifier = 1.5;
 
-	int numberOfTrees = 5000;
-	int numberOfPlants = 10000;
+	int numberOfTrees = 500;
+	int numberOfPlants = 1000;
 
 };
 
