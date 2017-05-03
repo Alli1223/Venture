@@ -18,7 +18,7 @@ void Level::makeOrExtendGrid(int Level_Width, int Level_Height, int originX, int
 		for (int y = originY; y < Level_Height + originY; y++)
 		{
 			// Populates the column with pointers to cells
-			Cell cell(x + center,y + center);
+			Cell cell(x - center,y - center);
 			
 			auto sharedCell = std::make_shared<Cell> (cell);
 			grid[x].push_back(sharedCell);

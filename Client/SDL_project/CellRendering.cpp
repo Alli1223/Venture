@@ -38,7 +38,12 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	SandTexture(TerrainSpriteTextureLocation + "Sand.png"),
 	LongGrass1(TerrainSpriteTextureLocation + "LongGrass1.png"),
 	LongGrass2(TerrainSpriteTextureLocation + "LongGrass2.png"),
-	LongGrass3(TerrainSpriteTextureLocation + "LongGrass3.png")
+	LongGrass3(TerrainSpriteTextureLocation + "LongGrass3.png"),
+	StoneWallTexture(TerrainSpriteTextureLocation + "StoneWall.png"),
+	TreeOneTexture(TreeTerrainSpriteTextureLocation + "Tree1.png"),
+	TreeTwoTexture(TreeTerrainSpriteTextureLocation + "Tree2.png"),
+	TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png")
+
 {
 }
 
@@ -73,6 +78,8 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int x, int
 		WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 	if (level.grid[x][y]->isSand)
 		SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+	if(level.grid[x][y]->isStoneWall)
+		StoneWallTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 
 
 	if (level.grid[x][y]->isVegetation)
@@ -80,8 +87,14 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int x, int
 		//Trees
 		if (level.grid[x][y]->isFernTree)
 			FernTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
-		else if (level.grid[x][y]->isOakTree)
+		if (level.grid[x][y]->isOakTree)
 			OakTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
+		if (level.grid[x][y]->isTreeOne)
+			TreeOneTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		if (level.grid[x][y]->isTreeTwo)
+			TreeTwoTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+		if (level.grid[x][y]->isTreeThree)
+			TreeThreeTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 
 		//Flowers
 		if (level.grid[x][y]->isFlower1)

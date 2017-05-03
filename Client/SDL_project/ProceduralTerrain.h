@@ -49,8 +49,8 @@ private:
 
 	float forrestAmplifier = 1.5;
 
-	int numberOfTrees = 500;
-	int numberOfPlants = 1000;
+	int numberOfTrees = 5000;
+	int numberOfPlants = 10000;
 
 };
 

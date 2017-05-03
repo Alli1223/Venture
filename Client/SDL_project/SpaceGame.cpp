@@ -38,7 +38,7 @@ void SpaceGame::run()
 {
 	// Creates a grid of cells
 	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	level.makeOrExtendGrid(800, 800, 0, 0);
+	level.makeOrExtendGrid(400, 400, 0, 0);
 
 	terrainGen.populateTerrain(level);
 	int cellSize = level.getCellSize();

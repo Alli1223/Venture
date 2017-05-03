@@ -230,18 +230,14 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 			}
 		}
 
-		//Spawn new player
+		// Spawn new player
 		else
 		{
 			if (otherPlayerName.size() > 1 && otherPlayerName != localPlayerName)
 			{
 				otherPlayerNames.push_back(otherPlayerName);
 				Agent newPlayer;
-				// If the agent is first player
-
 				newPlayer.characterType = "NPC";
-				newPlayer.agentCanRotate = true;
-
 				newPlayer.setID(otherPlayerName);
 				agentManager.SpawnAgent(newPlayer);
 			}

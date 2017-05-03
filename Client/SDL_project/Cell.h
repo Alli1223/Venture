@@ -83,9 +83,12 @@ public:
 	bool isGrass = false;
 	bool isLongGrass = false;
 	bool isDirt = false;
+
 	bool isOakTree = false;
 	bool isFernTree = false;
-
+	bool isTreeOne = false;
+	bool isTreeTwo = false;
+	bool isTreeThree = false;
 
 	bool isWater = false;
 	bool isSand = false;
@@ -98,6 +101,7 @@ public:
 
 	bool isTown = false;
 	bool isBuilding = false;
+	bool isStoneWall = false;
 
 
 	//Item cellItem;
@@ -109,4 +113,6 @@ public:
 private:
 	//! The Cells X and Y values
 	int x = 0, y = 0;
+
+	int globalX = 0, GlobalY = 0;
 };
