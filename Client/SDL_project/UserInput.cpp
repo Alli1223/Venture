@@ -11,14 +11,15 @@ UserInput::~UserInput()
 {
 }
 
-void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, std::string playerName, bool useNetworking)
+void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, std::string playerName, bool useNetworking, bool& running)
 {
 	int cellSize = level.getCellSize();
 	SDL_Event ev;
 	if (SDL_PollEvent(&ev))
 	{
 		const Uint8 *state = SDL_GetKeyboardState(NULL);
-
+		if (state[SDL_SCANCODE_ESCAPE])
+			running = false;
 
 		// Player Movement
 		if (state[SDL_SCANCODE_S])

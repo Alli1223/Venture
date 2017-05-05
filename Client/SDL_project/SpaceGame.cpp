@@ -38,7 +38,7 @@ void SpaceGame::run()
 {
 	// Creates a grid of cells
 	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	level.makeOrExtendGrid(400, 400, 0, 0);
+	level.makeOrExtendGrid(300, 200, 0, 0);
 
 	terrainGen.populateTerrain(level);
 	int cellSize = level.getCellSize();
@@ -69,6 +69,16 @@ void SpaceGame::run()
 		networkManager.setPlayerName(playerName);
 		std::cout << "PlayerName: " << playerName << std::endl;
 
+		Agent player;
+		player.characterType = "Player";
+		player.setSpeed(5);
+		player.setID(playerName);
+		player.setX(WINDOW_WIDTH / 2);
+		player.setY(WINDOW_HEIGHT / 2);
+		agentManager.SpawnAgent(player);
+	}
+	else
+	{
 		Agent player;
 		player.characterType = "Player";
 		player.setSpeed(5);
@@ -111,10 +121,9 @@ void SpaceGame::run()
 		
 		// Synchronse the network update thread
 		//networkUpdateThread.join();
-		input.HandleUserInput(level, agentManager, networkManager, camera, playerName, useNetworking);
-		const Uint8 *state = SDL_GetKeyboardState(NULL);
-		if (state[SDL_SCANCODE_ESCAPE])
-			running = false;
+		input.HandleUserInput(level, agentManager, networkManager, camera, playerName, useNetworking, running);
+
+
 
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 		{
@@ -184,9 +193,12 @@ void SpaceGame::run()
 		SDL_RenderPresent(renderer);
 		// End while running
 	}
-	// Send quit message and close socket when game ends
-	networkManager.sendTCPMessage("QUIT\n");
-	networkManager.socket->close();
+	if (useNetworking)
+	{
+		// Send quit message and close socket when game ends
+		networkManager.sendTCPMessage("QUIT\n");
+		networkManager.socket->close();
+	}
 }
 
 

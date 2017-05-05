@@ -109,6 +109,8 @@
     <ClCompile Include="UserInput.cpp">
       <Filter>Source Files\Main Game Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Character.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fire.h">
@@ -228,6 +230,8 @@
     <ClInclude Include="UserInput.h">
       <Filter>Headers\Main Game Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Character.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />

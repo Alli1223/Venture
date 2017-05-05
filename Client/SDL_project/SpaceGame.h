@@ -28,6 +28,7 @@
 #include "Camera.h"
 #include "Inventory.h"
 #include "UserInput.h"
+#include "Player.h"
 
 
 //! The main class
@@ -68,12 +69,7 @@ public:
 	ProceduralTerrain terrainGen;
 	Camera camera;
 	UserInput input;
-
-	
-
-
-	//! Conains the list of nodes that makes the path
-	//std::vector<Point> path;
+	Player player;
 
 	//! Contains a list of all the ship
 	std::vector<Ship> allShips;
@@ -92,7 +88,7 @@ public:
 
 	bool spawnPlayer = true;
 	
-	bool useNetworking = true;
+	bool useNetworking = false;
 
 	//! Whether the game is running or not
 	bool running = true;

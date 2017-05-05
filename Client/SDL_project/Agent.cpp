@@ -17,7 +17,7 @@ void Agent::Update(Level& level)
 	int cellSize = level.getCellSize();
 	setCellX(getX() / level.getCellSize());
 	setCellY(getY() / level.getCellSize());
-	agentPointLocation = Point(getCellX(), getCellY());
+	getAgentPointLocation() = Point(getCellX(), getCellY());
 
 	// Decrease/Increase stats over time
 	tiredness = tiredness + tirednessDecayRate;
@@ -48,8 +48,8 @@ void Agent::Update(Level& level)
 		}
 
 		// Multiply direction by magnitude 
-		deltaX *= speed;
-		deltaY *= speed;
+		deltaX *= getSpeed();
+		deltaY *= getSpeed();
 
 		if (getX() - deltaX > 0 && getY() - deltaY > 0)
 		{
@@ -69,20 +69,20 @@ void Agent::Update(Level& level)
 		//this->isAlive = false;
 
     //if agent reaches bed || toilet then reset values
-	if (level.grid[cellX][cellY]->isToilet)
+	if (level.grid[getCellX()][getCellY()]->isToilet)
 		this->setToiletNeed(0.0);
-	if (level.grid[cellX][cellY]->isBed)
+	if (level.grid[getCellX()][getCellY()]->isBed)
 		this->setTiredness(0.0);
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 
 	//Add berry to inventory
-	if (level.grid[cellX][cellY]->isBerryPlant && state[SDL_SCANCODE_F])
+	if (level.grid[getCellX()][getCellY()]->isBerryPlant && state[SDL_SCANCODE_F])
 	{
 		Item berry;
 		berry.isBerry = true;
 		inventory.add(berry);
-		level.grid[cellX][cellY]->isBerryPlant = false;
-		level.grid[cellX][cellY]->isBush = true;
+		level.grid[getCellX()][getCellY()]->isBerryPlant = false;
+		level.grid[getCellX()][getCellY()]->isBush = true;
 	}
 
 	// Agent will wonder randomly when idle
