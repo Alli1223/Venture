@@ -2,6 +2,27 @@
 #include "Level.h"
 
 
+void Level::CreateChunk(int initX, int initY)
+{
+	Chunk chunk(initX, initY);
+	
+	for (int x = 0; x < chunk.chunkSize ; x++)
+	{
+		std::vector<std::shared_ptr<Cell>> column;
+		chunk.grid.push_back(column);
+		for (int y = 0; y < chunk.chunkSize; y++)
+		{
+			// Populates the column with pointers to cells
+			Cell cell(initX + x, initY + y);
+			auto sharedCell = std::make_shared<Cell>(cell);
+			chunk.grid[x].push_back(sharedCell);
+		}
+	}
+	auto sharedChunk = std::make_shared<Chunk>(chunk);
+	chunks.push_back(sharedChunk);
+	 
+}
+
 // Populates a 2 dimentional vector with pointers to cells
 void Level::makeOrExtendGrid(int Level_Width, int Level_Height, int originX, int originY)
 {
@@ -46,6 +67,12 @@ void Level::addRowToGrid(std::string direction, int numberOfRows)
 
 Level::Level()
 {
+}
+
+Level::Level(int initX, int initY)
+{
+	x = initX;
+	y = initY;
 }
 
 

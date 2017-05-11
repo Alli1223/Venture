@@ -38,10 +38,22 @@ void SpaceGame::run()
 {
 	// Creates a grid of cells
 	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	level.makeOrExtendGrid(300, 200, 0, 0);
+	//level.makeOrExtendGrid(300, 200, 0, 0);
 
-	terrainGen.populateTerrain(level);
+	//Level world(0,0);
+	for(int x = 0; x < 4 * 16; x += 16)
+		for (int y = 0; y < 4 * 16; y += 16)
+		{
+			level.CreateChunk(x, y);
+		}
+	
+	//level.chunks[0]->grid[0][0]->isDirt = true;
+
+
+	//terrainGen.populateTerrain(level);
 	int cellSize = level.getCellSize();
+
+
 
 
 	// If the client wants to connect to loopback address or external server
@@ -117,7 +129,7 @@ void SpaceGame::run()
 			networkManager.NetworkUpdate(level, agentManager);
 			std::cout << level.grid.size() << " " << level.grid[0].size() << std::endl;
 		}
-		terrainGen.GenerateTerrain(level, agentManager);
+		//terrainGen.GenerateTerrain(level, agentManager);
 		
 		// Synchronse the network update thread
 		//networkUpdateThread.join();
@@ -157,7 +169,7 @@ void SpaceGame::run()
 			for (int y = camera.getY() / cellSize; y < camera.getY() / cellSize + WINDOW_HEIGHT / cellSize; y++)
 			{
 				//Renders all he cells
-				cellrenderer.RenderCells(level, renderer, x, y, camera.xoffset, camera.yoffset);
+				//cellrenderer.RenderCells(level, renderer, x, y, camera.xoffset, camera.yoffset);
 			} 
 		}
 		// Render characters

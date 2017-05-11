@@ -17,6 +17,9 @@ public:
 	//! A destructor 
 	~Cell();
 
+	std::string getCellID() { return cellID; };
+	std::string setCellID(std::string newCellID) { return cellID = newCellID; }
+
 	// Getter functions
 	//! Gets the Cell's X value
 	int getX() const { return x; }
@@ -65,7 +68,6 @@ public:
 	bool isCargo = false;
 	//! Whether the cell is a hydroponics bay
 	bool isHydroponicsBay = false;
-	std::string hydroponicsOrientation = "NA";
 
 	double terrainNoiseValue = 0;
 
@@ -113,6 +115,8 @@ public:
 private:
 	//! The Cells X and Y values
 	int x = 0, y = 0;
+
+	std::string cellID;
 
 	int globalX = 0, GlobalY = 0;
 };

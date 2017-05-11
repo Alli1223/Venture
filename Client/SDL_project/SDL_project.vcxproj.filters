@@ -109,8 +109,13 @@
     <ClCompile Include="UserInput.cpp">
       <Filter>Source Files\Main Game Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Chunk.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fire.h">
@@ -230,8 +235,13 @@
     <ClInclude Include="UserInput.h">
       <Filter>Headers\Main Game Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Character.h" />
+    <ClInclude Include="Character.h">
+      <Filter>Headers\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Headers\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Chunk.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />
@@ -324,6 +334,12 @@
     </Filter>
     <Filter Include="Source Files\Level Classes\PCG">
       <UniqueIdentifier>{d3abee87-400c-43d1-8dc3-aea6d835fd0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Character">
+      <UniqueIdentifier>{94302ab8-34ec-41bb-9995-90d3808226d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Character">
+      <UniqueIdentifier>{f75a61e0-c2c9-4131-98b1-e2529cba3128}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

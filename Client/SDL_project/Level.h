@@ -1,5 +1,6 @@
 #pragma once
 #include "Cell.h"
+#include "Chunk.h"
 
 //! This class generates the base of the level 
 /*!
@@ -11,6 +12,8 @@ class Level
 public:
 	//! A constructor
 	Level();
+
+	Level(int x, int y);
 	//! A deconstructor 
 	~Level();
 
@@ -23,8 +26,9 @@ public:
 	//! The base grid that contains the cells
 	std::vector<std::vector<std::shared_ptr<Cell>>> grid;
 
-	//! Stores the value for the center of the level so that the grid can spawn cells in the negative direction
-	const unsigned int centerOfArray = 1000000;
+	std::vector<std::shared_ptr<Chunk>> chunks;
+
+	void Level::CreateChunk(int initX, int initY);
 
 	//! Fills grid with vectors of shared pointers to cells
 	void makeOrExtendGrid(int Level_Width, int Level_Height, int originX, int originY);
