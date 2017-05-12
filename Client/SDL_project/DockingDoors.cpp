@@ -21,23 +21,23 @@ void DockingDoors::placeDockingDoors(SDL_Renderer* renderer, Level& level)
 
 void DockingDoors::placeAirlockDoor(Level& level, int x, int y, int mouseY)
 {
-	level.grid[x][mouseY / level.getCellSize() + y]->isVerticalAirlock = true;
+	level.tiles[x][mouseY / level.getCellSize() + y]->isVerticalAirlock = true;
 
 
 	if (y == -1)
 	{
-		level.grid[x][mouseY / level.getCellSize() + y]->isAirlockWall = true;
-		level.grid[x][mouseY / level.getCellSize() + y]->isRoom = false;
+		level.tiles[x][mouseY / level.getCellSize() + y]->isAirlockWall = true;
+		level.tiles[x][mouseY / level.getCellSize() + y]->isRoom = false;
 	}
 	else if (y == 1)
 	{
-		level.grid[x][mouseY / level.getCellSize() + y]->isAirlockWall = true;
-		level.grid[x][mouseY / level.getCellSize() + y]->isRoom = false;
+		level.tiles[x][mouseY / level.getCellSize() + y]->isAirlockWall = true;
+		level.tiles[x][mouseY / level.getCellSize() + y]->isRoom = false;
 	}
 	else
 	{
-		level.grid[x][mouseY / level.getCellSize() + y]->isClosedDoor = false;
-		level.grid[x][mouseY / level.getCellSize() + y]->isOpenDoor = true;
+		level.tiles[x][mouseY / level.getCellSize() + y]->isClosedDoor = false;
+		level.tiles[x][mouseY / level.getCellSize() + y]->isOpenDoor = true;
 	}
 }
 
@@ -53,10 +53,10 @@ void DockingDoors::placeEntryPath(Level& level, int orientation)
 		{
 			if (x >= 0 && x <= level.getLevelWidth())
 			{
-				level.grid[x][mouseY / level.getCellSize()]->isDockingPath = true;
+				level.tiles[x][mouseY / level.getCellSize()]->isDockingPath = true;
 
 
-				if (level.grid[x][mouseY / level.getCellSize()]->isRoom)
+				if (level.tiles[x][mouseY / level.getCellSize()]->isRoom)
 				{
 
 					for (int y = -1; y <= 1; y++)
@@ -75,8 +75,8 @@ void DockingDoors::placeEntryPath(Level& level, int orientation)
 		{
 			if (x >= 0 && x <= level.getLevelWidth())
 			{
-				level.grid[x][mouseY / level.getCellSize()]->isDockingPath = true;
-				if (level.grid[x][mouseY / level.getCellSize()]->isRoom)
+				level.tiles[x][mouseY / level.getCellSize()]->isDockingPath = true;
+				if (level.tiles[x][mouseY / level.getCellSize()]->isRoom)
 				{
 
 					for (int y = -1; y <= 1; y++)

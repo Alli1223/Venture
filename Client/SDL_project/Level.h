@@ -24,11 +24,11 @@ public:
 	int getLevelHeight() { return levelHeight; }
 
 	//! The base grid that contains the cells
-	std::vector<std::vector<std::shared_ptr<Cell>>> grid;
-
-	std::vector<std::shared_ptr<Chunk>> chunks;
+	std::vector<std::vector<std::shared_ptr<Cell>>> tiles;
 
 	void Level::CreateChunk(int initX, int initY);
+
+	std::map<int, std::map<int, Chunk>> World;
 
 	//! Fills grid with vectors of shared pointers to cells
 	void makeOrExtendGrid(int Level_Width, int Level_Height, int originX, int originY);

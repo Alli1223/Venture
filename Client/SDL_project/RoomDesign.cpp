@@ -21,41 +21,41 @@ void RoomDesign::designRoom(Level& room, int cellX, int cellY)
 		//RoomDesign::checkCenterCell(room, cellX, cellY);
 
 		//sets the top and cell edges and other little edge cases
-		if (cellX == 0 && room.grid[cellX][cellY]->isRoom)
+		if (cellX == 0 && room.tiles[cellX][cellY]->isRoom)
 		{
-			room.grid[cellX][cellY]->cellOrientation = 6;
+			room.tiles[cellX][cellY]->cellOrientation = 6;
 		}
 
-		if (cellY == 0 && room.grid[cellX][cellY]->isRoom)
+		if (cellY == 0 && room.tiles[cellX][cellY]->isRoom)
 		{
-			room.grid[cellX][cellY]->cellOrientation = 0;
+			room.tiles[cellX][cellY]->cellOrientation = 0;
 		}
 		if (cellY == 0 && cellX == 0)
 		{
-			room.grid[cellX][cellY]->cellOrientation = 7;
+			room.tiles[cellX][cellY]->cellOrientation = 7;
 		}
 
 		//Sets the top row to curved edges
-		if (cellX >= 1 && room.grid[cellX][cellY]->isRoom && !room.grid[cellX - 1][cellY]->isRoom)
+		if (cellX >= 1 && room.tiles[cellX][cellY]->isRoom && !room.tiles[cellX - 1][cellY]->isRoom)
 		{
-			room.grid[cellX][cellY]->cellOrientation = 7;
+			room.tiles[cellX][cellY]->cellOrientation = 7;
 		}
-		if (cellX >= 1 && room.grid[cellX][cellY]->isRoom && !room.grid[cellX + 1][cellY]->isRoom)
+		if (cellX >= 1 && room.tiles[cellX][cellY]->isRoom && !room.tiles[cellX + 1][cellY]->isRoom)
 		{
-			room.grid[cellX][cellY]->cellOrientation = 1;
+			room.tiles[cellX][cellY]->cellOrientation = 1;
 		}
 		//sets the left edge to curved edges
-		if (cellY >= 1 && room.grid[cellX][cellY]->isRoom && !room.grid[cellX][cellY - 1]->isRoom)
+		if (cellY >= 1 && room.tiles[cellX][cellY]->isRoom && !room.tiles[cellX][cellY - 1]->isRoom)
 		{
-			room.grid[cellX][cellY]->cellOrientation = 7;
+			room.tiles[cellX][cellY]->cellOrientation = 7;
 		}
-		if (cellY >= 1 && room.grid[cellX][cellY]->isRoom && !room.grid[cellX][cellY + 1]->isRoom)
+		if (cellY >= 1 && room.tiles[cellX][cellY]->isRoom && !room.tiles[cellX][cellY + 1]->isRoom)
 		{
-			room.grid[cellX][cellY]->cellOrientation = 5;
+			room.tiles[cellX][cellY]->cellOrientation = 5;
 		}
 		if (cellX == 1 && cellY == 1)
 		{
-			room.grid[cellX][cellY]->cellOrientation = 8;
+			room.tiles[cellX][cellY]->cellOrientation = 8;
 		}
 
 
@@ -63,17 +63,17 @@ void RoomDesign::designRoom(Level& room, int cellX, int cellY)
 		if (cellX + 1 <= room.getLevelWidth() && cellX - 1 >= 0 && cellY + 1 <= room.getLevelHeight() && cellY - 1 >= 0)
 		{
 			//top
-			if (room.grid[cellX][cellY]->isRoom)
+			if (room.tiles[cellX][cellY]->isRoom)
 			{
-				if (room.grid[cellX + 1][cellY]->isRoom)
+				if (room.tiles[cellX + 1][cellY]->isRoom)
 				{
-					if (room.grid[cellX - 1][cellY]->isRoom)
+					if (room.tiles[cellX - 1][cellY]->isRoom)
 					{
-						if (!room.grid[cellX][cellY - 1]->isRoom)
+						if (!room.tiles[cellX][cellY - 1]->isRoom)
 						{
-							if (room.grid[cellX - 1][cellY]->isRoom)
+							if (room.tiles[cellX - 1][cellY]->isRoom)
 							{
-								room.grid[cellX][cellY]->cellOrientation = 0;
+								room.tiles[cellX][cellY]->cellOrientation = 0;
 							}
 						}
 					}
@@ -84,17 +84,17 @@ void RoomDesign::designRoom(Level& room, int cellX, int cellY)
 
 
 			//top and right
-			if (room.grid[cellX][cellY]->isRoom)
+			if (room.tiles[cellX][cellY]->isRoom)
 			{
-				if (!room.grid[cellX + 1][cellY]->isRoom)
+				if (!room.tiles[cellX + 1][cellY]->isRoom)
 				{
-					if (!room.grid[cellX][cellY - 1]->isRoom)
+					if (!room.tiles[cellX][cellY - 1]->isRoom)
 					{
-						if (room.grid[cellX][cellY + 1]->isRoom)
+						if (room.tiles[cellX][cellY + 1]->isRoom)
 						{
-							if (room.grid[cellX - 1][cellY]->isRoom)
+							if (room.tiles[cellX - 1][cellY]->isRoom)
 							{
-								room.grid[cellX][cellY]->cellOrientation = 1;
+								room.tiles[cellX][cellY]->cellOrientation = 1;
 							}
 						}
 					}
@@ -102,17 +102,17 @@ void RoomDesign::designRoom(Level& room, int cellX, int cellY)
 
 			}
 			//right
-			if (room.grid[cellX][cellY]->isRoom)
+			if (room.tiles[cellX][cellY]->isRoom)
 			{
-				if (!room.grid[cellX + 1][cellY]->isRoom)
+				if (!room.tiles[cellX + 1][cellY]->isRoom)
 				{
-					if (room.grid[cellX][cellY - 1]->isRoom)
+					if (room.tiles[cellX][cellY - 1]->isRoom)
 					{
-						if (room.grid[cellX][cellY + 1]->isRoom)
+						if (room.tiles[cellX][cellY + 1]->isRoom)
 						{
-							if (room.grid[cellX - 1][cellY]->isRoom)
+							if (room.tiles[cellX - 1][cellY]->isRoom)
 							{
-								room.grid[cellX][cellY]->cellOrientation = 2;
+								room.tiles[cellX][cellY]->cellOrientation = 2;
 							}
 						}
 					}
@@ -121,17 +121,17 @@ void RoomDesign::designRoom(Level& room, int cellX, int cellY)
 			}
 
 			//right and bottom
-			if (room.grid[cellX][cellY]->isRoom)
+			if (room.tiles[cellX][cellY]->isRoom)
 			{
-				if (!room.grid[cellX + 1][cellY]->isRoom)
+				if (!room.tiles[cellX + 1][cellY]->isRoom)
 				{
-					if (room.grid[cellX][cellY - 1]->isRoom)
+					if (room.tiles[cellX][cellY - 1]->isRoom)
 					{
-						if (!room.grid[cellX][cellY + 1]->isRoom)
+						if (!room.tiles[cellX][cellY + 1]->isRoom)
 						{
-							if (room.grid[cellX - 1][cellY]->isRoom)
+							if (room.tiles[cellX - 1][cellY]->isRoom)
 							{
-								room.grid[cellX][cellY]->cellOrientation = 3;
+								room.tiles[cellX][cellY]->cellOrientation = 3;
 							}
 						}
 					}
@@ -141,17 +141,17 @@ void RoomDesign::designRoom(Level& room, int cellX, int cellY)
 
 			//bottom
 
-			if (room.grid[cellX][cellY]->isRoom)
+			if (room.tiles[cellX][cellY]->isRoom)
 			{
-				if (room.grid[cellX + 1][cellY]->isRoom)
+				if (room.tiles[cellX + 1][cellY]->isRoom)
 				{
-					if (room.grid[cellX][cellY - 1]->isRoom)
+					if (room.tiles[cellX][cellY - 1]->isRoom)
 					{
-						if (!room.grid[cellX][cellY + 1]->isRoom)
+						if (!room.tiles[cellX][cellY + 1]->isRoom)
 						{
-							if (room.grid[cellX - 1][cellY]->isRoom)
+							if (room.tiles[cellX - 1][cellY]->isRoom)
 							{
-								room.grid[cellX][cellY]->cellOrientation = 4;
+								room.tiles[cellX][cellY]->cellOrientation = 4;
 							}
 						}
 					}
@@ -161,17 +161,17 @@ void RoomDesign::designRoom(Level& room, int cellX, int cellY)
 
 			//bottom and left
 
-			if (room.grid[cellX][cellY]->isRoom)
+			if (room.tiles[cellX][cellY]->isRoom)
 			{
-				if (room.grid[cellX + 1][cellY]->isRoom)
+				if (room.tiles[cellX + 1][cellY]->isRoom)
 				{
-					if (room.grid[cellX][cellY - 1]->isRoom)
+					if (room.tiles[cellX][cellY - 1]->isRoom)
 					{
-						if (!room.grid[cellX][cellY + 1]->isRoom)
+						if (!room.tiles[cellX][cellY + 1]->isRoom)
 						{
-							if (!room.grid[cellX - 1][cellY]->isRoom)
+							if (!room.tiles[cellX - 1][cellY]->isRoom)
 							{
-								room.grid[cellX][cellY]->cellOrientation = 5;
+								room.tiles[cellX][cellY]->cellOrientation = 5;
 							}
 
 						}
@@ -182,17 +182,17 @@ void RoomDesign::designRoom(Level& room, int cellX, int cellY)
 
 			//left
 
-			if (room.grid[cellX][cellY]->isRoom)
+			if (room.tiles[cellX][cellY]->isRoom)
 			{
-				if (room.grid[cellX + 1][cellY]->isRoom)
+				if (room.tiles[cellX + 1][cellY]->isRoom)
 				{
-					if (room.grid[cellX][cellY - 1]->isRoom)
+					if (room.tiles[cellX][cellY - 1]->isRoom)
 					{
-						if (room.grid[cellX][cellY + 1]->isRoom)
+						if (room.tiles[cellX][cellY + 1]->isRoom)
 						{
-							if (!room.grid[cellX - 1][cellY]->isRoom)
+							if (!room.tiles[cellX - 1][cellY]->isRoom)
 							{
-								room.grid[cellX][cellY]->cellOrientation = 6;
+								room.tiles[cellX][cellY]->cellOrientation = 6;
 							}
 						}
 					}
@@ -202,17 +202,17 @@ void RoomDesign::designRoom(Level& room, int cellX, int cellY)
 
 			//left and top
 
-			if (room.grid[cellX][cellY]->isRoom)
+			if (room.tiles[cellX][cellY]->isRoom)
 			{
-				if (room.grid[cellX + 1][cellY]->isRoom)
+				if (room.tiles[cellX + 1][cellY]->isRoom)
 				{
-					if (!room.grid[cellX][cellY - 1]->isRoom)
+					if (!room.tiles[cellX][cellY - 1]->isRoom)
 					{
-						if (room.grid[cellX][cellY + 1]->isRoom)
+						if (room.tiles[cellX][cellY + 1]->isRoom)
 						{
-							if (!room.grid[cellX - 1][cellY]->isRoom)
+							if (!room.tiles[cellX - 1][cellY]->isRoom)
 							{
-								room.grid[cellX][cellY]->cellOrientation = 7;
+								room.tiles[cellX][cellY]->cellOrientation = 7;
 							}
 						}
 					}
@@ -221,18 +221,18 @@ void RoomDesign::designRoom(Level& room, int cellX, int cellY)
 
 			//center
 
-			if (room.grid[cellX][cellY]->isRoom)
+			if (room.tiles[cellX][cellY]->isRoom)
 			{
-				if (room.grid[cellX + 1][cellY]->isRoom)
+				if (room.tiles[cellX + 1][cellY]->isRoom)
 				{
-					if (room.grid[cellX][cellY - 1]->isRoom)
+					if (room.tiles[cellX][cellY - 1]->isRoom)
 					{
-						if (room.grid[cellX][cellY + 1]->isRoom)
+						if (room.tiles[cellX][cellY + 1]->isRoom)
 						{
-							if (room.grid[cellX - 1][cellY]->isRoom)
+							if (room.tiles[cellX - 1][cellY]->isRoom)
 							{
-								room.grid[cellX][cellY]->cellOrientation = 10;
-								room.grid[cellX][cellY]->isWalkable = true;
+								room.tiles[cellX][cellY]->cellOrientation = 10;
+								room.tiles[cellX][cellY]->isWalkable = true;
 							}
 						}
 					}
@@ -240,17 +240,17 @@ void RoomDesign::designRoom(Level& room, int cellX, int cellY)
 			}
 
 			// No center
-			if (!room.grid[cellX][cellY]->isRoom)
+			if (!room.tiles[cellX][cellY]->isRoom)
 			{
-				if (!room.grid[cellX + 1][cellY]->isRoom)
+				if (!room.tiles[cellX + 1][cellY]->isRoom)
 				{
-					if (!room.grid[cellX][cellY - 1]->isRoom)
+					if (!room.tiles[cellX][cellY - 1]->isRoom)
 					{
-						if (!room.grid[cellX][cellY + 1]->isRoom)
+						if (!room.tiles[cellX][cellY + 1]->isRoom)
 						{
-							if (!room.grid[cellX - 1][cellY]->isRoom)
+							if (!room.tiles[cellX - 1][cellY]->isRoom)
 							{
-								room.grid[cellX][cellY]->cellOrientation = 11;
+								room.tiles[cellX][cellY]->cellOrientation = 11;
 							}
 						}
 					}
@@ -278,12 +278,12 @@ bool RoomDesign::checkCenterCell(Level& room, int cellX, int cellY)
 			if (cellX + (x)+1 <= room.getLevelWidth() && cellX + ((x) +  (-1)) >= 0 && cellY + (y) +1 <= room.getLevelHeight() && cellY + ((y) + (-1)) >= 0)
 			{
 				//is a room and not a door
-				if (room.grid[cellX + x][cellY + y]->isRoom && !room.grid[cellX + x][cellY + y]->isOpenDoor)
+				if (room.tiles[cellX + x][cellY + y]->isRoom && !room.tiles[cellX + x][cellY + y]->isOpenDoor)
 				{
 					
-					if (room.grid[cellX + x][cellY + y]->isRoom && !room.grid[cellX][cellY]->isRoom)
+					if (room.tiles[cellX + x][cellY + y]->isRoom && !room.tiles[cellX][cellY]->isRoom)
 					{
-						room.grid[cellX + x][cellY + y]->isHullBreach = true;
+						room.tiles[cellX + x][cellY + y]->isHullBreach = true;
 						return true;
 					}
 				}

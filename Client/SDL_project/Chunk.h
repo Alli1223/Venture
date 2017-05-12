@@ -7,11 +7,11 @@ public:
 	~Chunk();
 	Chunk::Chunk(int initX, int initY);
 
-	std::vector<std::vector<std::shared_ptr<Cell>>> grid;
+	std::vector<std::vector<std::shared_ptr<Cell>>> tiles;
 
 	
 
-	int chunkSize = 16;
+	int chunkSize = 32;
 private:
 	int x = 0;
 	int y = 0;

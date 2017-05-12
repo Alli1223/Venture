@@ -9,18 +9,17 @@ void Level::CreateChunk(int initX, int initY)
 	for (int x = 0; x < chunk.chunkSize ; x++)
 	{
 		std::vector<std::shared_ptr<Cell>> column;
-		chunk.grid.push_back(column);
+		std::cout << "Generating chunk: " << x << std::endl;
+		World[initX][initY].tiles.push_back(column);
 		for (int y = 0; y < chunk.chunkSize; y++)
 		{
 			// Populates the column with pointers to cells
-			Cell cell(initX + x, initY + y);
+			Cell cell(x, y);
+			cell.isGrass = true;
 			auto sharedCell = std::make_shared<Cell>(cell);
-			chunk.grid[x].push_back(sharedCell);
+			World[initX][initY].tiles[x].push_back(sharedCell);
 		}
-	}
-	auto sharedChunk = std::make_shared<Chunk>(chunk);
-	chunks.push_back(sharedChunk);
-	 
+	}	 
 }
 
 // Populates a 2 dimentional vector with pointers to cells
@@ -35,14 +34,14 @@ void Level::makeOrExtendGrid(int Level_Width, int Level_Height, int originX, int
 	{
 		// Pushes back a column into the row
 		std::vector<std::shared_ptr<Cell>> column;
-		grid.push_back(column);
+		tiles.push_back(column);
 		for (int y = originY; y < Level_Height + originY; y++)
 		{
 			// Populates the column with pointers to cells
 			Cell cell(x - center,y - center);
 			
 			auto sharedCell = std::make_shared<Cell> (cell);
-			grid[x].push_back(sharedCell);
+			tiles[x].push_back(sharedCell);
 	
 		}
 	}
@@ -56,10 +55,10 @@ void Level::addRowToGrid(std::string direction, int numberOfRows)
 	{
 		for (int y = 0; y < levelHeight; y++)
 		{
-			Cell cell(grid.size(), y);
+			Cell cell(tiles.size(), y);
 
 			auto sharedCell = std::make_shared<Cell>(cell);
-			grid[0].push_back(sharedCell);
+			tiles[0].push_back(sharedCell);
 		}
 	}
 

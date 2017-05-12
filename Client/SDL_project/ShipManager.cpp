@@ -57,7 +57,7 @@ void ShipManager::findShipSpawn(Level& level, Ship& ship)
 	// find and set intital ship spawn position
 	for (int y = 0; y < level.getLevelHeight(); y++)
 	{
-		if (level.grid[0][y]->isDockingPath)
+		if (level.tiles[0][y]->isDockingPath)
 		{
 			ship.setX(0);
 			ship.setY(y * level.getCellSize() + (level.getCellSize() / 2));
@@ -78,15 +78,15 @@ void ShipManager::shipDocked(Level& level, Ship& ship)
 	{
 		for (int y = -1; y < 2; y++)
 		{
-			level.grid[shipX + x][shipY + y]->isShipCargoBay = true;
-			level.grid[shipX + x][shipY + y]->isRoom = true;
-			level.grid[shipX + x][shipY + y]->oxygenLevel = 100;
+			level.tiles[shipX + x][shipY + y]->isShipCargoBay = true;
+			level.tiles[shipX + x][shipY + y]->isRoom = true;
+			level.tiles[shipX + x][shipY + y]->oxygenLevel = 100;
 
 			if (ship.getAmountOfCargo() > 0)
 			{
 				if (rand() % ship.getAmountOfCargo() == 0)
 				{
-					level.grid[shipX + x][shipY + y]->isCargo = true;
+					level.tiles[shipX + x][shipY + y]->isCargo = true;
 					ship.setAmountOfCargo(ship.getAmountOfCargo() - 1);
 				}
 			}
@@ -118,7 +118,7 @@ void ShipManager::moveShipToDock(Level& level, Ship& ship, int direction)
 {
 	ship.setX(ship.getX() + direction);
 
-	if (level.grid[ship.getX() / level.getCellSize()][ship.getY() / level.getCellSize()]->isVerticalAirlock)
+	if (level.tiles[ship.getX() / level.getCellSize()][ship.getY() / level.getCellSize()]->isVerticalAirlock)
 	{
 		ship.setX(ship.getX());
 		ship.isDocked = true;

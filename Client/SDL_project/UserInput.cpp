@@ -53,14 +53,14 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//CAMERA
 		//Set offset to camera
-		if (state[SDL_SCANCODE_RIGHT] && camera.xoffset < level.grid.size() - camera.WindowWidth / cellSize)
+		if (state[SDL_SCANCODE_RIGHT] && camera.xoffset < level.tiles.size() - camera.WindowWidth / cellSize)
 		{
 			camera.xoffset++;
 			for (int i = 0; i < agentManager.allAgents.size(); i++)
 				agentManager.allAgents[i].setOffsetX(-camera.xoffset * cellSize);
 
 		}
-		if (state[SDL_SCANCODE_DOWN] && camera.yoffset < level.grid[0].size() - camera.WindowHeight / cellSize)
+		if (state[SDL_SCANCODE_DOWN] && camera.yoffset < level.tiles[0].size() - camera.WindowHeight / cellSize)
 		{
 			camera.yoffset++;
 			for (int i = 0; i < agentManager.allAgents.size(); i++)

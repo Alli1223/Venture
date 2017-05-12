@@ -41,11 +41,11 @@ void SpaceGame::run()
 	//level.makeOrExtendGrid(300, 200, 0, 0);
 
 	//Level world(0,0);
-	for(int x = 0; x < 4 * 16; x += 16)
-		for (int y = 0; y < 4 * 16; y += 16)
-		{
-			level.CreateChunk(x, y);
-		}
+
+
+	level.CreateChunk(0, 0);
+	level.CreateChunk(16, 0);
+		
 	
 	//level.chunks[0]->grid[0][0]->isDirt = true;
 
@@ -127,7 +127,7 @@ void SpaceGame::run()
 		{
 			runNetworkTick = false;
 			networkManager.NetworkUpdate(level, agentManager);
-			std::cout << level.grid.size() << " " << level.grid[0].size() << std::endl;
+			std::cout << level.tiles.size() << " " << level.tiles[0].size() << std::endl;
 		}
 		//terrainGen.GenerateTerrain(level, agentManager);
 		
@@ -164,16 +164,12 @@ void SpaceGame::run()
 
 
 
-		for (int x = camera.getX() / cellSize; x < camera.getX() / cellSize + WINDOW_WIDTH / cellSize; x++)
-		{
-			for (int y = camera.getY() / cellSize; y < camera.getY() / cellSize + WINDOW_HEIGHT / cellSize; y++)
-			{
+
 				//Renders all he cells
-				//cellrenderer.RenderCells(level, renderer, x, y, camera.xoffset, camera.yoffset);
-			} 
-		}
+		cellrenderer.RenderCells(level, renderer, camera.xoffset, camera.yoffset);
+
 		// Render characters
-		agentManager.UpdateAgents(agentManager.allAgents, renderer, level);
+		//agentManager.UpdateAgents(agentManager.allAgents, renderer, level);
 
 
 
@@ -222,7 +218,7 @@ bool static isMouseOverRoomCell(Level& level)
 {
 	int mouse_X, mouse_Y;
 	SDL_GetMouseState(&mouse_X, &mouse_Y);
-	if (level.grid[mouse_X / level.getCellSize()][mouse_Y / level.getCellSize()]->isRoom)
+	if (level.tiles[mouse_X / level.getCellSize()][mouse_Y / level.getCellSize()]->isRoom)
 	{
 		return true;
 	}

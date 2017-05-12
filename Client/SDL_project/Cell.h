@@ -16,7 +16,6 @@ public:
 	Cell(int x, int y);
 	//! A destructor 
 	~Cell();
-
 	std::string getCellID() { return cellID; };
 	std::string setCellID(std::string newCellID) { return cellID = newCellID; }
 
