@@ -5,16 +5,16 @@
 void Level::CreateChunk(int initX, int initY)
 {
 	Chunk chunk(initX, initY);
-	
-	for (int x = 0; x < chunk.chunkSize ; x++)
+
+	for (int x = 0; x < chunk.chunkSize; x++)
 	{
 		std::vector<std::shared_ptr<Cell>> column;
-		std::cout << "Generating chunk: " << x << std::endl;
+		std::cout << "Generating chunk: " << x  + (initX * chunk.chunkSize) << std::endl;
 		World[initX][initY].tiles.push_back(column);
 		for (int y = 0; y < chunk.chunkSize; y++)
 		{
 			// Populates the column with pointers to cells
-			Cell cell(x, y);
+			Cell cell(x + (initX * chunk.chunkSize), y + (initY * chunk.chunkSize));
 			cell.isGrass = true;
 			auto sharedCell = std::make_shared<Cell>(cell);
 			World[initX][initY].tiles[x].push_back(sharedCell);

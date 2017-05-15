@@ -9,8 +9,8 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
+	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT;
+	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH;
 	window = SDL_CreateWindow("SpaceGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
@@ -42,9 +42,12 @@ void SpaceGame::run()
 
 	//Level world(0,0);
 
+	//for(int i = -3; i < 3; i++)
+		//for (int j = -3; j < 3;j++)
 
-	level.CreateChunk(0, 0);
-	level.CreateChunk(16, 0);
+	level.CreateChunk(0,0);
+	//level.CreateChunk(2, 0);
+	//level.CreateChunk(1, 0);
 		
 	
 	//level.chunks[0]->grid[0][0]->isDirt = true;
@@ -162,11 +165,9 @@ void SpaceGame::run()
 		//MAIN CELL LOOP
 		///////////////////////////////////
 
-
-
-
 				//Renders all he cells
-		cellrenderer.RenderCells(level, renderer, camera.xoffset, camera.yoffset);
+		cellrenderer.RenderCells(level, renderer, camera);
+
 
 		// Render characters
 		//agentManager.UpdateAgents(agentManager.allAgents, renderer, level);

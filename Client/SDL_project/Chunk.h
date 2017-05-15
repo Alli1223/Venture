@@ -11,7 +11,7 @@ public:
 
 	
 
-	int chunkSize = 32;
+	int chunkSize = 16;
 private:
 	int x = 0;
 	int y = 0;

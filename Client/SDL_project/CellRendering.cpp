@@ -52,25 +52,54 @@ CellRendering::~CellRendering()
 {
 }
 
-//! Renders the cells
-void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int xOffset, int yOffset)
+void CellRendering::RenderChunk(Level& level, Chunk& chunk, SDL_Renderer* renderer)
 {
-	int cellSize = level.getCellSize();
-
-	//RENDERING THE CELLS
-	//Grass1Texture.alterTextureColour(level.World[worldX][worldY].grid[x][y]->noiseValue * 10, 0, 0);
-	for (int chunkX = 0; chunkX < level.World.size(); chunkX++)
-		for (int chunkY = 0; chunkY < level.World.size(); chunkY++)
+	int newX = 0, newY = 0;
+	int xPos = 0, yPos = 0;
+	for(int x = 0; x < chunk.chunkSize; x++)
+		for (int y = 0; y < chunk.chunkSize; y++)
 		{
-			for (int x = 0; x < level.World[chunkX][chunkY].tiles.size(); x++)
-				for (int y = 0; y < level.World[chunkX][chunkY].tiles[x].size(); y++)
-				{
-					int xPos = x * cellSize + cellSize / 2;
-					int yPos = y * cellSize + cellSize / 2;
-					//y += yOffset;
-					//x += xOffset;
-					//Base Ground Textures
-					if (level.World[chunkX][chunkY].tiles[x][y]->isGrass)
+			newX = chunk.tiles[x][y]->getX();
+			newY = chunk.tiles[x][y]->getY();
+
+			//sPos.x = newX;
+			//sPos.y = newY;
+			xPos = newX * level.getCellSize() + level.getCellSize() / 2;
+			yPos = newY * level.getCellSize() + level.getCellSize() / 2;
+			//Base Ground Textures
+			if (chunk.tiles[x][y]->isGrass)
+				Grass1Texture.render(renderer, xPos, yPos, level.getCellSize(), level.getCellSize());
+		}
+		
+	
+
+}
+
+//! Renders the cells
+void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, Camera& camera)
+{
+	int cellSize = level.getCellSize();		
+	
+	//RENDERING THE CELLS
+	for (int chunkX = 0; chunkX < level.World.size(); chunkX++)
+		for (int chunkY = 0; chunkY < level.World[chunkX].size(); chunkY++)
+		{
+			//Render the cells in the camera view
+			//for (int x = camera.getX() / cellSize; x < camera.getX() / cellSize + camera.WindowWidth / cellSize; x++)
+				//for (int y = camera.getY() / cellSize; y < camera.getY() / cellSize + camera.WindowHeight / cellSize; y++)
+				//{
+					
+					//y += camera.yoffset;
+					//x += camera.xoffset;
+					//glm::vec2 sPos;
+					
+
+					RenderChunk(level, level.World[chunkX][chunkY], renderer);
+					
+
+
+					/*
+					//if (level.World[chunkX][chunkY].tiles[x][y]->isGrass)
 						if (sin(level.World[chunkX][chunkY].tiles[x][y]->terrainNoiseValue) > 0.5)
 							Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
 						else
@@ -139,6 +168,7 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int xOffse
 						kitchenTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 					}
 				}
-
+			*/
+				//}
 		}
 }
