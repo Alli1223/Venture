@@ -9,9 +9,6 @@ public:
 
 	std::vector<std::vector<std::shared_ptr<Cell>>> tiles;
 
-	
-
-	int chunkSize = 16;
 private:
 	int x = 0;
 	int y = 0;

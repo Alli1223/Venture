@@ -42,16 +42,12 @@ void SpaceGame::run()
 
 	//Level world(0,0);
 
-	//for(int i = -3; i < 3; i++)
-		//for (int j = -3; j < 3;j++)
-
-	level.CreateChunk(0,0);
+	for(int i = -10; i < 10; i++)
+		for (int j = -10; j < 10;j++)
+			level.CreateChunk(i, j);
+	//level.CreateChunk(-1,-1);
 	//level.CreateChunk(2, 0);
-	//level.CreateChunk(1, 0);
-		
 	
-	//level.chunks[0]->grid[0][0]->isDirt = true;
-
 
 	//terrainGen.populateTerrain(level);
 	int cellSize = level.getCellSize();
@@ -130,7 +126,7 @@ void SpaceGame::run()
 		{
 			runNetworkTick = false;
 			networkManager.NetworkUpdate(level, agentManager);
-			std::cout << level.tiles.size() << " " << level.tiles[0].size() << std::endl;
+			//std::cout << level.tiles.size() << " " << level.tiles[0].size() << std::endl;
 		}
 		//terrainGen.GenerateTerrain(level, agentManager);
 		
@@ -145,9 +141,10 @@ void SpaceGame::run()
 			Item berry;
 			berry.isBerry = true;
 			agentManager.allAgents[0].inventory.add(berry);
-			std::cout << agentManager.allAgents[0].inventory.getSize() << std::endl;
-			//level.makeOrExtendGrid(200, 200, 200, 0);
+			//std::cout << agentManager.allAgents[0].inventory.getSize() << std::endl;
 			//terrainGen.populateTerrain(level);
+			//level.World[0][0].tiles[mouse_X / cellSize][mouse_Y / cellSize]->isBed = true;
+			level.GetCell(mouse_X / cellSize, mouse_Y / cellSize);
 			
 		}
 

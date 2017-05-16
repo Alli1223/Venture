@@ -6,15 +6,15 @@ void Level::CreateChunk(int initX, int initY)
 {
 	Chunk chunk(initX, initY);
 
-	for (int x = 0; x < chunk.chunkSize; x++)
+	for (int x = 0; x < chunkSize; x++)
 	{
 		std::vector<std::shared_ptr<Cell>> column;
-		std::cout << "Generating chunk: " << x  + (initX * chunk.chunkSize) << std::endl;
+		std::cout << "Generating chunk: " << x  + (initX * chunkSize) << std::endl;
 		World[initX][initY].tiles.push_back(column);
-		for (int y = 0; y < chunk.chunkSize; y++)
+		for (int y = 0; y < chunkSize; y++)
 		{
 			// Populates the column with pointers to cells
-			Cell cell(x + (initX * chunk.chunkSize), y + (initY * chunk.chunkSize));
+			Cell cell(x + (initX * chunkSize), y + (initY * chunkSize));
 			cell.isGrass = true;
 			auto sharedCell = std::make_shared<Cell>(cell);
 			World[initX][initY].tiles[x].push_back(sharedCell);
@@ -64,15 +64,33 @@ void Level::addRowToGrid(std::string direction, int numberOfRows)
 
 }
 
+glm::vec2 Level::GetCell(int x, int y)
+{
+	glm::vec2 returnPoint;
+	int chunkX = x / chunkSize;
+	int chunkY = y / chunkSize;
+
+	//Get x and y values of each chunk
+	if (x >= chunkSize)
+		x = x - (chunkX * chunkSize);
+	if (y >= chunkSize)
+		y = y - (chunkY * chunkSize);
+	
+	returnPoint.x = World[chunkX][chunkY].tiles[x][y]->getX();
+	returnPoint.y = World[chunkX][chunkY].tiles[x][y]->getY();
+
+
+
+
+	std::cout << returnPoint.x << " " << returnPoint.y << "|" << chunkX << " " << chunkY << "|" << x << " " << y << std::endl;
+	return returnPoint;
+	
+}
+
 Level::Level()
 {
 }
 
-Level::Level(int initX, int initY)
-{
-	x = initX;
-	y = initY;
-}
 
 
 Level::~Level()
