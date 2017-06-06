@@ -56,23 +56,23 @@ void CellRendering::RenderChunk(Level& level, Chunk& chunk, SDL_Renderer* render
 {
 	int newX = 0, newY = 0;
 	int xPos = 0, yPos = 0;
+	int cellSize = level.getCellSize();
+
 	for(int x = 0; x < level.getChunkSize(); x++)
 		for (int y = 0; y < level.getChunkSize(); y++)
 		{
 			newX = chunk.tiles[x][y]->getX();
 			newY = chunk.tiles[x][y]->getY();
 
-			//sPos.x = newX;
-			//sPos.y = newY;
-			xPos = newX * level.getCellSize() + level.getCellSize() / 2;
-			yPos = newY * level.getCellSize() + level.getCellSize() / 2;
+			xPos = newX * cellSize + cellSize / 2;
+			yPos = newY * cellSize + cellSize / 2;
+
 			//Base Ground Textures
 			if (chunk.tiles[x][y]->isGrass)
-				Grass1Texture.render(renderer, xPos, yPos, level.getCellSize(), level.getCellSize());
+				Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
+			if(chunk.tiles[x][y]->isFlower1)
+				Flower1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
 		}
-		
-	
-
 }
 
 //! Renders the cells
@@ -95,10 +95,9 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, Camera& ca
 					//glm::vec2 sPos;
 					
 			//for each (auto chunk in level.World)
-
-	for(int x = -3; x < 3; x++)
-		for (int y = -3; y < 3; y++)
-				RenderChunk(level, level.World[x][y], renderer);
+	for (int i = camera.getX(); i < camera.getX() + 5; i++)
+		for (int j = camera.getY(); j < camera.getY() + 5; j++)
+				RenderChunk(level, level.World[i][j], renderer);
 					
 
 

@@ -6,6 +6,7 @@ void Level::CreateChunk(int initX, int initY)
 {
 	Chunk chunk(initX, initY);
 
+	bool once = true;
 	for (int x = 0; x < chunkSize; x++)
 	{
 		std::vector<std::shared_ptr<Cell>> column;
@@ -16,75 +17,64 @@ void Level::CreateChunk(int initX, int initY)
 			// Populates the column with pointers to cells
 			Cell cell(x + (initX * chunkSize), y + (initY * chunkSize));
 			cell.isGrass = true;
+
 			auto sharedCell = std::make_shared<Cell>(cell);
 			World[initX][initY].tiles[x].push_back(sharedCell);
 		}
 	}	 
 }
 
-// Populates a 2 dimentional vector with pointers to cells
-void Level::makeOrExtendGrid(int Level_Width, int Level_Height, int originX, int originY)
+
+void Level::GenerateWorld(Camera& camera)
 {
-	// Calculate the number of cells on each axis
-	levelWidth = Level_Width;
-	levelHeight = Level_Height;
-	int center = 2000;
-	
-	for (int x = originX; x < Level_Width + originX; x++)
+	for (int i = camera.getX(); i < camera.getX() + 5; i++)
 	{
-		// Pushes back a column into the row
-		std::vector<std::shared_ptr<Cell>> column;
-		tiles.push_back(column);
-		for (int y = originY; y < Level_Height + originY; y++)
+		for (int j = camera.getY(); j < camera.getY() + 5; j++)
 		{
-			// Populates the column with pointers to cells
-			Cell cell(x - center,y - center);
-			
-			auto sharedCell = std::make_shared<Cell> (cell);
-			tiles[x].push_back(sharedCell);
-	
+			CreateChunk(i, j);
 		}
+		std::cout << "Creating chunk: " << i << std::endl;
 	}
 }
 
-//TODO add cells to grid
-void Level::addRowToGrid(std::string direction, int numberOfRows)
-{
-	std::vector<std::shared_ptr<Cell>> column;
-	if (direction == "RIGHT")
-	{
-		for (int y = 0; y < levelHeight; y++)
-		{
-			Cell cell(tiles.size(), y);
 
-			auto sharedCell = std::make_shared<Cell>(cell);
-			tiles[0].push_back(sharedCell);
-		}
-	}
-
-}
-
-glm::vec2 Level::GetCell(int x, int y)
+// Returns the value of the x & y values in the cell
+glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY)
 {
 	glm::vec2 returnPoint;
+	// ChunkX/Y is the chunk that the cell is in
+	int chunkX = cellX / chunkSize;
+	int chunkY = cellY / chunkSize;
+
+	// Get x and y values of each chunk
+	if (cellX >= chunkSize)
+		cellX = cellX - (chunkX * chunkSize);
+	if (cellY >= chunkSize)
+		cellY = cellY - (chunkY * chunkSize);
+	
+	// ReturPoint is the value of the x/y values in the cell (takes into account the camera position)
+	returnPoint.x = World[chunkX][chunkY].tiles[cellX][cellY]->getX() - (camera.getX() * chunkSize);
+	returnPoint.y = World[chunkX][chunkY].tiles[cellX][cellY]->getY() - (camera.getY() * chunkSize);
+
+	std::cout << returnPoint.x << " " << returnPoint.y << "|" << chunkX << " " << chunkY << "|" << cellX << " " << cellY << std::endl;
+	return returnPoint;
+}
+
+
+//NOt used
+void Level::SetGlobalCell(Camera& camera, int x, int y)
+{
+	// ChunkX/Y is the chunk that the cell is in
 	int chunkX = x / chunkSize;
 	int chunkY = y / chunkSize;
-
-	//Get x and y values of each chunk
+	// Get x and y values of each chunk
 	if (x >= chunkSize)
 		x = x - (chunkX * chunkSize);
 	if (y >= chunkSize)
 		y = y - (chunkY * chunkSize);
-	
-	returnPoint.x = World[chunkX][chunkY].tiles[x][y]->getX();
-	returnPoint.y = World[chunkX][chunkY].tiles[x][y]->getY();
 
+	World[chunkX][chunkY].tiles[x][y]->isFlower1 = true;
 
-
-
-	std::cout << returnPoint.x << " " << returnPoint.y << "|" << chunkX << " " << chunkY << "|" << x << " " << y << std::endl;
-	return returnPoint;
-	
 }
 
 Level::Level()

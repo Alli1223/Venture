@@ -84,7 +84,6 @@ public:
 	//! Coordinates of the mouse 
 	int mouse_X, mouse_Y;
 
-	float cameraX = 0, cameraY = 0;
 
 	bool spawnPlayer = true;
 	

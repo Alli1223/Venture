@@ -2,6 +2,7 @@
 #include "Cell.h"
 #include "Chunk.h"
 #include "Point.h"
+#include "Camera.h"
 
 //! This class generates the base of the level 
 /*!
@@ -31,15 +32,19 @@ public:
 	//! The base grid that contains the cells
 	std::vector<std::vector<std::shared_ptr<Cell>>> tiles;
 
-	glm::vec2 GetCell(int x, int y);
+	glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY);
+
+	void Level::SetGlobalCell(Camera& camera, int x, int y);
+
+
+	void Level::GenerateWorld(Camera& camera);
+
 	
 	void Level::CreateChunk(int initX, int initY);
 
 	std::map<int, std::map<int, Chunk>> World;
 
-	//! Fills grid with vectors of shared pointers to cells
-	void makeOrExtendGrid(int Level_Width, int Level_Height, int originX, int originY);
-	void Level::addRowToGrid(std::string direction, int numberOfRows);
+	int WorldOrigin = 0;
 
 
 protected:

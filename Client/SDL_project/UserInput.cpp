@@ -53,32 +53,25 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//CAMERA
 		//Set offset to camera
-		if (state[SDL_SCANCODE_RIGHT] && camera.xoffset < level.tiles.size() - camera.WindowWidth / cellSize)
+		if (state[SDL_SCANCODE_RIGHT])
 		{
-			camera.xoffset++;
-			for (int i = 0; i < agentManager.allAgents.size(); i++)
-				agentManager.allAgents[i].setOffsetX(-camera.xoffset * cellSize);
-
+			camera.SetPos(camera.getX() + 1, camera.getY());
+			level.GenerateWorld(camera);
 		}
-		if (state[SDL_SCANCODE_DOWN] && camera.yoffset < level.tiles[0].size() - camera.WindowHeight / cellSize)
+		if (state[SDL_SCANCODE_DOWN])
 		{
-			camera.yoffset++;
-			for (int i = 0; i < agentManager.allAgents.size(); i++)
-				agentManager.allAgents[i].setOffsetY(-camera.yoffset * cellSize);
-
+			camera.SetPos(camera.getX(), camera.getY() + 1);
+			level.GenerateWorld(camera);
 		}
-		if (state[SDL_SCANCODE_LEFT] && camera.xoffset > 0)
+		if (state[SDL_SCANCODE_LEFT])
 		{
-			camera.xoffset--;
-			for (int i = 0; i < agentManager.allAgents.size(); i++)
-				agentManager.allAgents[i].setOffsetX(-camera.xoffset * cellSize);
-
+			camera.SetPos(camera.getX() - 1, camera.getY());
+			level.GenerateWorld(camera);
 		}
-		if (state[SDL_SCANCODE_UP] && camera.yoffset > 0)
+		if (state[SDL_SCANCODE_UP])
 		{
-			camera.yoffset--;
-			for (int i = 0; i < agentManager.allAgents.size(); i++)
-				agentManager.allAgents[i].setOffsetY(-camera.yoffset * cellSize);
+			camera.SetPos(camera.getX(), camera.getY() - 1);
+			level.GenerateWorld(camera);
 		}
 
 		if (state[SDL_SCANCODE_PAGEUP])

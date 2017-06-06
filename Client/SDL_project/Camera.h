@@ -16,6 +16,9 @@ public:
 	int getX();
 	int getY();
 
+	int setX(int newX) { return X = newX; }
+	int setY(int newY) { return Y = newY; }
+
 	void SetPos(int X, int Y);
 
 	void SetTarget(int* X, int* Y);

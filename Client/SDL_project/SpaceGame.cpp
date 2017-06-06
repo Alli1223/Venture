@@ -9,8 +9,8 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH;
+	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
+	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
 	window = SDL_CreateWindow("SpaceGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
@@ -33,7 +33,6 @@ SpaceGame::~SpaceGame()
 }
 
 
-
 void SpaceGame::run()
 {
 	// Creates a grid of cells
@@ -42,9 +41,8 @@ void SpaceGame::run()
 
 	//Level world(0,0);
 
-	for(int i = -10; i < 10; i++)
-		for (int j = -10; j < 10;j++)
-			level.CreateChunk(i, j);
+	level.GenerateWorld(camera);
+	
 	//level.CreateChunk(-1,-1);
 	//level.CreateChunk(2, 0);
 	
@@ -103,11 +101,14 @@ void SpaceGame::run()
 	camera.WindowHeight = WINDOW_HEIGHT;
 	camera.WindowWidth = WINDOW_WIDTH;
 	
+	//level.CreateChunk(0, -3);
 
 	// values for the network update timer
 	double lastTime = SDL_GetTicks();
 	double timebehind = 0;
 	bool runNetworkTick = false;
+
+
 	/////////// MAIN LOOP /////////////////
 	while (running)
 	{
@@ -138,13 +139,15 @@ void SpaceGame::run()
 
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 		{
-			Item berry;
-			berry.isBerry = true;
-			agentManager.allAgents[0].inventory.add(berry);
-			//std::cout << agentManager.allAgents[0].inventory.getSize() << std::endl;
-			//terrainGen.populateTerrain(level);
-			//level.World[0][0].tiles[mouse_X / cellSize][mouse_Y / cellSize]->isBed = true;
-			level.GetCell(mouse_X / cellSize, mouse_Y / cellSize);
+			//Item berry;
+			//berry.isBerry = true;
+			//agentManager.allAgents[0].inventory.add(berry);
+
+			level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
+			int x = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).x;
+			int y = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).y;
+			
+			level.SetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
 			
 		}
 
@@ -171,7 +174,8 @@ void SpaceGame::run()
 
 
 
-
+		//level.World[1][2].tiles[3][4]->isVegetation = true;
+		//level.World[1][1].tiles[3][4]->isFlower1 = true;
 
 
 		///////////////////////////////////////
