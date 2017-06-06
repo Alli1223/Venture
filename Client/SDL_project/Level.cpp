@@ -5,12 +5,12 @@
 void Level::CreateChunk(int initX, int initY)
 {
 	Chunk chunk(initX, initY);
-
+	std::cout << "Generating chunk at: " <<(initX * chunkSize)  << "," << (initY * chunkSize) << std::endl;
 	bool once = true;
 	for (int x = 0; x < chunkSize; x++)
 	{
 		std::vector<std::shared_ptr<Cell>> column;
-		std::cout << "Generating chunk: " << x  + (initX * chunkSize) << std::endl;
+		
 		World[initX][initY].tiles.push_back(column);
 		for (int y = 0; y < chunkSize; y++)
 		{

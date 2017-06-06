@@ -10,7 +10,7 @@ public:
 
 	void RenderCells(Level& level, SDL_Renderer* renderer, Camera& camera);
 
-	void RenderChunk(Level& level, Chunk& chunk, SDL_Renderer* renderer);
+	void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_Renderer* renderer);
 
 
 private:

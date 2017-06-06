@@ -52,7 +52,7 @@ CellRendering::~CellRendering()
 {
 }
 
-void CellRendering::RenderChunk(Level& level, Chunk& chunk, SDL_Renderer* renderer)
+void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_Renderer* renderer)
 {
 	int newX = 0, newY = 0;
 	int xPos = 0, yPos = 0;
@@ -61,8 +61,8 @@ void CellRendering::RenderChunk(Level& level, Chunk& chunk, SDL_Renderer* render
 	for(int x = 0; x < level.getChunkSize(); x++)
 		for (int y = 0; y < level.getChunkSize(); y++)
 		{
-			newX = chunk.tiles[x][y]->getX();
-			newY = chunk.tiles[x][y]->getY();
+			newX = chunk.tiles[x][y]->getX() - (camera.getX() * level.getChunkSize());
+			newY = chunk.tiles[x][y]->getY() - (camera.getY() * level.getChunkSize());
 
 			xPos = newX * cellSize + cellSize / 2;
 			yPos = newY * cellSize + cellSize / 2;
@@ -93,11 +93,10 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, Camera& ca
 					//y += camera.yoffset;
 					//x += camera.xoffset;
 					//glm::vec2 sPos;
-					
-			//for each (auto chunk in level.World)
+
 	for (int i = camera.getX(); i < camera.getX() + 5; i++)
 		for (int j = camera.getY(); j < camera.getY() + 5; j++)
-				RenderChunk(level, level.World[i][j], renderer);
+				RenderChunk(level,camera, level.World[i][j], renderer);
 					
 
 
