@@ -62,6 +62,7 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 		{
 			camera.SetPos(camera.getX(), camera.getY() + 1);
 			level.GenerateWorld(camera);
+
 		}
 		if (state[SDL_SCANCODE_LEFT])
 		{

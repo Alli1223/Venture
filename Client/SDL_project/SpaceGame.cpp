@@ -42,6 +42,7 @@ void SpaceGame::run()
 	//Level world(0,0);
 
 	level.GenerateWorld(camera);
+
 	
 	//level.CreateChunk(-1,-1);
 	//level.CreateChunk(2, 0);
@@ -144,11 +145,7 @@ void SpaceGame::run()
 			//agentManager.allAgents[0].inventory.add(berry);
 
 			level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
-			int x = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).x;
-			int y = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).y;
-			
-			level.SetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
-			
+
 		}
 
 		//Move player
@@ -156,7 +153,8 @@ void SpaceGame::run()
 		{
 			int x = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).x;
 			int y = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).y;
-			level.CreateChunk(x / level.getChunkSize(), y / level.getChunkSize());
+			//level.CreateChunk(x / level.getChunkSize(), y / level.getChunkSize());
+			level.SetGlobalCell(camera, x, y);
 		}
 			//agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].Move(level, Point((agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() / cellSize) + camera.xoffset, (agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() / cellSize) + camera.yoffset), Point(mouse_X / cellSize, mouse_Y / cellSize));
 

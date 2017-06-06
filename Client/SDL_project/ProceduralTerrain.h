@@ -1,10 +1,10 @@
 #pragma once
 #include "cell.h"
 #include "PerlinNoise.h"
-#include "Level.h"
+#include "Chunk.h"
 #include "point.h"
 #include "Camera.h"
-#include "AgentManager.h"
+
 
 class ProceduralTerrain
 {
@@ -22,12 +22,12 @@ public:
 
 	//void ProceduralTerrain::makeGrid(int Window_Width, int Window_Height);
 
-	void ProceduralTerrain::spawnTrees(Level& level);
-	void ProceduralTerrain::spawnVegetation(Level& level);
-	void ProceduralTerrain::generateGrass(Level& level, int x, int y);
-	void ProceduralTerrain::populateTerrain(Level& level);
-	void ProceduralTerrain::GenerateTerrain(Level& level, AgentManager& agentManager);
-	void ProceduralTerrain::SpawnTown(Level& level);
+	void ProceduralTerrain::spawnTrees(Chunk& level);
+	void ProceduralTerrain::spawnVegetation(Chunk& level);
+	void ProceduralTerrain::generateGrass(Chunk& level, int x, int y);
+	void ProceduralTerrain::populateTerrain(Chunk& level);
+	//void ProceduralTerrain::GenerateTerrain(Chunk& level, AgentManager& agentManager);
+	void ProceduralTerrain::SpawnTown(Chunk& level);
 
 
 	//! The base grid that contains the cells

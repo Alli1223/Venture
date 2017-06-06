@@ -3,6 +3,7 @@
 #include "Chunk.h"
 #include "Point.h"
 #include "Camera.h"
+#include "ProceduralTerrain.h"
 
 //! This class generates the base of the level 
 /*!
@@ -24,11 +25,6 @@ public:
 	int getLevelWidth() { return levelWidth; }
 	int getLevelHeight() { return levelHeight; }
 
-	int getFarLeftChunk() { return farLeftChunk; }
-	int getFarTopChunk() { return farTopChunk; }
-	int setFarLeftChunk(int newFarLeftChunk) { return farLeftChunk = newFarLeftChunk; }
-	int setFarTopChunk(int newFarTopChunk) { return farLeftChunk = newFarTopChunk; }
-
 	//! The base grid that contains the cells
 	std::vector<std::vector<std::shared_ptr<Cell>>> tiles;
 
@@ -44,15 +40,11 @@ public:
 
 	std::map<int, std::map<int, Chunk>> World;
 
-	int WorldOrigin = 0;
-
 
 protected:
-	int farLeftChunk = -10;
-	int farTopChunk = -10;
-
+	ProceduralTerrain proceduralTerrain;
 	//! The size that the cell will be rendered at
-	int cellSize = 25;
+	int cellSize = 10;
 	int chunkSize = 16;
 
 	int levelWidth, levelHeight;

@@ -4,6 +4,8 @@
 
 void Level::CreateChunk(int initX, int initY)
 {
+	
+	
 	Chunk chunk(initX, initY);
 	std::cout << "Generating chunk at: " <<(initX * chunkSize)  << "," << (initY * chunkSize) << std::endl;
 	bool once = true;
@@ -21,17 +23,20 @@ void Level::CreateChunk(int initX, int initY)
 			auto sharedCell = std::make_shared<Cell>(cell);
 			World[initX][initY].tiles[x].push_back(sharedCell);
 		}
-	}	 
+	}
+	
 }
 
 
 void Level::GenerateWorld(Camera& camera)
 {
+	
 	for (int i = camera.getX(); i < camera.getX() + 5; i++)
 	{
 		for (int j = camera.getY(); j < camera.getY() + 5; j++)
 		{
 			CreateChunk(i, j);
+			proceduralTerrain.populateTerrain(World[i][j]);
 		}
 		std::cout << "Creating chunk: " << i << std::endl;
 	}
@@ -53,7 +58,7 @@ glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY)
 		cellY = cellY - (chunkY * chunkSize);
 	
 	// ReturPoint is the value of the x/y values in the cell (takes into account the camera position)
-	returnPoint.x = World[chunkX][chunkY].tiles[cellX][cellY]->getX() - (camera.getX() * chunkSize);
+	returnPoint.x = World[chunkX][chunkY].tiles[cellX][cellY]->getX() + (camera.getX() * chunkSize);
 	returnPoint.y = World[chunkX][chunkY].tiles[cellX][cellY]->getY() - (camera.getY() * chunkSize);
 
 	std::cout << returnPoint.x << " " << returnPoint.y << "|" << chunkX << " " << chunkY << "|" << cellX << " " << cellY << std::endl;
@@ -67,7 +72,8 @@ void Level::SetGlobalCell(Camera& camera, int x, int y)
 	// ChunkX/Y is the chunk that the cell is in
 	int chunkX = x / chunkSize;
 	int chunkY = y / chunkSize;
-	// Get x and y values of each chunk
+
+	
 	if (x >= chunkSize)
 		x = x - (chunkX * chunkSize);
 	if (y >= chunkSize)

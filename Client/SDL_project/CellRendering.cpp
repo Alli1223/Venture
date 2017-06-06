@@ -72,6 +72,14 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 				Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
 			if(chunk.tiles[x][y]->isFlower1)
 				Flower1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
+			if (chunk.tiles[x][y]->isDirt)
+				DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+			if (chunk.tiles[x][y]->isWater)
+				WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+			if (chunk.tiles[x][y]->isSand)
+				SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+			if (chunk.tiles[x][y]->isStoneWall)
+				StoneWallTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 		}
 }
 
@@ -81,19 +89,6 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, Camera& ca
 	int cellSize = level.getCellSize();		
 	
 	//RENDERING THE CELLS
-	//for (int chunkX = 0; chunkX < level.World.size(); chunkX++)
-		//for (int chunkY = 0; chunkY < level.World[chunkX].size(); chunkY++)
-		//{
-
-			//Render the cells in the camera view
-			//for (int x = camera.getX() / cellSize; x < camera.getX() / cellSize + camera.WindowWidth / cellSize; x++)
-				//for (int y = camera.getY() / cellSize; y < camera.getY() / cellSize + camera.WindowHeight / cellSize; y++)
-				//{
-					
-					//y += camera.yoffset;
-					//x += camera.xoffset;
-					//glm::vec2 sPos;
-
 	for (int i = camera.getX(); i < camera.getX() + 5; i++)
 		for (int j = camera.getY(); j < camera.getY() + 5; j++)
 				RenderChunk(level,camera, level.World[i][j], renderer);

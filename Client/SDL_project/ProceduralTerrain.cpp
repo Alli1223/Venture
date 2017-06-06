@@ -10,8 +10,8 @@ ProceduralTerrain::ProceduralTerrain()
 ProceduralTerrain::~ProceduralTerrain()
 {
 }
-// Places a building in the specified area
-void PlaceBuilding(Level& level, int x, int y, int sizeX, int sizeY)
+/* Places a building in the specified area
+void PlaceBuilding(Chunk& level, int x, int y, int sizeX, int sizeY)
 {
 	for (int x = 0; x < sizeX; x++)
 	{
@@ -23,7 +23,7 @@ void PlaceBuilding(Level& level, int x, int y, int sizeX, int sizeY)
 	}
 }
 
-void ProceduralTerrain::GenerateTerrain(Level& level, AgentManager& agentManager)
+void ProceduralTerrain::GenerateTerrain(Chunk& level, AgentManager& agentManager)
 {
 	if (agentManager.allAgents[0].getCellX() > level.tiles.size() / 2)
 	{
@@ -32,9 +32,9 @@ void ProceduralTerrain::GenerateTerrain(Level& level, AgentManager& agentManager
 		//generateTerrainYPos += 200;
 	}
 }
-
+*/
 // Clears the ground and spawns buildings in the area
-void ProceduralTerrain::SpawnTown(Level& level)
+void ProceduralTerrain::SpawnTown(Chunk& level)
 {
 	if (numOfTowns >= 1)
 	{
@@ -71,7 +71,7 @@ void ProceduralTerrain::SpawnTown(Level& level)
 					}
 				}
 				townFound = true;
-				PlaceBuilding(level, x, y, 5, 5);
+				//PlaceBuilding(level, x, y, 5, 5);
 			}
 		}
 	}
@@ -80,7 +80,7 @@ void ProceduralTerrain::SpawnTown(Level& level)
 
 
 
-void ProceduralTerrain::spawnTrees(Level& level)
+void ProceduralTerrain::spawnTrees(Chunk& level)
 {
 	std::cout << "Spawning Plants.." << std::endl;
 	for (int i = numberOfTrees; i > 0; i--)
@@ -100,7 +100,7 @@ void ProceduralTerrain::spawnTrees(Level& level)
 	std::cout << numberOfTrees << " Trees spawned." << std::endl;
 }
 
-void ProceduralTerrain::spawnVegetation(Level& level)
+void ProceduralTerrain::spawnVegetation(Chunk& level)
 {
 	std::cout << "Spawning Plants.." << std::endl;
 	
@@ -139,12 +139,14 @@ void ProceduralTerrain::spawnVegetation(Level& level)
 }
 
 
-void ProceduralTerrain::generateGrass(Level& level, int x, int y)
+void ProceduralTerrain::generateGrass(Chunk& level, int x, int y)
 {
-	double noise = groundNoise.noise((double)x / terrainNoiseOffest, (double)y / terrainNoiseOffest, 0.0) * 20;
-	double fNoise = forrestNoise.noise((double)x / forrestNoiseOffset, (double)y / forrestNoiseOffset, 0.0) * 20;
-	double pNoise = pathNoise.noise((double)x / forrestNoiseOffset, (double)y / forrestNoiseOffset, 0.0) * 20;
-	double layerdNoise = noise;
+	int noiseX = level.tiles[x][y]->getX();
+	int noiseY = level.tiles[x][y]->getY();
+	double noise = groundNoise.noise((double)noiseX / terrainNoiseOffest, (double)noiseY / terrainNoiseOffest, 0.0) * 20;
+	double fNoise = forrestNoise.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20;
+	double pNoise = pathNoise.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20;
+	double layerdNoise = noise + fNoise;
 	//noise = (char)((noise - 0) * (255 / (noise - 0)));
 	level.tiles[x][y]->terrainNoiseValue = noise;
 
@@ -201,7 +203,7 @@ void ProceduralTerrain::generateGrass(Level& level, int x, int y)
 	}
 }
 
-void ProceduralTerrain::populateTerrain(Level& level)
+void ProceduralTerrain::populateTerrain(Chunk& level)
 {
 	//generate noise from seed
 	
@@ -210,22 +212,22 @@ void ProceduralTerrain::populateTerrain(Level& level)
 	pathNoise.GenerateNoise(pathSeed);
 
 	//Renders all he cells
-	for (int x = 0; x < level.tiles.size(); x++)
+	for (int x = 0; x < 16; x++)
 	{
 		std::cout << "Generating Terrain: " << x << " OF " << level.tiles.size() << std::endl;
-		for (int y = 0 ; y < level.tiles[0].size(); y++)
+		for (int y = 0 ; y < 16; y++)
 		{
 			//Spawn the grass
 			level.tiles[x][y]->isWalkable = true;
 			
-			level.tiles[10][30]->isRoom = true;
+			//level.tiles[10][30]->isRoom = true;
 			
 			//Generate the grass
 			generateGrass(level, x, y);
 			
 		}
 	}
-	SpawnTown(level);
-	spawnTrees(level);
-	spawnVegetation(level);
+	//SpawnTown(level);
+	//spawnTrees(level);
+	//spawnVegetation(level);
 }
