@@ -16,8 +16,6 @@
 #include "ToolBar.h"
 #include "Items.h"
 #include "EscapeMenu.h"
-#include "DockingDoors.h"
-#include "ShipManager.h"
 #include "PlayerStats.h"
 #include "CellRendering.h"
 #include "Agent.h"
@@ -60,8 +58,6 @@ public:
 	Cell cell;
 	ToolBar toolbar;
 	EscapeMenu escapemenu;
-	DockingDoors dockingdoors;
-	ShipManager shipmanager;
 	PlayerStats playerstats;
 	CellRendering cellrenderer;
 	NetworkManager networkManager;
@@ -70,9 +66,6 @@ public:
 	Camera camera;
 	UserInput input;
 	Player player;
-
-	//! Contains a list of all the ship
-	std::vector<Ship> allShips;
 
 	//! Vector of all other players names in the game
 	std::vector<std::string> otherPlayerNames;
@@ -87,7 +80,7 @@ public:
 
 	bool spawnPlayer = true;
 	
-	bool useNetworking = false;
+	bool useNetworking = true;
 
 	glm::vec2 mouseCellPosition;
 

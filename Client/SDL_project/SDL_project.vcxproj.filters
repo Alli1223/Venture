@@ -55,20 +55,8 @@
     <ClCompile Include="EscapeMenu.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="DockingDoors.cpp">
-      <Filter>Source Files\Dock</Filter>
-    </ClCompile>
     <ClCompile Include="Icon.cpp">
       <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Ship.cpp">
-      <Filter>Source Files\Dock</Filter>
-    </ClCompile>
-    <ClCompile Include="CargoShip.cpp">
-      <Filter>Source Files\Dock\cargoShip</Filter>
-    </ClCompile>
-    <ClCompile Include="ShipManager.cpp">
-      <Filter>Source Files\Dock</Filter>
     </ClCompile>
     <ClCompile Include="PlayerStats.cpp">
       <Filter>Source Files\GUI</Filter>
@@ -178,20 +166,8 @@
     <ClInclude Include="EscapeMenu.h">
       <Filter>Headers\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="DockingDoors.h">
-      <Filter>Headers\Dock</Filter>
-    </ClInclude>
     <ClInclude Include="Icon.h">
       <Filter>Headers\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Ship.h">
-      <Filter>Headers\Dock</Filter>
-    </ClInclude>
-    <ClInclude Include="CargoShip.h">
-      <Filter>Headers\Dock\CargoShip</Filter>
-    </ClInclude>
-    <ClInclude Include="ShipManager.h">
-      <Filter>Headers\Dock</Filter>
     </ClInclude>
     <ClInclude Include="PlayerStats.h">
       <Filter>Headers\GUI</Filter>
@@ -295,18 +271,6 @@
     </Filter>
     <Filter Include="Source Files\Items">
       <UniqueIdentifier>{79959b5a-2da3-4857-b606-f7000ed433ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headers\Dock">
-      <UniqueIdentifier>{f3cd8b75-d734-4b25-ad70-108ec61f0603}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Dock">
-      <UniqueIdentifier>{9248f0cd-5552-460f-a777-b534b07272dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Headers\Dock\CargoShip">
-      <UniqueIdentifier>{37dc8c72-527e-46c4-beef-15aea3bb8749}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Dock\cargoShip">
-      <UniqueIdentifier>{906c2536-2766-4050-a74b-8bb50e56d321}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\AI Classes">
       <UniqueIdentifier>{b01eded0-b789-4e14-afee-baa8dc6f46dc}</UniqueIdentifier>

@@ -39,9 +39,9 @@ void Level::GenerateWorld(Camera& camera)
 			{
 				CreateChunk(i, j);
 				proceduralTerrain.populateTerrain(World[i][j]);
+				std::cout << "Generating Chunk: " << i << " " << j << std::endl;
 			}
 		}
-		std::cout << "Creating chunk: " << i << std::endl;
 	}
 }
 

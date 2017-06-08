@@ -87,8 +87,8 @@ void SpaceGame::run()
 		player.characterType = "Player";
 		player.setSpeed(5);
 		player.setID(playerName);
-		player.setX(WINDOW_WIDTH / 2);
-		player.setY(WINDOW_HEIGHT / 2);
+		player.setX(camera.WindowWidth / 2);
+		player.setY(camera.WindowHeight / 2);
 		agentManager.SpawnAgent(player);
 	}
 
@@ -104,6 +104,9 @@ void SpaceGame::run()
 		mouseCellPosition.x = mouse_X / cellSize;
 		mouseCellPosition.y = mouse_Y / cellSize;
 
+
+		
+	
 
 		// Interval Timer
 		timebehind += SDL_GetTicks() - lastTime;
@@ -140,14 +143,19 @@ void SpaceGame::run()
 		}
 
 		//Move player
+		camera.setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX());
+		camera.setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY());
+		level.GenerateWorld(camera);
+
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		{
-			int x = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).x;
-			int y = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).y;
+			//int x = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).x;
+			//int y = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).y;
 			//level.CreateChunk(x / level.getChunkSize(), y / level.getChunkSize());
 
 			//level.SetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
-			level.SetGlobalCell(camera, x, y, mouseCellPosition);
+			//level.SetGlobalCell(camera, x, y, mouseCellPosition);
+
 		}
 
 
@@ -164,7 +172,7 @@ void SpaceGame::run()
 
 
 		// Render characters
-		//agentManager.UpdateAgents(agentManager.allAgents, renderer, level);
+		agentManager.UpdateAgents(agentManager.allAgents, renderer, level, camera);
 
 
 

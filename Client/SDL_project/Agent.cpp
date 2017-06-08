@@ -64,18 +64,10 @@ void Agent::Update(Level& level)
 		}
 	}
 
-	// if agent is dead
-	//if (this->getHealth() <= 0)
-		//this->isAlive = false;
 
-    //if agent reaches bed || toilet then reset values
-	if (level.tiles[getCellX()][getCellY()]->isToilet)
-		this->setToiletNeed(0.0);
-	if (level.tiles[getCellX()][getCellY()]->isBed)
-		this->setTiredness(0.0);
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-	//Add berry to inventory
+	/*Add berry to inventory
 	if (level.tiles[getCellX()][getCellY()]->isBerryPlant && state[SDL_SCANCODE_F])
 	{
 		Item berry;
@@ -114,6 +106,7 @@ void Agent::Update(Level& level)
 		isMoving = false;
 		pathPointIterator = 0;
 	}
+	*/
 }
 
 void Agent::Move(Level& level, Point& StartPoint, Point& EndPoint)

@@ -214,7 +214,6 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 	//Renders all he cells
 	for (int x = 0; x < chunk.chunkSize; x++)
 	{
-		std::cout << "Generating Terrain: " << x << " OF " << chunk.tiles.size() << std::endl;
 		for (int y = 0 ; y < chunk.chunkSize; y++)
 		{
 			//Spawn the grass

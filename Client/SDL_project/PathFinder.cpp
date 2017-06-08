@@ -29,9 +29,9 @@ std::vector<std::shared_ptr<Node>> Pathfinder::getNeighbours(std::shared_ptr<Nod
 {
 	std::vector<std::shared_ptr<Node>> result;
 	// If the node is within the level
-	if (node->point.getX() - 1 >= 0 && node->point.getX() + 1 <= level.getLevelWidth())
+	if (node->point.getX() - 1 >= 0)
 	{
-		if (node->point.getY() - 1 >= 0 && node->point.getY() + 1 <= level.getLevelHeight())
+		if (node->point.getY() - 1 >= 0)
 		{
 			//left
 			result.push_back(getOrCreateNode(node->point.getX() - 1, node->point.getY()));
