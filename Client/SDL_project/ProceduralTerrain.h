@@ -31,7 +31,7 @@ public:
 	void ProceduralTerrain::SpawnTown(Chunk& level);
 
 private:
-	int seed = 87653;
+	int seed = 68473;
 	int forrestSeed = seed + 30;
 	int elevationSeed = seed + 36945;
 	int riverSeed = seed + 1255;
@@ -44,8 +44,8 @@ private:
 
 	float forrestAmplifier = 1.5;
 
-	int numberOfTrees = 5000;
-	int numberOfPlants = 10000;
+	int numberOfTrees = 5;
+	int numberOfPlants = 8;
 
 };
 

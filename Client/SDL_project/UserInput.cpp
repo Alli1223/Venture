@@ -66,7 +66,7 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 
 		if (state[SDL_SCANCODE_PAGEUP])
 			level.setCellSize(level.getCellSize() + 1);
-		if (state[SDL_SCANCODE_PAGEDOWN])
+		if (state[SDL_SCANCODE_PAGEDOWN] && level.getCellSize() > 0)
 			level.setCellSize(level.getCellSize() - 1);
 
 		if (state[SDL_SCANCODE_SPACE])

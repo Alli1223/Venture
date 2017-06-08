@@ -167,7 +167,7 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 		}
 	}
 	//SpawnTown(chunk);
-	//spawnTrees(chunk);
+	spawnTrees(chunk);
 	//spawnVegetation(chunk);
 }
 
@@ -175,16 +175,16 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 {
 	int noiseX = chunk.tiles[x][y]->getX();
 	int noiseY = chunk.tiles[x][y]->getY();
-	double terrainElevation = Elevation.noise((double)noiseX / terrainNoiseOffest, (double)noiseY / terrainNoiseOffest, 0.0) * 20;
-	double terrainElevationTwo = ElevationLayerTwo.noise((double)noiseX / terrainNoiseOffest, (double)noiseY / terrainNoiseOffest, 0.0) * 20;
-	double terrainElevationThree = ElevationLayerThree.noise((double)noiseX / terrainNoiseOffest, (double)noiseY / terrainNoiseOffest, 0.0) * 20;
+	double terrainElevation = Elevation.noise((double)noiseX / terrainNoiseOffest, (double)noiseY / terrainNoiseOffest, 0.0) * 20.0;
+	double terrainElevationTwo = ElevationLayerTwo.noise((double)noiseX / terrainNoiseOffest / 2.0, (double)noiseY / terrainNoiseOffest / 2.0, 0.0) * 20.0;
+	double terrainElevationThree = ElevationLayerThree.noise((double)noiseX, (double)noiseY, 0.0) * 20.0;
 
 	//terrainElevation = (char)((terrainElevation - 0) * (255 / (terrainElevation - 0)));
 	terrainElevation = terrainElevation + terrainElevationTwo + terrainElevationThree;
 	
 
-	double fNoise = forrestNoise.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20;
-	double pNoise = (riverNoise.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20) + (riverNoiseLayerTwo.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20);
+	double fNoise = forrestNoise.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20.0;
+	double pNoise = (riverNoise.noise((double)noiseX / 300.0, (double)noiseY / 300.0, 0.0) * 20.0) + (riverNoiseLayerTwo.noise((double)noiseX / 300.0, (double)noiseY / 300.0, 0.0) * 20.0);
 	
 	
 	chunk.tiles[x][y]->terrainElevationValue = terrainElevation;
@@ -214,14 +214,13 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 	}
 
 	// FORREST NOISE
-	if (chunk.tiles[x][y]->isGrass && fNoise > 14.0)
+	if (chunk.tiles[x][y]->isGrass && fNoise > 14.0 && rand() % numberOfTrees == 1)
 	{
 		chunk.tiles[x][y]->isVegetation = true;
 		chunk.tiles[x][y]->isOakTree = true;
 	}
-	else if (chunk.tiles[x][y]->isGrass && fNoise > 8.0 && fNoise < 12.0)
+	else if (chunk.tiles[x][y]->isGrass && fNoise > 8.0 && fNoise < 12.0 && rand() % numberOfTrees == 1)
 	{
-
 		chunk.tiles[x][y]->isVegetation = true;
 		chunk.tiles[x][y]->isFernTree = true;
 	}
