@@ -31,9 +31,9 @@ void Level::GenerateWorld(Camera& camera)
 	camera.ChunksOnScreen.x = numOfChunksWidth;
 	camera.ChunksOnScreen.y = numOfChunksHeight;
 	
-	for (int i = (camera.getX() / chunkSize); i < (camera.getX() / chunkSize) + numOfChunksWidth; i++)
+	for (int i = ((camera.getX() / cellSize) / chunkSize); i < ((camera.getX() / cellSize) / chunkSize) + numOfChunksWidth; i++)
 	{
-		for (int j = (camera.getY() / chunkSize); j < (camera.getY() / chunkSize) + numOfChunksHeight; j++)
+		for (int j = ((camera.getY() / cellSize) / chunkSize); j < ((camera.getY() / cellSize) / chunkSize) + numOfChunksHeight; j++)
 		{
 			CreateChunk(i, j);
 			proceduralTerrain.populateTerrain(World[i][j]);

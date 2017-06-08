@@ -61,11 +61,14 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 	for(int x = 0; x < level.getChunkSize(); x++)
 		for (int y = 0; y < level.getChunkSize(); y++)
 		{
-			newX = chunk.tiles[x][y]->getX() - camera.getX();
-			newY = chunk.tiles[x][y]->getY() - camera.getY();
+			newX = chunk.tiles[x][y]->getX();
+			newY = chunk.tiles[x][y]->getY();
 
 			xPos = newX * cellSize + cellSize / 2;
 			yPos = newY * cellSize + cellSize / 2;
+
+			xPos -= camera.getX();
+			yPos -= camera.getY();
 
 			if (chunk.tiles[x][y]->isWater)
 				WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
@@ -114,8 +117,8 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, Camera& ca
 	int cellSize = level.getCellSize();		
 	
 	//RENDERING THE CELLS
-	for (int i = camera.getX() / level.getChunkSize(); i < (camera.getX() / level.getChunkSize()) + camera.ChunksOnScreen.x; i++)
-		for (int j = camera.getY() / level.getChunkSize(); j < (camera.getY() / level.getChunkSize()) + camera.ChunksOnScreen.y; j++)
+	for (int i = (camera.getX() / cellSize) / level.getChunkSize(); i < ((camera.getX() / cellSize) / level.getChunkSize()) + camera.ChunksOnScreen.x; i++)
+		for (int j = (camera.getY() / cellSize) / level.getChunkSize(); j < ((camera.getY() / cellSize) / level.getChunkSize()) + camera.ChunksOnScreen.y; j++)
 				RenderChunk(level,camera, level.World[i][j], renderer);
 					
 
