@@ -5,6 +5,7 @@
 void Level::CreateChunk(int initX, int initY)
 {
 	Chunk chunk(initX, initY);
+	
 	for (int x = 0; x < chunkSize; x++)
 	{
 		std::vector<std::shared_ptr<Cell>> column;
@@ -15,7 +16,6 @@ void Level::CreateChunk(int initX, int initY)
 			// Populates the column with pointers to cells
 			Cell cell(x + (initX * chunkSize), y + (initY * chunkSize));
 			cell.isGrass = true;
-
 			auto sharedCell = std::make_shared<Cell>(cell);
 			World[initX][initY].tiles[x].push_back(sharedCell);
 		}
@@ -26,21 +26,25 @@ void Level::CreateChunk(int initX, int initY)
 
 void Level::GenerateWorld(Camera& camera)
 {
-	int numOfChunksWidth = ((camera.WindowWidth / cellSize) / chunkSize) + 1;
-	int numOfChunksHeight = ((camera.WindowHeight /cellSize) / chunkSize) + 1;
+	int numOfChunksWidth = ((camera.WindowWidth / cellSize) / chunkSize) + levelGenerationRadius;
+	int numOfChunksHeight = ((camera.WindowHeight /cellSize) / chunkSize) + levelGenerationRadius;
 	camera.ChunksOnScreen.x = numOfChunksWidth;
 	camera.ChunksOnScreen.y = numOfChunksHeight;
 	
-	for (int i = ((camera.getX() / cellSize) / chunkSize); i < ((camera.getX() / cellSize) / chunkSize) + numOfChunksWidth; i++)
+	for (int i = ((camera.getX() / cellSize) / chunkSize) - levelGenerationRadius; i < ((camera.getX() / cellSize) / chunkSize) + numOfChunksWidth; i++)
 	{
-		for (int j = ((camera.getY() / cellSize) / chunkSize); j < ((camera.getY() / cellSize) / chunkSize) + numOfChunksHeight; j++)
+		for (int j = ((camera.getY() / cellSize) / chunkSize) - levelGenerationRadius; j < ((camera.getY() / cellSize) / chunkSize) + numOfChunksHeight; j++)
 		{
-			CreateChunk(i, j);
-			proceduralTerrain.populateTerrain(World[i][j]);
+			if (!World[i][j].tiles.size() > 0)
+			{
+				CreateChunk(i, j);
+				proceduralTerrain.populateTerrain(World[i][j]);
+			}
 		}
 		std::cout << "Creating chunk: " << i << std::endl;
 	}
 }
+
 
 
 // Returns the value of the x & y values in the cell

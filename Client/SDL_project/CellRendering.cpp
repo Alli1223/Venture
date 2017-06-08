@@ -111,16 +111,14 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 		}
 }
 
-//! Renders the cells
+//! Renders the chunks of cells
 void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, Camera& camera)
 {
 	int cellSize = level.getCellSize();		
 	
 	//RENDERING THE CELLS
-	for (int i = (camera.getX() / cellSize) / level.getChunkSize(); i < ((camera.getX() / cellSize) / level.getChunkSize()) + camera.ChunksOnScreen.x; i++)
-		for (int j = (camera.getY() / cellSize) / level.getChunkSize(); j < ((camera.getY() / cellSize) / level.getChunkSize()) + camera.ChunksOnScreen.y; j++)
+	for (int i = (camera.getX() / cellSize) / level.getChunkSize() - 1; i < ((camera.getX() / cellSize) / level.getChunkSize()) + camera.ChunksOnScreen.x; i++)
+		for (int j = (camera.getY() / cellSize) / level.getChunkSize() - 1; j < ((camera.getY() / cellSize) / level.getChunkSize()) + camera.ChunksOnScreen.y; j++)
 				RenderChunk(level,camera, level.World[i][j], renderer);
-					
 
-		
 }

@@ -55,23 +55,23 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 		//Set offset to camera
 		if (state[SDL_SCANCODE_RIGHT])
 		{
-			camera.SetPos(camera.getX() + 1, camera.getY());
+			camera.SetPos(camera.getX() + camera.getCameraSpeed(), camera.getY());
 			level.GenerateWorld(camera);
 		}
 		if (state[SDL_SCANCODE_DOWN])
 		{
-			camera.SetPos(camera.getX(), camera.getY() + 1);
+			camera.SetPos(camera.getX(), camera.getY() + camera.getCameraSpeed());
 			level.GenerateWorld(camera);
 
 		}
 		if (state[SDL_SCANCODE_LEFT])
 		{
-			camera.SetPos(camera.getX() - 1, camera.getY());
+			camera.SetPos(camera.getX() - camera.getCameraSpeed(), camera.getY());
 			level.GenerateWorld(camera);
 		}
 		if (state[SDL_SCANCODE_UP])
 		{
-			camera.SetPos(camera.getX(), camera.getY() - 1);
+			camera.SetPos(camera.getX(), camera.getY() - camera.getCameraSpeed());
 			level.GenerateWorld(camera);
 		}
 
@@ -82,8 +82,7 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 
 		if (state[SDL_SCANCODE_SPACE])
 		{
-			camera.xoffset = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() / cellSize + (camera.WindowWidth / cellSize / 2);
-			camera.yoffset = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() / cellSize + (camera.WindowHeight / cellSize / 2);
+			level.GenerateWorld(camera);
 		}
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

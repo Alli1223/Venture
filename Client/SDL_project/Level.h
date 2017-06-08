@@ -47,6 +47,9 @@ protected:
 	int cellSize = 25;
 	int chunkSize;
 
+	// The extra chunks that are generated at the screens border and beyond
+	int levelGenerationRadius = 2;
+
 	int levelWidth, levelHeight;
 };
 
