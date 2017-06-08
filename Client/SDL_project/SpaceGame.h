@@ -89,6 +89,8 @@ public:
 	
 	bool useNetworking = false;
 
+	glm::vec2 mouseCellPosition;
+
 	//! Whether the game is running or not
 	bool running = true;
 	bool menu;

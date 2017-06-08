@@ -4,11 +4,7 @@
 
 void Level::CreateChunk(int initX, int initY)
 {
-	
-	
 	Chunk chunk(initX, initY);
-	std::cout << "Generating chunk at: " <<(initX * chunkSize)  << "," << (initY * chunkSize) << std::endl;
-	bool once = true;
 	for (int x = 0; x < chunkSize; x++)
 	{
 		std::vector<std::shared_ptr<Cell>> column;
@@ -30,10 +26,14 @@ void Level::CreateChunk(int initX, int initY)
 
 void Level::GenerateWorld(Camera& camera)
 {
+	int numOfChunksWidth = ((camera.WindowWidth / cellSize) / chunkSize) + 1;
+	int numOfChunksHeight = ((camera.WindowHeight /cellSize) / chunkSize) + 1;
+	camera.ChunksOnScreen.x = numOfChunksWidth;
+	camera.ChunksOnScreen.y = numOfChunksHeight;
 	
-	for (int i = camera.getX(); i < camera.getX() + 5; i++)
+	for (int i = (camera.getX() / chunkSize); i < (camera.getX() / chunkSize) + numOfChunksWidth; i++)
 	{
-		for (int j = camera.getY(); j < camera.getY() + 5; j++)
+		for (int j = (camera.getY() / chunkSize); j < (camera.getY() / chunkSize) + numOfChunksHeight; j++)
 		{
 			CreateChunk(i, j);
 			proceduralTerrain.populateTerrain(World[i][j]);
@@ -67,17 +67,19 @@ glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY)
 
 
 //NOt used
-void Level::SetGlobalCell(Camera& camera, int x, int y)
+void Level::SetGlobalCell(Camera& camera, int x, int y, glm::vec2 mousePos)
 {
 	// ChunkX/Y is the chunk that the cell is in
 	int chunkX = x / chunkSize;
 	int chunkY = y / chunkSize;
 
-	
-	if (x >= chunkSize)
-		x = x - (chunkX * chunkSize);
-	if (y >= chunkSize)
-		y = y - (chunkY * chunkSize);
+	if (mousePos.x >= chunkSize)
+		mousePos.x = mousePos.x - (chunkX * chunkSize);
+	if (mousePos.y >= chunkSize)
+		mousePos.y = mousePos.y - (chunkY * chunkSize);
+
+
+	std::cout << "PlaceCell: " << x << " " << y << std::endl;
 
 	World[chunkX][chunkY].tiles[x][y]->isFlower1 = true;
 
@@ -85,6 +87,8 @@ void Level::SetGlobalCell(Camera& camera, int x, int y)
 
 Level::Level()
 {
+	Chunk exampleChunk;
+	chunkSize = exampleChunk.chunkSize;
 }
 
 

@@ -143,23 +143,23 @@ void ProceduralTerrain::generateGrass(Chunk& level, int x, int y)
 {
 	int noiseX = level.tiles[x][y]->getX();
 	int noiseY = level.tiles[x][y]->getY();
-	double noise = groundNoise.noise((double)noiseX / terrainNoiseOffest, (double)noiseY / terrainNoiseOffest, 0.0) * 20;
+	double terrainElevation = groundNoise.noise((double)noiseX / terrainNoiseOffest, (double)noiseY / terrainNoiseOffest, 0.0) * 20;
 	double fNoise = forrestNoise.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20;
 	double pNoise = pathNoise.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20;
-	double layerdNoise = noise + fNoise;
+	
 	//noise = (char)((noise - 0) * (255 / (noise - 0)));
-	level.tiles[x][y]->terrainNoiseValue = noise;
+	level.tiles[x][y]->terrainNoiseValue = terrainElevation;
 
 	// TERRAIN NOISE
-	if (layerdNoise > -0.7 && layerdNoise < 13.0)
+	if (terrainElevation > -0.7 && terrainElevation < 13.0)
 	{
 		level.tiles[x][y]->isGrass = true;
 	}
-	else if (layerdNoise > -0.5 && layerdNoise < -0.7)
+	else if (terrainElevation > -0.5 && terrainElevation < -0.7)
 	{
 		level.tiles[x][y]->isDirt = true;
 	}
-	else if (layerdNoise > -1 && layerdNoise < -0.5)
+	else if (terrainElevation > -1 && terrainElevation < -0.5)
 	{
 		level.tiles[x][y]->isSand = true;
 		level.tiles[x][y]->isGrass = false;
@@ -191,19 +191,19 @@ void ProceduralTerrain::generateGrass(Chunk& level, int x, int y)
 		level.tiles[x][y]->isOakTree = false;
 		level.tiles[x][y]->isFernTree = false;
 	}
-	else if (pNoise >= 1.0 && pNoise < 1.2)
+	else if (pNoise >= 1.0 && pNoise < 1.2 && rand() % 3 == 1)
 	{
 		level.tiles[x][y]->isFernTree = true;
 		level.tiles[x][y]->isGrass = true;
 	}
-	else if (pNoise >= 1.2 && pNoise < 1.4 || pNoise >= 0.3 && pNoise < 1.0)
+	else if (pNoise >= 1.2 && pNoise < 1.4 || pNoise >= 0.3 && pNoise < 1.0 && rand() % 3 == 1)
 	{
 		level.tiles[x][y]->isFernTree = true;
 		level.tiles[x][y]->isGrass = true;
 	}
 }
 
-void ProceduralTerrain::populateTerrain(Chunk& level)
+void ProceduralTerrain::populateTerrain(Chunk& chunk)
 {
 	//generate noise from seed
 	
@@ -212,18 +212,18 @@ void ProceduralTerrain::populateTerrain(Chunk& level)
 	pathNoise.GenerateNoise(pathSeed);
 
 	//Renders all he cells
-	for (int x = 0; x < 16; x++)
+	for (int x = 0; x < chunk.chunkSize; x++)
 	{
-		std::cout << "Generating Terrain: " << x << " OF " << level.tiles.size() << std::endl;
-		for (int y = 0 ; y < 16; y++)
+		std::cout << "Generating Terrain: " << x << " OF " << chunk.tiles.size() << std::endl;
+		for (int y = 0 ; y < chunk.chunkSize; y++)
 		{
 			//Spawn the grass
-			level.tiles[x][y]->isWalkable = true;
+			chunk.tiles[x][y]->isWalkable = true;
 			
 			//level.tiles[10][30]->isRoom = true;
 			
 			//Generate the grass
-			generateGrass(level, x, y);
+			generateGrass(chunk, x, y);
 			
 		}
 	}

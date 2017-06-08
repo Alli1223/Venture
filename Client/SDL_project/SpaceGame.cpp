@@ -9,8 +9,8 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH;
+	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
+	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
 	window = SDL_CreateWindow("SpaceGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
@@ -35,18 +35,12 @@ SpaceGame::~SpaceGame()
 
 void SpaceGame::run()
 {
-	// Creates a grid of cells
-	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	//level.makeOrExtendGrid(300, 200, 0, 0);
-
-	//Level world(0,0);
+	camera.SetPos(0, 0);
+	camera.WindowHeight = WINDOW_HEIGHT;
+	camera.WindowWidth = WINDOW_WIDTH;
 
 	level.GenerateWorld(camera);
 
-	
-	//level.CreateChunk(-1,-1);
-	//level.CreateChunk(2, 0);
-	
 
 	//terrainGen.populateTerrain(level);
 	int cellSize = level.getCellSize();
@@ -97,12 +91,6 @@ void SpaceGame::run()
 		player.setY(WINDOW_HEIGHT / 2);
 		agentManager.SpawnAgent(player);
 	}
-	//int xoffset = 0, yoffset = 0;
-	camera.SetPos(0, 0);
-	camera.WindowHeight = WINDOW_HEIGHT;
-	camera.WindowWidth = WINDOW_WIDTH;
-	
-	//level.CreateChunk(0, -3);
 
 	// values for the network update timer
 	double lastTime = SDL_GetTicks();
@@ -113,6 +101,10 @@ void SpaceGame::run()
 	/////////// MAIN LOOP /////////////////
 	while (running)
 	{
+		mouseCellPosition.x = mouse_X / cellSize;
+		mouseCellPosition.y = mouse_Y / cellSize;
+
+
 		// Interval Timer
 		timebehind += SDL_GetTicks() - lastTime;
 		lastTime = SDL_GetTicks();
@@ -145,7 +137,6 @@ void SpaceGame::run()
 			//agentManager.allAgents[0].inventory.add(berry);
 
 			level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
-
 		}
 
 		//Move player
@@ -154,10 +145,10 @@ void SpaceGame::run()
 			int x = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).x;
 			int y = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).y;
 			//level.CreateChunk(x / level.getChunkSize(), y / level.getChunkSize());
-			level.SetGlobalCell(camera, x, y);
-		}
-			//agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].Move(level, Point((agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() / cellSize) + camera.xoffset, (agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() / cellSize) + camera.yoffset), Point(mouse_X / cellSize, mouse_Y / cellSize));
 
+			//level.SetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
+			level.SetGlobalCell(camera, x, y, mouseCellPosition);
+		}
 
 
 		// Rendering process:

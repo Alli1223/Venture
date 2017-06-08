@@ -26,6 +26,7 @@ public:
 	int xoffset = 0, yoffset = 0;
 	int WindowWidth = 0;
 	int WindowHeight = 0;
+	glm::vec2 ChunksOnScreen;
 
 	static Camera CameraControl;
 

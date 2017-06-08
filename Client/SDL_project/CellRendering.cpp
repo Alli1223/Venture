@@ -61,25 +61,50 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 	for(int x = 0; x < level.getChunkSize(); x++)
 		for (int y = 0; y < level.getChunkSize(); y++)
 		{
-			newX = chunk.tiles[x][y]->getX() - (camera.getX() * level.getChunkSize());
-			newY = chunk.tiles[x][y]->getY() - (camera.getY() * level.getChunkSize());
+			newX = chunk.tiles[x][y]->getX() - camera.getX();
+			newY = chunk.tiles[x][y]->getY() - camera.getY();
 
 			xPos = newX * cellSize + cellSize / 2;
 			yPos = newY * cellSize + cellSize / 2;
 
-			//Base Ground Textures
-			if (chunk.tiles[x][y]->isGrass)
-				Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
-			if(chunk.tiles[x][y]->isFlower1)
-				Flower1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
-			if (chunk.tiles[x][y]->isDirt)
-				DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 			if (chunk.tiles[x][y]->isWater)
 				WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-			if (chunk.tiles[x][y]->isSand)
-				SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-			if (chunk.tiles[x][y]->isStoneWall)
-				StoneWallTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+			else
+			{
+				//Base Ground Textures
+				if (chunk.tiles[x][y]->isGrass)
+					Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isFlower1)
+					Flower1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isDirt)
+					DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isWater)
+					WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isSand)
+					SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isStoneWall)
+					StoneWallTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isFernTree)
+					FernTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
+				if (chunk.tiles[x][y]->isOakTree)
+					OakTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
+				if (chunk.tiles[x][y]->isTreeOne)
+					TreeOneTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isTreeTwo)
+					TreeTwoTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isTreeThree)
+					TreeThreeTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isFlower1)
+					Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
+				if (chunk.tiles[x][y]->isFlower2)
+					Flower2Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
+				if (chunk.tiles[x][y]->isBerryPlant)
+					BerryPlantTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
+				if (chunk.tiles[x][y]->isBush)
+					BushTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
+				if (chunk.tiles[x][y]->isLongGrass)
+					LongGrass1.render(renderer, xPos, yPos, cellSize, cellSize);
+			}
 		}
 }
 
@@ -89,83 +114,10 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, Camera& ca
 	int cellSize = level.getCellSize();		
 	
 	//RENDERING THE CELLS
-	for (int i = camera.getX(); i < camera.getX() + 5; i++)
-		for (int j = camera.getY(); j < camera.getY() + 5; j++)
+	for (int i = camera.getX() / level.getChunkSize(); i < (camera.getX() / level.getChunkSize()) + camera.ChunksOnScreen.x; i++)
+		for (int j = camera.getY() / level.getChunkSize(); j < (camera.getY() / level.getChunkSize()) + camera.ChunksOnScreen.y; j++)
 				RenderChunk(level,camera, level.World[i][j], renderer);
 					
 
-
-					/*
-					//if (level.World[chunkX][chunkY].tiles[x][y]->isGrass)
-						if (sin(level.World[chunkX][chunkY].tiles[x][y]->terrainNoiseValue) > 0.5)
-							Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
-						else
-							Grass2Texture.render(renderer, xPos, yPos, cellSize, cellSize);
-					if (level.World[chunkX][chunkY].tiles[x][y]->isDirt)
-						DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-					if (level.World[chunkX][chunkY].tiles[x][y]->isWater)
-						WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-					if (level.World[chunkX][chunkY].tiles[x][y]->isSand)
-						SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-					if (level.World[chunkX][chunkY].tiles[x][y]->isStoneWall)
-						StoneWallTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-
-
-					if (level.World[chunkX][chunkY].tiles[x][y]->isVegetation)
-					{
-						//Trees
-						if (level.World[chunkX][chunkY].tiles[x][y]->isFernTree)
-							FernTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
-						if (level.World[chunkX][chunkY].tiles[x][y]->isOakTree)
-							OakTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
-						if (level.World[chunkX][chunkY].tiles[x][y]->isTreeOne)
-							TreeOneTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-						if (level.World[chunkX][chunkY].tiles[x][y]->isTreeTwo)
-							TreeTwoTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-						if (level.World[chunkX][chunkY].tiles[x][y]->isTreeThree)
-							TreeThreeTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-
-						//Flowers
-						if (level.World[chunkX][chunkY].tiles[x][y]->isFlower1)
-							Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
-						if (level.World[chunkX][chunkY].tiles[x][y]->isFlower2)
-							Flower2Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
-						if (level.World[chunkX][chunkY].tiles[x][y]->isBerryPlant)
-							BerryPlantTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
-						if (level.World[chunkX][chunkY].tiles[x][y]->isBush)
-							BushTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
-
-						//Grass
-						if (level.World[chunkX][chunkY].tiles[x][y]->isLongGrass)
-						{
-							int randVal = 0;
-							if (randVal == 0)
-								LongGrass1.render(renderer, xPos, yPos, cellSize, cellSize);
-							else if (randVal == 1)
-								LongGrass2.render(renderer, xPos, yPos, cellSize, cellSize);
-							else
-								LongGrass3.render(renderer, xPos, yPos, cellSize, cellSize);
-						}
-					}
-
-					if (level.World[chunkX][chunkY].tiles[x][y]->isCargo)
-					{
-						cargoTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-					}
-					if (level.World[chunkX][chunkY].tiles[x][y]->isBed)
-					{
-						bedSideTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-					}
-					if (level.World[chunkX][chunkY].tiles[x][y]->isToilet)
-					{
-						toiletTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-					}
-					if (level.World[chunkX][chunkY].tiles[x][y]->isKitchen)
-					{
-						kitchenTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-					}
-				}
-			*/
-				//}
 		
 }

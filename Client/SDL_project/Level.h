@@ -30,7 +30,7 @@ public:
 
 	glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY);
 
-	void Level::SetGlobalCell(Camera& camera, int x, int y);
+	void Level::SetGlobalCell(Camera& camera, int x, int y, glm::vec2 mousePos);
 
 
 	void Level::GenerateWorld(Camera& camera);
@@ -44,8 +44,8 @@ public:
 protected:
 	ProceduralTerrain proceduralTerrain;
 	//! The size that the cell will be rendered at
-	int cellSize = 10;
-	int chunkSize = 16;
+	int cellSize = 25;
+	int chunkSize;
 
 	int levelWidth, levelHeight;
 };
