@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "SpaceGame.h"
+#include "Venture.h"
 #include "InitialisationError.h"
 
-SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
+Venture::Venture() : backgroundTexture("Resources\\background5.jpg")
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -25,7 +25,7 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 	}
 }
 
-SpaceGame::~SpaceGame()
+Venture::~Venture()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
@@ -33,7 +33,7 @@ SpaceGame::~SpaceGame()
 }
 
 
-void SpaceGame::run()
+void Venture::run()
 {
 	camera.SetPos(0, 0);
 	camera.WindowHeight = WINDOW_HEIGHT;
@@ -213,7 +213,7 @@ void SpaceGame::run()
 }
 
 
-void SpaceGame::deleteVectors()
+void Venture::deleteVectors()
 {
 }
 

@@ -22,9 +22,6 @@
     <ClCompile Include="SDL_project.cpp">
       <Filter>Source Files\Main Game Classes</Filter>
     </ClCompile>
-    <ClCompile Include="SpaceGame.cpp">
-      <Filter>Source Files\Main Game Classes</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files\Main Game Classes</Filter>
     </ClCompile>
@@ -104,6 +101,9 @@
       <Filter>Source Files\Character</Filter>
     </ClCompile>
     <ClCompile Include="Chunk.cpp" />
+    <ClCompile Include="Venture.cpp">
+      <Filter>Source Files\Main Game Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fire.h">
@@ -122,9 +122,6 @@
       <Filter>Headers\Main Game Classes</Filter>
     </ClInclude>
     <ClInclude Include="SDL_project.h">
-      <Filter>Headers\Main Game Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaceGame.h">
       <Filter>Headers\Main Game Classes</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -218,6 +215,9 @@
       <Filter>Headers\Character</Filter>
     </ClInclude>
     <ClInclude Include="Chunk.h" />
+    <ClInclude Include="Venture.h">
+      <Filter>Headers\Main Game Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />

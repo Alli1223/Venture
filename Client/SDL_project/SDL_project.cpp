@@ -3,13 +3,13 @@
 
 #include "stdafx.h"
 #include "SDL_project.h"
-#include "SpaceGame.h"
+#include "Venture.h"
 
 int main(int argc, char* args[])
 
 {
 	
-	SpaceGame game;
+	Venture game;
 	game.run();
 
 	return 0;

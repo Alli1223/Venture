@@ -192,7 +192,7 @@
     <ClInclude Include="Oxygen.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SDL_project.h" />
-    <ClInclude Include="SpaceGame.h" />
+    <ClInclude Include="Venture.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
@@ -231,7 +231,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Oxygen.cpp" />
     <ClCompile Include="SDL_project.cpp" />
-    <ClCompile Include="SpaceGame.cpp" />
+    <ClCompile Include="Venture.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

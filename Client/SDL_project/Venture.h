@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Texture.h"
 #include "Level.h"
 #include "Map.h"
@@ -33,19 +32,19 @@
 /*!
 This is the main class where the game is laoded and run. 
 */
-class SpaceGame
+class Venture
 {
 public:
 	//! A constructor
-	SpaceGame();
+	Venture();
 	//! A deconstructor
-	~SpaceGame();
+	~Venture();
 
 	//! Main Run loop
 	void run();
 
 	//! Removes all the data from stored vectors
-	void SpaceGame::deleteVectors();
+	void Venture::deleteVectors();
 	//! Initalising all classes needed for game
 	Level level;
 	GameSettings gameSettings;
@@ -80,7 +79,7 @@ public:
 
 	bool spawnPlayer = true;
 	
-	bool useNetworking = true;
+	bool useNetworking = false;
 
 	glm::vec2 mouseCellPosition;
 
