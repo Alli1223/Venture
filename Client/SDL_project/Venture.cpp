@@ -39,6 +39,7 @@ void Venture::run()
 	camera.WindowHeight = WINDOW_HEIGHT;
 	camera.WindowWidth = WINDOW_WIDTH;
 
+	//Generates the world around the camera position
 	level.GenerateWorld(camera);
 
 

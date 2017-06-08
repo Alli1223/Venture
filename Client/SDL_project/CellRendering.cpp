@@ -42,7 +42,8 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	StoneWallTexture(TerrainSpriteTextureLocation + "StoneWall.png"),
 	TreeOneTexture(TreeTerrainSpriteTextureLocation + "Tree1.png"),
 	TreeTwoTexture(TreeTerrainSpriteTextureLocation + "Tree2.png"),
-	TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png")
+	TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
+	SnowTexture(TerrainSpriteTextureLocation + "Snow.png")
 
 {
 }
@@ -107,6 +108,8 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 					BushTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
 				if (chunk.tiles[x][y]->isLongGrass)
 					LongGrass1.render(renderer, xPos, yPos, cellSize, cellSize);
+				if(chunk.tiles[x][y]->isSnow)
+					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 			}
 		}
 }

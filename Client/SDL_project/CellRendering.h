@@ -92,6 +92,7 @@ private:
 	Texture WaterTexture;
 	Texture SandTexture;
 	Texture StoneWallTexture;
+	Texture SnowTexture;
 
 
 	//! Is the texture for hull breaches

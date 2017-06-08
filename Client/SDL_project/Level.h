@@ -44,7 +44,7 @@ public:
 protected:
 	ProceduralTerrain proceduralTerrain;
 	//! The size that the cell will be rendered at
-	int cellSize = 25;
+	int cellSize = 10;
 	int chunkSize;
 
 	// The extra chunks that are generated at the screens border and beyond

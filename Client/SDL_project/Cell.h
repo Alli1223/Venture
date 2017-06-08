@@ -68,7 +68,7 @@ public:
 	//! Whether the cell is a hydroponics bay
 	bool isHydroponicsBay = false;
 
-	double terrainNoiseValue = 0;
+	double terrainElevationValue = 0;
 
 	//! Whether the cell is a bed
 	bool isBed = false;
@@ -93,6 +93,7 @@ public:
 
 	bool isWater = false;
 	bool isSand = false;
+	bool isSnow = false;
 
 	bool isVegetation = false;
 	bool isFlower1 = false;
