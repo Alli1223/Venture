@@ -11,7 +11,7 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 	gameSettings.getScreenResolution();
 	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
 	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
-	window = SDL_CreateWindow("SpaceGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
+	window = SDL_CreateWindow("Venture", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
 	{
@@ -155,7 +155,6 @@ void SpaceGame::run()
 
 			//level.SetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
 			//level.SetGlobalCell(camera, x, y, mouseCellPosition);
-
 		}
 
 

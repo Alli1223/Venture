@@ -34,7 +34,7 @@ public:
 	//std::vector<std::vector<std::shared_ptr<Cell>>> grid;
 
 private:
-	int seed = 6554346;
+	int seed = 87653;
 	int forrestSeed = seed + 30;
 	int groundSeed = seed + 36945;
 	int pathSeed = seed + 1255;
