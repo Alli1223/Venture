@@ -78,8 +78,8 @@ void Agent::Update(Level& level)
 		y = y - (playerChunk.y * level.getChunkSize());
 
 
-	if (level.World[playerChunk.x][playerChunk.y].tiles[x][y]->isWater)
-		level.World[playerChunk.x][playerChunk.y].tiles[x][y]->isWater = false;
+	//if (level.World[playerChunk.x][playerChunk.y].tiles[x][y]->isWater)
+		//level.World[playerChunk.x][playerChunk.y].tiles[x][y]->isWater = false;
 
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 

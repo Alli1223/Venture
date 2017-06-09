@@ -10,29 +10,7 @@ ProceduralTerrain::ProceduralTerrain()
 ProceduralTerrain::~ProceduralTerrain()
 {
 }
-/* Places a building in the specified area
-void PlaceBuilding(Chunk& chunk, int x, int y, int sizeX, int sizeY)
-{
-	for (int x = 0; x < sizeX; x++)
-	{
-		for (int y = 0; y < sizeY; y++);
-		{
-			chunk.tiles[x][y]->isBuilding = true;
-			chunk.tiles[x][y]->isStoneWall = true;
-		}
-	}
-}
 
-void ProceduralTerrain::GenerateTerrain(Chunk& chunk, AgentManager& agentManager)
-{
-	if (agentManager.allAgents[0].getCellX() > chunk.tiles.size() / 2)
-	{
-		//chunk.makeOrExtendGrid(chunk.getLevelWidth(), chunk.getLevelHeight(), generateTerrainXPos, generateTerrainYPos);
-		//generateTerrainXPos += chunk.getLevelWidth();
-		//generateTerrainYPos += 200;
-	}
-}
-*/
 // Clears the ground and spawns buildings in the area
 void ProceduralTerrain::SpawnTown(Chunk& level)
 {
@@ -144,8 +122,8 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 	//generate noise from seed
 
 	Elevation.GenerateNoise(elevationSeed);
-	ElevationLayerTwo.GenerateNoise(97463);
-	ElevationLayerThree.GenerateNoise(35351);
+	ElevationLayerTwo.GenerateNoise(elevationSeed - 1234);
+	ElevationLayerThree.GenerateNoise(elevationSeed + 1234);
 	
 
 	forrestNoise.GenerateNoise(forrestSeed);
@@ -186,12 +164,13 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 
 	 double sNoise = SimplexNoise::noise(noiseX / 40, noiseY / 40);
 	//terrainElevation = (char)((terrainElevation - 0) * (255 / (terrainElevation - 0)));
-	terrainElevation = sNoise + terrainElevationTwo + 2;//terrainElevation + terrainElevationTwo + terrainElevationThree;
+	terrainElevation = sNoise + terrainElevationTwo + terrainElevation + 2;//terrainElevation + terrainElevationTwo + terrainElevationThree;
 	
 
 	double fNoise = forrestNoise.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20.0;
+	fNoise += SimplexNoise::noise(noiseX / 40, noiseY / 40);
 	double pNoise = (riverNoise.noise((double)noiseX / 300.0, (double)noiseY / 300.0, 0.0) * 20.0) + (riverNoiseLayerTwo.noise((double)noiseX / 300.0, (double)noiseY / 300.0, 0.0) * 20.0);
-	
+	pNoise += SimplexNoise::noise(noiseX / 100, noiseY / 100);
 	
 	chunk.tiles[x][y]->terrainElevationValue = terrainElevation;
 
@@ -200,7 +179,7 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 	{
 		chunk.tiles[x][y]->isGrass = true;
 	}
-	else if (terrainElevation > -2 && terrainElevation < -1.8)
+	else if (terrainElevation > -2.3 && terrainElevation < -1.8)
 	{
 		chunk.tiles[x][y]->isSand = true;
 		chunk.tiles[x][y]->isGrass = false;
