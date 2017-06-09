@@ -1,6 +1,7 @@
 #pragma once
 #include "cell.h"
 #include "PerlinNoise.h"
+#include "SimplexNoise.h"
 #include "Chunk.h"
 #include "point.h"
 #include "Camera.h"

@@ -146,6 +146,7 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 	Elevation.GenerateNoise(elevationSeed);
 	ElevationLayerTwo.GenerateNoise(97463);
 	ElevationLayerThree.GenerateNoise(35351);
+	
 
 	forrestNoise.GenerateNoise(forrestSeed);
 	riverNoise.GenerateNoise(riverSeed);
@@ -173,14 +174,19 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 
 void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 {
-	int noiseX = chunk.tiles[x][y]->getX();
-	int noiseY = chunk.tiles[x][y]->getY();
+	float noiseX = chunk.tiles[x][y]->getX();
+	float noiseY = chunk.tiles[x][y]->getY();
 	double terrainElevation = Elevation.noise((double)noiseX / terrainNoiseOffest, (double)noiseY / terrainNoiseOffest, 0.0) * 20.0;
 	double terrainElevationTwo = ElevationLayerTwo.noise((double)noiseX / terrainNoiseOffest / 2.0, (double)noiseY / terrainNoiseOffest / 2.0, 0.0) * 20.0;
 	double terrainElevationThree = ElevationLayerThree.noise((double)noiseX, (double)noiseY, 0.0) * 20.0;
 
+	
+	
+	//sNoise = octaves.fractal(1, noiseX, noiseY);
+
+	 double sNoise = SimplexNoise::noise(noiseX / 40, noiseY / 40);
 	//terrainElevation = (char)((terrainElevation - 0) * (255 / (terrainElevation - 0)));
-	terrainElevation = terrainElevation + terrainElevationTwo + terrainElevationThree;
+	terrainElevation = sNoise + terrainElevationTwo + 2;//terrainElevation + terrainElevationTwo + terrainElevationThree;
 	
 
 	double fNoise = forrestNoise.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20.0;
@@ -190,15 +196,11 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 	chunk.tiles[x][y]->terrainElevationValue = terrainElevation;
 
 	// TERRAIN NOISE
-	if (terrainElevation > -0.7 && terrainElevation < 13.0)
+	if (terrainElevation > -1.8 && terrainElevation < 13.0)
 	{
 		chunk.tiles[x][y]->isGrass = true;
 	}
-	else if (terrainElevation > -0.5 && terrainElevation < -0.7)
-	{
-		chunk.tiles[x][y]->isDirt = true;
-	}
-	else if (terrainElevation > -2 && terrainElevation < -0.5)
+	else if (terrainElevation > -2 && terrainElevation < -1.8)
 	{
 		chunk.tiles[x][y]->isSand = true;
 		chunk.tiles[x][y]->isGrass = false;
@@ -208,6 +210,12 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 	{
 		chunk.tiles[x][y]->isWater = true;
 	}
+	else if (terrainElevation > -0.5 && terrainElevation < -0.7)
+	{
+		chunk.tiles[x][y]->isDirt = true;
+	}
+
+
 	else if (terrainElevation > 25)
 	{
 		chunk.tiles[x][y]->isSnow = true;
