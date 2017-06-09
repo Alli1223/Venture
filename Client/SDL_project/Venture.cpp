@@ -11,6 +11,9 @@ Venture::Venture() : backgroundTexture("Resources\\background5.jpg")
 	gameSettings.getScreenResolution();
 	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
 	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
+	camera.WindowHeight = WINDOW_HEIGHT;
+	camera.WindowWidth = WINDOW_WIDTH;
+	camera.SetPos(0, 0);
 	window = SDL_CreateWindow("Venture", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
@@ -23,6 +26,7 @@ Venture::Venture() : backgroundTexture("Resources\\background5.jpg")
 	{
 		throw InitialisationError("SDL_CreateRenderer failed");
 	}
+
 }
 
 Venture::~Venture()
@@ -35,9 +39,6 @@ Venture::~Venture()
 
 void Venture::run()
 {
-	camera.SetPos(0, 0);
-	camera.WindowHeight = WINDOW_HEIGHT;
-	camera.WindowWidth = WINDOW_WIDTH;
 
 	//Generates the world around the camera position
 	level.GenerateWorld(camera);
@@ -88,10 +89,11 @@ void Venture::run()
 		player.characterType = "Player";
 		player.setSpeed(5);
 		player.setID(playerName);
-		player.setX(camera.WindowWidth / 2);
-		player.setY(camera.WindowHeight / 2);
+		player.setX(WINDOW_WIDTH / 2);
+		player.setY(WINDOW_HEIGHT / 2);
 		agentManager.SpawnAgent(player);
 	}
+	//camera.SetPos(player.getX())
 
 	// values for the network update timer
 	double lastTime = SDL_GetTicks();
@@ -105,9 +107,6 @@ void Venture::run()
 		mouseCellPosition.x = mouse_X / cellSize;
 		mouseCellPosition.y = mouse_Y / cellSize;
 
-
-		
-	
 
 		// Interval Timer
 		timebehind += SDL_GetTicks() - lastTime;

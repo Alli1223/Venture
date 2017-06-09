@@ -65,7 +65,9 @@ glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY)
 	returnPoint.x = World[chunkX][chunkY].tiles[cellX][cellY]->getX() + (camera.getX() * chunkSize);
 	returnPoint.y = World[chunkX][chunkY].tiles[cellX][cellY]->getY() - (camera.getY() * chunkSize);
 
-	std::cout << returnPoint.x << " " << returnPoint.y << "|" << chunkX << " " << chunkY << "|" << cellX << " " << cellY << std::endl;
+	double elevation = World[chunkX][chunkY].tiles[cellX][cellY]->terrainElevationValue;
+
+	std::cout << returnPoint.x << " " << returnPoint.y << "|" << chunkX << " " << chunkY << "|" << cellX << " " << cellY << "| " << elevation << std::endl;
 	return returnPoint;
 }
 
@@ -92,7 +94,8 @@ void Level::SetGlobalCell(Camera& camera, int x, int y, glm::vec2 mousePos)
 Level::Level()
 {
 	Chunk exampleChunk;
-	chunkSize = exampleChunk.chunkSize;
+	chunkSize = exampleChunk.getChunkSize();
+	exampleChunk.~Chunk();
 }
 
 

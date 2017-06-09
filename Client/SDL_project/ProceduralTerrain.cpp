@@ -152,9 +152,9 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 	riverNoiseLayerTwo.GenerateNoise(riverSeed / 2);
 
 	//Renders all he cells
-	for (int x = 0; x < chunk.chunkSize; x++)
+	for (int x = 0; x < chunk.getChunkSize(); x++)
 	{
-		for (int y = 0; y < chunk.chunkSize; y++)
+		for (int y = 0; y < chunk.getChunkSize(); y++)
 		{
 			//Spawn the grass
 			chunk.tiles[x][y]->isWalkable = true;

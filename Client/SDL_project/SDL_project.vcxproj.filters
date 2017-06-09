@@ -100,10 +100,13 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Character</Filter>
     </ClCompile>
-    <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="Venture.cpp">
       <Filter>Source Files\Main Game Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Chunk.cpp">
+      <Filter>Source Files\Level Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="SimplexNoise.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fire.h">
@@ -214,10 +217,13 @@
     <ClInclude Include="Player.h">
       <Filter>Headers\Character</Filter>
     </ClInclude>
-    <ClInclude Include="Chunk.h" />
     <ClInclude Include="Venture.h">
       <Filter>Headers\Main Game Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Chunk.h">
+      <Filter>Headers\Level Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplexNoise.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />

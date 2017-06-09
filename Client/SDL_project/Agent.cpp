@@ -64,6 +64,22 @@ void Agent::Update(Level& level)
 		}
 	}
 
+	playerChunk.x = (getX() / cellSize) / level.getChunkSize();
+	playerChunk.y = (getY() / cellSize) / level.getChunkSize();
+
+	int x = getX() / cellSize;
+	int y = getY() / cellSize;
+
+
+	// Get x and y values of each chunk
+	if (x >= level.getChunkSize())
+		x = x - (playerChunk.x * level.getChunkSize());
+	if (y >= level.getChunkSize())
+		y = y - (playerChunk.y * level.getChunkSize());
+
+
+	if (level.World[playerChunk.x][playerChunk.y].tiles[x][y]->isWater)
+		level.World[playerChunk.x][playerChunk.y].tiles[x][y]->isWater = false;
 
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 
