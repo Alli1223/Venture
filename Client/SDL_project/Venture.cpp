@@ -41,10 +41,11 @@ void Venture::run()
 {
 
 	//Generates the world around the camera position
+	terrainGen.setSeed(1500);
+
 	level.GenerateWorld(camera);
 
 
-	//terrainGen.populateTerrain(level);
 	int cellSize = level.getCellSize();
 
 
@@ -172,11 +173,6 @@ void Venture::run()
 
 		// Render characters
 		agentManager.UpdateAgents(agentManager.allAgents, renderer, level, camera);
-
-
-
-		//level.World[1][2].tiles[3][4]->isVegetation = true;
-		//level.World[1][1].tiles[3][4]->isFlower1 = true;
 
 
 		///////////////////////////////////////

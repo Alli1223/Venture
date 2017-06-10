@@ -133,8 +133,6 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 			//Spawn the grass
 			chunk.tiles[x][y]->isWalkable = true;
 
-			//chunk.tiles[10][30]->isRoom = true;
-
 			//Generate the grass
 			generateGround(chunk, x, y);
 
