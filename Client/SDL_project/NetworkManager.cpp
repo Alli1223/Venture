@@ -45,7 +45,7 @@ int GetGameInfo(std::string message)
 void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager)
 {
 	std::string name = localPlayerName;
-	std::string playerPosition = "X:" + std::to_string(agentManager.allAgents[0].getX()) + ".Y:" + std::to_string(agentManager.allAgents[0].getY()) + ".";
+	std::string playerPosition = "X:" + std::to_string(agentManager.allAgents[agentManager.GetAgentNumberFomID(localPlayerName)].getX()) + ".Y:" + std::to_string(agentManager.allAgents[agentManager.GetAgentNumberFomID(localPlayerName)].getY()) + ".";
 
 	sendTCPMessage("{<" + localPlayerName + "> " + playerPosition + "}\n");
 	// process the list of players
@@ -100,7 +100,7 @@ void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Le
 	{
 
 		//TODO: get string of data between { and }
-		for (int i = 1; i < updateMessage.size(); i++)
+		for (int i = 0; i < updateMessage.size(); i++)
 		{
 
 			if (updateMessage[i] == *"{")
@@ -126,7 +126,7 @@ void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Le
 				iterator++;
 			}
 		}
-		std::cout << iterator << std::endl;
+		std::cout << "Number Of Players: " << iterator << std::endl;
 	}
 
 }
@@ -218,32 +218,26 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 						if (otherPlayerAction == "PLACE_BED")
 						{
 							std::cout << otherPlayerAction << std::endl;
-							level.grid[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isBed = true;
+							level.tiles[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isBed = true;
 						}
 						else if (otherPlayerAction == "PLACE_BOX")
 						{
 							std::cout << otherPlayerAction << std::endl;
-							level.grid[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isCargo = true;
+							level.tiles[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isCargo = true;
 						}
 					}
 				}
 			}
 		}
 
-		//Spawn new player
+		// Spawn new player
 		else
 		{
-			if (otherPlayerName.size() > 1)
+			if (otherPlayerName.size() > 1 && otherPlayerName != localPlayerName)
 			{
-
-
 				otherPlayerNames.push_back(otherPlayerName);
 				Agent newPlayer;
-				// If the agent is first player
-
 				newPlayer.characterType = "NPC";
-				newPlayer.agentCanRotate = true;
-
 				newPlayer.setID(otherPlayerName);
 				agentManager.SpawnAgent(newPlayer);
 			}

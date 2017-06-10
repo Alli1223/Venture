@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Texture.h"
 #include "Level.h"
 #include "Map.h"
@@ -16,8 +15,6 @@
 #include "ToolBar.h"
 #include "Items.h"
 #include "EscapeMenu.h"
-#include "DockingDoors.h"
-#include "ShipManager.h"
 #include "PlayerStats.h"
 #include "CellRendering.h"
 #include "Agent.h"
@@ -28,25 +25,26 @@
 #include "Camera.h"
 #include "Inventory.h"
 #include "UserInput.h"
+#include "Player.h"
 
 
 //! The main class
 /*!
 This is the main class where the game is laoded and run. 
 */
-class SpaceGame
+class Venture
 {
 public:
 	//! A constructor
-	SpaceGame();
+	Venture();
 	//! A deconstructor
-	~SpaceGame();
+	~Venture();
 
 	//! Main Run loop
 	void run();
 
 	//! Removes all the data from stored vectors
-	void SpaceGame::deleteVectors();
+	void Venture::deleteVectors();
 	//! Initalising all classes needed for game
 	Level level;
 	GameSettings gameSettings;
@@ -59,8 +57,6 @@ public:
 	Cell cell;
 	ToolBar toolbar;
 	EscapeMenu escapemenu;
-	DockingDoors dockingdoors;
-	ShipManager shipmanager;
 	PlayerStats playerstats;
 	CellRendering cellrenderer;
 	NetworkManager networkManager;
@@ -68,15 +64,7 @@ public:
 	ProceduralTerrain terrainGen;
 	Camera camera;
 	UserInput input;
-
-	
-
-
-	//! Conains the list of nodes that makes the path
-	//std::vector<Point> path;
-
-	//! Contains a list of all the ship
-	std::vector<Ship> allShips;
+	Player player;
 
 	//! Vector of all other players names in the game
 	std::vector<std::string> otherPlayerNames;
@@ -88,11 +76,12 @@ public:
 	//! Coordinates of the mouse 
 	int mouse_X, mouse_Y;
 
-	int cameraX = 0, cameraY = 0;
 
 	bool spawnPlayer = true;
 	
-	bool useNetworking = true;
+	bool useNetworking = false;
+
+	glm::vec2 mouseCellPosition;
 
 	//! Whether the game is running or not
 	bool running = true;
