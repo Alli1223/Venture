@@ -60,7 +60,6 @@ void ProceduralTerrain::SpawnTown(Chunk& level)
 
 void ProceduralTerrain::spawnTrees(Chunk& level)
 {
-	std::cout << "Spawning Plants.." << std::endl;
 	for (int i = numberOfTrees; i > 0; i--)
 	{
 		int x = rand() % level.tiles.size();
@@ -75,45 +74,41 @@ void ProceduralTerrain::spawnTrees(Chunk& level)
 				level.tiles[x][y]->isOakTree = true;
 		}
 	}
-	std::cout << numberOfTrees << " Trees spawned." << std::endl;
 }
 
-void ProceduralTerrain::spawnVegetation(Chunk& level)
-{
-	std::cout << "Spawning Plants.." << std::endl;
-	
+void ProceduralTerrain::spawnVegetation(Chunk& chunk)
+{	
 	int numPlants = 0;
 	for (int i = numberOfPlants; i > 0; i--)
 	{
-		int x = rand() % level.tiles.size();
-		int y = rand() % level.tiles[0].size();
+		int x = rand() % chunk.tiles.size();
+		int y = rand() % chunk.tiles[0].size();
 		
-		if (!level.tiles[x][y]->isVegetation && !level.tiles[x][y]->isWater && !level.tiles[x][y]->isSand)
+		if (!chunk.tiles[x][y]->isVegetation && !chunk.tiles[x][y]->isWater && !chunk.tiles[x][y]->isSand)
 		{
-			level.tiles[x][y]->isVegetation = true;
+			chunk.tiles[x][y]->isVegetation = true;
 			int vegType = rand() % 3;
 			//Item item;
 			switch (vegType)
 			{
 			case 0:
-				level.tiles[x][y]->isVegetation = true;
-				level.tiles[x][y]->isFlower1 = true;
+				chunk.tiles[x][y]->isVegetation = true;
+				chunk.tiles[x][y]->isFlower1 = true;
 				break;
 			case 1:
-				level.tiles[x][y]->isVegetation = true;
-				level.tiles[x][y]->isBerryPlant = true;
+				chunk.tiles[x][y]->isVegetation = true;
+				chunk.tiles[x][y]->isBerryPlant = true;
 				//item.isBerry = true;
 				//chunk.grid[x][y]->cellItem = item;
 				break;
 			case 2:
-				level.tiles[x][y]->isVegetation = true;
-				level.tiles[x][y]->isFlower2 = true;
+				chunk.tiles[x][y]->isVegetation = true;
+				chunk.tiles[x][y]->isFlower2 = true;
 				break;
 			}
 			numPlants++;
 		}
 	}
-	std::cout << numPlants << " Plants spawned." << std::endl;
 }
 
 
@@ -147,7 +142,7 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 	}
 	//SpawnTown(chunk);
 	spawnTrees(chunk);
-	//spawnVegetation(chunk);
+	spawnVegetation(chunk);
 }
 
 void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
@@ -162,15 +157,16 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 	
 	//sNoise = octaves.fractal(1, noiseX, noiseY);
 
-	 double sNoise = SimplexNoise::noise(noiseX / 40, noiseY / 40);
+	 double sNoise = simNoise.noise(noiseX / 40, noiseY / 40);
 	//terrainElevation = (char)((terrainElevation - 0) * (255 / (terrainElevation - 0)));
 	terrainElevation = sNoise + terrainElevationTwo + terrainElevation + 2;//terrainElevation + terrainElevationTwo + terrainElevationThree;
 	
-
+	
+	
 	double fNoise = forrestNoise.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20.0;
-	fNoise += SimplexNoise::noise(noiseX / 40, noiseY / 40);
+	fNoise += simNoise.fractal(1, noiseX / 40, noiseY / 40);
 	double pNoise = (riverNoise.noise((double)noiseX / 300.0, (double)noiseY / 300.0, 0.0) * 20.0) + (riverNoiseLayerTwo.noise((double)noiseX / 300.0, (double)noiseY / 300.0, 0.0) * 20.0);
-	pNoise += SimplexNoise::noise(noiseX / 100, noiseY / 100);
+	pNoise += simNoise.noise(noiseX / 100, noiseY / 100);
 	
 	chunk.tiles[x][y]->terrainElevationValue = terrainElevation;
 

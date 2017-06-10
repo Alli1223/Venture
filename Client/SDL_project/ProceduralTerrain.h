@@ -20,6 +20,8 @@ public:
 	PerlinNoise riverNoise;
 	PerlinNoise riverNoiseLayerTwo;
 
+	SimplexNoise simNoise;
+
 
 	//! Getters and setters for seed
 	int getSeed() { return seed; }
