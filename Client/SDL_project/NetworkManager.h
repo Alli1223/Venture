@@ -38,7 +38,7 @@ public:
 	bool GetNumPlayers = false;
 
 	//! Network update interval
-	int networkUpdateInterval = 100;
+	int networkUpdateInterval = 250;
 	//! Stores the number of players in the game
 	int numberOfPlayers = 0;
 

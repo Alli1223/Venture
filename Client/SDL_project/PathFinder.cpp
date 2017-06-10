@@ -29,9 +29,9 @@ std::vector<std::shared_ptr<Node>> Pathfinder::getNeighbours(std::shared_ptr<Nod
 {
 	std::vector<std::shared_ptr<Node>> result;
 	// If the node is within the level
-	if (node->point.getX() - 1 >= 0 && node->point.getX() + 1 <= level.getLevelWidth())
+	if (node->point.getX() - 1 >= 0)
 	{
-		if (node->point.getY() - 1 >= 0 && node->point.getY() + 1 <= level.getLevelHeight())
+		if (node->point.getY() - 1 >= 0)
 		{
 			//left
 			result.push_back(getOrCreateNode(node->point.getX() - 1, node->point.getY()));
@@ -111,9 +111,9 @@ std::vector<Point> Pathfinder::findPath(Level& level, const Point& start, const 
 	std::cout << "Computing Path" << std::endl;
 
 	// Create nodes for every cell in the grid
-	for (int x = 0; x < level.grid.size(); x++)
+	for (int x = 0; x < level.tiles.size(); x++)
 	{
-		nodes.push_back(std::vector<std::shared_ptr<Node>>(level.grid.size(), nullptr));
+		nodes.push_back(std::vector<std::shared_ptr<Node>>(level.tiles.size(), nullptr));
 	}
 
 	auto startNode = getOrCreateNode(start);
@@ -141,7 +141,7 @@ std::vector<Point> Pathfinder::findPath(Level& level, const Point& start, const 
 		for (auto neighbour : getNeighbours(currentNode, level))
 		{
 			//if the cell is a room and not in closed set and not on fire
-			if (level.grid[neighbour->point.getX()][neighbour->point.getY()]->isWalkable && !level.grid[neighbour->point.getX()][neighbour->point.getY()]->isWater && !isInClosedSet(neighbour->point) && level.grid[neighbour->point.getX()][neighbour->point.getY()]->isDirt)
+			if (level.tiles[neighbour->point.getX()][neighbour->point.getY()]->isWalkable && !level.tiles[neighbour->point.getX()][neighbour->point.getY()]->isWater && !isInClosedSet(neighbour->point) && level.tiles[neighbour->point.getX()][neighbour->point.getY()]->isDirt)
 			{
 
 				double gTentative = currentNode->g + euclideanDistance(neighbour->point, goal);
@@ -229,13 +229,13 @@ bool Pathfinder::isPathObsructed(Level& level, Point firstPoint, Point secondPoi
 	{
 		if (steep)
 		{
-			if (level.grid[y][x]->isWalkable == false)
+			if (level.tiles[y][x]->isWalkable == false)
 				return false;
 			//SetPixel(y, x);
 		}
 		else
 		{
-			if (level.grid[x][y]->isWalkable == false)
+			if (level.tiles[x][y]->isWalkable == false)
 				return false;
 			//SetPixel(x, y);
 		}

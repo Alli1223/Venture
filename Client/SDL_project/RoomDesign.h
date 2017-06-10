@@ -8,7 +8,7 @@ public:
 	RoomDesign();
 	~RoomDesign();
 
-	void designRoom(Level& grid, int cellX, int cellY);
+	void designRoom(Level& tiles, int cellX, int cellY);
 
 	bool checkCenterCell(Level& room, int cellX, int cellY);
 };

@@ -218,12 +218,12 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 						if (otherPlayerAction == "PLACE_BED")
 						{
 							std::cout << otherPlayerAction << std::endl;
-							level.grid[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isBed = true;
+							level.tiles[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isBed = true;
 						}
 						else if (otherPlayerAction == "PLACE_BOX")
 						{
 							std::cout << otherPlayerAction << std::endl;
-							level.grid[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isCargo = true;
+							level.tiles[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isCargo = true;
 						}
 					}
 				}

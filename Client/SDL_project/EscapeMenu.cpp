@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "EscapeMenu.h"
-#include "SpaceGame.h"
 
 
 EscapeMenu::EscapeMenu() : menuBackgroundTexture("Resources\\menuBackground1.png"),

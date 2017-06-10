@@ -16,6 +16,12 @@ public:
 	int getX();
 	int getY();
 
+	int setX(int newX) { return X = newX; }
+	int setY(int newY) { return Y = newY; }
+
+	int getCameraSpeed() { return cameraSpeed; }
+	int setCameraSpeed(int newSpeed) { return cameraSpeed = newSpeed; }
+
 	void SetPos(int X, int Y);
 
 	void SetTarget(int* X, int* Y);
@@ -23,12 +29,15 @@ public:
 	int xoffset = 0, yoffset = 0;
 	int WindowWidth = 0;
 	int WindowHeight = 0;
+	glm::vec2 ChunksOnScreen;
 
 	static Camera CameraControl;
 
 private:
 	int X;
 	int Y;
+
+	int cameraSpeed = 3;
 
 	int* TargetX;
 	int* TargetY;

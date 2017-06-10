@@ -79,7 +79,7 @@ void drawPath(Point& point, Level& level, std::vector<Point>& path, SDL_Renderer
 }
 
 
-void AgentManager::UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* renderer, Level& level)
+void AgentManager::UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* renderer, Level& level, Camera& camera)
 {
 	// Update agents and draw agent paths
 	for (int i = 0; i < allAgents.size(); i++)
@@ -98,20 +98,20 @@ void AgentManager::UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* ren
 	for (Agent& agent : allAgents)
 	{
 
-		RenderAgents(agent, renderer, level);
+		RenderAgents(agent, renderer, level, camera);
 		//agentBehaviour.DecideTask(level, agent);
 	}
 }
 
-void AgentManager::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level)
+void AgentManager::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera)
 {
 
-	int x = agent.getX() + (agent.getSize() / 2);
-	int y = agent.getY() + (agent.getSize() / 2);
+	int x = agent.getX() + (agent.getSize() / 2) - camera.getX();
+	int y = agent.getY() + (agent.getSize() / 2) - camera.getY();
 	if (agent.characterType == "NPC")
 	{
 		//npcDown.alterTextureColour(0, rand(), 0);
-		npcDown.renderRotation(renderer, x + agent.getOffsetX(), y + agent.getOffsetY(), agent.getSize(), agent.getSize(), agent.agentRotation);
+		npcDown.renderRotation(renderer, x , y , agent.getSize(), agent.getSize(), agent.agentRotation);
 		
 
 		//Render agent stats to the right of agent
@@ -130,7 +130,7 @@ void AgentManager::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& lev
 		}
 	}
 	if (agent.characterType == "Player")
-		characterDown.renderRotation(renderer, x + agent.getOffsetX(), y + agent.getOffsetY(), agent.getSize(), agent.getSize(), agent.agentRotation);
+		characterDown.renderRotation(renderer, camera.WindowWidth / 2, camera.WindowHeight / 2, agent.getSize(), agent.getSize(), agent.agentRotation);
 
 	
 }

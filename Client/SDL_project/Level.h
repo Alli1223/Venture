@@ -1,5 +1,9 @@
 #pragma once
 #include "Cell.h"
+#include "Chunk.h"
+#include "Point.h"
+#include "Camera.h"
+#include "ProceduralTerrain.h"
 
 //! This class generates the base of the level 
 /*!
@@ -16,25 +20,36 @@ public:
 
 	//! Return the cellSize
 	int getCellSize() { return cellSize; }
+	int getChunkSize() { return chunkSize; }
 	int setCellSize(int newCellSize) { return cellSize = newCellSize; }
 	int getLevelWidth() { return levelWidth; }
 	int getLevelHeight() { return levelHeight; }
 
 	//! The base grid that contains the cells
-	std::vector<std::vector<std::shared_ptr<Cell>>> grid;
+	std::vector<std::vector<std::shared_ptr<Cell>>> tiles;
 
-	//! Stores the value for the center of the level so that the grid can spawn cells in the negative direction
-	const unsigned int centerOfArray = 1000000;
+	glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY);
 
-	//! Fills grid with vectors of shared pointers to cells
-	void makeOrExtendGrid(int Level_Width, int Level_Height, int originX, int originY);
-	void Level::addRowToGrid(std::string direction, int numberOfRows);
+	void Level::SetGlobalCell(Camera& camera, int x, int y, glm::vec2 mousePos);
+
+
+	void Level::GenerateWorld(Camera& camera);
+
+	
+	void Level::CreateChunk(int initX, int initY);
+
+	std::map<int, std::map<int, Chunk>> World;
 
 
 protected:
-	int x = 0, y = 0;
+	ProceduralTerrain proceduralTerrain;
 	//! The size that the cell will be rendered at
-	int cellSize = 25;
+	int cellSize = 10;
+	int chunkSize;
+
+	// The extra chunks that are generated at the screens border and beyond
+	int levelGenerationRadius = 2;
+
 	int levelWidth, levelHeight;
 };
 

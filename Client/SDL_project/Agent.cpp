@@ -64,25 +64,33 @@ void Agent::Update(Level& level)
 		}
 	}
 
-	// if agent is dead
-	//if (this->getHealth() <= 0)
-		//this->isAlive = false;
+	playerChunk.x = (getX() / cellSize) / level.getChunkSize();
+	playerChunk.y = (getY() / cellSize) / level.getChunkSize();
 
-    //if agent reaches bed || toilet then reset values
-	if (level.grid[getCellX()][getCellY()]->isToilet)
-		this->setToiletNeed(0.0);
-	if (level.grid[getCellX()][getCellY()]->isBed)
-		this->setTiredness(0.0);
+	int x = getX() / cellSize;
+	int y = getY() / cellSize;
+
+
+	// Get x and y values of each chunk
+	if (x >= level.getChunkSize())
+		x = x - (playerChunk.x * level.getChunkSize());
+	if (y >= level.getChunkSize())
+		y = y - (playerChunk.y * level.getChunkSize());
+
+
+	//if (level.World[playerChunk.x][playerChunk.y].tiles[x][y]->isWater)
+		//level.World[playerChunk.x][playerChunk.y].tiles[x][y]->isWater = false;
+
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-	//Add berry to inventory
-	if (level.grid[getCellX()][getCellY()]->isBerryPlant && state[SDL_SCANCODE_F])
+	/*Add berry to inventory
+	if (level.tiles[getCellX()][getCellY()]->isBerryPlant && state[SDL_SCANCODE_F])
 	{
 		Item berry;
 		berry.isBerry = true;
 		inventory.add(berry);
-		level.grid[getCellX()][getCellY()]->isBerryPlant = false;
-		level.grid[getCellX()][getCellY()]->isBush = true;
+		level.tiles[getCellX()][getCellY()]->isBerryPlant = false;
+		level.tiles[getCellX()][getCellY()]->isBush = true;
 	}
 
 	// Agent will wonder randomly when idle
@@ -92,11 +100,11 @@ void Agent::Update(Level& level)
 		Point endPoint;
 		while (!foundEndPoint)
 		{
-			int x = rand() % level.grid.size();
-			int y = rand() % level.grid[x].size();
-			if (level.grid[x][y]->isWalkable && level.grid[x][y]->isRoom)
+			int x = rand() % level.tiles.size();
+			int y = rand() % level.tiles[x].size();
+			if (level.tiles[x][y]->isWalkable && level.tiles[x][y]->isRoom)
 			{
-				endPoint = Point(level.grid[x][y]->getX(), level.grid[x][y]->getY());
+				endPoint = Point(level.tiles[x][y]->getX(), level.tiles[x][y]->getY());
 				foundEndPoint = true;
 				movementStatus = TraversingPath;
 			}
@@ -114,6 +122,7 @@ void Agent::Update(Level& level)
 		isMoving = false;
 		pathPointIterator = 0;
 	}
+	*/
 }
 
 void Agent::Move(Level& level, Point& StartPoint, Point& EndPoint)

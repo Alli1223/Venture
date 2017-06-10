@@ -1,5 +1,6 @@
 #pragma once
 #include "Level.h"
+#include "Camera.h"
 
 class CellRendering
 {
@@ -7,7 +8,10 @@ public:
 	CellRendering();
 	~CellRendering();
 
-	void RenderCells(Level& level, SDL_Renderer* renderer, int x, int y, int xOffset, int yOffset);
+	void RenderCells(Level& level, SDL_Renderer* renderer, Camera& camera);
+
+	void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_Renderer* renderer);
+
 
 private:
 	const std::string RoomSpriteTextureLocation = "Resources\\roomSprites\\texturePack\\";
@@ -88,6 +92,7 @@ private:
 	Texture WaterTexture;
 	Texture SandTexture;
 	Texture StoneWallTexture;
+	Texture SnowTexture;
 
 
 	//! Is the texture for hull breaches

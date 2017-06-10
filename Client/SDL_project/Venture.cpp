@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "SpaceGame.h"
+#include "Venture.h"
 #include "InitialisationError.h"
 
-SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
+Venture::Venture() : backgroundTexture("Resources\\background5.jpg")
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -11,7 +11,10 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 	gameSettings.getScreenResolution();
 	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
 	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
-	window = SDL_CreateWindow("SpaceGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
+	camera.WindowHeight = WINDOW_HEIGHT;
+	camera.WindowWidth = WINDOW_WIDTH;
+	camera.SetPos(0, 0);
+	window = SDL_CreateWindow("Venture", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
 	{
@@ -23,9 +26,10 @@ SpaceGame::SpaceGame() : backgroundTexture("Resources\\background5.jpg")
 	{
 		throw InitialisationError("SDL_CreateRenderer failed");
 	}
+
 }
 
-SpaceGame::~SpaceGame()
+Venture::~Venture()
 {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
@@ -33,15 +37,17 @@ SpaceGame::~SpaceGame()
 }
 
 
-
-void SpaceGame::run()
+void Venture::run()
 {
-	// Creates a grid of cells
-	//level.makeGrid(WINDOW_WIDTH, WINDOW_HEIGHT);
-	level.makeOrExtendGrid(300, 200, 0, 0);
 
-	terrainGen.populateTerrain(level);
+	//Generates the world around the camera position
+	level.GenerateWorld(camera);
+
+
+	//terrainGen.populateTerrain(level);
 	int cellSize = level.getCellSize();
+
+
 
 
 	// If the client wants to connect to loopback address or external server
@@ -87,19 +93,21 @@ void SpaceGame::run()
 		player.setY(WINDOW_HEIGHT / 2);
 		agentManager.SpawnAgent(player);
 	}
-	//int xoffset = 0, yoffset = 0;
-	camera.SetPos(0, 0);
-	camera.WindowHeight = WINDOW_HEIGHT;
-	camera.WindowWidth = WINDOW_WIDTH;
-	
+	//camera.SetPos(player.getX())
 
 	// values for the network update timer
 	double lastTime = SDL_GetTicks();
 	double timebehind = 0;
 	bool runNetworkTick = false;
+
+
 	/////////// MAIN LOOP /////////////////
 	while (running)
 	{
+		mouseCellPosition.x = mouse_X / cellSize;
+		mouseCellPosition.y = mouse_Y / cellSize;
+
+
 		// Interval Timer
 		timebehind += SDL_GetTicks() - lastTime;
 		lastTime = SDL_GetTicks();
@@ -115,9 +123,9 @@ void SpaceGame::run()
 		{
 			runNetworkTick = false;
 			networkManager.NetworkUpdate(level, agentManager);
-			std::cout << level.grid.size() << " " << level.grid[0].size() << std::endl;
+			//std::cout << level.tiles.size() << " " << level.tiles[0].size() << std::endl;
 		}
-		terrainGen.GenerateTerrain(level, agentManager);
+		//terrainGen.GenerateTerrain(level, agentManager);
 		
 		// Synchronse the network update thread
 		//networkUpdateThread.join();
@@ -127,19 +135,27 @@ void SpaceGame::run()
 
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 		{
-			Item berry;
-			berry.isBerry = true;
-			agentManager.allAgents[0].inventory.add(berry);
-			std::cout << agentManager.allAgents[0].inventory.getSize() << std::endl;
-			//level.makeOrExtendGrid(200, 200, 200, 0);
-			//terrainGen.populateTerrain(level);
-			
+			//Item berry;
+			//berry.isBerry = true;
+			//agentManager.allAgents[0].inventory.add(berry);
+
+			level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
 		}
 
 		//Move player
-		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
-			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].Move(level, Point((agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() / cellSize) + camera.xoffset, (agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() / cellSize) + camera.yoffset), Point(mouse_X / cellSize, mouse_Y / cellSize));
+		camera.setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX());
+		camera.setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY());
+		level.GenerateWorld(camera);
 
+		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
+		{
+			//int x = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).x;
+			//int y = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).y;
+			//level.CreateChunk(x / level.getChunkSize(), y / level.getChunkSize());
+
+			//level.SetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
+			//level.SetGlobalCell(camera, x, y, mouseCellPosition);
+		}
 
 
 		// Rendering process:
@@ -150,22 +166,17 @@ void SpaceGame::run()
 		//MAIN CELL LOOP
 		///////////////////////////////////
 
-
-
-		for (int x = camera.getX() / cellSize; x < camera.getX() / cellSize + WINDOW_WIDTH / cellSize; x++)
-		{
-			for (int y = camera.getY() / cellSize; y < camera.getY() / cellSize + WINDOW_HEIGHT / cellSize; y++)
-			{
 				//Renders all he cells
-				cellrenderer.RenderCells(level, renderer, x, y, camera.xoffset, camera.yoffset);
-			} 
-		}
+		cellrenderer.RenderCells(level, renderer, camera);
+
+
 		// Render characters
-		agentManager.UpdateAgents(agentManager.allAgents, renderer, level);
+		agentManager.UpdateAgents(agentManager.allAgents, renderer, level, camera);
 
 
 
-
+		//level.World[1][2].tiles[3][4]->isVegetation = true;
+		//level.World[1][1].tiles[3][4]->isFlower1 = true;
 
 
 		///////////////////////////////////////
@@ -202,7 +213,7 @@ void SpaceGame::run()
 }
 
 
-void SpaceGame::deleteVectors()
+void Venture::deleteVectors()
 {
 }
 
@@ -210,7 +221,7 @@ bool static isMouseOverRoomCell(Level& level)
 {
 	int mouse_X, mouse_Y;
 	SDL_GetMouseState(&mouse_X, &mouse_Y);
-	if (level.grid[mouse_X / level.getCellSize()][mouse_Y / level.getCellSize()]->isRoom)
+	if (level.tiles[mouse_X / level.getCellSize()][mouse_Y / level.getCellSize()]->isRoom)
 	{
 		return true;
 	}

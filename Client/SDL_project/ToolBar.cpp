@@ -171,7 +171,7 @@ void ToolBar::RenderToolbar(SDL_Renderer* renderer, int& WINDOW_WIDTH, int& WIND
 }
 
 /*
-void ToolBar::ToolBarFunctionality(Level& level, RoomDesign& designroom,DockingDoors& dockingdoors, Hydroponics& hydroponics, std::vector<Hydroponics>& allHydroponicsFarms, SDL_Renderer* renderer, int& mouse_X, int& mouse_Y)
+void ToolBar::ToolBarFunctionality(Level& level, RoomDesign& designroom, Hydroponics& hydroponics, std::vector<Hydroponics>& allHydroponicsFarms, SDL_Renderer* renderer, int& mouse_X, int& mouse_Y)
 {
 	int toolbarSelection = getToolbarSelection();
 	
