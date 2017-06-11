@@ -152,10 +152,10 @@ void Venture::run()
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		{
 			glm::vec4 playerPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].pos;
-			if (level.World[playerPos.x][playerPos.y].tiles[playerPos.a][playerPos.b]->isGrass)
+			if (level.World[playerPos.a][playerPos.b].tiles[playerPos.x][playerPos.y]->isGrass)
 			{
-				level.World[playerPos.x][playerPos.y].tiles[playerPos.a][playerPos.b + 1]->isWater = false;
-				level.World[playerPos.x][playerPos.y].tiles[playerPos.a][playerPos.b + 1]->isDirt = true;
+				level.World[playerPos.a][playerPos.b].tiles[playerPos.x][playerPos.y]->isWater = false;
+				level.World[playerPos.a][playerPos.b].tiles[playerPos.x][playerPos.y]->isTreeOne = true;
 			}
 		}
 

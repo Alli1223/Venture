@@ -40,7 +40,7 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	LongGrass2(TerrainSpriteTextureLocation + "LongGrass2.png"),
 	LongGrass3(TerrainSpriteTextureLocation + "LongGrass3.png"),
 	StoneWallTexture(TerrainSpriteTextureLocation + "StoneWall.png"),
-	TreeOneTexture(TreeTerrainSpriteTextureLocation + "Tree1.png"),
+	PixelTexture(TreeTerrainSpriteTextureLocation + "pixelTree.png"),
 	TreeTwoTexture(TreeTerrainSpriteTextureLocation + "Tree2.png"),
 	TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
 	SnowTexture(TerrainSpriteTextureLocation + "Snow.png")
@@ -75,7 +75,7 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 				WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 			else
 			{
-				//Base Ground Textures
+				//B ase Ground Textures rendered in decending order (Top layered textures at bottom of list)
 				if (chunk.tiles[x][y]->isGrass)
 					Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isFlower1)
@@ -93,7 +93,7 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 				if (chunk.tiles[x][y]->isOakTree)
 					OakTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
 				if (chunk.tiles[x][y]->isTreeOne)
-					TreeOneTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+					PixelTexture.render(renderer, xPos - (cellSize * 3), yPos, cellSize * 6, cellSize * 6);
 				if (chunk.tiles[x][y]->isTreeTwo)
 					TreeTwoTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isTreeThree)

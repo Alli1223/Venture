@@ -71,7 +71,7 @@ void ProceduralTerrain::spawnTrees(Chunk& level)
 			if (treeType <= 0)
 				level.tiles[x][y]->isFernTree = true;
 			else
-				level.tiles[x][y]->isOakTree = true;
+				level.tiles[x][y]->isTreeOne = true;
 		}
 	}
 }
