@@ -39,7 +39,7 @@ public:
 	enum agentServicesStatus { NA, Hungry, Tired, WC, Suffocating };
 	agentServicesStatus agentNeed = NA;
 
-	glm::vec4 playerpos;
+	glm::vec4 pos;
 
 
 

@@ -130,7 +130,7 @@ void AgentManager::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& lev
 		}
 	}
 	if (agent.characterType == "Player")
-		characterDown.renderRotation(renderer, camera.WindowWidth / 2, camera.WindowHeight / 2, agent.getSize(), agent.getSize(), agent.agentRotation);
+		characterDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.agentRotation);
 
 	
 }

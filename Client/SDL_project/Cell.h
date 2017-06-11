@@ -68,7 +68,9 @@ public:
 	//! Whether the cell is a hydroponics bay
 	bool isHydroponicsBay = false;
 
+	//! Variables used for terrain
 	double terrainElevationValue = 0;
+	double climate = 0;
 
 	//! Whether the cell is a bed
 	bool isBed = false;

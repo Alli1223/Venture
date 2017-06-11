@@ -12,28 +12,35 @@ class ProceduralTerrain
 public:
 	ProceduralTerrain();
 	~ProceduralTerrain();
+	//! Elevation noise
 	PerlinNoise Elevation;
 	PerlinNoise ElevationLayerTwo;
 	PerlinNoise ElevationLayerThree;
+	SimplexNoise simNoise;
 
+	//! Other noise generations
 	PerlinNoise forrestNoise;
 	PerlinNoise riverNoise;
 	PerlinNoise riverNoiseLayerTwo;
-
-	SimplexNoise simNoise;
 
 
 	//! Getters and setters for seed
 	int getSeed() { return seed; }
 	int setSeed(int newSeed) { return seed = newSeed; }
 
-	void ProceduralTerrain::spawnTrees(Chunk& level);
-	void ProceduralTerrain::spawnVegetation(Chunk& level);
-	void ProceduralTerrain::generateGround(Chunk& level, int x, int y);
+	//! function that calls the functions below
 	void ProceduralTerrain::populateTerrain(Chunk& level);
+	//! Spawns the trees in a chunk
+	void ProceduralTerrain::spawnTrees(Chunk& level);
+	//! Spawn the vegetation
+	void ProceduralTerrain::spawnVegetation(Chunk& level);
+	//! Generate the ground based of the elevation and climate
+	void ProceduralTerrain::generateGround(Chunk& level, int x, int y);
+	//! Spawn town (Not used)
 	void ProceduralTerrain::SpawnTown(Chunk& level);
 
 private:
+	//! Seed values are random
 	int seed = 573932;
 	int forrestSeed = seed + 30;
 	int elevationSeed = seed + 36945;
@@ -41,6 +48,8 @@ private:
 
 	int numOfTowns = 2;
 	int townSize = 50;
+
+	bool thereIsClimate = false;
 
 	float terrainNoiseOffest = 180.0;
 	float forrestNoiseOffset = 180.0;
