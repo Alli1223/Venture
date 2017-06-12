@@ -60,7 +60,6 @@ void ProceduralTerrain::SpawnTown(Chunk& level)
 
 void ProceduralTerrain::spawnTrees(Chunk& level)
 {
-	std::cout << "Spawning Plants.." << std::endl;
 	for (int i = numberOfTrees; i > 0; i--)
 	{
 		int x = rand() % level.tiles.size();
@@ -72,48 +71,44 @@ void ProceduralTerrain::spawnTrees(Chunk& level)
 			if (treeType <= 0)
 				level.tiles[x][y]->isFernTree = true;
 			else
-				level.tiles[x][y]->isOakTree = true;
+				level.tiles[x][y]->isTreeOne = true;
 		}
 	}
-	std::cout << numberOfTrees << " Trees spawned." << std::endl;
 }
 
-void ProceduralTerrain::spawnVegetation(Chunk& level)
-{
-	std::cout << "Spawning Plants.." << std::endl;
-	
+void ProceduralTerrain::spawnVegetation(Chunk& chunk)
+{	
 	int numPlants = 0;
 	for (int i = numberOfPlants; i > 0; i--)
 	{
-		int x = rand() % level.tiles.size();
-		int y = rand() % level.tiles[0].size();
+		int x = rand() % chunk.tiles.size();
+		int y = rand() % chunk.tiles[0].size();
 		
-		if (!level.tiles[x][y]->isVegetation && !level.tiles[x][y]->isWater && !level.tiles[x][y]->isSand)
+		if (!chunk.tiles[x][y]->isVegetation && !chunk.tiles[x][y]->isWater && !chunk.tiles[x][y]->isSand)
 		{
-			level.tiles[x][y]->isVegetation = true;
+			chunk.tiles[x][y]->isVegetation = true;
 			int vegType = rand() % 3;
 			//Item item;
 			switch (vegType)
 			{
 			case 0:
-				level.tiles[x][y]->isVegetation = true;
-				level.tiles[x][y]->isFlower1 = true;
+				chunk.tiles[x][y]->isVegetation = true;
+				chunk.tiles[x][y]->isFlower1 = true;
 				break;
 			case 1:
-				level.tiles[x][y]->isVegetation = true;
-				level.tiles[x][y]->isBerryPlant = true;
+				chunk.tiles[x][y]->isVegetation = true;
+				chunk.tiles[x][y]->isBerryPlant = true;
 				//item.isBerry = true;
 				//chunk.grid[x][y]->cellItem = item;
 				break;
 			case 2:
-				level.tiles[x][y]->isVegetation = true;
-				level.tiles[x][y]->isFlower2 = true;
+				chunk.tiles[x][y]->isVegetation = true;
+				chunk.tiles[x][y]->isFlower2 = true;
 				break;
 			}
 			numPlants++;
 		}
 	}
-	std::cout << numPlants << " Plants spawned." << std::endl;
 }
 
 
@@ -138,8 +133,6 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 			//Spawn the grass
 			chunk.tiles[x][y]->isWalkable = true;
 
-			//chunk.tiles[10][30]->isRoom = true;
-
 			//Generate the grass
 			generateGround(chunk, x, y);
 
@@ -147,9 +140,10 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 	}
 	//SpawnTown(chunk);
 	spawnTrees(chunk);
-	//spawnVegetation(chunk);
+	spawnVegetation(chunk);
 }
 
+//TODO: Put all constant values in the headder
 void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 {
 	float noiseX = chunk.tiles[x][y]->getX();
@@ -157,70 +151,78 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 	double terrainElevation = Elevation.noise((double)noiseX / terrainNoiseOffest, (double)noiseY / terrainNoiseOffest, 0.0) * 20.0;
 	double terrainElevationTwo = ElevationLayerTwo.noise((double)noiseX / terrainNoiseOffest / 2.0, (double)noiseY / terrainNoiseOffest / 2.0, 0.0) * 20.0;
 	double terrainElevationThree = ElevationLayerThree.noise((double)noiseX, (double)noiseY, 0.0) * 20.0;
+	double sNoise = simNoise.noise(noiseX / 40, noiseY / 40);
 
+	terrainElevation = sNoise + terrainElevationTwo + terrainElevation + terrainElevationThree + 2;
+	double climate = sin(chunk.tiles[x][y]->getY() / 500.0);
 	
 	
-	//sNoise = octaves.fractal(1, noiseX, noiseY);
-
-	 double sNoise = SimplexNoise::noise(noiseX / 40, noiseY / 40);
-	//terrainElevation = (char)((terrainElevation - 0) * (255 / (terrainElevation - 0)));
-	terrainElevation = sNoise + terrainElevationTwo + terrainElevation + 2;//terrainElevation + terrainElevationTwo + terrainElevationThree;
-	
-
 	double fNoise = forrestNoise.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20.0;
-	fNoise += SimplexNoise::noise(noiseX / 40, noiseY / 40);
-	double pNoise = (riverNoise.noise((double)noiseX / 300.0, (double)noiseY / 300.0, 0.0) * 20.0) + (riverNoiseLayerTwo.noise((double)noiseX / 300.0, (double)noiseY / 300.0, 0.0) * 20.0);
-	pNoise += SimplexNoise::noise(noiseX / 100, noiseY / 100);
+	fNoise += simNoise.fractal(1, noiseX / 40, noiseY / 40);
+	double rNoise = (riverNoise.noise((double)noiseX / 300.0, (double)noiseY / 300.0, 0.0) * 20.0) + (riverNoiseLayerTwo.noise((double)noiseX / 300.0, (double)noiseY / 300.0, 0.0) * 20.0);
+	rNoise += simNoise.noise(noiseX / 100, noiseY / 100);
 	
+	//set the cells terrain value
 	chunk.tiles[x][y]->terrainElevationValue = terrainElevation;
 
-	// TERRAIN NOISE
-	if (terrainElevation > -1.8 && terrainElevation < 13.0)
+	if (climate > 0 || !thereIsClimate)
 	{
-		chunk.tiles[x][y]->isGrass = true;
-	}
-	else if (terrainElevation > -2.3 && terrainElevation < -1.8)
-	{
-		chunk.tiles[x][y]->isSand = true;
-		chunk.tiles[x][y]->isGrass = false;
-		chunk.tiles[x][y]->isWater = false;
-	}
-	else if (terrainElevation < -2)
-	{
-		chunk.tiles[x][y]->isWater = true;
-	}
-	else if (terrainElevation > -0.5 && terrainElevation < -0.7)
-	{
-		chunk.tiles[x][y]->isDirt = true;
-	}
+		// TERRAIN NOISE
+		if (terrainElevation > -1.8 && terrainElevation < 13.0)
+		{
+			chunk.tiles[x][y]->isGrass = true;
+		}
+		else if (terrainElevation > -2.3 && terrainElevation < -1.8)
+		{
+			chunk.tiles[x][y]->isSand = true;
+			chunk.tiles[x][y]->isGrass = false;
+			chunk.tiles[x][y]->isWater = false;
+		}
+		else if (terrainElevation < -2)
+		{
+			chunk.tiles[x][y]->isWater = true;
+		}
+		else if (terrainElevation > -0.5 && terrainElevation < -0.7)
+		{
+			chunk.tiles[x][y]->isDirt = true;
+		}
 
 
-	else if (terrainElevation > 25)
-	{
-		chunk.tiles[x][y]->isSnow = true;
-	}
+		else if (terrainElevation > 25)
+		{
+			chunk.tiles[x][y]->isSnow = true;
+		}
 
-	// FORREST NOISE
-	if (chunk.tiles[x][y]->isGrass && fNoise > 14.0 && rand() % numberOfTrees == 1)
-	{
-		chunk.tiles[x][y]->isVegetation = true;
-		chunk.tiles[x][y]->isOakTree = true;
-	}
-	else if (chunk.tiles[x][y]->isGrass && fNoise > 8.0 && fNoise < 12.0 && rand() % numberOfTrees == 1)
-	{
-		chunk.tiles[x][y]->isVegetation = true;
-		chunk.tiles[x][y]->isFernTree = true;
-	}
+		// FORREST NOISE
+		if (chunk.tiles[x][y]->isGrass && fNoise > 14.0 && rand() % numberOfTrees == 1)
+		{
+			chunk.tiles[x][y]->isVegetation = true;
+			chunk.tiles[x][y]->isOakTree = true;
+		}
+		else if (chunk.tiles[x][y]->isGrass && fNoise > 8.0 && fNoise < 12.0 && rand() % numberOfTrees == 1)
+		{
+			chunk.tiles[x][y]->isVegetation = true;
+			chunk.tiles[x][y]->isFernTree = true;
+		}
 
-	// PATH NOISE
-	if (pNoise > 0.5 && pNoise < 1.0)
-	{
-		chunk.tiles[x][y]->isWater = true;
+		// RIVER NOISE
+		if (rNoise > 0.5 && rNoise < 1.0)
+		{
+			chunk.tiles[x][y]->isWater = true;
+			chunk.tiles[x][y]->terrainElevationValue = -2.1;
 
+		}
+		else if (rNoise >= 1.0 && rNoise < 1.3 || rNoise >= 0.3 && rNoise <= 0.5 && chunk.tiles[x][y]->isGrass)
+		{
+			chunk.tiles[x][y]->isSand = true;
+		}
 	}
-	else if (pNoise >= 1.0 && pNoise < 1.3 || pNoise >= 0.3 && pNoise <= 0.5 && chunk.tiles[x][y]->isGrass)
+	else
 	{
-		chunk.tiles[x][y]->isSand = true;
+		if (terrainElevation > -1.8 && terrainElevation < 13.0)
+			chunk.tiles[x][y]->isSnow = true;
+		else if (terrainElevation < -2)
+			chunk.tiles[x][y]->isWater = true; // Change to ice
 	}
 }
 

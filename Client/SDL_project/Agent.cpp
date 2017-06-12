@@ -44,7 +44,7 @@ void Agent::Update(Level& level)
 			float angleInDegrees = atan2(deltaY, deltaX) * 180.0 / PI;
 
 			// Apply correction to rotation
-			agentRotation = angleInDegrees + 90;
+			rotation = angleInDegrees + 90;
 		}
 
 		// Multiply direction by magnitude 
@@ -63,9 +63,29 @@ void Agent::Update(Level& level)
 			pathPointIterator++;
 		}
 	}
+	// Perform agent rotation based on player input
+	if (rotation != targetRotation)
+	{
+		// Edge case
+		if (rotation == 270 && targetRotation == 0)
+			targetRotation = 360;
+		else if (rotation == 360)
+			rotation = 0;
 
-	playerChunk.x = (getX() / cellSize) / level.getChunkSize();
-	playerChunk.y = (getY() / cellSize) / level.getChunkSize();
+		else if (rotation == 0 && targetRotation == 270)
+			targetRotation = -90;
+		else if (rotation == -90)
+			rotation = 270;
+
+
+		if (rotation < targetRotation)
+			rotation += rotationSpeed;
+		else if (rotation > targetRotation)
+			rotation -= rotationSpeed;
+		std::cout << rotation << std::endl;
+	}
+	pos.a = (getX() / cellSize) / level.getChunkSize();
+	pos.b = (getY() / cellSize) / level.getChunkSize();
 
 	int x = getX() / cellSize;
 	int y = getY() / cellSize;
@@ -73,15 +93,14 @@ void Agent::Update(Level& level)
 
 	// Get x and y values of each chunk
 	if (x >= level.getChunkSize())
-		x = x - (playerChunk.x * level.getChunkSize());
+		pos.x = x - (x * level.getChunkSize());
 	if (y >= level.getChunkSize())
-		y = y - (playerChunk.y * level.getChunkSize());
+		pos.y = y - (y * level.getChunkSize());
 
 
-	//if (level.World[playerChunk.x][playerChunk.y].tiles[x][y]->isWater)
-		//level.World[playerChunk.x][playerChunk.y].tiles[x][y]->isWater = false;
-
-	const Uint8 *state = SDL_GetKeyboardState(NULL);
+	
+	//if (level.World[pos.a][pos.b].tiles[pos.x][pos.y]->isWater)
+		//level.World[pos.a][pos.b].tiles[pos.x][pos.y]->isWater = false;
 
 	/*Add berry to inventory
 	if (level.tiles[getCellX()][getCellY()]->isBerryPlant && state[SDL_SCANCODE_F])

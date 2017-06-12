@@ -41,10 +41,11 @@ void Venture::run()
 {
 
 	//Generates the world around the camera position
+	terrainGen.setSeed(1500);
+
 	level.GenerateWorld(camera);
 
 
-	//terrainGen.populateTerrain(level);
 	int cellSize = level.getCellSize();
 
 
@@ -79,8 +80,8 @@ void Venture::run()
 		player.characterType = "Player";
 		player.setSpeed(5);
 		player.setID(playerName);
-		player.setX(WINDOW_WIDTH / 2);
-		player.setY(WINDOW_HEIGHT / 2);
+		player.setX(0);
+		player.setY(0);
 		agentManager.SpawnAgent(player);
 	}
 	else
@@ -89,8 +90,8 @@ void Venture::run()
 		player.characterType = "Player";
 		player.setSpeed(5);
 		player.setID(playerName);
-		player.setX(WINDOW_WIDTH / 2);
-		player.setY(WINDOW_HEIGHT / 2);
+		player.setX(0);
+		player.setY(0);
 		agentManager.SpawnAgent(player);
 	}
 	//camera.SetPos(player.getX())
@@ -142,19 +143,20 @@ void Venture::run()
 			level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
 		}
 
-		//Move player
-		camera.setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX());
-		camera.setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY());
+		//Set camera to follow player and generate the world
+		camera.setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() - camera.WindowWidth / 2);
+		camera.setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() - camera.WindowHeight / 2);
+
 		level.GenerateWorld(camera);
 
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		{
-			//int x = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).x;
-			//int y = level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize).y;
-			//level.CreateChunk(x / level.getChunkSize(), y / level.getChunkSize());
-
-			//level.SetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
-			//level.SetGlobalCell(camera, x, y, mouseCellPosition);
+			glm::vec4 playerPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].pos;
+			if (level.World[playerPos.a][playerPos.b].tiles[playerPos.x][playerPos.y]->isGrass)
+			{
+				level.World[playerPos.a][playerPos.b].tiles[playerPos.x][playerPos.y]->isWater = false;
+				level.World[playerPos.a][playerPos.b].tiles[playerPos.x][playerPos.y]->isTreeOne = true;
+			}
 		}
 
 
@@ -167,16 +169,11 @@ void Venture::run()
 		///////////////////////////////////
 
 				//Renders all he cells
-		cellrenderer.RenderCells(level, renderer, camera);
+		cellrenderer.RenderCells(level, renderer, camera, agentManager.allAgents);
 
 
 		// Render characters
 		agentManager.UpdateAgents(agentManager.allAgents, renderer, level, camera);
-
-
-
-		//level.World[1][2].tiles[3][4]->isVegetation = true;
-		//level.World[1][1].tiles[3][4]->isFlower1 = true;
 
 
 		///////////////////////////////////////

@@ -35,6 +35,12 @@ public:
 	std::string getID() { return ID; }
 	std::string setID(std::string newID) { return ID = newID; }
 
+
+	//! Character Type
+	std::string characterType = "NPC";
+
+
+
 	//Setter methods
 	//! Sets the characters X value
 	int setX(int newX) { return x = newX; }
@@ -60,6 +66,8 @@ public:
 	Point setAgentPointLocation(Point newPointLocation) { return agentPointLocation = newPointLocation; }
 
 	bool isMoving = false;
+
+	int rotation = 0, targetRotation = 0, rotationSpeed = 5;
 
 private:
 	//! string stores agent ID/Name

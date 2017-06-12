@@ -30,7 +30,7 @@ void Level::GenerateWorld(Camera& camera)
 	int numOfChunksHeight = ((camera.WindowHeight /cellSize) / chunkSize) + levelGenerationRadius;
 	camera.ChunksOnScreen.x = numOfChunksWidth;
 	camera.ChunksOnScreen.y = numOfChunksHeight;
-	
+	int numOfChunksGen = 0;
 	for (int i = ((camera.getX() / cellSize) / chunkSize) - levelGenerationRadius; i < ((camera.getX() / cellSize) / chunkSize) + numOfChunksWidth; i++)
 	{
 		for (int j = ((camera.getY() / cellSize) / chunkSize) - levelGenerationRadius; j < ((camera.getY() / cellSize) / chunkSize) + numOfChunksHeight; j++)
@@ -39,10 +39,12 @@ void Level::GenerateWorld(Camera& camera)
 			{
 				CreateChunk(i, j);
 				proceduralTerrain.populateTerrain(World[i][j]);
-				std::cout << "Generating Chunk: " << i << " " << j << std::endl;
+				numOfChunksGen++;
 			}
 		}
 	}
+	if(numOfChunksGen > 0)
+		std::cout << "Generated " << numOfChunksGen << " chunks." << std::endl;
 }
 
 
@@ -67,7 +69,7 @@ glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY)
 
 	double elevation = World[chunkX][chunkY].tiles[cellX][cellY]->terrainElevationValue;
 
-	std::cout << returnPoint.x << " " << returnPoint.y << "|" << chunkX << " " << chunkY << "|" << cellX << " " << cellY << "| " << elevation << std::endl;
+	std::cout << returnPoint.x << " " << returnPoint.y << "|" << chunkX - (camera.getX() / chunkSize) << " " << chunkY - (camera.getY() / chunkSize) << "|" << cellX << " " << cellY << "| " << elevation << std::endl;
 	return returnPoint;
 }
 

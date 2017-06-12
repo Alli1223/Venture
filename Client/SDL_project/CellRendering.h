@@ -1,6 +1,8 @@
 #pragma once
 #include "Level.h"
 #include "Camera.h"
+#include "Character.h"
+#include "Agent.h"
 
 class CellRendering
 {
@@ -8,16 +10,22 @@ public:
 	CellRendering();
 	~CellRendering();
 
-	void RenderCells(Level& level, SDL_Renderer* renderer, Camera& camera);
+	void RenderCells(Level& level, SDL_Renderer* renderer, Camera& camera, std::vector<Agent>& allAgents);
 
 	void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_Renderer* renderer);
 
+	void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera);
+
+	bool renderStats = false;
 
 private:
 	const std::string RoomSpriteTextureLocation = "Resources\\roomSprites\\texturePack\\";
 	const std::string ItemsSpriteTextureLocation = "Resources\\SpawnItems\\";
 	const std::string TerrainSpriteTextureLocation = "Resources\\Terrain\\";
 	const std::string TreeTerrainSpriteTextureLocation = "Resources\\Terrain\\Trees\\";
+
+	const std::string characterTextureLocation = "Resources\\Character\\";
+	const std::string playerStatsTextureLocation = "Resources\\GUI\\PlayerStats\\";
 
 	// Textures for game objects
 	//! For cells that are a room
@@ -76,7 +84,7 @@ private:
 	Texture OakTreeTexture;
 	Texture FernTreeTexture;
 
-	Texture TreeOneTexture;
+	Texture PixelTexture;
 	Texture TreeTwoTexture;
 	Texture TreeThreeTexture;
 	Texture DirtTexture;
@@ -109,5 +117,26 @@ private:
 	Texture bottomLeftRoomCell;
 	Texture leftRoomCell;
 	Texture topLeftRoomCell;
+
+
+	//! Character Textures
+	Texture characterTex;
+	//! Is the textures for the default character
+	Texture characterLeft;
+	Texture characterRight;
+	Texture characterUp;
+	Texture characterDown;
+
+	//! Are the textures for the NPC
+	Texture npcLeft;
+	Texture npcRight;
+	Texture npcUp;
+	Texture npcDown;
+
+	//! Are the textures for the statusbars
+	Texture healthBarTexture;
+	Texture hungerBarTexture;
+	Texture tiredBarTexture;
+	Texture oxygenBarTexture;
 };
 
