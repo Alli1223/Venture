@@ -24,23 +24,23 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 		// Player Movement
 		if (state[SDL_SCANCODE_S] )
 		{
-			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 0;
+			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].targetRotation = 0;
 			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() + agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 		}
 		if (state[SDL_SCANCODE_A])
 		{
-			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 90;
+			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].targetRotation = 90;
 			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() - agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 
 		}
 		if (state[SDL_SCANCODE_D])
 		{
-			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 270;
+			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].targetRotation = 270;
 			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() + agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 		}
 		if (state[SDL_SCANCODE_W])
 		{
-			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].agentRotation = 180;
+			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].targetRotation = 180;
 			agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() - agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed());
 		}
 

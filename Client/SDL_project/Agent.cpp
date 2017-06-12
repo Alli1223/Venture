@@ -44,7 +44,7 @@ void Agent::Update(Level& level)
 			float angleInDegrees = atan2(deltaY, deltaX) * 180.0 / PI;
 
 			// Apply correction to rotation
-			agentRotation = angleInDegrees + 90;
+			rotation = angleInDegrees + 90;
 		}
 
 		// Multiply direction by magnitude 
@@ -63,7 +63,27 @@ void Agent::Update(Level& level)
 			pathPointIterator++;
 		}
 	}
+	// Perform agent rotation based on player input
+	if (rotation != targetRotation)
+	{
+		// Edge case
+		if (rotation == 270 && targetRotation == 0)
+			targetRotation = 360;
+		else if (rotation == 360)
+			rotation = 0;
 
+		else if (rotation == 0 && targetRotation == 270)
+			targetRotation = -90;
+		else if (rotation == -90)
+			rotation = 270;
+
+
+		if (rotation < targetRotation)
+			rotation += rotationSpeed;
+		else if (rotation > targetRotation)
+			rotation -= rotationSpeed;
+		std::cout << rotation << std::endl;
+	}
 	pos.a = (getX() / cellSize) / level.getChunkSize();
 	pos.b = (getY() / cellSize) / level.getChunkSize();
 

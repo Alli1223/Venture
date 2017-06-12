@@ -111,7 +111,7 @@ void AgentManager::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& lev
 	if (agent.characterType == "NPC")
 	{
 		//npcDown.alterTextureColour(0, rand(), 0);
-		npcDown.renderRotation(renderer, x , y , agent.getSize(), agent.getSize(), agent.agentRotation);
+		npcDown.renderRotation(renderer, x , y , agent.getSize(), agent.getSize(), agent.rotation);
 		
 
 		//Render agent stats to the right of agent
@@ -130,7 +130,7 @@ void AgentManager::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& lev
 		}
 	}
 	if (agent.characterType == "Player")
-		characterDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.agentRotation);
+		characterDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
 
 	
 }

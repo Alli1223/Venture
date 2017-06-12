@@ -65,7 +65,7 @@ public:
 	bool agentWonderWhenIdle = false;
 
 	bool agentCanRotate = true;
-	int agentRotation = 0;
+	
 
 private:
 

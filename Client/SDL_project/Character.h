@@ -67,7 +67,7 @@ public:
 
 	bool isMoving = false;
 
-	int agentRotation = 0;
+	int rotation = 0, targetRotation = 0, rotationSpeed = 5;
 
 private:
 	//! string stores agent ID/Name
