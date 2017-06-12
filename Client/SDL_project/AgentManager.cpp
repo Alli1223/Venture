@@ -94,43 +94,6 @@ void AgentManager::UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* ren
 		}
 	}
 
-	//Render Agents
-	for (Agent& agent : allAgents)
-	{
 
-		RenderAgents(agent, renderer, level, camera);
-		//agentBehaviour.DecideTask(level, agent);
-	}
 }
 
-void AgentManager::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera)
-{
-
-	int x = agent.getX() + (agent.getSize() / 2) - camera.getX();
-	int y = agent.getY() + (agent.getSize() / 2) - camera.getY();
-	if (agent.characterType == "NPC")
-	{
-		//npcDown.alterTextureColour(0, rand(), 0);
-		npcDown.renderRotation(renderer, x , y , agent.getSize(), agent.getSize(), agent.rotation);
-		
-
-		//Render agent stats to the right of agent
-		if (renderStats)
-		{
-			if (agent.getHealth() < 100.0)
-				healthBarTexture.render(renderer, x + agent.getSize() - agent.getSize() / 10, y, agent.getSize() / 10, agent.getHealth() / 2);
-			if (agent.getOxygenLevel() < 100.0)
-				oxygenBarTexture.render(renderer, x + agent.getSize(), y, agent.getSize() / 10, agent.getOxygenLevel() * 30.0);
-			//if (agent.getHunger() < 100.0)
-				//hungerBarTexture.render(renderer, x + agent.getSize() + agent.getSize() / 10, y, agent.getSize() / 10, agent.getHunger() * 30.0);
-			if (agent.getTiredness() > 0.0)
-				tiredBarTexture.render(renderer, x + agent.getSize() + agent.getSize() * 2 / 10, y, agent.getSize() / 10, agent.getTiredness() * 100);
-			if (agent.getToietNeed() > 0.0)
-				hungerBarTexture.render(renderer, x + agent.getSize() + agent.getSize() / 10, y, agent.getSize() / 10, agent.getToietNeed() * 100);
-		}
-	}
-	if (agent.characterType == "Player")
-		characterDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
-
-	
-}

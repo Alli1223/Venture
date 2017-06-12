@@ -43,7 +43,11 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	PixelTexture(TreeTerrainSpriteTextureLocation + "pixelTree.png"),
 	TreeTwoTexture(TreeTerrainSpriteTextureLocation + "Tree2.png"),
 	TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
-	SnowTexture(TerrainSpriteTextureLocation + "Snow.png")
+	SnowTexture(TerrainSpriteTextureLocation + "Snow.png"),
+
+	characterTex(characterTextureLocation + "crew2.png"), characterLeft(characterTextureLocation + "crewLeft.png"), characterRight(characterTextureLocation + "crewRight.png"), characterUp(characterTextureLocation + "crewUp.png"), characterDown(characterTextureLocation + "crewDown.png"),
+	npcLeft(characterTextureLocation + "npcLeft.png"), npcRight(characterTextureLocation + "npcRight.png"), npcUp(characterTextureLocation + "npcUp.png"), npcDown(characterTextureLocation + "npcDown.png"),
+	healthBarTexture(playerStatsTextureLocation + "PlayerHealth.png"), oxygenBarTexture(playerStatsTextureLocation + "PlayerOxygen.png"), hungerBarTexture(playerStatsTextureLocation + "PlayerHunger.png"), tiredBarTexture(playerStatsTextureLocation + "PlayerTiredness.png")
 
 {
 }
@@ -75,7 +79,7 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 				WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 			else
 			{
-				//B ase Ground Textures rendered in decending order (Top layered textures at bottom of list)
+				// Base Ground Textures rendered in decending order (Top layered textures at bottom of list)
 				if (chunk.tiles[x][y]->isGrass)
 					Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isFlower1)
@@ -94,9 +98,9 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 					OakTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
 				if (chunk.tiles[x][y]->isTreeOne)
 					PixelTexture.render(renderer, xPos - (cellSize * 3), yPos, cellSize * 6, cellSize * 6);
-				if (chunk.tiles[x][y]->isTreeTwo)
+				else if (chunk.tiles[x][y]->isTreeTwo)
 					TreeTwoTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isTreeThree)
+				else if (chunk.tiles[x][y]->isTreeThree)
 					TreeThreeTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isFlower1)
 					Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
@@ -115,7 +119,7 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 }
 
 //! Renders the chunks of cells
-void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, Camera& camera)
+void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, Camera& camera, std::vector<Agent>& allAgents)
 {
 	int cellSize = level.getCellSize();		
 	
@@ -123,5 +127,41 @@ void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, Camera& ca
 	for (int i = (camera.getX() / cellSize) / level.getChunkSize() - 1; i < ((camera.getX() / cellSize) / level.getChunkSize()) + camera.ChunksOnScreen.x; i++)
 		for (int j = (camera.getY() / cellSize) / level.getChunkSize() - 1; j < ((camera.getY() / cellSize) / level.getChunkSize()) + camera.ChunksOnScreen.y; j++)
 				RenderChunk(level,camera, level.World[i][j], renderer);
+
+	//Render Agents
+	for (Agent& agent : allAgents)
+		RenderAgents(agent, renderer, level, camera);
+	
+}
+
+void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera)
+{
+
+	int x = agent.getX() + (agent.getSize() / 2) - camera.getX();
+	int y = agent.getY() + (agent.getSize() / 2) - camera.getY();
+	if (agent.characterType == "NPC")
+	{
+		//npcDown.alterTextureColour(0, rand(), 0);
+		npcDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
+
+
+		//Render agent stats to the right of agent
+		if (renderStats)
+		{
+			if (agent.getHealth() < 100.0)
+				healthBarTexture.render(renderer, x + agent.getSize() - agent.getSize() / 10, y, agent.getSize() / 10, agent.getHealth() / 2);
+			if (agent.getOxygenLevel() < 100.0)
+				oxygenBarTexture.render(renderer, x + agent.getSize(), y, agent.getSize() / 10, agent.getOxygenLevel() * 30.0);
+			if (agent.getHunger() < 100.0)
+				hungerBarTexture.render(renderer, x + agent.getSize() + agent.getSize() / 10, y, agent.getSize() / 10, agent.getHunger() * 30.0);
+			if (agent.getTiredness() > 0.0)
+				tiredBarTexture.render(renderer, x + agent.getSize() + agent.getSize() * 2 / 10, y, agent.getSize() / 10, agent.getTiredness() * 100);
+			if (agent.getToietNeed() > 0.0)
+				hungerBarTexture.render(renderer, x + agent.getSize() + agent.getSize() / 10, y, agent.getSize() / 10, agent.getToietNeed() * 100);
+		}
+	}
+	if (agent.characterType == "Player")
+		characterDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
+
 
 }

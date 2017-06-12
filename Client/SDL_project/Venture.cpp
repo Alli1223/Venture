@@ -169,7 +169,7 @@ void Venture::run()
 		///////////////////////////////////
 
 				//Renders all he cells
-		cellrenderer.RenderCells(level, renderer, camera);
+		cellrenderer.RenderCells(level, renderer, camera, agentManager.allAgents);
 
 
 		// Render characters
