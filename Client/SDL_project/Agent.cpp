@@ -84,23 +84,26 @@ void Agent::Update(Level& level)
 			rotation -= rotationSpeed;
 		std::cout << rotation << std::endl;
 	}
-	pos.a = (getX() / cellSize) / level.getChunkSize();
-	pos.b = (getY() / cellSize) / level.getChunkSize();
 
-	int x = getX() / cellSize;
-	int y = getY() / cellSize;
+		pos.x = (getX() / cellSize) / level.getChunkSize();
+		pos.y = (getY() / cellSize) / level.getChunkSize();
+
+		int x = getX() / cellSize;
+		int y = getY() / cellSize;
 
 
-	// Get x and y values of each chunk
-	if (x >= level.getChunkSize())
-		pos.x = x - (x * level.getChunkSize());
-	if (y >= level.getChunkSize())
-		pos.y = y - (y * level.getChunkSize());
+		// Get x and y values of each chunk
+
+		if (x >= level.getChunkSize())
+			pos.a = x - (pos.x * level.getChunkSize());
+
+		if (y >= level.getChunkSize())
+			pos.b = y + (pos.y * level.getChunkSize());
 
 
 	
-	//if (level.World[pos.a][pos.b].tiles[pos.x][pos.y]->isWater)
-		//level.World[pos.a][pos.b].tiles[pos.x][pos.y]->isWater = false;
+	//if (!level.World[pos.x][pos.y].tiles[pos.a][pos.b]->isWater)
+		//level.World[pos.x][pos.y].tiles[pos.a][pos.b]->isWater = true;
 
 	/*Add berry to inventory
 	if (level.tiles[getCellX()][getCellY()]->isBerryPlant && state[SDL_SCANCODE_F])

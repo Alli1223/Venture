@@ -152,11 +152,12 @@ void Venture::run()
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		{
 			glm::vec4 playerPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].pos;
-			if (level.World[playerPos.a][playerPos.b].tiles[playerPos.x][playerPos.y]->isGrass)
-			{
-				level.World[playerPos.a][playerPos.b].tiles[playerPos.x][playerPos.y]->isWater = false;
-				level.World[playerPos.a][playerPos.b].tiles[playerPos.x][playerPos.y]->isTreeOne = true;
+			if (level.World[playerPos.x][playerPos.y].tiles[playerPos.a][playerPos.b]->isGrass)
+			{									   
+				level.World[playerPos.x][playerPos.y].tiles[playerPos.a][playerPos.b]->isWater = false;
+				level.World[playerPos.x][playerPos.y].tiles[playerPos.a][playerPos.b]->isTreeOne = true;
 			}
+			std::cout << playerPos.x << " " << playerPos.y << " | " << playerPos.w << " " << playerPos.z << std::endl;
 		}
 
 
@@ -169,7 +170,7 @@ void Venture::run()
 		///////////////////////////////////
 
 				//Renders all he cells
-		cellrenderer.RenderCells(level, renderer, camera, agentManager.allAgents);
+		cellrenderer.RenderObjects(level, renderer, camera, agentManager.allAgents);
 
 
 		// Render characters

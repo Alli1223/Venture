@@ -119,7 +119,7 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 }
 
 //! Renders the chunks of cells
-void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, Camera& camera, std::vector<Agent>& allAgents)
+void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, std::vector<Agent>& allAgents)
 {
 	int cellSize = level.getCellSize();		
 	
