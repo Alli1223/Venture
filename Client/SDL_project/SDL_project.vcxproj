@@ -72,18 +72,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>SDL2-2.0.4\include;SDL2_image-2.0.1\include;boost_1_63_0;glew-2.0.0\include;glm\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>SDL2-2.0.4\lib\x86;SDL2_image-2.0.1\lib\x86;boost_1_63_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\SDL2-2.0.4\include;Libraries\SDL2_image-2.0.1\include;boost_1_63_0;Libraries\glew-2.0.0\include;Libraries\glm\glm;Libraries\gl3ww;Libraries\glfw\include;Libraries\asio-1.10.8\include;Libraries\imgui-master\examples\sdl_opengl3_example;Libraries\imgui-master;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\SDL2-2.0.4\lib\x86;Libraries\SDL2_image-2.0.1\lib\x86;boost_1_63_0\stage\lib;Libraries\glfw\lib-vc2010-32;Libraries\glm;Libraries\asio-1.10.8;Libraries\imgui-master;Libraries\glfw;Libraries\glew-2.0.0\lib\Release\Win32;Libraries\glew-2.0.0\lib;Libraries\imgui-master\examples\sdl_opengl3_example;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>SDL2-2.0.4\include;SDL2_image-2.0.1\include;boost_1_63_0;$(IncludePath)</IncludePath>
-    <LibraryPath>SDL2-2.0.4\lib\x64;SDL2_image-2.0.1\lib\x64;boost_1_63_0\libs;$(LibraryPath)</LibraryPath>
+    <LibraryPath>SDL2-2.0.4\lib\x64;SDL2_image-2.0.1\lib\x64;boost_1_63_0\libs;Libraries\glfw\lib-vc2010-64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>SDL2-2.0.4\include;SDL2_image-2.0.1\include;boost_1_63_0;glm\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>SDL2-2.0.4\lib\x86;SDL2_image-2.0.1\lib\x86;boost_1_63_0\stage\lib;glm\;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\SDL2-2.0.4\include;Libraries\SDL2_image-2.0.1\include;boost_1_63_0;Libraries\glm\glm;.\SDL_project\Libraries\gl3w;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\SDL2-2.0.4\lib\x86;Libraries\SDL2_image-2.0.1\lib\x86;boost_1_63_0\stage\lib;Libraries\glm\;Libraries\gl3w;Libraries\glfw\lib-vc2010-32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -101,7 +101,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -115,7 +115,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>boost_1_57_0\stage\lib;SDL_project\boost_1_63_0\stage\lib;SDL_project\boost_1_63_0\libs\asio;SDL_project\boost_1_63_0\libs\asio\test;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
