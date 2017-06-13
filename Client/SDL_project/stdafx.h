@@ -20,6 +20,15 @@
 #include <SDL.h>
 #include <glm.hpp>
 
+#include <GL/glew.h>
+#include <gl/GL.h>
+
+
+#include <imgui.h>
+#include <SDL_opengl.h>
+#include "imgui_impl_sdl_gl3.h"
+#include "imgui_impl_sdl_gl3.cpp"
+#include <SDL_syswm.h>
 
 
 // reference additional headers your program requires here
@@ -41,6 +50,7 @@
 #include <numeric>
 #include <random>
 #define PI 3.14159265
+
 
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>

@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 #include "Texture.h"
 #include "Level.h"
 #include "Map.h"
@@ -26,6 +27,7 @@
 #include "Inventory.h"
 #include "UserInput.h"
 #include "Player.h"
+
 
 
 //! The main class
