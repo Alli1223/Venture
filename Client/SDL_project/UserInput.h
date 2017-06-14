@@ -12,7 +12,7 @@ public:
 
 	void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, std::string playerName, bool useNetworking, bool& running);
 
-	void UserInput::CheckIfCellIsWalkable(Level& level, int x, int y);
+	bool UserInput::CheckIfCellIsWalkable(Level& level, int x, int y);
 private:
 	glm::vec2 playerChunkPos;
 	glm::vec2 playercellPos;

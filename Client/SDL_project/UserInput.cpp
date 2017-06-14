@@ -11,9 +11,21 @@ UserInput::~UserInput()
 {
 }
 
-void UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
+bool UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
 {
 
+	int chunkX = (x / level.getCellSize()) / level.getChunkSize();
+	int chunkY = (y / level.getCellSize()) / level.getChunkSize();
+
+	int cellX = x / level.getCellSize() - (chunkX * level.getChunkSize());
+	int cellY = y / level.getCellSize() - (chunkY * level.getChunkSize());
+
+	if (!level.World[chunkX][chunkY].tiles[cellX][cellY]->isWalkable)
+	{
+		return false;
+	}
+	else
+		return true;
 }
 
 void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, std::string playerName, bool useNetworking, bool& running)
@@ -41,45 +53,53 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 	if (state[SDL_SCANCODE_W] && state[SDL_SCANCODE_D])
 	{
 		agentManager.allAgents[agentNo].targetRotation = 225;
-		agentManager.allAgents[agentNo].setPosition(playerX + playerSpeed, playerY - playerSpeed);
+		if(CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY - playerSpeed))
+			agentManager.allAgents[agentNo].setPosition(playerX + playerSpeed, playerY - playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_W] && state[SDL_SCANCODE_A])
 	{
 		agentManager.allAgents[agentNo].targetRotation = 135;
-		agentManager.allAgents[agentNo].setPosition(playerX - playerSpeed, playerY - playerSpeed);
+		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY - playerSpeed))
+			agentManager.allAgents[agentNo].setPosition(playerX - playerSpeed, playerY - playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_S] && state[SDL_SCANCODE_D])
 	{
 		agentManager.allAgents[agentNo].targetRotation = -45;
-		agentManager.allAgents[agentNo].setPosition(playerX + playerSpeed, playerY + playerSpeed);
+		if (CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY + playerSpeed))
+			agentManager.allAgents[agentNo].setPosition(playerX + playerSpeed, playerY + playerSpeed);
 
 	}
 	else if (state[SDL_SCANCODE_S] && state[SDL_SCANCODE_A])
 	{
 		agentManager.allAgents[agentNo].targetRotation = 45;
-		agentManager.allAgents[agentNo].setPosition(playerX - playerSpeed, playerY + playerSpeed);
+		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY + playerSpeed))
+			agentManager.allAgents[agentNo].setPosition(playerX - playerSpeed, playerY + playerSpeed);
 	}
 	// Player Movement
 	else if (state[SDL_SCANCODE_S])
 	{
 		agentManager.allAgents[agentNo].targetRotation = 0;
-		agentManager.allAgents[agentNo].setY(playerY + playerSpeed);
+		if (CheckIfCellIsWalkable(level, playerX, playerY + playerSpeed))
+			agentManager.allAgents[agentNo].setY(playerY + playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_A])
 	{
 		agentManager.allAgents[agentNo].targetRotation = 90;
-		agentManager.allAgents[agentNo].setX(playerX - playerSpeed);
+		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY))
+			agentManager.allAgents[agentNo].setX(playerX - playerSpeed);
 
 	}
 	else if (state[SDL_SCANCODE_D])
 	{
 		agentManager.allAgents[agentNo].targetRotation = 270;
-		agentManager.allAgents[agentNo].setX(playerX + playerSpeed);
+		if (CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY))
+			agentManager.allAgents[agentNo].setX(playerX + playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_W])
 	{
 		agentManager.allAgents[agentNo].targetRotation = 180;
-		agentManager.allAgents[agentNo].setY(playerY - playerSpeed);
+		if (CheckIfCellIsWalkable(level, playerX, playerY - playerSpeed))
+			agentManager.allAgents[agentNo].setY(playerY - playerSpeed);
 	}
 
 
@@ -110,8 +130,9 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 	{
 		if (!level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWater)
 		{
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWoodFence = true;
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWalkable = false;
+			if(level.isCellInChunk(playercellPos.x + 1, playercellPos.y))
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x + 1][playercellPos.y]->isWoodFence = true;
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x + 1][playercellPos.y]->isWalkable = false;
 		}
 	}
 	if (state[SDL_SCANCODE_F])
