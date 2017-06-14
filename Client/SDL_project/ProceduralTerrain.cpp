@@ -58,21 +58,22 @@ void ProceduralTerrain::SpawnTown(Chunk& level)
 
 
 
-void ProceduralTerrain::spawnTrees(Chunk& level)
+void ProceduralTerrain::spawnTrees(Chunk& chunk)
 {
 	for (int i = numberOfTrees; i > 0; i--)
 	{
-		int x = rand() % level.tiles.size();
-		int y = rand() % level.tiles[0].size();
-		if (!level.tiles[x][y]->isVegetation && !level.tiles[x][y]->isWater && !level.tiles[x][y]->isSand && !level.tiles[x][y]->isTown)
+		int x = rand() % chunk.tiles.size();
+		int y = rand() % chunk.tiles[0].size();
+		if (!chunk.tiles[x][y]->isVegetation && !chunk.tiles[x][y]->isWater && !chunk.tiles[x][y]->isSand && !chunk.tiles[x][y]->isTown)
 		{
-			level.tiles[x][y]->isVegetation = true;
-			level.tiles[x][y]->renderLayer = 2;
+			chunk.tiles[x][y]->isVegetation = true;
+			chunk.tiles[x][y]->isWalkable = false;
+
 			int treeType = rand() % 3;
 			if (treeType <= 0)
-				level.tiles[x][y]->isFernTree = true;
+				chunk.tiles[x][y]->isFernTree = true;
 			else
-				level.tiles[x][y]->isTreeOne = true;
+				chunk.tiles[x][y]->isTreeOne = true;
 		}
 	}
 }
@@ -193,11 +194,14 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 		{
 			chunk.tiles[x][y]->isVegetation = true;
 			chunk.tiles[x][y]->isOakTree = true;
+			chunk.tiles[x][y]->isWalkable = false;
 		}
 		else if (chunk.tiles[x][y]->isGrass && fNoise > 8.0 && fNoise < 12.0 && rand() % numberOfTrees == 1)
 		{
 			chunk.tiles[x][y]->isVegetation = true;
 			chunk.tiles[x][y]->isFernTree = true;
+			chunk.tiles[x][y]->isWalkable = false;
+
 		}
 
 		// RIVER NOISE

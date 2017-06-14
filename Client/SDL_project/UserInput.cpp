@@ -130,9 +130,11 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 	{
 		if (!level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWater)
 		{
-			if(level.isCellInChunk(playercellPos.x + 1, playercellPos.y))
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x + 1][playercellPos.y]->isWoodFence = true;
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x + 1][playercellPos.y]->isWalkable = false;
+			if (level.isCellInChunk(playercellPos.x + 1, playercellPos.y))
+			{
+				level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x + 1][playercellPos.y]->isWoodFence = true;
+				level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x + 1][playercellPos.y]->isWalkable = false;
+			}
 		}
 	}
 	if (state[SDL_SCANCODE_F])
