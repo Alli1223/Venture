@@ -56,7 +56,7 @@ protected:
 	int chunkSize;
 
 	// The extra chunks that are generated at the screens border and beyond
-	int levelGenerationRadius = 1;
+	int levelGenerationRadius = 2;
 
 	int levelWidth, levelHeight;
 };

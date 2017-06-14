@@ -25,46 +25,6 @@ void Agent::Update(Level& level)
 	toiletLevel = toiletLevel + toiletDecayRate;
 	
 
-	/* If the agent has a path move along it
-	if (movementStatus == TraversingPath && path.size() > 0)
-	{
-		float deltaX = getX() - path[pathPointIterator].getX() * level.getCellSize();
-		float deltaY = getY() - path[pathPointIterator].getY() * level.getCellSize();
-		
-
-		float length = sqrt(deltaX * deltaX + deltaY * deltaY);
-
-		// Normalize 
-		deltaX /= length;
-		deltaY /= length;
-
-		// Calculate rotation
-		if (agentCanRotate)
-		{
-			float angleInDegrees = atan2(deltaY, deltaX) * 180.0 / PI;
-
-			// Apply correction to rotation
-			rotation = angleInDegrees + 90;
-		}
-
-		// Multiply direction by magnitude 
-		deltaX *= getSpeed();
-		deltaY *= getSpeed();
-
-		if (getX() - deltaX > 0 && getY() - deltaY > 0)
-		{
-			setX(getX() - deltaX);
-			setY(getY() - deltaY);
-		}
-		
-		// If the agent reaches the node in the path
-		if (getCellX() == path[pathPointIterator].getX() && getCellY() == path[pathPointIterator].getY())
-		{
-			pathPointIterator++;
-		}
-	}
-	*/
-
 	// ROTATE AGENT /////
 	if (rotation == 360 - rotationSpeed || rotation == 360)
 		rotation = 0;
@@ -84,6 +44,22 @@ void Agent::Update(Level& level)
 		else if (rotation > targetRotation)
 			rotation -= rotationSpeed;
 	}
+
+	// Determines what direction the user accesses cells based on direction
+	if (rotation == 90)
+		cellInteractionDirection.x = -1;
+	else if (rotation == 180)
+		cellInteractionDirection.y = -1;
+	else if (rotation == 270)
+		cellInteractionDirection.x = +1;
+	else if (rotation == 0 || 360)
+		cellInteractionDirection.y = +1;
+	else
+	{
+		cellInteractionDirection.x = 0;
+		cellInteractionDirection.y = 0;
+	}
+
 
 	//Set chunk and cell positions for the agent
 		chunkPos.x = (getX() / cellSize) / level.getChunkSize();
@@ -105,7 +81,7 @@ void Agent::Update(Level& level)
 			chunkPos.y -= 1;
 		}
 
-		std::cout << chunkPos.x << " " << chunkPos.y << " | " << cellPos.x << " " << cellPos.y << std::endl;
+		//std::cout << chunkPos.x << " " << chunkPos.y << " | " << cellPos.x << " " << cellPos.y << std::endl;
 
 
 
@@ -113,46 +89,7 @@ void Agent::Update(Level& level)
 	//if (!level.World[chunkPos.x][chunkPos.y].tiles[cellPos.x][cellPos.y]->isWater)
 		//level.World[chunkPos.x][chunkPos.y].tiles[cellPos.x][cellPos.y]->isWater = true;
 
-	/*Add berry to inventory
-	if (level.tiles[getCellX()][getCellY()]->isBerryPlant && state[SDL_SCANCODE_F])
-	{
-		Item berry;
-		berry.isBerry = true;
-		inventory.add(berry);
-		level.tiles[getCellX()][getCellY()]->isBerryPlant = false;
-		level.tiles[getCellX()][getCellY()]->isBush = true;
-	}
-
-	// Agent will wonder randomly when idle
-	if (movementStatus == Idle && agentWonderWhenIdle)
-	{
-		bool foundEndPoint = false;
-		Point endPoint;
-		while (!foundEndPoint)
-		{
-			int x = rand() % level.tiles.size();
-			int y = rand() % level.tiles[x].size();
-			if (level.tiles[x][y]->isWalkable && level.tiles[x][y]->isRoom)
-			{
-				endPoint = Point(level.tiles[x][y]->getX(), level.tiles[x][y]->getY());
-				foundEndPoint = true;
-				movementStatus = TraversingPath;
-			}
-		}
-		Point startPoint(this->getCellX(), this->getCellY());
-		this->Move(level, startPoint, endPoint);
-	}
 	
-	
-
-	// If the Agent has reached the end of the path then reset the pathfinder and set the agent to idle.
-	if (pathPointIterator >= path.size() && movementStatus == TraversingPath)
-	{
-		movementStatus = Idle;
-		isMoving = false;
-		pathPointIterator = 0;
-	}
-	*/
 }
 
 void Agent::Move(Level& level, Point& StartPoint, Point& EndPoint)

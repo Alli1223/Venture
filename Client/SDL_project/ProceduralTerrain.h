@@ -31,23 +31,19 @@ public:
 	//! function that calls the functions below
 	void ProceduralTerrain::populateTerrain(Chunk& level);
 	//! Spawns the trees in a chunk
-	void ProceduralTerrain::spawnTrees(Chunk& level);
+	void ProceduralTerrain::spawnRandomTrees(Chunk& level);
 	//! Spawn the vegetation
-	void ProceduralTerrain::spawnVegetation(Chunk& level);
+	void ProceduralTerrain::spawnRandomVegetation(Chunk& level);
 	//! Generate the ground based of the elevation and climate
 	void ProceduralTerrain::generateGround(Chunk& level, int x, int y);
-	//! Spawn town (Not used)
-	void ProceduralTerrain::SpawnTown(Chunk& level);
 
 private:
 	//! Seed values are random
-	int seed = 580387;
+	int seed = 3210387;
 	int forrestSeed = seed + 30;
 	int elevationSeed = seed + 36945;
 	int riverSeed = seed + 1255;
 
-	int numOfTowns = 2;
-	int townSize = 50;
 
 	bool thereIsClimate = false;
 
@@ -56,8 +52,9 @@ private:
 
 	float forrestAmplifier = 1.5;
 
-	int numberOfTrees = 5;
-	int numberOfPlants = 8;
+	// Number of items randomly placed in chunk
+	int numberOfTrees = 2;
+	int numberOfPlants = 4;
 
 };
 

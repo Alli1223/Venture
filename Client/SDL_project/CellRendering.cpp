@@ -93,21 +93,16 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isTreeOne)
 					PixelTexture.render(renderer, xPos - cellSize * 3, yPos - cellSize * 2, cellSize * 6, cellSize * 6);
-
-
 				if (chunk.tiles[x][y]->isWoodFence)
 				{
-					if (level.isCellInChunk(x, y) && level.isCellInChunk(x, y + 1) && level.isCellInChunk(x, y - 1) && level.isCellInChunk(x + 1, y) && level.isCellInChunk(x - 1, y))
-					{
+
 						if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && !chunk.tiles[x + 1][y]->isWoodFence && !chunk.tiles[x - 1][y]->isWoodFence)
 							WoodFenceUP.render(renderer, xPos, yPos, cellSize, cellSize);
 						else if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && chunk.tiles[x + 1][y]->isWoodFence && chunk.tiles[x - 1][y]->isWoodFence)
 							WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
 						else
 							WoodFenceSide.render(renderer, xPos, yPos, cellSize, cellSize);
-					}
-					else
-						WoodFenceUP.render(renderer, xPos, yPos, cellSize, cellSize);
+		
 				}
 
 

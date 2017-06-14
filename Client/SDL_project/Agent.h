@@ -41,7 +41,7 @@ public:
 
 	//! Position in the world
 	glm::vec2 chunkPos, cellPos;
-
+	glm::vec2 cellInteractionDirection;
 
 
 	//! Gets and Sets the agents hunger

@@ -4,6 +4,14 @@
 
 ProceduralTerrain::ProceduralTerrain()
 {
+	Elevation.GenerateNoise(elevationSeed);
+	ElevationLayerTwo.GenerateNoise(elevationSeed - 1234);
+	ElevationLayerThree.GenerateNoise(elevationSeed + 1234);
+
+
+	forrestNoise.GenerateNoise(forrestSeed);
+	riverNoise.GenerateNoise(riverSeed);
+	riverNoiseLayerTwo.GenerateNoise(riverSeed / 2);
 }
 
 
@@ -11,54 +19,7 @@ ProceduralTerrain::~ProceduralTerrain()
 {
 }
 
-// Clears the ground and spawns buildings in the area
-void ProceduralTerrain::SpawnTown(Chunk& level)
-{
-	if (numOfTowns >= 1)
-	{
-		bool townFound = false;
-		numOfTowns--;
-		while (!townFound)
-		{
-			int x = rand() % level.tiles.size();
-			int y = rand() % level.tiles[0].size();
-			if (level.tiles[x][y]->terrainElevationValue > 3)
-			{
-				
-				for (int tX = x; tX < townSize + x; tX++)
-				{
-					for (int tY = y; tY < townSize + y; tY++)
-					{
-
-						// Clear the ground
-						level.tiles[tX][tY]->isGrass = true;
-						level.tiles[tX][tY]->isSand = false;
-						level.tiles[tX][tY]->isVegetation = false;
-						level.tiles[tX][tY]->isWater = false;
-						level.tiles[tX][tY]->isTown = true;
-
-						//Place walls around
-						if(!level.tiles[tX][townSize + y]->isDirt)
-							level.tiles[tX][townSize + y]->isStoneWall = true;
-						if (!level.tiles[x + townSize][tY]->isDirt)
-							level.tiles[x + townSize][tY]->isStoneWall = true;
-						if(!level.tiles[x][tY]->isDirt)
-							level.tiles[x][tY]->isStoneWall = true;
-						if(!level.tiles[tX][y]->isDirt)
-							level.tiles[tX][y]->isStoneWall = true;
-					}
-				}
-				townFound = true;
-				//PlaceBuilding(chunk, x, y, 5, 5);
-			}
-		}
-	}
-}
-
-
-
-
-void ProceduralTerrain::spawnTrees(Chunk& chunk)
+void ProceduralTerrain::spawnRandomTrees(Chunk& chunk)
 {
 	for (int i = numberOfTrees; i > 0; i--)
 	{
@@ -71,16 +32,21 @@ void ProceduralTerrain::spawnTrees(Chunk& chunk)
 
 			int treeType = rand() % 3;
 			if (treeType <= 0)
+			{
 				chunk.tiles[x][y]->isFernTree = true;
+				chunk.tiles[x][y]->isWalkable = false;
+			}
 			else
-				chunk.tiles[x][y]->isTreeOne = true;
+			{
+				chunk.tiles[x][y]->isTreeTwo = true;
+				chunk.tiles[x][y]->isWalkable = false;
+			}
 		}
 	}
 }
 
-void ProceduralTerrain::spawnVegetation(Chunk& chunk)
+void ProceduralTerrain::spawnRandomVegetation(Chunk& chunk)
 {	
-	int numPlants = 0;
 	for (int i = numberOfPlants; i > 0; i--)
 	{
 		int x = rand() % chunk.tiles.size();
@@ -108,7 +74,7 @@ void ProceduralTerrain::spawnVegetation(Chunk& chunk)
 				chunk.tiles[x][y]->isFlower2 = true;
 				break;
 			}
-			numPlants++;
+			
 		}
 	}
 }
@@ -116,33 +82,18 @@ void ProceduralTerrain::spawnVegetation(Chunk& chunk)
 
 void ProceduralTerrain::populateTerrain(Chunk& chunk)
 {
-	//generate noise from seed
-
-	Elevation.GenerateNoise(elevationSeed);
-	ElevationLayerTwo.GenerateNoise(elevationSeed - 1234);
-	ElevationLayerThree.GenerateNoise(elevationSeed + 1234);
-	
-
-	forrestNoise.GenerateNoise(forrestSeed);
-	riverNoise.GenerateNoise(riverSeed);
-	riverNoiseLayerTwo.GenerateNoise(riverSeed / 2);
-
 	//Renders all he cells
 	for (int x = 0; x < chunk.getChunkSize(); x++)
 	{
 		for (int y = 0; y < chunk.getChunkSize(); y++)
 		{
-			//Spawn the grass
-			chunk.tiles[x][y]->isWalkable = true;
-
 			//Generate the grass
 			generateGround(chunk, x, y);
 
 		}
 	}
-	//SpawnTown(chunk);
-	spawnTrees(chunk);
-	spawnVegetation(chunk);
+	spawnRandomTrees(chunk);
+	spawnRandomVegetation(chunk);
 }
 
 //TODO: Put all constant values in the headder

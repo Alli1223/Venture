@@ -21,9 +21,15 @@ bool UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
 	int cellY = y / level.getCellSize() - (chunkY * level.getChunkSize());
 
 	if (cellX < 0)
+	{
 		cellX += level.getChunkSize();
+		chunkX -= 1;
+	}
 	if (cellY < 0)
+	{
 		cellY += level.getChunkSize();
+		chunkY -= 1;
+	}
 
 	if (!level.World[chunkX][chunkY].tiles[cellX][cellY]->isWalkable)
 	{
@@ -52,6 +58,7 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 	int agentNo = agentManager.GetAgentNumberFomID(playerName);
 	playerChunkPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].chunkPos;
 	playercellPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].cellPos;
+	InterDir = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].cellInteractionDirection;
 
 
 	//Diagonal movement
@@ -133,18 +140,21 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 
 	if (state[SDL_SCANCODE_SPACE])
 	{
-		if (!level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWater)
+		if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isFernTree || level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isOakTree)
 		{
-			if (level.isCellInChunk(playercellPos.x + 1, playercellPos.y))
-			{
-				level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x + 1][playercellPos.y]->isWoodFence = true;
-				level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x + 1][playercellPos.y]->isWalkable = false;
-			}
+			//Check if cell is in bounds
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isFernTree = false;
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isOakTree = false;
 		}
 	}
 	if (state[SDL_SCANCODE_F])
 	{
-
+		if (level.isCellInChunk(playercellPos.x - InterDir.x, playercellPos.y - InterDir.y))
+		{
+			std::cout << playercellPos.x - InterDir.x << " " << playercellPos.y - InterDir.y << std::endl;
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x - InterDir.x][playercellPos.y - InterDir.y]->isWoodFence = true;
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x - InterDir.x][playercellPos.y - InterDir.y]->isWalkable = false;
+		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
