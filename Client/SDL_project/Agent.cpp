@@ -25,11 +25,11 @@ void Agent::Update(Level& level)
 	toiletLevel = toiletLevel + toiletDecayRate;
 	
 
-	// If the agent has a path move along it
+	/* If the agent has a path move along it
 	if (movementStatus == TraversingPath && path.size() > 0)
 	{
-		float deltaY = getY() - path[pathPointIterator].getY() * level.getCellSize();
 		float deltaX = getX() - path[pathPointIterator].getX() * level.getCellSize();
+		float deltaY = getY() - path[pathPointIterator].getY() * level.getCellSize();
 		
 
 		float length = sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -63,47 +63,42 @@ void Agent::Update(Level& level)
 			pathPointIterator++;
 		}
 	}
+	*/
+
+	// ROTATE AGENT /////
+	if (rotation == 360 - rotationSpeed || rotation == 360)
+		rotation = 0;
+	if (rotation == -90 - rotationSpeed || rotation == -90)
+		rotation = 270;
 	// Perform agent rotation based on player input
 	if (rotation != targetRotation)
 	{
 		// Edge case
 		if (rotation == 270 && targetRotation == 0)
 			targetRotation = 360;
-		else if (rotation == 360)
-			rotation = 0;
-
-		else if (rotation == 0 && targetRotation == 270)
+		if (rotation == 0 && targetRotation == 270)
 			targetRotation = -90;
-		else if (rotation == -90)
-			rotation = 270;
-
 
 		if (rotation < targetRotation)
 			rotation += rotationSpeed;
 		else if (rotation > targetRotation)
 			rotation -= rotationSpeed;
-		std::cout << rotation << std::endl;
 	}
 
-		pos.x = (getX() / cellSize) / level.getChunkSize();
-		pos.y = (getY() / cellSize) / level.getChunkSize();
+	//Set chunk and cell positions for the agent
+		chunkPos.x = (getX() / cellSize) / level.getChunkSize();
+		chunkPos.y = (getY() / cellSize) / level.getChunkSize();
 
 		int x = getX() / cellSize;
 		int y = getY() / cellSize;
+		cellPos.x = x - (chunkPos.x * level.getChunkSize());
+		cellPos.y = y - (chunkPos.y * level.getChunkSize());
 
-
-		// Get x and y values of each chunk
-
-		if (x >= level.getChunkSize())
-			pos.a = x - (pos.x * level.getChunkSize());
-
-		if (y >= level.getChunkSize())
-			pos.b = y + (pos.y * level.getChunkSize());
 
 
 	
-	//if (!level.World[pos.x][pos.y].tiles[pos.a][pos.b]->isWater)
-		//level.World[pos.x][pos.y].tiles[pos.a][pos.b]->isWater = true;
+	//if (!level.World[chunkPos.x][chunkPos.y].tiles[cellPos.x][cellPos.y]->isWater)
+	//	level.World[chunkPos.x][chunkPos.y].tiles[cellPos.x][cellPos.y]->isWater = true;
 
 	/*Add berry to inventory
 	if (level.tiles[getCellX()][getCellY()]->isBerryPlant && state[SDL_SCANCODE_F])

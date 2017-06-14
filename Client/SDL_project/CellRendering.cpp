@@ -57,13 +57,13 @@ CellRendering::~CellRendering()
 {
 }
 
-void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_Renderer* renderer)
+void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_Renderer* renderer)
 {
 	int newX = 0, newY = 0;
 	int xPos = 0, yPos = 0;
 	int cellSize = level.getCellSize();
 
-	for(int x = 0; x < level.getChunkSize(); x++)
+	for (int x = 0; x < level.getChunkSize(); x++)
 		for (int y = 0; y < level.getChunkSize(); y++)
 		{
 			newX = chunk.tiles[x][y]->getX();
@@ -94,10 +94,10 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 					StoneWallTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isFernTree)
 					FernTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
-				if (chunk.tiles[x][y]->isOakTree)
+				else if (chunk.tiles[x][y]->isOakTree)
 					OakTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
-				if (chunk.tiles[x][y]->isTreeOne)
-					PixelTexture.render(renderer, xPos - (cellSize * 3), yPos, cellSize * 6, cellSize * 6);
+				else if (chunk.tiles[x][y]->isTreeOne)
+					PixelTexture.render(renderer, xPos - (cellSize * 3), yPos - (cellSize * 3), cellSize * 6, cellSize * 6);
 				else if (chunk.tiles[x][y]->isTreeTwo)
 					TreeTwoTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				else if (chunk.tiles[x][y]->isTreeThree)
@@ -112,8 +112,9 @@ void CellRendering::RenderChunk(Level& level,Camera& camera, Chunk& chunk, SDL_R
 					BushTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
 				if (chunk.tiles[x][y]->isLongGrass)
 					LongGrass1.render(renderer, xPos, yPos, cellSize, cellSize);
-				if(chunk.tiles[x][y]->isSnow)
+				if (chunk.tiles[x][y]->isSnow)
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+
 			}
 		}
 }

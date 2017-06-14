@@ -9,12 +9,12 @@ Venture::Venture() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
+	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT ;
+	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH ;
 	camera.WindowHeight = WINDOW_HEIGHT;
 	camera.WindowWidth = WINDOW_WIDTH;
 	camera.SetPos(0, 0);
-	window = SDL_CreateWindow("Venture", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
+	window = SDL_CreateWindow("Venture", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE);
 	
 	if (window == nullptr)
 	{
@@ -151,13 +151,13 @@ void Venture::run()
 
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		{
-			glm::vec4 playerPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].pos;
-			if (level.World[playerPos.x][playerPos.y].tiles[playerPos.a][playerPos.b]->isGrass)
+			glm::vec2 playerChunkPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].chunkPos;
+			glm::vec2 playercellPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].cellPos;
+			if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isGrass)
 			{									   
-				level.World[playerPos.x][playerPos.y].tiles[playerPos.a][playerPos.b]->isWater = false;
-				level.World[playerPos.x][playerPos.y].tiles[playerPos.a][playerPos.b]->isTreeOne = true;
+				level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isBush = true;
 			}
-			std::cout << playerPos.x << " " << playerPos.y << " | " << playerPos.w << " " << playerPos.z << std::endl;
+			std::cout << playerChunkPos.x << " " << playerChunkPos.y << " | " << playercellPos.x << " " << playercellPos.y << std::endl;
 		}
 
 

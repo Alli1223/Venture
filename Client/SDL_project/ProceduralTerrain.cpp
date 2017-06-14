@@ -67,6 +67,7 @@ void ProceduralTerrain::spawnTrees(Chunk& level)
 		if (!level.tiles[x][y]->isVegetation && !level.tiles[x][y]->isWater && !level.tiles[x][y]->isSand && !level.tiles[x][y]->isTown)
 		{
 			level.tiles[x][y]->isVegetation = true;
+			level.tiles[x][y]->renderLayer = 2;
 			int treeType = rand() % 3;
 			if (treeType <= 0)
 				level.tiles[x][y]->isFernTree = true;
@@ -168,23 +169,19 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 	if (climate > 0 || !thereIsClimate)
 	{
 		// TERRAIN NOISE
-		if (terrainElevation > -1.8 && terrainElevation < 13.0)
+		if (terrainElevation >= -1.8 && terrainElevation < 13.0)
 		{
 			chunk.tiles[x][y]->isGrass = true;
 		}
-		else if (terrainElevation > -2.3 && terrainElevation < -1.8)
+		else if (terrainElevation >= -2.3 && terrainElevation < -1.8)
 		{
 			chunk.tiles[x][y]->isSand = true;
-			chunk.tiles[x][y]->isGrass = false;
+			chunk.tiles[x][y]->isGrass = true;
 			chunk.tiles[x][y]->isWater = false;
 		}
-		else if (terrainElevation < -2)
+		else if (terrainElevation < -2.3)
 		{
 			chunk.tiles[x][y]->isWater = true;
-		}
-		else if (terrainElevation > -0.5 && terrainElevation < -0.7)
-		{
-			chunk.tiles[x][y]->isDirt = true;
 		}
 
 

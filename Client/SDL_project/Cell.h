@@ -107,6 +107,8 @@ public:
 	bool isBuilding = false;
 	bool isStoneWall = false;
 
+	int renderLayer = 0;
+
 
 	//Item cellItem;
 	

@@ -15,7 +15,7 @@ void Level::CreateChunk(int initX, int initY)
 		{
 			// Populates the column with pointers to cells
 			Cell cell(x + (initX * chunkSize), y + (initY * chunkSize));
-			cell.isGrass = true;
+			cell.renderLayer = 0;
 			auto sharedCell = std::make_shared<Cell>(cell);
 			World[initX][initY].tiles[x].push_back(sharedCell);
 		}

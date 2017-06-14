@@ -39,7 +39,8 @@ public:
 	enum agentServicesStatus { NA, Hungry, Tired, WC, Suffocating };
 	agentServicesStatus agentNeed = NA;
 
-	glm::vec4 pos;
+	//! Position in the world
+	glm::vec2 chunkPos, cellPos;
 
 
 
