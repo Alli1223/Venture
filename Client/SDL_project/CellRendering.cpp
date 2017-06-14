@@ -3,28 +3,6 @@
 
 //! Constructor that initalises all the texture file locations
 CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.png"), emptyCell(RoomSpriteTextureLocation + "emptyCell.png"),
-	topRoomCell(RoomSpriteTextureLocation + "top.png"), topRightRoomCell(RoomSpriteTextureLocation + "topRight.png"), rightRoomCell(RoomSpriteTextureLocation + "right.png"), bottomRightRoomCell(RoomSpriteTextureLocation + "bottomRight.png"), bottomRoomCell(RoomSpriteTextureLocation + "bottom.png"), bottomLeftRoomCell(RoomSpriteTextureLocation + "bottomLeft.png"), leftRoomCell(RoomSpriteTextureLocation + "left.png"), topLeftRoomCell(RoomSpriteTextureLocation + "topLeft.png"),
-	cargoBayTexture(RoomSpriteTextureLocation + "cargoBayStorage.png"), cargoTexture("Resources\\roomSprites\\crate1.png"),
-	openDoorTexture(RoomSpriteTextureLocation + "center.png"),
-	closedDoorTexture(RoomSpriteTextureLocation + "door.png"),
-	oxygenTex("Resources\\oxygen.png"),
-	oxygenTank(ItemsSpriteTextureLocation + "oxygenTank.png"), healthPack(ItemsSpriteTextureLocation + "healthPack.png"),
-	healthBar("Resources\\health.png"),
-	healthText("Resources\\healthText.png"),
-	winTexture("Resources\\oxygenBar.png"),
-	winText("Resources\\you_win.png"),
-	oxygenBar("Resources\\oxygenBar.png"),
-	oxygenText("Resources\\oxygenText.png"),
-	gameOver("Resources\\health.png"),
-	gameOverText("Resources\\game_over.png"),
-	fireTexture(ItemsSpriteTextureLocation + "fire1.png"),
-	backgroundTexture("Resources\\background.png"),
-	hullBreachTexture("Resources\\roomSprites\\hullBreach2.png"),
-	deathAnim("Resources\\deathAnim.png"),
-	goalTexture("Resources\\roomSprites\\crate1.png"),
-	bedSideTexture(RoomSpriteTextureLocation + "Bed.png"),
-	toiletTexture(RoomSpriteTextureLocation + "wc.png"),
-	kitchenTexture(RoomSpriteTextureLocation + "cargoBayStorage.png"),
 	Grass1Texture(TerrainSpriteTextureLocation + "Grass.png"),
 	Grass2Texture(TerrainSpriteTextureLocation + "Grass2.png"),
 	OakTreeTexture(TerrainSpriteTextureLocation + "OakTree.png"),
@@ -45,8 +23,7 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
 	SnowTexture(TerrainSpriteTextureLocation + "Snow.png"),
 
-	characterTex(characterTextureLocation + "crew2.png"), characterLeft(characterTextureLocation + "crewLeft.png"), characterRight(characterTextureLocation + "crewRight.png"), characterUp(characterTextureLocation + "crewUp.png"), characterDown(characterTextureLocation + "crewDown.png"),
-	npcLeft(characterTextureLocation + "npcLeft.png"), npcRight(characterTextureLocation + "npcRight.png"), npcUp(characterTextureLocation + "npcUp.png"), npcDown(characterTextureLocation + "npcDown.png"),
+	characterTex(characterTextureLocation + "crew.png"), npcDown(characterTextureLocation + "npc.png"),
 	healthBarTexture(playerStatsTextureLocation + "PlayerHealth.png"), oxygenBarTexture(playerStatsTextureLocation + "PlayerOxygen.png"), hungerBarTexture(playerStatsTextureLocation + "PlayerHunger.png"), tiredBarTexture(playerStatsTextureLocation + "PlayerTiredness.png")
 
 {
@@ -114,7 +91,6 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 					LongGrass1.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isSnow)
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-
 			}
 		}
 }
@@ -162,7 +138,7 @@ void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& le
 		}
 	}
 	if (agent.characterType == "Player")
-		characterDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
+		characterTex.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
 
 
 }

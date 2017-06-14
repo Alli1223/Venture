@@ -169,7 +169,7 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 	if (climate > 0 || !thereIsClimate)
 	{
 		// TERRAIN NOISE
-		if (terrainElevation >= -1.8 && terrainElevation < 13.0)
+		if (terrainElevation >= -1.8 && terrainElevation <= 20.0)
 		{
 			chunk.tiles[x][y]->isGrass = true;
 		}
@@ -183,9 +183,7 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 		{
 			chunk.tiles[x][y]->isWater = true;
 		}
-
-
-		else if (terrainElevation > 25)
+		else if (terrainElevation > 20.0)
 		{
 			chunk.tiles[x][y]->isSnow = true;
 		}

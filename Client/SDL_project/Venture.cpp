@@ -153,6 +153,7 @@ void Venture::run()
 		{
 			glm::vec2 playerChunkPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].chunkPos;
 			glm::vec2 playercellPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].cellPos;
+			
 			if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isGrass)
 			{									   
 				level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isBush = true;
