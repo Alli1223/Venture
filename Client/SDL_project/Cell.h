@@ -106,6 +106,7 @@ public:
 	bool isTown = false;
 	bool isBuilding = false;
 	bool isStoneWall = false;
+	bool isWoodFence = false;
 
 	int renderLayer = 0;
 

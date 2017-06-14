@@ -11,6 +11,11 @@ UserInput::~UserInput()
 {
 }
 
+void UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
+{
+
+}
+
 void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, std::string playerName, bool useNetworking, bool& running)
 {
 	int cellSize = level.getCellSize();
@@ -28,6 +33,8 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 	int playerY = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY();
 	int playerSpeed = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed();
 	int agentNo = agentManager.GetAgentNumberFomID(playerName);
+	playerChunkPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].chunkPos;
+	playercellPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].cellPos;
 
 
 	//Diagonal movement
@@ -101,6 +108,14 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 
 	if (state[SDL_SCANCODE_SPACE])
 	{
+		if (!level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWater)
+		{
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWoodFence = true;
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWalkable = false;
+		}
+	}
+	if (state[SDL_SCANCODE_F])
+	{
 
 	}
 
@@ -111,4 +126,3 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 	else if (state[SDL_SCANCODE_C])
 		networkManager.sendTCPMessage("PLACE_BOX\n");
 }
-

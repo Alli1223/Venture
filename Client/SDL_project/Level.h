@@ -43,6 +43,8 @@ public:
 	//! The wold contains key value pairs of chunks
 	std::map<int, std::map<int, Chunk>> World;
 
+	bool Level::isCellInChunk(int x, int y);
+
 
 protected:
 	//! Create an instance of procedural terrain for the world

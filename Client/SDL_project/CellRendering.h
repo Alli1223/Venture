@@ -23,6 +23,7 @@ private:
 	const std::string ItemsSpriteTextureLocation = "Resources\\Sprites\\SpawnItems\\";
 	const std::string TerrainSpriteTextureLocation = "Resources\\Sprites\\Terrain\\";
 	const std::string TreeTerrainSpriteTextureLocation = "Resources\\Sprites\\Terrain\\Trees\\";
+	const std::string WallSpriteTextureLocation = "Resources\\Sprites\\Terrain\\Walls\\";
 
 	const std::string characterTextureLocation = "Resources\\Sprites\\Character\\";
 	const std::string playerStatsTextureLocation = "Resources\\Sprites\\GUI\\PlayerStats\\";
@@ -57,6 +58,10 @@ private:
 	Texture SandTexture;
 	Texture StoneWallTexture;
 	Texture SnowTexture;
+
+	Texture WoodFenceSide;
+	Texture WoodFenceUP;
+	Texture WoodFenceCenter;
 
 	//! Character Textures
 	Texture characterTex;

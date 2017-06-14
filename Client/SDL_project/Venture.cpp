@@ -149,16 +149,11 @@ void Venture::run()
 
 		level.GenerateWorld(camera);
 
+
+		//Right click
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		{
-			glm::vec2 playerChunkPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].chunkPos;
-			glm::vec2 playercellPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].cellPos;
-			
-			if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isGrass)
-			{									   
-				level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isBush = true;
-			}
-			std::cout << playerChunkPos.x << " " << playerChunkPos.y << " | " << playercellPos.x << " " << playercellPos.y << std::endl;
+
 		}
 
 
