@@ -20,6 +20,11 @@ bool UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
 	int cellX = x / level.getCellSize() - (chunkX * level.getChunkSize());
 	int cellY = y / level.getCellSize() - (chunkY * level.getChunkSize());
 
+	if (cellX < 0)
+		cellX += level.getChunkSize();
+	if (cellY < 0)
+		cellY += level.getChunkSize();
+
 	if (!level.World[chunkX][chunkY].tiles[cellX][cellY]->isWalkable)
 	{
 		return false;

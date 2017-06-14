@@ -94,11 +94,24 @@ void Agent::Update(Level& level)
 		cellPos.x = x - (chunkPos.x * level.getChunkSize());
 		cellPos.y = y - (chunkPos.y * level.getChunkSize());
 
+		if (cellPos.x < 0)
+		{
+			cellPos.x += level.getChunkSize();
+			chunkPos.x -= 1;
+		}
+		if (cellPos.y < 0)
+		{
+			cellPos.y += level.getChunkSize();
+			chunkPos.y -= 1;
+		}
+
+		std::cout << chunkPos.x << " " << chunkPos.y << " | " << cellPos.x << " " << cellPos.y << std::endl;
+
 
 
 	
 	//if (!level.World[chunkPos.x][chunkPos.y].tiles[cellPos.x][cellPos.y]->isWater)
-	//	level.World[chunkPos.x][chunkPos.y].tiles[cellPos.x][cellPos.y]->isWater = true;
+		//level.World[chunkPos.x][chunkPos.y].tiles[cellPos.x][cellPos.y]->isWater = true;
 
 	/*Add berry to inventory
 	if (level.tiles[getCellX()][getCellY()]->isBerryPlant && state[SDL_SCANCODE_F])
