@@ -9,8 +9,8 @@ Venture::Venture() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT /2;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH /2;
+	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT;
+	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH;
 	camera.WindowHeight = WINDOW_HEIGHT;
 	camera.WindowWidth = WINDOW_WIDTH;
 	camera.SetPos(0, 0);
@@ -138,9 +138,8 @@ void Venture::run()
 		{
 			//Item berry;
 			//berry.isBerry = true;
-			//agentManager.allAgents[0].inventory.add(berry);
-
-			level.GetGlobalCell(camera, mouse_X / cellSize, mouse_Y / cellSize);
+			for (int i = 0; i < agentManager.allAgents[0].inventory.getCapacity(); i++)
+				Item item = agentManager.allAgents[0].inventory.get(i);
 		}
 
 		//Set camera to follow player and generate the world

@@ -140,20 +140,24 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 
 	if (state[SDL_SCANCODE_SPACE])
 	{
-		if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isFernTree || level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isOakTree)
-		{
-			//Check if cell is in bounds
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isFernTree = false;
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isOakTree = false;
-		}
+		//Check if cell is in bounds
+		if (level.isCellInChunk(playercellPos.x, playercellPos.y + 1))
+			if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y + 1]->isTree)
+			{
+				Item wood;
+				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].inventory.add(wood);
+				level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y + 1]->isTree = false;
+				level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y + 1]->isWalkable = true;
+				
+			}
 	}
 	if (state[SDL_SCANCODE_F])
 	{
-		if (level.isCellInChunk(playercellPos.x - InterDir.x, playercellPos.y - InterDir.y))
+		if (level.isCellInChunk(playercellPos.x, playercellPos.y))
 		{
 			std::cout << playercellPos.x - InterDir.x << " " << playercellPos.y - InterDir.y << std::endl;
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x - InterDir.x][playercellPos.y - InterDir.y]->isWoodFence = true;
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x - InterDir.x][playercellPos.y - InterDir.y]->isWalkable = false;
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->isWoodFence = true;
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->isWalkable = false;
 		}
 	}
 

@@ -87,15 +87,20 @@ public:
 	bool isLongGrass = false;
 	bool isDirt = false;
 
-	bool isOakTree = false;
-	bool isFernTree = false;
-	bool isTreeOne = false;
-	bool isTreeTwo = false;
-	bool isTreeThree = false;
+	bool isTree = false;
 
 	bool isWater = false;
 	bool isSand = false;
 	bool isSnow = false;
+
+	enum TreeType
+	{
+		NoTree,
+		treeOne,
+		treeTwo,
+		treeThree,
+		treeFour
+	};
 
 	bool isVegetation = false;
 	bool isFlower1 = false;

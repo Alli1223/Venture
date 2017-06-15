@@ -18,7 +18,7 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	LongGrass2(TerrainSpriteTextureLocation + "LongGrass2.png"),
 	LongGrass3(TerrainSpriteTextureLocation + "LongGrass3.png"),
 	StoneWallTexture(TerrainSpriteTextureLocation + "StoneWall.png"),
-	PixelTexture(TreeTerrainSpriteTextureLocation + "pixelTree.png"),
+	TreePixelTexture(TreeTerrainSpriteTextureLocation + "pixelTree.png"),
 	TreeTwoTexture(TreeTerrainSpriteTextureLocation + "Tree2.png"),
 	TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
 	SnowTexture(TerrainSpriteTextureLocation + "Snow.png"),
@@ -70,15 +70,6 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 					SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isStoneWall)
 					StoneWallTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isFernTree)
-					FernTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
-				else if (chunk.tiles[x][y]->isOakTree)
-					OakTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
-				
-				else if (chunk.tiles[x][y]->isTreeTwo)
-					TreeTwoTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				else if (chunk.tiles[x][y]->isTreeThree)
-					TreeThreeTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isFlower1)
 					Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
 				if (chunk.tiles[x][y]->isFlower2)
@@ -91,21 +82,28 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 					LongGrass1.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isSnow)
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isTreeOne)
-					PixelTexture.render(renderer, xPos - cellSize * 3, yPos - cellSize * 2, cellSize * 6, cellSize * 6);
-				if (chunk.tiles[x][y]->isWoodFence)
+
+				if (chunk.tiles[x][y]->isTree)
 				{
-
-						if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && !chunk.tiles[x + 1][y]->isWoodFence && !chunk.tiles[x - 1][y]->isWoodFence)
-							WoodFenceUP.render(renderer, xPos, yPos, cellSize, cellSize);
-						else if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && chunk.tiles[x + 1][y]->isWoodFence && chunk.tiles[x - 1][y]->isWoodFence)
-							WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
-						else
-							WoodFenceSide.render(renderer, xPos, yPos, cellSize, cellSize);
-		
+					if (chunk.tiles[x][y]->treeOne)
+						TreePixelTexture.render(renderer, xPos - cellSize * 3, yPos - cellSize * 2, cellSize * 6, cellSize * 6);
+					if (chunk.tiles[x][y]->treeTwo)
+						OakTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize * 3);
+					if (chunk.tiles[x][y]->treeThree)
+						FernTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize * 3);
+					if (chunk.tiles[x][y]->treeFour)
+						SnowTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize);
 				}
-
-
+					if (chunk.tiles[x][y]->isWoodFence)
+					{
+						if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1))
+							if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && !chunk.tiles[x + 1][y]->isWoodFence && !chunk.tiles[x - 1][y]->isWoodFence)
+								WoodFenceUP.render(renderer, xPos, yPos, cellSize, cellSize);
+							else if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && chunk.tiles[x + 1][y]->isWoodFence && chunk.tiles[x - 1][y]->isWoodFence)
+								WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
+							else
+								WoodFenceSide.render(renderer, xPos, yPos, cellSize, cellSize);
+					}
 			}
 		}
 }

@@ -33,12 +33,14 @@ void ProceduralTerrain::spawnRandomTrees(Chunk& chunk)
 			int treeType = rand() % 3;
 			if (treeType <= 0)
 			{
-				chunk.tiles[x][y]->isFernTree = true;
+				chunk.tiles[x][y]->isTree = true;
 				chunk.tiles[x][y]->isWalkable = false;
+				chunk.tiles[x][y]->treeOne;
 			}
 			else
 			{
-				chunk.tiles[x][y]->isTreeTwo = true;
+				chunk.tiles[x][y]->isTree = true;
+				chunk.tiles[x][y]->treeThree;
 				chunk.tiles[x][y]->isWalkable = false;
 			}
 		}
@@ -143,16 +145,15 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 		// FORREST NOISE
 		if (chunk.tiles[x][y]->isGrass && fNoise > 14.0 && rand() % numberOfTrees == 1)
 		{
-			chunk.tiles[x][y]->isVegetation = true;
-			chunk.tiles[x][y]->isOakTree = true;
+			chunk.tiles[x][y]->isTree = true;
+			chunk.tiles[x][y]->treeOne;
 			chunk.tiles[x][y]->isWalkable = false;
 		}
 		else if (chunk.tiles[x][y]->isGrass && fNoise > 8.0 && fNoise < 12.0 && rand() % numberOfTrees == 1)
 		{
-			chunk.tiles[x][y]->isVegetation = true;
-			chunk.tiles[x][y]->isFernTree = true;
+			chunk.tiles[x][y]->isTree = true;
+			chunk.tiles[x][y]->treeTwo;
 			chunk.tiles[x][y]->isWalkable = false;
-
 		}
 
 		// RIVER NOISE

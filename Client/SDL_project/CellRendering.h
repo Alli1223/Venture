@@ -41,7 +41,7 @@ private:
 	Texture OakTreeTexture;
 	Texture FernTreeTexture;
 
-	Texture PixelTexture;
+	Texture TreePixelTexture;
 	Texture TreeTwoTexture;
 	Texture TreeThreeTexture;
 	Texture DirtTexture;

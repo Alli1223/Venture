@@ -12,7 +12,7 @@ public:
 private:
 	int x = 0;
 	int y = 0;
-	int chunkSize = 8;
+	int chunkSize = 16;
 	
 	std::string chunkID;
 };
