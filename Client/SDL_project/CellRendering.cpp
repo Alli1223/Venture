@@ -13,6 +13,7 @@ CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.pn
 	BerryPlantTexture(TerrainSpriteTextureLocation + "Berry.png"),
 	BushTexture(TerrainSpriteTextureLocation + "Bush.png"),
 	WaterTexture(TerrainSpriteTextureLocation + "Water.png"),
+	WaterTexture2(TerrainSpriteTextureLocation + "Water2.png"),
 	SandTexture(TerrainSpriteTextureLocation + "Sand.png"),
 	LongGrass1(TerrainSpriteTextureLocation + "LongGrass1.png"),
 	LongGrass2(TerrainSpriteTextureLocation + "LongGrass2.png"),
@@ -54,7 +55,18 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 			yPos -= camera.getY();
 
 			if (chunk.tiles[x][y]->isWater)
-				WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+			{
+				if (sin(chunk.tiles[x][y]->getX() - chunk.tiles[x][y]->getY() + SDL_GetTicks() / 500) > 0)
+				{
+					WaterTexture.alterTransparency(200);
+					WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				}
+				else
+				{
+					WaterTexture2.alterTransparency(200);
+					WaterTexture2.render(renderer, xPos, yPos, cellSize, cellSize);
+				}
+			}
 			else
 			{
 				// Base Ground Textures rendered in decending order (Top layered textures at bottom of list)
@@ -64,8 +76,8 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 					Flower1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isDirt)
 					DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isWater)
-					WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+
+					
 				if (chunk.tiles[x][y]->isSand)
 					SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isStoneWall)

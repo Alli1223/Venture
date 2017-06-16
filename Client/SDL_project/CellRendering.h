@@ -55,6 +55,7 @@ private:
 
 
 	Texture WaterTexture;
+	Texture WaterTexture2;
 	Texture SandTexture;
 	Texture StoneWallTexture;
 	Texture SnowTexture;
