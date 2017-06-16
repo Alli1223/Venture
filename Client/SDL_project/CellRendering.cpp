@@ -40,9 +40,14 @@ void CellRendering::AlterTextures()
 {
 	WaterTexture.alterTransparency(200);
 	WaterTexture2.alterTransparency(200);
-	if (darkness)
+	if (isThereDarkness)
 	{
-		int darkness = sin(SDL_GetTicks() / 3000) * 100;
+		int Tdarkness = sin(SDL_GetTicks() / 10000) * 10.0 + 100.0;
+		if (Tdarkness > darkness)
+			darkness++;
+		else
+			darkness--;
+		std::cout << darkness << std::endl;
 		Grass1Texture.alterTextureColour(darkness, darkness, darkness);
 		TreePixelTexture.alterTextureColour(darkness, darkness, darkness);
 		SandTexture.alterTextureColour(darkness, darkness, darkness);
@@ -57,7 +62,6 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 	int newX = 0, newY = 0;
 	int xPos = 0, yPos = 0;
 	int cellSize = level.getCellSize();
-
 
 	for (int x = 0; x < level.getChunkSize(); x++)
 		for (int y = 0; y < level.getChunkSize(); y++)

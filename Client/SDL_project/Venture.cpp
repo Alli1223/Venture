@@ -136,10 +136,7 @@ void Venture::run()
 
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 		{
-			//Item berry;
-			//berry.isBerry = true;
-			for (int i = 0; i < agentManager.allAgents[0].inventory.getCapacity(); i++)
-				Item item = agentManager.allAgents[0].inventory.get(i);
+
 		}
 
 		//Set camera to follow player and generate the world

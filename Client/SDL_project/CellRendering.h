@@ -29,7 +29,8 @@ public:
 
 	std::vector<tree> trees;
 
-	bool darkness = true;
+	bool isThereDarkness = true;
+	float darkness = 0;
 	
 
 private:
