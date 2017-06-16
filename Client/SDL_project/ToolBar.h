@@ -1,7 +1,6 @@
 #pragma once
 #include "GUI.h"
 #include "Level.h"
-#include "RoomDesign.h"
 #include "Icon.h"
 
 
@@ -16,7 +15,7 @@ public:
 	//! Function that renders the toolbar
 	void ToolBar::RenderToolbar(SDL_Renderer* renderer, int& WINDOW_WIDTH, int& WINDOW_HEIGHT, int& mouseX, int& mouseY);
 
-	void ToolBar::ToolBarFunctionality(Level& level, RoomDesign& designroom, SDL_Renderer* renderer, int& mouseX, int& mouseY);
+	void ToolBar::ToolBarFunctionality(Level& level, SDL_Renderer* renderer, int& mouseX, int& mouseY);
 
 	//! The getters and setters for the toolbar selection
 	int getToolbarSelection() const { return toolbarSelection; }

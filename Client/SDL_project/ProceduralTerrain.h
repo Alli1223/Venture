@@ -7,6 +7,7 @@
 #include "Camera.h"
 
 
+
 class ProceduralTerrain
 {
 public:
@@ -31,7 +32,7 @@ public:
 	//! function that calls the functions below
 	void ProceduralTerrain::populateTerrain(Chunk& level);
 	//! Spawns the trees in a chunk
-	void ProceduralTerrain::spawnRandomTrees(Chunk& level);
+	void ProceduralTerrain::spawnRandomTrees(Chunk& chunk);
 	//! Spawn the vegetation
 	void ProceduralTerrain::spawnRandomVegetation(Chunk& level);
 	//! Generate the ground based of the elevation and climate

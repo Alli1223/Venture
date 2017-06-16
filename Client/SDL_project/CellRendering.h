@@ -14,9 +14,23 @@ public:
 
 	void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_Renderer* renderer);
 
+	void AlterTextures();
+
 	void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera);
 
 	bool renderStats = false;
+	
+	struct tree
+	{
+		glm::vec2 pos;
+		int TreeType;
+		glm::vec2 treeSize;
+	};
+
+	std::vector<tree> trees;
+
+	bool darkness = true;
+	
 
 private:
 	const std::string RoomSpriteTextureLocation = "Resources\\Sprites\\roomSprites\\texturePack\\";

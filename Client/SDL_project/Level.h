@@ -46,6 +46,7 @@ public:
 	bool Level::isCellInChunk(int x, int y);
 
 
+
 protected:
 	//! Create an instance of procedural terrain for the world
 	ProceduralTerrain proceduralTerrain;

@@ -164,7 +164,7 @@ void Venture::run()
 		//MAIN CELL LOOP
 		///////////////////////////////////
 
-				//Renders all he cells
+		//Renders all the cells
 		cellrenderer.RenderObjects(level, renderer, camera, agentManager.allAgents);
 
 

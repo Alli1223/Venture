@@ -185,7 +185,6 @@
     <ClInclude Include="PlayerStats.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="ProceduralTerrain.h" />
-    <ClInclude Include="RoomDesign.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="InitialisationError.h" />
     <ClInclude Include="Map.h" />
@@ -226,7 +225,6 @@
     <ClCompile Include="PlayerStats.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="ProceduralTerrain.cpp" />
-    <ClCompile Include="RoomDesign.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="InitialisationError.cpp" />
     <ClCompile Include="Map.cpp" />

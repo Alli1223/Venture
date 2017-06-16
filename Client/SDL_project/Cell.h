@@ -95,7 +95,6 @@ public:
 
 	enum TreeType
 	{
-		NoTree,
 		treeOne,
 		treeTwo,
 		treeThree,
@@ -114,13 +113,6 @@ public:
 	bool isWoodFence = false;
 
 	int renderLayer = 0;
-
-
-	//Item cellItem;
-	
-
-	//! cell Orientation
-	int cellOrientation = 9;
 
 private:
 	//! The Cells X and Y values

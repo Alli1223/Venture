@@ -28,9 +28,6 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\Main Game Classes</Filter>
     </ClCompile>
-    <ClCompile Include="RoomDesign.cpp">
-      <Filter>Source Files\Level Classes</Filter>
-    </ClCompile>
     <ClCompile Include="PathFinder.cpp">
       <Filter>Source Files\Level Classes\PathFinding</Filter>
     </ClCompile>
@@ -143,9 +140,6 @@
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Headers\Main Game Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="RoomDesign.h">
-      <Filter>Headers\Level Classes</Filter>
     </ClInclude>
     <ClInclude Include="PathFinder.h">
       <Filter>Headers\Level Classes\PathFinding</Filter>

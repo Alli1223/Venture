@@ -5,20 +5,20 @@
 CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.png"), emptyCell(RoomSpriteTextureLocation + "emptyCell.png"),
 	Grass1Texture(TerrainSpriteTextureLocation + "Grass.png"),
 	Grass2Texture(TerrainSpriteTextureLocation + "Grass2.png"),
-	OakTreeTexture(TerrainSpriteTextureLocation + "OakTree.png"),
-	FernTreeTexture(TerrainSpriteTextureLocation + "FernTree.png"),
 	DirtTexture(TerrainSpriteTextureLocation + "Dirt.png"),
 	Flower1Texture(TerrainSpriteTextureLocation + "Flower1.png"),
 	Flower2Texture(TerrainSpriteTextureLocation + "Flower2.png"),
 	BerryPlantTexture(TerrainSpriteTextureLocation + "Berry.png"),
 	BushTexture(TerrainSpriteTextureLocation + "Bush.png"),
-	WaterTexture(TerrainSpriteTextureLocation + "Water.png"),
-	WaterTexture2(TerrainSpriteTextureLocation + "Water2.png"),
+	WaterTexture(TerrainSpriteTextureLocation + "\\Sea\\Water.png"),
+	WaterTexture2(TerrainSpriteTextureLocation + "\\Sea\\Water2.png"),
 	SandTexture(TerrainSpriteTextureLocation + "Sand.png"),
 	LongGrass1(TerrainSpriteTextureLocation + "LongGrass1.png"),
 	LongGrass2(TerrainSpriteTextureLocation + "LongGrass2.png"),
 	LongGrass3(TerrainSpriteTextureLocation + "LongGrass3.png"),
 	StoneWallTexture(TerrainSpriteTextureLocation + "StoneWall.png"),
+	OakTreeTexture(TerrainSpriteTextureLocation + "OakTree.png"),
+	FernTreeTexture(TerrainSpriteTextureLocation + "FernTree.png"),
 	TreePixelTexture(TreeTerrainSpriteTextureLocation + "pixelTree.png"),
 	TreeTwoTexture(TreeTerrainSpriteTextureLocation + "Tree2.png"),
 	TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
@@ -36,11 +36,28 @@ CellRendering::~CellRendering()
 {
 }
 
+void CellRendering::AlterTextures()
+{
+	WaterTexture.alterTransparency(200);
+	WaterTexture2.alterTransparency(200);
+	if (darkness)
+	{
+		int darkness = sin(SDL_GetTicks() / 3000) * 100;
+		Grass1Texture.alterTextureColour(darkness, darkness, darkness);
+		TreePixelTexture.alterTextureColour(darkness, darkness, darkness);
+		SandTexture.alterTextureColour(darkness, darkness, darkness);
+		WaterTexture.alterTextureColour(darkness, darkness, darkness);
+		WaterTexture2.alterTextureColour(darkness, darkness, darkness);
+	}
+	TreePixelTexture.alterTransparency(200);
+}
+
 void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_Renderer* renderer)
 {
 	int newX = 0, newY = 0;
 	int xPos = 0, yPos = 0;
 	int cellSize = level.getCellSize();
+
 
 	for (int x = 0; x < level.getChunkSize(); x++)
 		for (int y = 0; y < level.getChunkSize(); y++)
@@ -57,15 +74,11 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 			if (chunk.tiles[x][y]->isWater)
 			{
 				if (sin(chunk.tiles[x][y]->getX() - chunk.tiles[x][y]->getY() + SDL_GetTicks() / 500) > 0)
-				{
-					WaterTexture.alterTransparency(200);
 					WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				}
+				
 				else
-				{
-					WaterTexture2.alterTransparency(200);
 					WaterTexture2.render(renderer, xPos, yPos, cellSize, cellSize);
-				}
+				
 			}
 			else
 			{
@@ -94,18 +107,26 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 					LongGrass1.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isSnow)
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-
+				if (chunk.tiles[x][y]->isTree)
+					SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isTree)
 				{
-					if (chunk.tiles[x][y]->treeOne)
-						TreePixelTexture.render(renderer, xPos - cellSize * 3, yPos - cellSize * 2, cellSize * 6, cellSize * 6);
-					if (chunk.tiles[x][y]->treeTwo)
-						OakTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize * 3);
-					if (chunk.tiles[x][y]->treeThree)
-						FernTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize * 3);
-					if (chunk.tiles[x][y]->treeFour)
-						SnowTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize);
+					tree t1;
+					t1.TreeType = 0;
+					t1.pos = glm::vec2(xPos, yPos - cellSize * 2);
+					t1.treeSize = glm::vec2(cellSize * 6, cellSize * 6);
+					trees.push_back(t1);
 				}
+
+					/*
+					
+					else if (chunk.tiles[x][y]->treeTwo)
+						OakTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize * 3);
+					else if (chunk.tiles[x][y]->treeThree)
+						FernTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize * 3);
+					else if (chunk.tiles[x][y]->treeFour)
+						SnowTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize);
+				*/
 					if (chunk.tiles[x][y]->isWoodFence)
 					{
 						if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1))
@@ -122,17 +143,24 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 
 //! Renders the chunks of cells
 void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, std::vector<Agent>& allAgents)
-{
-	int cellSize = level.getCellSize();		
-	
-	//RENDERING THE CELLS
-	for (int i = (camera.getX() / cellSize) / level.getChunkSize() - 1; i < ((camera.getX() / cellSize) / level.getChunkSize()) + camera.ChunksOnScreen.x; i++)
-		for (int j = (camera.getY() / cellSize) / level.getChunkSize() - 1; j < ((camera.getY() / cellSize) / level.getChunkSize()) + camera.ChunksOnScreen.y; j++)
+{	
+	// Alter the textures
+	AlterTextures();
+
+	// Render all the cells in the chunks
+	for (int i = (camera.getX() / level.getCellSize()) / level.getChunkSize() - 1; i < ((camera.getX() / level.getCellSize()) / level.getChunkSize()) + camera.ChunksOnScreen.x; i++)
+		for (int j = (camera.getY() / level.getCellSize()) / level.getChunkSize() - 1; j < ((camera.getY() / level.getCellSize()) / level.getChunkSize()) + camera.ChunksOnScreen.y; j++)
 				RenderChunk(level,camera, level.World[i][j], renderer);
 
-	//Render Agents
+	// Render Agents
 	for (Agent& agent : allAgents)
 		RenderAgents(agent, renderer, level, camera);
+
+	// Render the trees last
+	for each(auto tree in trees)
+		TreePixelTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
+
+	trees.erase(trees.begin(), trees.end());
 	
 }
 

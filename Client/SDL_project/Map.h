@@ -1,6 +1,5 @@
 #pragma once
 #include "Level.h"
-#include "RoomDesign.h"
 
 //!  The Class that handlles the creation of rooms
 /*!
@@ -21,7 +20,7 @@ public:
 	void LoadMap(std::string filename, Level room);
 	
 	//! Randomly generates a map and modifies the level.
-	void Map::generateMap(Level level, RoomDesign& roomdesign);
+	void Map::generateMap(Level level);
 
 private:
 	//! Used to store room locations

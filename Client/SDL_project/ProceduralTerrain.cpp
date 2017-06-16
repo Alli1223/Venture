@@ -25,7 +25,7 @@ void ProceduralTerrain::spawnRandomTrees(Chunk& chunk)
 	{
 		int x = rand() % chunk.tiles.size();
 		int y = rand() % chunk.tiles[0].size();
-		if (!chunk.tiles[x][y]->isVegetation && !chunk.tiles[x][y]->isWater && !chunk.tiles[x][y]->isSand && !chunk.tiles[x][y]->isTown)
+		if (!chunk.tiles[x][y]->isVegetation && !chunk.tiles[x][y]->isWater)
 		{
 			chunk.tiles[x][y]->isVegetation = true;
 			chunk.tiles[x][y]->isWalkable = false;

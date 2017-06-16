@@ -7,7 +7,6 @@
 #include "Cell.h"
 #include "Oxygen.h"
 #include "Fire.h"
-#include "RoomDesign.h"
 #include "AgentInteraction.h"
 #include "PathFinder.h"
 #include "GameSettings.h"
@@ -49,7 +48,6 @@ public:
 	Level level;
 	GameSettings gameSettings;
 	Map mapLoader;
-	RoomDesign designroom;
 	Oxygen oxygen;
 	Fire fire;
 	PlayerInteraction characterInteraction;

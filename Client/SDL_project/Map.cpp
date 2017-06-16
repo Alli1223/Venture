@@ -22,7 +22,6 @@ void Map::LoadMap(std::string filename, Level room)
 	}
 	height = lines.size();
 
-	RoomDesign roomdesign;
 	for (int y = 0; y < height; y++)
 	{
 		const std::string& line = lines[y];
@@ -49,14 +48,7 @@ void Map::LoadMap(std::string filename, Level room)
 		}
 	}
 
-	// Loop through the level and change the orientation of each cell
-	for (int x = 0; x < room.tiles.size() - 1; x++)
-	{
-		for (int y = 0; y < room.tiles[x].size() - 1; y++)
-		{
-			roomdesign.designRoom(room, x, y);
-		}
-	}
+
 }
 
 
@@ -194,7 +186,7 @@ bool Map::generateRoom(Level level, int size, int entranceX, int entranceY, char
 	return true;
 }
 
-void Map::generateMap(Level level, RoomDesign& roomdesign)
+void Map::generateMap(Level level)
 {
 
 	//Creates a seed to use
@@ -367,15 +359,6 @@ void Map::generateMap(Level level, RoomDesign& roomdesign)
 			roomVector[roomVector.size() - 1][roomVector[0].size() / 2][roomVector[0][0].size() / 2] ->isOpenDoor = false;
 			roomVector[roomVector.size() - 1][roomVector[0].size() / 2][roomVector[0][0].size() / 2]->isHullBreach = false;
 			roomVector[roomVector.size() - 1][roomVector[0].size() / 2][roomVector[0][0].size() / 2]->oxygenLevel = 100;
-		}
-	}
-
-	//Loops through all the cells and sets the orientation of the cells
-	for (int x = 0; x < level.tiles.size() - 1; x++)
-	{
-		for (int y = 0; y < level.tiles[x].size() - 1; y++)
-		{
-			roomdesign.designRoom(level, x, y);
 		}
 	}
 	
