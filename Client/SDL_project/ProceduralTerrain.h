@@ -18,6 +18,7 @@ public:
 	PerlinNoise ElevationLayerTwo;
 	PerlinNoise ElevationLayerThree;
 	SimplexNoise simNoise;
+	SimplexNoise grassNoise;
 
 	//! Other noise generations
 	PerlinNoise forrestNoise;
@@ -45,7 +46,9 @@ private:
 	int elevationSeed = seed + 36945;
 	int riverSeed = seed + 1255;
 
-
+	// Lower is more
+	int riverBendyness = 50;
+	int forrestJaggedness = 50;
 	bool thereIsClimate = false;
 
 	float terrainNoiseOffest = 180.0;

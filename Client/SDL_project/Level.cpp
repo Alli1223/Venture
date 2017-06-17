@@ -96,9 +96,8 @@ void Level::SetGlobalCell(Camera& camera, int x, int y, glm::vec2 mousePos)
 
 bool Level::isCellInChunk(int x, int y)
 {
-	if (x > 0 && x < chunkSize && y > 0 && y < chunkSize)
+	if (x >= 0 && x <= chunkSize && y >= 0 && y <= chunkSize)
 		return true;
-
 	else
 		return false;
 }

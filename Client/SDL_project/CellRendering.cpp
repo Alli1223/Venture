@@ -77,9 +77,10 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 
 			if (chunk.tiles[x][y]->isWater)
 			{
-				if (sin(chunk.tiles[x][y]->getX() - chunk.tiles[x][y]->getY() + SDL_GetTicks() / 500) > 0)
+				// Code for ripples
+				//sin(sqrt(pow(chunk.tiles[x][y]->getX(),2) + pow(chunk.tiles[x][y]->getY(),2)) + SDL_GetTicks() / 500) > 0)
+				if (sin(chunk.tiles[x][y]->getX() + SDL_GetTicks() / 500) > 0)
 					WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				
 				else
 					WaterTexture2.render(renderer, xPos, yPos, cellSize, cellSize);
 				
@@ -109,6 +110,8 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 					BushTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
 				if (chunk.tiles[x][y]->isLongGrass)
 					LongGrass1.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isLongGrass2)
+					LongGrass2.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isSnow)
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isTree)

@@ -60,7 +60,7 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 	playercellPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].cellPos;
 	InterDir = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].cellInteractionDirection;
 
-
+	/////////// PLAYER MOVEMENT ////////////
 	//Diagonal movement
 	if (state[SDL_SCANCODE_W] && state[SDL_SCANCODE_D])
 	{
@@ -118,21 +118,18 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//CAMERA
-	//Set offset to camera
+	// CAMERA
+
 	if (state[SDL_SCANCODE_RIGHT])
-		camera.SetPos(camera.getX() + camera.getCameraSpeed(), camera.getY());
-
+	{ }
 	if (state[SDL_SCANCODE_DOWN])
-		camera.SetPos(camera.getX(), camera.getY() + camera.getCameraSpeed());
-
+	{ }
 	if (state[SDL_SCANCODE_LEFT])
-		camera.SetPos(camera.getX() - camera.getCameraSpeed(), camera.getY());
-
+	{ }
 	if (state[SDL_SCANCODE_UP])
-		camera.SetPos(camera.getX(), camera.getY() - camera.getCameraSpeed());
+	{ }
 
-
+	// Set cell size
 	if (state[SDL_SCANCODE_PAGEUP])
 		level.setCellSize(level.getCellSize() + 1);
 	if (state[SDL_SCANCODE_PAGEDOWN] && level.getCellSize() > 1)
@@ -140,20 +137,11 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 
 	if (state[SDL_SCANCODE_SPACE])
 	{
-		//Check if cell is in bounds
-		if (level.isCellInChunk(playercellPos.x, playercellPos.y + 1))
-			if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y + 1]->isTree)
-			{
-				Item wood;
-				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].inventory.add(wood);
-				level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y + 1]->isTree = false;
-				level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y + 1]->isWalkable = true;
-				
-			}
+	
 	}
 	if (state[SDL_SCANCODE_F])
 	{
-		if (level.isCellInChunk(playercellPos.x, playercellPos.y))
+		if (level.isCellInChunk(playercellPos.x, playercellPos.y -1))
 		{
 			std::cout << playercellPos.x - InterDir.x << " " << playercellPos.y - InterDir.y << std::endl;
 			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->isWoodFence = true;
@@ -167,4 +155,39 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 		networkManager.sendTCPMessage("PLACE_BED\n");
 	else if (state[SDL_SCANCODE_C])
 		networkManager.sendTCPMessage("PLACE_BOX\n");
+}
+
+void UserInput::ChangeCellsAroundPoint(Level& level, glm::vec2 point, int dist, std::string type)
+{
+	//Check if cell is in bounds
+	glm::vec2 chunkPos;
+	glm::vec2 actionPos;
+
+
+
+
+	/*
+	for (int playerPosX = playerX - cellSize * 2; playerPosX < playerX + cellSize * 2; playerPosX += cellSize)
+	{
+		for (int playerPosY = playerY - cellSize * 2; playerPosY < playerY + cellSize * 2; playerPosY += cellSize)
+		{
+			// Calculate the positions around the player to account for changeing of chunks
+			int x = playerX / cellSize;
+			int y = playerY / cellSize;
+			chunkPos.x = (playerPosX / cellSize) / level.getChunkSize();
+			chunkPos.y = (playerPosY / cellSize) / level.getChunkSize();
+
+
+			if (level.World[chunkPos.x][chunkPos.y].tiles[actionPos.x][actionPos.y]->isTree)
+			{
+				Item item;
+				item.isWOOD;
+				level.World[chunkPos.x][chunkPos.y].tiles[actionPos.x][actionPos.y]->isTree = false;
+				level.World[chunkPos.x][chunkPos.y].tiles[actionPos.x][actionPos.y]->isStoneWall = true;
+				level.World[chunkPos.x][chunkPos.y].tiles[actionPos.x][actionPos.y]->isWalkable = true;
+				agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].inventory.add(item);
+			}
+		}
+	}
+	*/
 }

@@ -4,6 +4,9 @@
 
 ProceduralTerrain::ProceduralTerrain()
 {
+	//set random seed to seednumber
+	srand(seed);
+
 	Elevation.GenerateNoise(elevationSeed);
 	ElevationLayerTwo.GenerateNoise(elevationSeed - 1234);
 	ElevationLayerThree.GenerateNoise(elevationSeed + 1234);
@@ -57,26 +60,23 @@ void ProceduralTerrain::spawnRandomVegetation(Chunk& chunk)
 		if (!chunk.tiles[x][y]->isVegetation && !chunk.tiles[x][y]->isWater && !chunk.tiles[x][y]->isSand)
 		{
 			chunk.tiles[x][y]->isVegetation = true;
-			int vegType = rand() % 3;
-			//Item item;
+			int vegType = rand() % 4;
+
 			switch (vegType)
 			{
 			case 0:
-				chunk.tiles[x][y]->isVegetation = true;
 				chunk.tiles[x][y]->isFlower1 = true;
 				break;
 			case 1:
-				chunk.tiles[x][y]->isVegetation = true;
 				chunk.tiles[x][y]->isBerryPlant = true;
 				//item.isBerry = true;
 				//chunk.grid[x][y]->cellItem = item;
 				break;
 			case 2:
-				chunk.tiles[x][y]->isVegetation = true;
+			
 				chunk.tiles[x][y]->isFlower2 = true;
 				break;
 			}
-			
 		}
 	}
 }
@@ -91,11 +91,11 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 		{
 			//Generate the grass
 			generateGround(chunk, x, y);
-
 		}
 	}
-	spawnRandomTrees(chunk);
-	spawnRandomVegetation(chunk);
+	//Cant spawn random items because that will cause de-sync between clients
+	//spawnRandomTrees(chunk);
+	//spawnRandomVegetation(chunk);
 }
 
 //TODO: Put all constant values in the headder
@@ -108,14 +108,18 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 	double terrainElevationThree = ElevationLayerThree.noise((double)noiseX, (double)noiseY, 0.0) * 20.0;
 	double sNoise = simNoise.noise(noiseX / 40, noiseY / 40);
 
+	
+
 	terrainElevation = sNoise + terrainElevationTwo + terrainElevation + terrainElevationThree + 2;
 	double climate = sin(chunk.tiles[x][y]->getY() / 500.0);
 	
 	
 	double fNoise = forrestNoise.noise((double)noiseX / forrestNoiseOffset, (double)noiseY / forrestNoiseOffset, 0.0) * 20.0;
-	fNoise += simNoise.fractal(1, noiseX / 40, noiseY / 40);
+	fNoise += simNoise.noise(noiseX / forrestJaggedness, noiseY / forrestJaggedness);
+
+	double gNoise = grassNoise.noise(noiseX / 15, noiseY / 15) + fNoise;
 	double rNoise = (riverNoise.noise((double)noiseX / 300.0, (double)noiseY / 300.0, 0.0) * 20.0) + (riverNoiseLayerTwo.noise((double)noiseX / 300.0, (double)noiseY / 300.0, 0.0) * 20.0);
-	rNoise += simNoise.noise(noiseX / 100, noiseY / 100);
+	rNoise += simNoise.noise(noiseX / riverBendyness, noiseY / riverBendyness);
 	
 	//set the cells terrain value
 	chunk.tiles[x][y]->terrainElevationValue = terrainElevation;
@@ -130,7 +134,7 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 		else if (terrainElevation >= -2.3 && terrainElevation < -1.8)
 		{
 			chunk.tiles[x][y]->isSand = true;
-			chunk.tiles[x][y]->isGrass = true;
+			chunk.tiles[x][y]->isGrass = false;
 			chunk.tiles[x][y]->isWater = false;
 		}
 		else if (terrainElevation < -2.3)
@@ -142,7 +146,8 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 			chunk.tiles[x][y]->isSnow = true;
 		}
 
-		// FORREST NOISE
+		// FORREST NOISE ///////////
+		// If spawn something cool when the forrest value is greater than the max set
 		if (chunk.tiles[x][y]->isGrass && fNoise > 14.0 && rand() % numberOfTrees == 1)
 		{
 			chunk.tiles[x][y]->isTree = true;
@@ -156,6 +161,18 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 			chunk.tiles[x][y]->isWalkable = false;
 		}
 
+		// Grass noise
+		if (chunk.tiles[x][y]->isGrass && gNoise > 4.0 && gNoise < 10.0)
+		{
+			int randSpawn = rand() % 3;
+			if (randSpawn == 0)
+				chunk.tiles[x][y]->isLongGrass = true;
+			else
+				chunk.tiles[x][y]->isLongGrass2 = true;
+
+		}
+
+
 		// RIVER NOISE
 		if (rNoise > 0.5 && rNoise < 1.0)
 		{
@@ -166,6 +183,11 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 		else if (rNoise >= 1.0 && rNoise < 1.3 || rNoise >= 0.3 && rNoise <= 0.5 && chunk.tiles[x][y]->isGrass)
 		{
 			chunk.tiles[x][y]->isSand = true;
+			chunk.tiles[x][y]->isGrass = false;
+		}
+		else if (rNoise >= 1.3 && rNoise < 1.6 || rNoise >= 0.1 && rNoise <= 0.3 && chunk.tiles[x][y]->isGrass && gNoise > 4.0)
+		{
+			chunk.tiles[x][y]->isLongGrass2 = true;
 		}
 	}
 	else

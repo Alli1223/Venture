@@ -85,6 +85,7 @@ public:
 
 	bool isGrass = false;
 	bool isLongGrass = false;
+	bool isLongGrass2 = false;
 	bool isDirt = false;
 
 	bool isTree = false;
