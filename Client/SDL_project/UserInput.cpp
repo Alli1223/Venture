@@ -137,8 +137,10 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 
 	if (state[SDL_SCANCODE_SPACE])
 	{
-	
+		level.setTimeOfDay(12);
 	}
+	if (state[SDL_SCANCODE_R])
+		level.setTimeOfDay(4);
 	if (state[SDL_SCANCODE_F])
 	{
 		if (level.isCellInChunk(playercellPos.x, playercellPos.y -1))

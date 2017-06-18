@@ -14,7 +14,7 @@ public:
 
 	void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_Renderer* renderer);
 
-	void AlterTextures();
+	void CellRendering::AlterTextures(Level& level);
 
 	void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera);
 
@@ -30,10 +30,15 @@ public:
 	std::vector<tree> trees;
 
 	bool isThereDarkness = true;
-	float darkness = 0;
+
+
+	
 	
 
 private:
+	//Target Darkness
+	float Tdarkness;
+	float darkness = 0;
 	const std::string RoomSpriteTextureLocation = "Resources\\Sprites\\roomSprites\\texturePack\\";
 	const std::string ItemsSpriteTextureLocation = "Resources\\Sprites\\SpawnItems\\";
 	const std::string TerrainSpriteTextureLocation = "Resources\\Sprites\\Terrain\\";

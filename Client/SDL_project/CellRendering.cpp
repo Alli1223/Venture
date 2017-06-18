@@ -3,30 +3,30 @@
 
 //! Constructor that initalises all the texture file locations
 CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.png"), emptyCell(RoomSpriteTextureLocation + "emptyCell.png"),
-	Grass1Texture(TerrainSpriteTextureLocation + "Grass.png"),
-	Grass2Texture(TerrainSpriteTextureLocation + "Grass2.png"),
-	DirtTexture(TerrainSpriteTextureLocation + "Dirt.png"),
-	Flower1Texture(TerrainSpriteTextureLocation + "Flower1.png"),
-	Flower2Texture(TerrainSpriteTextureLocation + "Flower2.png"),
-	BerryPlantTexture(TerrainSpriteTextureLocation + "Berry.png"),
-	BushTexture(TerrainSpriteTextureLocation + "Bush.png"),
-	WaterTexture(TerrainSpriteTextureLocation + "\\Sea\\Water.png"),
-	WaterTexture2(TerrainSpriteTextureLocation + "\\Sea\\Water2.png"),
-	SandTexture(TerrainSpriteTextureLocation + "Sand.png"),
-	LongGrass1(TerrainSpriteTextureLocation + "LongGrass1.png"),
-	LongGrass2(TerrainSpriteTextureLocation + "LongGrass2.png"),
-	LongGrass3(TerrainSpriteTextureLocation + "LongGrass3.png"),
-	StoneWallTexture(TerrainSpriteTextureLocation + "StoneWall.png"),
-	OakTreeTexture(TerrainSpriteTextureLocation + "OakTree.png"),
-	FernTreeTexture(TerrainSpriteTextureLocation + "FernTree.png"),
-	TreePixelTexture(TreeTerrainSpriteTextureLocation + "pixelTree.png"),
-	TreeTwoTexture(TreeTerrainSpriteTextureLocation + "Tree2.png"),
-	TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
-	SnowTexture(TerrainSpriteTextureLocation + "Snow.png"),
-	WoodFenceSide(WallSpriteTextureLocation + "woodFenceSideCenter.png"), WoodFenceUP(WallSpriteTextureLocation + "woodFenceUp2.png"), WoodFenceCenter(WallSpriteTextureLocation + "woodFenceCenter.png"),
+Grass1Texture(TerrainSpriteTextureLocation + "Grass.png"),
+Grass2Texture(TerrainSpriteTextureLocation + "Grass2.png"),
+DirtTexture(TerrainSpriteTextureLocation + "Dirt.png"),
+Flower1Texture(TerrainSpriteTextureLocation + "Flower1.png"),
+Flower2Texture(TerrainSpriteTextureLocation + "Flower2.png"),
+BerryPlantTexture(TerrainSpriteTextureLocation + "Berry.png"),
+BushTexture(TerrainSpriteTextureLocation + "Bush.png"),
+WaterTexture(TerrainSpriteTextureLocation + "\\Sea\\Water.png"),
+WaterTexture2(TerrainSpriteTextureLocation + "\\Sea\\Water2.png"),
+SandTexture(TerrainSpriteTextureLocation + "Sand.png"),
+LongGrass1(TerrainSpriteTextureLocation + "LongGrass1.png"),
+LongGrass2(TerrainSpriteTextureLocation + "LongGrass2.png"),
+LongGrass3(TerrainSpriteTextureLocation + "LongGrass3.png"),
+StoneWallTexture(TerrainSpriteTextureLocation + "StoneWall.png"),
+OakTreeTexture(TerrainSpriteTextureLocation + "OakTree.png"),
+FernTreeTexture(TerrainSpriteTextureLocation + "FernTree.png"),
+TreePixelTexture(TreeTerrainSpriteTextureLocation + "pixelTree.png"),
+TreeTwoTexture(TreeTerrainSpriteTextureLocation + "Tree2.png"),
+TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
+SnowTexture(TerrainSpriteTextureLocation + "Snow.png"),
+WoodFenceSide(WallSpriteTextureLocation + "woodFenceSideCenter.png"), WoodFenceUP(WallSpriteTextureLocation + "woodFenceUp2.png"), WoodFenceCenter(WallSpriteTextureLocation + "woodFenceCenter.png"),
 
-	characterTex(characterTextureLocation + "crew.png"), npcDown(characterTextureLocation + "npc.png"),
-	healthBarTexture(playerStatsTextureLocation + "PlayerHealth.png"), oxygenBarTexture(playerStatsTextureLocation + "PlayerOxygen.png"), hungerBarTexture(playerStatsTextureLocation + "PlayerHunger.png"), tiredBarTexture(playerStatsTextureLocation + "PlayerTiredness.png")
+characterTex(characterTextureLocation + "crew.png"), npcDown(characterTextureLocation + "npc.png"),
+healthBarTexture(playerStatsTextureLocation + "PlayerHealth.png"), oxygenBarTexture(playerStatsTextureLocation + "PlayerOxygen.png"), hungerBarTexture(playerStatsTextureLocation + "PlayerHunger.png"), tiredBarTexture(playerStatsTextureLocation + "PlayerTiredness.png")
 
 {
 }
@@ -36,25 +36,41 @@ CellRendering::~CellRendering()
 {
 }
 
-void CellRendering::AlterTextures()
+void CellRendering::AlterTextures(Level& level)
 {
 	WaterTexture.alterTransparency(200);
 	WaterTexture2.alterTransparency(200);
-	if (isThereDarkness)
+	TreePixelTexture.alterTransparency(200);
+	float time = level.getTimeOfDay();
+
+	if (time > 9.0 && time < 21.0)
 	{
-		int Tdarkness = sin(SDL_GetTicks() / 10000) * 10.0 + 100.0;
+		Tdarkness = 255;
+	}
+	else if (time < 9.0 || time > 21.0)
+	{
+		Tdarkness = 50;
+	}
+
+		
 		if (Tdarkness > darkness)
 			darkness++;
-		else
+		else if (Tdarkness < darkness)
 			darkness--;
+		else
+			darkness = darkness;
+			
 		std::cout << darkness << std::endl;
 		Grass1Texture.alterTextureColour(darkness, darkness, darkness);
 		TreePixelTexture.alterTextureColour(darkness, darkness, darkness);
 		SandTexture.alterTextureColour(darkness, darkness, darkness);
 		WaterTexture.alterTextureColour(darkness, darkness, darkness);
 		WaterTexture2.alterTextureColour(darkness, darkness, darkness);
-	}
-	TreePixelTexture.alterTransparency(200);
+		LongGrass1.alterTextureColour(darkness, darkness, darkness);
+		LongGrass2.alterTextureColour(darkness, darkness, darkness);
+		LongGrass3.alterTextureColour(darkness, darkness, darkness);
+	
+	
 }
 
 void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_Renderer* renderer)
@@ -152,7 +168,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, std::vector<Agent>& allAgents)
 {	
 	// Alter the textures
-	AlterTextures();
+	AlterTextures(level);
 
 	// Render all the cells in the chunks
 	for (int i = (camera.getX() / level.getCellSize()) / level.getChunkSize() - 1; i < ((camera.getX() / level.getCellSize()) / level.getChunkSize()) + camera.ChunksOnScreen.x; i++)
@@ -167,6 +183,7 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 	for each(auto tree in trees)
 		TreePixelTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
 
+	// Erase the trees after rendering them
 	trees.erase(trees.begin(), trees.end());
 	
 }
