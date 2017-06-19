@@ -58,7 +58,6 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	int agentNo = agentManager.GetAgentNumberFomID(playerName);
 	playerChunkPos = player.chunkPos;
 	playercellPos = player.cellPos;
-	//InterDir = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].cellInteractionDirection;
 
 	/////////// PLAYER MOVEMENT ////////////
 	//Diagonal movement

@@ -184,7 +184,7 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 	
 
 	// Render the trees last
-	for each(auto tree in trees)
+	for each(auto &tree in trees)
 		TreePixelTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
 
 	// Erase the trees after rendering them
