@@ -58,9 +58,6 @@
     <ClCompile Include="CellRendering.cpp">
       <Filter>Source Files\Main Game Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Agent.cpp">
-      <Filter>Source Files\AI Classes</Filter>
-    </ClCompile>
     <ClCompile Include="AgentManager.cpp">
       <Filter>Source Files\AI Classes</Filter>
     </ClCompile>
@@ -105,6 +102,9 @@
     </ClCompile>
     <ClCompile Include="SimplexNoise.cpp">
       <Filter>Source Files\Level Classes\PCG</Filter>
+    </ClCompile>
+    <ClCompile Include="Agent.cpp">
+      <Filter>Source Files\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,9 +171,6 @@
     <ClInclude Include="CellRendering.h">
       <Filter>Headers\Main Game Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Agent.h">
-      <Filter>Headers\AI Classes</Filter>
-    </ClInclude>
     <ClInclude Include="AgentManager.h">
       <Filter>Headers\AI Classes</Filter>
     </ClInclude>
@@ -221,6 +218,9 @@
     </ClInclude>
     <ClInclude Include="SimplexNoise.h">
       <Filter>Headers\Level Classes\PCG</Filter>
+    </ClInclude>
+    <ClInclude Include="Agent.h">
+      <Filter>Headers\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -72,23 +72,20 @@ void Venture::run()
 		networkManager.setPlayerName(playerName);
 		std::cout << "PlayerName: " << playerName << std::endl;
 
-		Agent player;
+
 		player.characterType = "Player";
 		player.setSpeed(5);
 		player.setID(playerName);
 		player.setX(0);
 		player.setY(0);
-		agentManager.SpawnAgent(player);
 	}
 	else
 	{
-		Agent player;
 		player.characterType = "Player";
 		player.setSpeed(5);
 		player.setID(playerName);
 		player.setX(0);
 		player.setY(0);
-		agentManager.SpawnAgent(player);
 	}
 	// Values for the network update timer
 	double lastTime = SDL_GetTicks();
@@ -121,7 +118,7 @@ void Venture::run()
 		}
 
 		// Handle the input
-		input.HandleUserInput(level, agentManager, networkManager, camera, playerName, useNetworking, running);
+		input.HandleUserInput(level, player, agentManager, networkManager, camera, playerName, useNetworking, running);
 
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 		{
@@ -129,8 +126,8 @@ void Venture::run()
 		}
 
 		// Set camera to follow player and generate the world
-		camera.setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() - camera.WindowWidth / 2);
-		camera.setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() - camera.WindowHeight / 2);
+		camera.setX(player.getX() - camera.WindowWidth / 2);
+		camera.setY(player.getY() - camera.WindowHeight / 2);
 		level.GenerateWorld(camera);
 
 
@@ -150,11 +147,16 @@ void Venture::run()
 		///////////////////////////////////
 
 		// Renders all the cells and players
-		cellrenderer.RenderObjects(level, renderer, camera, agentManager.allAgents);
+		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents);
 
-		// update characters positions
+		// Update the position of the player
+		player.Update(level);
+
+		
+
+		// update other characters positions
 		agentManager.UpdateAgents(agentManager.allAgents, renderer, level, camera);
-
+		
 
 		///////////////////////////////////////
 		//MENU

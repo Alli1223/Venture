@@ -39,7 +39,9 @@ public:
 	//! Character Type
 	std::string characterType = "NPC";
 
-
+	//! Position in the world
+	glm::vec2 chunkPos, cellPos;
+	void Character::Update(Level& level);
 
 	//Setter methods
 	//! Sets the characters X value

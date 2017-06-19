@@ -165,7 +165,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 }
 
 //! Renders the chunks of cells
-void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, std::vector<Agent>& allAgents)
+void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, Player& player, std::vector<Agent>& allAgents)
 {	
 	// Alter the textures
 	AlterTextures(level);
@@ -179,6 +179,10 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 	for (Agent& agent : allAgents)
 		RenderAgents(agent, renderer, level, camera);
 
+	// Render the player
+	RenderPlayer(renderer, player, level, camera);
+	
+
 	// Render the trees last
 	for each(auto tree in trees)
 		TreePixelTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
@@ -186,6 +190,14 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 	// Erase the trees after rendering them
 	trees.erase(trees.begin(), trees.end());
 	
+}
+
+void CellRendering::RenderPlayer(SDL_Renderer* renderer, Player& player,  Level& level, Camera& camera)
+{
+	int x = player.getX() + (player.getSize() / 2) - camera.getX();
+	int y = player.getY() + (player.getSize() / 2) - camera.getY();
+	if (player.characterType == "Player")
+		characterTex.renderRotation(renderer, x, y, player.getSize(), player.getSize(), player.rotation);
 }
 
 void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera)
@@ -216,6 +228,4 @@ void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& le
 	}
 	if (agent.characterType == "Player")
 		characterTex.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
-
-
 }

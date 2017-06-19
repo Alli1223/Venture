@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "Character.h"
 #include "Agent.h"
+#include "Player.h"
 
 class CellRendering
 {
@@ -10,13 +11,15 @@ public:
 	CellRendering();
 	~CellRendering();
 
-	void RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, std::vector<Agent>& allAgents);
+	void RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, Player& player, std::vector<Agent>& allAgents);
 
 	void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_Renderer* renderer);
 
 	void CellRendering::AlterTextures(Level& level);
 
 	void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera);
+
+	void CellRendering::RenderPlayer(SDL_Renderer* renderer, Player& player, Level& level, Camera& camera);
 
 	bool renderStats = false;
 	

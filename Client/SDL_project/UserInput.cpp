@@ -39,7 +39,7 @@ bool UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
 		return true;
 }
 
-void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, std::string playerName, bool useNetworking, bool& running)
+void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, std::string playerName, bool useNetworking, bool& running)
 {
 	int cellSize = level.getCellSize();
 	SDL_Event ev;
@@ -52,66 +52,66 @@ void UserInput::HandleUserInput(Level& level, AgentManager& agentManager, Networ
 	if (state[SDL_SCANCODE_ESCAPE])
 		running = false;
 
-	int playerX = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX();
-	int playerY = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY();
-	int playerSpeed = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getSpeed();
+	int playerX = player.getX();
+	int playerY = player.getY();
+	int playerSpeed = player.getSpeed();
 	int agentNo = agentManager.GetAgentNumberFomID(playerName);
-	playerChunkPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].chunkPos;
-	playercellPos = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].cellPos;
-	InterDir = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].cellInteractionDirection;
+	playerChunkPos = player.chunkPos;
+	playercellPos = player.cellPos;
+	//InterDir = agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].cellInteractionDirection;
 
 	/////////// PLAYER MOVEMENT ////////////
 	//Diagonal movement
 	if (state[SDL_SCANCODE_W] && state[SDL_SCANCODE_D])
 	{
-		agentManager.allAgents[agentNo].targetRotation = 225;
+		player.targetRotation = 225;
 		if(CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY - playerSpeed))
-			agentManager.allAgents[agentNo].setPosition(playerX + playerSpeed, playerY - playerSpeed);
+			player.setPosition(playerX + playerSpeed, playerY - playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_W] && state[SDL_SCANCODE_A])
 	{
-		agentManager.allAgents[agentNo].targetRotation = 135;
+		player.targetRotation = 135;
 		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY - playerSpeed))
-			agentManager.allAgents[agentNo].setPosition(playerX - playerSpeed, playerY - playerSpeed);
+			player.setPosition(playerX - playerSpeed, playerY - playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_S] && state[SDL_SCANCODE_D])
 	{
-		agentManager.allAgents[agentNo].targetRotation = -45;
+		player.targetRotation = -45;
 		if (CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY + playerSpeed))
-			agentManager.allAgents[agentNo].setPosition(playerX + playerSpeed, playerY + playerSpeed);
+			player.setPosition(playerX + playerSpeed, playerY + playerSpeed);
 
 	}
 	else if (state[SDL_SCANCODE_S] && state[SDL_SCANCODE_A])
 	{
-		agentManager.allAgents[agentNo].targetRotation = 45;
+		player.targetRotation = 45;
 		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY + playerSpeed))
-			agentManager.allAgents[agentNo].setPosition(playerX - playerSpeed, playerY + playerSpeed);
+			player.setPosition(playerX - playerSpeed, playerY + playerSpeed);
 	}
 	// Player Movement
 	else if (state[SDL_SCANCODE_S])
 	{
-		agentManager.allAgents[agentNo].targetRotation = 0;
+		player.targetRotation = 0;
 		if (CheckIfCellIsWalkable(level, playerX, playerY + playerSpeed))
-			agentManager.allAgents[agentNo].setY(playerY + playerSpeed);
+			player.setY(playerY + playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_A])
 	{
-		agentManager.allAgents[agentNo].targetRotation = 90;
+		player.targetRotation = 90;
 		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY))
-			agentManager.allAgents[agentNo].setX(playerX - playerSpeed);
+			player.setX(playerX - playerSpeed);
 
 	}
 	else if (state[SDL_SCANCODE_D])
 	{
-		agentManager.allAgents[agentNo].targetRotation = 270;
+		player.targetRotation = 270;
 		if (CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY))
-			agentManager.allAgents[agentNo].setX(playerX + playerSpeed);
+			player.setX(playerX + playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_W])
 	{
-		agentManager.allAgents[agentNo].targetRotation = 180;
+		player.targetRotation = 180;
 		if (CheckIfCellIsWalkable(level, playerX, playerY - playerSpeed))
-			agentManager.allAgents[agentNo].setY(playerY - playerSpeed);
+			player.setY(playerY - playerSpeed);
 	}
 
 
