@@ -62,7 +62,7 @@ protected:
 	int chunkSize;
 
 	//! Time of day (24 hour)
-	float timeOfDay;
+	float timeOfDay = 12.0;
 
 	//! The extra chunks that are generated at the screens border and beyond
 	int levelGenerationRadius = 2;

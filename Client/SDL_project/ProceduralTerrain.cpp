@@ -147,7 +147,7 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 		}
 
 		// FORREST NOISE ///////////
-		// If spawn something cool when the forrest value is greater than the max set
+		// If spawn something cool when the forrest value is greater than the max set ( the center of a forrest)
 		if (chunk.tiles[x][y]->isGrass && fNoise > 14.0 && rand() % numberOfTrees == 1)
 		{
 			chunk.tiles[x][y]->isTree = true;
@@ -164,12 +164,15 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 		// Grass noise
 		if (chunk.tiles[x][y]->isGrass && gNoise > 4.0 && gNoise < 10.0)
 		{
-			int randSpawn = rand() % 3;
+			int randSpawn = rand() % 10;
 			if (randSpawn == 0)
 				chunk.tiles[x][y]->isLongGrass = true;
-			else
+			else if (randSpawn == 1)
+				chunk.tiles[x][y]->isFlower1 = true;
+			else if (randSpawn == 2)
+				chunk.tiles[x][y]->isFlower2 = true;
+			else if(randSpawn == 3)
 				chunk.tiles[x][y]->isLongGrass2 = true;
-
 		}
 
 
@@ -184,10 +187,6 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 		{
 			chunk.tiles[x][y]->isSand = true;
 			chunk.tiles[x][y]->isGrass = false;
-		}
-		else if (rNoise >= 1.3 && rNoise < 1.6 || rNoise >= 0.1 && rNoise <= 0.3 && chunk.tiles[x][y]->isGrass && gNoise > 4.0)
-		{
-			chunk.tiles[x][y]->isLongGrass2 = true;
 		}
 	}
 	else

@@ -49,6 +49,7 @@ private:
 	// Lower is more
 	int riverBendyness = 50;
 	int forrestJaggedness = 50;
+
 	bool thereIsClimate = false;
 
 	float terrainNoiseOffest = 180.0;

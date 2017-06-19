@@ -52,13 +52,11 @@ void CellRendering::AlterTextures(Level& level)
 		Tdarkness = 50;
 	}
 
-		
+	
 		if (Tdarkness > darkness)
 			darkness++;
 		else if (Tdarkness < darkness)
 			darkness--;
-		else
-			darkness = darkness;
 			
 		std::cout << darkness << std::endl;
 		Grass1Texture.alterTextureColour(darkness, darkness, darkness);
@@ -150,16 +148,18 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 					else if (chunk.tiles[x][y]->treeFour)
 						SnowTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize);
 				*/
-					if (chunk.tiles[x][y]->isWoodFence)
+				if (chunk.tiles[x][y]->isWoodFence)
+				{
+					if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1) && level.isCellInChunk(x - 1, y) && level.isCellInChunk(x + 1, y))
 					{
-						if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1))
-							if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && !chunk.tiles[x + 1][y]->isWoodFence && !chunk.tiles[x - 1][y]->isWoodFence)
-								WoodFenceUP.render(renderer, xPos, yPos, cellSize, cellSize);
-							else if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && chunk.tiles[x + 1][y]->isWoodFence && chunk.tiles[x - 1][y]->isWoodFence)
-								WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
-							else
-								WoodFenceSide.render(renderer, xPos, yPos, cellSize, cellSize);
+						if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && !chunk.tiles[x + 1][y]->isWoodFence && !chunk.tiles[x - 1][y]->isWoodFence)
+							WoodFenceUP.render(renderer, xPos, yPos, cellSize, cellSize);
+						else if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && chunk.tiles[x + 1][y]->isWoodFence && chunk.tiles[x - 1][y]->isWoodFence)
+							WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
+						else
+							WoodFenceSide.render(renderer, xPos, yPos, cellSize, cellSize);
 					}
+				}
 			}
 		}
 }

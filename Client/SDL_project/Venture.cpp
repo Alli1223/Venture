@@ -40,16 +40,12 @@ Venture::~Venture()
 void Venture::run()
 {
 
-	//Generates the world around the camera position
+	// Generates the world around the camera position
 	terrainGen.setSeed(5123);
 
 	level.GenerateWorld(camera);
 
-
 	int cellSize = level.getCellSize();
-
-
-
 
 	// If the client wants to connect to loopback address or external server
 	if (networkManager.isServerLocal)
@@ -94,9 +90,7 @@ void Venture::run()
 		player.setY(0);
 		agentManager.SpawnAgent(player);
 	}
-	//camera.SetPos(player.getX())
-
-	// values for the network update timer
+	// Values for the network update timer
 	double lastTime = SDL_GetTicks();
 	double timebehind = 0;
 	bool runNetworkTick = false;
@@ -108,45 +102,39 @@ void Venture::run()
 		mouseCellPosition.x = mouse_X / cellSize;
 		mouseCellPosition.y = mouse_Y / cellSize;
 
-
 		// Interval Timer
 		timebehind += SDL_GetTicks() - lastTime;
 		lastTime = SDL_GetTicks();
 
-		//Update intervalTimer
+		// Update intervalTimer
 		while (timebehind >= networkManager.networkUpdateInterval)
 		{
 			runNetworkTick = true;
 			timebehind -= networkManager.networkUpdateInterval;
 		}
+
 		// Update network
 		if (runNetworkTick && useNetworking)
 		{
 			runNetworkTick = false;
 			networkManager.NetworkUpdate(level, agentManager);
-			//std::cout << level.tiles.size() << " " << level.tiles[0].size() << std::endl;
 		}
-		//terrainGen.GenerateTerrain(level, agentManager);
-		
-		// Synchronse the network update thread
-		//networkUpdateThread.join();
+
+		// Handle the input
 		input.HandleUserInput(level, agentManager, networkManager, camera, playerName, useNetworking, running);
-
-
 
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 		{
 
 		}
 
-		//Set camera to follow player and generate the world
+		// Set camera to follow player and generate the world
 		camera.setX(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getX() - camera.WindowWidth / 2);
 		camera.setY(agentManager.allAgents[agentManager.GetAgentNumberFomID(playerName)].getY() - camera.WindowHeight / 2);
-
 		level.GenerateWorld(camera);
 
 
-		//Right click
+		// Right click
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		{
 
@@ -161,11 +149,10 @@ void Venture::run()
 		//MAIN CELL LOOP
 		///////////////////////////////////
 
-		//Renders all the cells
+		// Renders all the cells and players
 		cellrenderer.RenderObjects(level, renderer, camera, agentManager.allAgents);
 
-
-		// Render characters
+		// update characters positions
 		agentManager.UpdateAgents(agentManager.allAgents, renderer, level, camera);
 
 
@@ -185,12 +172,6 @@ void Venture::run()
 			{
 			}
 		}
-
-		// Sync threads
-		//if(networkUpdateThread.joinable())
-			//networkUpdateThread.join();
-
-
 		SDL_RenderPresent(renderer);
 		// End while running
 	}

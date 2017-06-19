@@ -84,10 +84,11 @@ void Agent::Update(Level& level)
 		//std::cout << chunkPos.x << " " << chunkPos.y << " | " << cellPos.x << " " << cellPos.y << std::endl;
 
 
-
-	
-	//if (!level.World[chunkPos.x][chunkPos.y].tiles[cellPos.x][cellPos.y]->isWater)
-		//level.World[chunkPos.x][chunkPos.y].tiles[cellPos.x][cellPos.y]->isWater = true;
+		// Change speed when the player enters water
+		if (level.World[chunkPos.x][chunkPos.y].tiles[cellPos.x][cellPos.y]->isWater)
+			setSpeed(1);
+		else
+			setSpeed(5);
 
 	
 }
