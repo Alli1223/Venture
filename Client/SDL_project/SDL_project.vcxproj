@@ -72,23 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>SDL2-2.0.4\include;SDL2_image-2.0.1\include;boost_1_63_0;glew-2.0.0\include;glm\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>SDL2-2.0.4\lib\x86;SDL2_image-2.0.1\lib\x86;boost_1_63_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\SDL2-2.0.4\include;Libraries\SDL2_image-2.0.1\include;Libraries\boost_1_63_0;Libraries\glew-2.0.0\include;Libraries\glm\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\SDL2-2.0.4\lib\x86;Libraries\SDL2_image-2.0.1\lib\x86;Libraries\boost_1_63_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>SDL2-2.0.4\include;SDL2_image-2.0.1\include;boost_1_63_0;glm\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>SDL2-2.0.4\lib\x64;SDL2_image-2.0.1\lib\x64;boost_1_63_0\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\SDL2-2.0.4\include;Libraries\SDL2_image-2.0.1\include;Libraries\boost_1_63_0;Libraries\glm\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\SDL2-2.0.4\lib\x64;Libraries\SDL2_image-2.0.1\lib\x64;Libraries\boost_1_63_0\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>SDL2-2.0.4\include;SDL2_image-2.0.1\include;boost_1_63_0;glm\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>SDL2-2.0.4\lib\x86;SDL2_image-2.0.1\lib\x86;boost_1_63_0\stage\lib;glm\;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\SDL2-2.0.4\include;Libraries\SDL2_image-2.0.1\include;Libraries\boost_1_63_0;Libraries\glm\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\SDL2-2.0.4\lib\x86;Libraries\SDL2_image-2.0.1\lib\x86;Libraries\boost_1_63_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>SDL2-2.0.4\include;SDL2_image-2.0.1\include;glm\glm;boost_1_63_0;$(IncludePath)</IncludePath>
-    <LibraryPath>SDL2-2.0.4\lib\x64;SDL2_image-2.0.1\lib\x64;boost_1_63_0\libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>Libraries\SDL2-2.0.4\include;Libraries\SDL2_image-2.0.1\include;Libraries\glm\glm;Libraries\boost_1_63_0;$(IncludePath)</IncludePath>
+    <LibraryPath>Libraries\SDL2-2.0.4\lib\x64;Libraries\SDL2_image-2.0.1\lib\x64;Libraries\boost_1_63_0\libs;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
