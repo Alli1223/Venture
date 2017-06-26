@@ -22,7 +22,7 @@
     <ProjectGuid>{F1BF991E-33C7-455A-8111-F5156B5CA499}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SDL_project</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ProjectName>Venture</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
