@@ -33,15 +33,12 @@ public:
 	std::vector<tree> trees;
 
 	bool isThereDarkness = true;
-
-
-	
 	
 
 private:
 	//Target Darkness
 	float Tdarkness;
-	float darkness = 0;
+	float darkness = 255;
 	const std::string RoomSpriteTextureLocation = "Resources\\Sprites\\roomSprites\\texturePack\\";
 	const std::string ItemsSpriteTextureLocation = "Resources\\Sprites\\SpawnItems\\";
 	const std::string TerrainSpriteTextureLocation = "Resources\\Sprites\\Terrain\\";

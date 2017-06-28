@@ -18,11 +18,11 @@
 #include <tchar.h>
 #include <SDL_image.h>
 #include <SDL.h>
-#include <glm.hpp>
 
 
 
-// reference additional headers your program requires here
+
+// Additional headers
 #include <iostream>
 #include <memory>
 #include <map>
@@ -42,6 +42,12 @@
 #include <random>
 #define PI 3.14159265
 
+// Graphics headers
+#include <glm.hpp>
+#include <GL\glew.h>
+
+
+// Networking headers
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/bind.hpp>
