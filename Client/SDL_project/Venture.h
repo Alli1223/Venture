@@ -95,6 +95,8 @@ private:
 	//" Pointer to the renderer
 	SDL_Renderer* renderer;
 
+	SDL_GLContext glContext;
+
 	Texture backgroundTexture;
 
 	
