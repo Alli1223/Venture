@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "NetworkClient.h"
 #include "Agent.h"
+#include "Player.h"
 #include "Level.h"
 #include "AgentManager.h"
 
@@ -12,7 +13,7 @@ public:
 	~NetworkManager();
 	void NetworkManager::Connect();
 	//! Main Network update function
-	void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager);
+	void NetworkManager::NetworkUpdate(Level& level,Player& player, AgentManager& agentManager);
 	//! Send a message using TCP
 	void NetworkManager::sendTCPMessage(std::string message);
 	//! Process the players location from string

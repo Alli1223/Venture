@@ -205,7 +205,7 @@ void Venture::run()
 		if (runNetworkTick && useNetworking)
 		{
 			runNetworkTick = false;
-			networkManager.NetworkUpdate(level, agentManager);
+			networkManager.NetworkUpdate(level,player, agentManager);
 		}
 
 		// Handle the input
