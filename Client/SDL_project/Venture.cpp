@@ -208,6 +208,10 @@ void Venture::run()
 			networkManager.NetworkUpdate(level,player, agentManager);
 		}
 
+		json cellData;
+		cellData["Fence"] = false;
+
+
 		// Handle the input
 		input.HandleUserInput(level, player, agentManager, networkManager, camera, playerName, useNetworking, running);
 

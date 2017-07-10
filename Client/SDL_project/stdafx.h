@@ -60,3 +60,7 @@
 #include <boost/asio/write.hpp>
 #include <boost/bind.hpp>
 using boost::asio::ip::tcp;
+
+// json parser
+#include "json.hpp"
+using json = nlohmann::json;
