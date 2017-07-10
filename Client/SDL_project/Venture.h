@@ -3,7 +3,6 @@
 #include "Level.h"
 #include "Map.h"
 #include "Point.h"
-#include "SDL2_image-2.0.1\include\SDL_image.h"
 #include "Cell.h"
 #include "Oxygen.h"
 #include "Fire.h"
@@ -95,6 +94,8 @@ private:
 	SDL_Window* window;
 	//" Pointer to the renderer
 	SDL_Renderer* renderer;
+
+	SDL_GLContext glContext;
 
 	Texture backgroundTexture;
 

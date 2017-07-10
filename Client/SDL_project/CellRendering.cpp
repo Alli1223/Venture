@@ -40,7 +40,7 @@ void CellRendering::AlterTextures(Level& level)
 {
 	WaterTexture.alterTransparency(200);
 	WaterTexture2.alterTransparency(200);
-	TreePixelTexture.alterTransparency(200);
+	//TreePixelTexture.alterTransparency(200);
 	float time = level.getTimeOfDay();
 
 	if (time > 9.0 && time < 21.0)

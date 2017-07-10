@@ -94,7 +94,7 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 		}
 	}
 	//Cant spawn random items because that will cause de-sync between clients
-	//spawnRandomTrees(chunk);
+	spawnRandomTrees(chunk);
 	//spawnRandomVegetation(chunk);
 }
 

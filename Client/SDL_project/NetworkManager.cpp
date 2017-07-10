@@ -42,10 +42,10 @@ int GetGameInfo(std::string message)
 	}
 }
 //! main netwrok update function
-void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager)
+void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& agentManager)
 {
 	std::string name = localPlayerName;
-	std::string playerPosition = "X:" + std::to_string(agentManager.allAgents[agentManager.GetAgentNumberFomID(localPlayerName)].getX()) + ".Y:" + std::to_string(agentManager.allAgents[agentManager.GetAgentNumberFomID(localPlayerName)].getY()) + ".";
+	std::string playerPosition = "X:" + std::to_string(player.getX()) + ".Y:" + std::to_string(player.getY()) + ".";
 
 	sendTCPMessage("{<" + localPlayerName + "> " + playerPosition + "}\n");
 	// process the list of players
