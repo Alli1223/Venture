@@ -76,7 +76,7 @@ public:
 
 	bool spawnPlayer = true;
 	
-	bool useNetworking = false;
+	bool useNetworking = true;
 
 	glm::vec2 mouseCellPosition;
 

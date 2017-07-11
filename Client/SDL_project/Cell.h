@@ -16,6 +16,9 @@ public:
 	Cell(int x, int y);
 	//! A destructor 
 	~Cell();
+	//! Gets the cells data and returns it in json format
+	json getCellData();
+
 	std::string getCellID() { return cellID; };
 	std::string setCellID(std::string newCellID) { return cellID = newCellID; }
 

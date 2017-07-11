@@ -208,10 +208,6 @@ void Venture::run()
 			networkManager.NetworkUpdate(level,player, agentManager);
 		}
 
-		json cellData;
-		cellData["Fence"] = false;
-
-
 		// Handle the input
 		input.HandleUserInput(level, player, agentManager, networkManager, camera, playerName, useNetworking, running);
 
@@ -232,6 +228,7 @@ void Venture::run()
 
 		}
 
+		
 
 		// Rendering process:
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
