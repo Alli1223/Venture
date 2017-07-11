@@ -19,13 +19,30 @@ Cell::~Cell(){
 json Cell::getCellData()
 {
 	
-	json cellData;
+	json cellData = 
+	{
+		{"CellData",
+			// POS
+			{ "Position",
+				{
+					{"X", x}, {"Y", y}
+				}
+			},
+			// BOOLS
+			{"grass", isGrass },
+			{"dirt", isDirt },
+			{"fence", isWoodFence }
+		}
+	};
+
+
+	/*
 	cellData["Position"] = { { "X", x },{ "Y", y } };
 	cellData["Fence"] = isWoodFence;
 	cellData["Dirt"] = isDirt;
 	cellData["Grass"] = isGrass;
+	*/
 	
-
 
 	return cellData;
 }

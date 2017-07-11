@@ -149,6 +149,7 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->isWalkable = false;
 			std::cout << level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->getCellData();
 			
+			//dump celldata of where the player has changed the cell
 			networkManager.sendTCPMessage(level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->getCellData().dump());
 		}
 	}

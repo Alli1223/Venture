@@ -58,7 +58,6 @@ void CellRendering::AlterTextures(Level& level)
 		else if (Tdarkness < darkness)
 			darkness--;
 			
-		std::cout << darkness << std::endl;
 		Grass1Texture.alterTextureColour(darkness, darkness, darkness);
 		TreePixelTexture.alterTextureColour(darkness, darkness, darkness);
 		SandTexture.alterTextureColour(darkness, darkness, darkness);
