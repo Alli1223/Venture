@@ -147,10 +147,12 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 			std::cout << playercellPos.x - InterDir.x << " " << playercellPos.y - InterDir.y << std::endl;
 			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->isWoodFence = true;
 			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->isWalkable = false;
-			std::cout << level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->getCellData();
+			
 			
 			//dump celldata of where the player has changed the cell
-			networkManager.sendTCPMessage(level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->getCellData().dump());
+			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->getCellData().dump();
+			std::cout << seralisedData << std::endl;
+			networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n" );
 		}
 	}
 

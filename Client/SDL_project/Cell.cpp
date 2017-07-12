@@ -18,7 +18,7 @@ Cell::~Cell(){
 
 json Cell::getCellData()
 {
-	
+	/*
 	json cellData = 
 	{
 		{"CellData",
@@ -34,15 +34,17 @@ json Cell::getCellData()
 			{"fence", isWoodFence }
 		}
 	};
-
-
-	/*
-	cellData["Position"] = { { "X", x },{ "Y", y } };
+	*/
+	
+	json cellData;
+	//cellData["Position"] = { { "X", x },{ "Y", y } };
+	cellData["X"] = x;
+	cellData["Y"] = y;
 	cellData["Fence"] = isWoodFence;
 	cellData["Dirt"] = isDirt;
 	cellData["Grass"] = isGrass;
-	*/
 	
-
+	
+	
 	return cellData;
 }

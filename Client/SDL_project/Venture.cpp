@@ -225,7 +225,7 @@ void Venture::run()
 		// Right click
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		{
-
+			
 		}
 
 		// Rendering process:
