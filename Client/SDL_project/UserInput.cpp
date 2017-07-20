@@ -152,16 +152,9 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 			//dump celldata of where the player has changed the cell
 			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->getCellData().dump();
 			std::cout << seralisedData << std::endl;
-			networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n" );
+			networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n", true);
 		}
 	}
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Player Actions
-	else if (state[SDL_SCANCODE_B])
-		networkManager.sendTCPMessage("PLACE_BED\n");
-	else if (state[SDL_SCANCODE_C])
-		networkManager.sendTCPMessage("PLACE_BOX\n");
 }
 
 void UserInput::ChangeCellsAroundPoint(Level& level, glm::vec2 point, int dist, std::string type)

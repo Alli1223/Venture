@@ -36,7 +36,7 @@ public:
 	glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY);
 
 	//! Sets the cells value (NOT USED)
-	void Level::SetGlobalCell(Camera& camera, int x, int y, glm::vec2 mousePos);
+	void Level::SetCell(int x, int y, std::shared_ptr<Cell> newcell);
 
 	//! Generates the world around the camera
 	void Level::GenerateWorld(Camera& camera);

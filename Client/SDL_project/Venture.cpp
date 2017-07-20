@@ -158,8 +158,8 @@ void Venture::run()
 		}
 
 		// Send initial message with player name
-		networkManager.sendTCPMessage(playerName + "\n");
-		networkManager.RecieveMessage();
+		networkManager.sendTCPMessage(playerName + "\n", false);
+		networkManager.RecieveMessage(false);
 		networkManager.setPlayerName(playerName);
 		std::cout << "PlayerName: " << playerName << std::endl;
 
@@ -270,7 +270,7 @@ void Venture::run()
 	if (useNetworking)
 	{
 		// Send quit message and close socket when game ends
-		networkManager.sendTCPMessage("QUIT\n");
+		networkManager.sendTCPMessage("QUIT\n", false);
 		networkManager.socket->close();
 	}
 }

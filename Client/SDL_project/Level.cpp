@@ -75,22 +75,20 @@ glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY)
 }
 
 
-//NOt used
-void Level::SetGlobalCell(Camera& camera, int x, int y, glm::vec2 mousePos)
+//set a cell with the values of another cell
+void Level::SetCell(int x, int y, std::shared_ptr<Cell> newcell)
 {
 	// ChunkX/Y is the chunk that the cell is in
 	int chunkX = x / chunkSize;
 	int chunkY = y / chunkSize;
 
-	if (mousePos.x >= chunkSize)
-		mousePos.x = mousePos.x - (chunkX * chunkSize);
-	if (mousePos.y >= chunkSize)
-		mousePos.y = mousePos.y - (chunkY * chunkSize);
+	if (x >= chunkSize)
+		x = x - (chunkX * chunkSize);
+	if (y >= chunkSize)
+		y = y - (chunkY * chunkSize);
 
-
-	std::cout << "PlaceCell: " << x << " " << y << std::endl;
-
-	World[chunkX][chunkY].tiles[x][y]->isFlower1 = true;
+	std::cout << "Cell update at pos: " << x << " " << y << std::endl;
+	World[chunkX][chunkY].tiles[x][y] = newcell;
 
 }
 
