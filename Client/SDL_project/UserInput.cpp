@@ -152,8 +152,12 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 			//dump celldata of where the player has changed the cell
 			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->getCellData().dump();
 			std::cout << seralisedData << std::endl;
-			networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n", true);
+			networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
 		}
+	}
+	if (state[SDL_SCANCODE_M])
+	{
+		networkManager.MapNetworkUpdate(level);
 	}
 }
 

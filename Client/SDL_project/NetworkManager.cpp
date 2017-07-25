@@ -11,14 +11,9 @@ NetworkManager::~NetworkManager()
 
 void NetworkManager::Connect()
 {
-
 	socket = std::shared_ptr<tcp::socket>(new tcp::socket(io_service));
-	mapDataSocket = std::shared_ptr<tcp::socket>(new tcp::socket(io_service));
 	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(getServerIP()), port);
-	//boost::asio::ip::tcp::endpoint endpoint2(boost::asio::ip::address::from_string(getServerIP()), port + 1);
 	socket->connect(endpoint);
-	mapDataSocket->connect(endpoint);
-	sendTCPMessage("mapDataSocket\n", true);
 }
 //! Gets integer values from the string
 int GetGameInfo(std::string message)
@@ -51,15 +46,15 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 	std::string name = localPlayerName;
 	std::string playerPosition = "X:" + std::to_string(player.getX()) + ".Y:" + std::to_string(player.getY()) + ".";
 
-	sendTCPMessage("{<" + localPlayerName + "> " + playerPosition + "}\n", false);
+	sendTCPMessage("{<" + localPlayerName + "> " + playerPosition + "}\n");
 
 
 	// process the list of players
-	std::string updateMessage = RecieveMessage(false);
+	std::string updateMessage = RecieveMessage();
 	ProcessArrayOfPlayerLocations(updateMessage, level, agentManager);
 
 	//Process the map data
-	MapNetworkUpdate(level);
+	//MapNetworkUpdate(level);
 
 }
 
@@ -98,10 +93,10 @@ bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playerna
 //! Process map network update
 void NetworkManager::MapNetworkUpdate(Level& level)
 {
-	sendTCPMessage("[RequestMapUpdate]\n", true);
-	std::string Data = RecieveMessage(true);
+	sendTCPMessage("[RequestMapUpdate]\n");
+	std::string Data = RecieveMessage();
 	
-	if (Data.size() > 2 && Data[1] != *"<")
+	if (Data.size() > 1)
 	{
 		json cellData = Data;
 
@@ -288,7 +283,7 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 
 
 //! sends a tcp message to the socket
-void NetworkManager::sendTCPMessage(std::string message, bool useOtherSocket)
+void NetworkManager::sendTCPMessage(std::string message)
 {
 	// Fill the buffer with the data from the string
 	boost::array<char, 128> buf;
@@ -300,10 +295,8 @@ void NetworkManager::sendTCPMessage(std::string message, bool useOtherSocket)
 	try
 	{
 		boost::system::error_code error;
-		if(!useOtherSocket)
-			socket->write_some(boost::asio::buffer(buf, message.size()), error);
-		else
-			mapDataSocket->write_some(boost::asio::buffer(buf, message.size()), error);
+		socket->write_some(boost::asio::buffer(buf, message.size()), error);
+
 		//std::cout << "Message sent: " << message << std::endl;
 	}
 	catch (std::exception& e)
@@ -314,7 +307,7 @@ void NetworkManager::sendTCPMessage(std::string message, bool useOtherSocket)
 
 
 //! returns a string from the socket
-std::string NetworkManager::RecieveMessage(bool useOtherSocket)
+std::string NetworkManager::RecieveMessage()
 {
 	std::cout << "Recieveing message.." <<  std::endl;
 	//Create return messages and an instream to put the buffer data into
@@ -326,10 +319,8 @@ std::string NetworkManager::RecieveMessage(bool useOtherSocket)
 		boost::system::error_code error;
 
 		// Read the data from the socket
-		if (!useOtherSocket)
-			size_t len = socket->read_some(boost::asio::buffer(buffer), error);
-		else
-			size_t len = mapDataSocket->read_some(boost::asio::buffer(buffer), error);
+		size_t len = socket->read_some(boost::asio::buffer(buffer), error);
+
 		if (error == boost::asio::error::eof)
 			return "QUIT"; // Connection closed cleanly by peer.
 		else if (error)

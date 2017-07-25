@@ -15,7 +15,7 @@ public:
 	//! Main Network update function
 	void NetworkManager::NetworkUpdate(Level& level,Player& player, AgentManager& agentManager);
 	//! Send a message using TCP
-	void NetworkManager::sendTCPMessage(std::string message, bool useOtherSocket);
+	void NetworkManager::sendTCPMessage(std::string message);
 
 	//! Process the players location from string
 	void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
@@ -24,7 +24,7 @@ public:
 	//! Process cell data
 	void NetworkManager::MapNetworkUpdate(Level& level);
 	//! Return a string from recieve message
-	std::string NetworkManager::RecieveMessage(bool useOtherSocket);
+	std::string NetworkManager::RecieveMessage();
 	
 
 	void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager);
@@ -64,7 +64,6 @@ public:
 	//! the io service for creating the socket
 	boost::asio::io_service io_service;
 	std::shared_ptr<tcp::socket> socket;
-	std::shared_ptr<tcp::socket> mapDataSocket;
 	
 
 private:
