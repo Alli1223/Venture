@@ -21,7 +21,7 @@ public:
 
 	bool removeItem(const Item& item)
 	{
-		for (int i = 0; i < capacity; i++)
+		for (unsigned int i = 0; i < capacity; i++)
 		{
 			//if(items[i].)
 		}

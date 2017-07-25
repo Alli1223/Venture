@@ -11,10 +11,8 @@ NetworkManager::~NetworkManager()
 
 void NetworkManager::Connect()
 {
-
 	socket = std::shared_ptr<tcp::socket>(new tcp::socket(io_service));
 	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(getServerIP()), port);
-
 	socket->connect(endpoint);
 }
 //! Gets integer values from the string
@@ -41,31 +39,26 @@ int GetGameInfo(std::string message)
 		}
 	}
 }
+
 //! main netwrok update function
-void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager)
+void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& agentManager)
 {
-	//("{<" + clientName + "> X:" +  character.getX() + ". Y:" +  character.getY() + ". ACT:" + Action + "." + "}");
-
-
-	// Request player locations
-	//sendTCPMessage("PLAYER_LOCATIONS_REQUEST\n");
-
-
-
 	std::string name = localPlayerName;
-	//std::string Action = "ACT:" + agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].characterType + ".";
-	std::string playerPosition = "X:" + std::to_string(agentManager.allAgents[0].getX()) + ".Y:" + std::to_string(agentManager.allAgents[0].getY()) + ".";
+	std::string playerPosition = "X:" + std::to_string(player.getX()) + ".Y:" + std::to_string(player.getY()) + ".";
 
 	sendTCPMessage("{<" + localPlayerName + "> " + playerPosition + "}\n");
+
+
 	// process the list of players
 	std::string updateMessage = RecieveMessage();
 	ProcessArrayOfPlayerLocations(updateMessage, level, agentManager);
-	//ProcessPlayerLocations(updateMessage, level, agentManager);
 
+	//Process the map data
+	//MapNetworkUpdate(level);
 
 }
 
-
+//TODO: reimplement multi threaded networking
 void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager)
 {
 	//std::thread readerThread;
@@ -97,6 +90,36 @@ bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playerna
 	return false;
 }
 
+//! Process map network update
+void NetworkManager::MapNetworkUpdate(Level& level)
+{
+	sendTCPMessage("[RequestMapUpdate]\n");
+	std::string Data = RecieveMessage();
+	
+	if (Data.size() > 1)
+	{
+		json cellData = Data;
+
+
+		// loop through all the cell data
+		for (json::iterator it = cellData.begin(); it != cellData.end(); ++it)
+		{
+			std::cout << it.key() << " : " << it.value() << "\n";
+
+			int X = cellData.at("X").get<int>();
+			int Y = cellData.at("Y").get<int>();
+			bool fence = cellData.at("isFence").get<bool>();
+			std::shared_ptr<Cell> newcell;
+			newcell->isWoodFence = true;
+			level.SetCell(X, Y, newcell);
+		}
+	}
+
+
+	
+	//level.World[X / level.getChunkSize()][Y / level.getChunkSize()].tiles[]
+}
+
 //! Processes an array of player locations
 void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager)
 {
@@ -109,7 +132,7 @@ void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Le
 	{
 
 		//TODO: get string of data between { and }
-		for (int i = 1; i < updateMessage.size(); i++)
+		for (int i = 0; i < updateMessage.size(); i++)
 		{
 
 			if (updateMessage[i] == *"{")
@@ -135,7 +158,7 @@ void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Le
 				iterator++;
 			}
 		}
-		std::cout << iterator << std::endl;
+		std::cout << "Number Of Players: " << iterator << std::endl;
 	}
 
 }
@@ -227,32 +250,26 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 						if (otherPlayerAction == "PLACE_BED")
 						{
 							std::cout << otherPlayerAction << std::endl;
-							level.grid[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isBed = true;
+							level.tiles[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isBed = true;
 						}
 						else if (otherPlayerAction == "PLACE_BOX")
 						{
 							std::cout << otherPlayerAction << std::endl;
-							level.grid[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isCargo = true;
+							level.tiles[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isCargo = true;
 						}
 					}
 				}
 			}
 		}
 
-		//Spawn new player
+		// Spawn new player
 		else
 		{
-			if (otherPlayerName.size() > 1)
+			if (otherPlayerName.size() > 1 && otherPlayerName != localPlayerName)
 			{
-
-
 				otherPlayerNames.push_back(otherPlayerName);
 				Agent newPlayer;
-				// If the agent is first player
-
 				newPlayer.characterType = "NPC";
-				newPlayer.agentCanRotate = true;
-
 				newPlayer.setID(otherPlayerName);
 				agentManager.SpawnAgent(newPlayer);
 			}
@@ -279,6 +296,7 @@ void NetworkManager::sendTCPMessage(std::string message)
 	{
 		boost::system::error_code error;
 		socket->write_some(boost::asio::buffer(buf, message.size()), error);
+
 		//std::cout << "Message sent: " << message << std::endl;
 	}
 	catch (std::exception& e)
@@ -302,6 +320,7 @@ std::string NetworkManager::RecieveMessage()
 
 		// Read the data from the socket
 		size_t len = socket->read_some(boost::asio::buffer(buffer), error);
+
 		if (error == boost::asio::error::eof)
 			return "QUIT"; // Connection closed cleanly by peer.
 		else if (error)

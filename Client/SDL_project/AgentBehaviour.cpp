@@ -87,12 +87,12 @@ void AgentBehaviour::DecideTask(Level& level, Agent& agent)
 // Updates the local class stats about the level
 void AgentBehaviour::UpdateLevelInfo(Level& level, int cellX, int cellY)
 {
-	if (level.grid[cellX][cellY]->isBed)
+	if (level.tiles[cellX][cellY]->isBed)
 	{
 		levelHasBed = true;
 		emptyBedLocations.push_back(Point(cellX, cellY));
 	}
-	if (level.grid[cellX][cellY]->isToilet)
+	if (level.tiles[cellX][cellY]->isToilet)
 	{
 		LevelHasToilet = true;
 		emptyToiletLocations.push_back(Point(cellX, cellY));
@@ -104,7 +104,7 @@ Point AgentBehaviour::FindNearestCelltoAgent(Agent& agent, Level& level, std::st
 {
 	Point endPoint;
 	
-	while (localSearchSize < level.grid.size())
+	while (localSearchSize < level.tiles.size())
 	{
 		// Do a local search of nearest cells 
 		for (int x = agent.getCellX() - localSearchSize; x <= agent.getCellX() + localSearchSize; x++)
@@ -112,11 +112,11 @@ Point AgentBehaviour::FindNearestCelltoAgent(Agent& agent, Level& level, std::st
 			for (int y = agent.getCellY() - localSearchSize; y <= agent.getCellY() + localSearchSize; y++)
 			{
 				// If within grid
-				if (x > 0 && y > 0 && x < level.grid.size() && y < level.grid[x].size())
+				if (x > 0 && y > 0 && x < level.tiles.size() && y < level.tiles[x].size())
 				{
 					if (cellType == "BED" || cellType == "Bed")
 					{
-						if (level.grid[x][y]->isBed)
+						if (level.tiles[x][y]->isBed)
 						{
 							endPoint = Point(x, y);
 							return endPoint;
@@ -124,7 +124,7 @@ Point AgentBehaviour::FindNearestCelltoAgent(Agent& agent, Level& level, std::st
 					}
 					else if (cellType == "TOILET" || cellType == "Toilet")
 					{
-						if (level.grid[x][y]->isToilet)
+						if (level.tiles[x][y]->isToilet)
 						{
 							endPoint = Point(x, y);
 							return endPoint;

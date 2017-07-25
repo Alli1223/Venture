@@ -15,3 +15,18 @@ Cell::Cell(int x, int y)
 
 Cell::~Cell(){
 }
+
+json Cell::getCellData()
+{	
+	json cellData;
+	//cellData["Position"] = { { "X", x },{ "Y", y } };
+	cellData["X"] = x;
+	cellData["Y"] = y;
+	cellData["Fence"] = isWoodFence;
+	cellData["Dirt"] = isDirt;
+	cellData["Grass"] = isGrass;
+	
+	
+	
+	return cellData;
+}

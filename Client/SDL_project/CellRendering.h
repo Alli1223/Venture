@@ -1,5 +1,9 @@
 #pragma once
 #include "Level.h"
+#include "Camera.h"
+#include "Character.h"
+#include "Agent.h"
+#include "Player.h"
 
 class CellRendering
 {
@@ -7,12 +11,42 @@ public:
 	CellRendering();
 	~CellRendering();
 
-	void RenderCells(Level& level, SDL_Renderer* renderer, int x, int y, int xOffset, int yOffset);
+	void RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, Player& player, std::vector<Agent>& allAgents);
+
+	void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_Renderer* renderer);
+
+	void CellRendering::AlterTextures(Level& level);
+
+	void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera);
+
+	void CellRendering::RenderPlayer(SDL_Renderer* renderer, Player& player, Level& level, Camera& camera);
+
+	bool renderStats = false;
+	
+	struct tree
+	{
+		glm::vec2 pos;
+		int TreeType;
+		glm::vec2 treeSize;
+	};
+
+	std::vector<tree> trees;
+
+	bool isThereDarkness = true;
+	
 
 private:
-	const std::string RoomSpriteTextureLocation = "Resources\\roomSprites\\texturePack\\";
-	const std::string ItemsSpriteTextureLocation = "Resources\\SpawnItems\\";
-	const std::string TerrainSpriteTextureLocation = "Resources\\Terrain\\";
+	//Target Darkness
+	float Tdarkness;
+	float darkness = 255;
+	const std::string RoomSpriteTextureLocation = "Resources\\Sprites\\roomSprites\\texturePack\\";
+	const std::string ItemsSpriteTextureLocation = "Resources\\Sprites\\SpawnItems\\";
+	const std::string TerrainSpriteTextureLocation = "Resources\\Sprites\\Terrain\\";
+	const std::string TreeTerrainSpriteTextureLocation = "Resources\\Sprites\\Terrain\\Trees\\";
+	const std::string WallSpriteTextureLocation = "Resources\\Sprites\\Terrain\\Walls\\";
+
+	const std::string characterTextureLocation = "Resources\\Sprites\\Character\\";
+	const std::string playerStatsTextureLocation = "Resources\\Sprites\\GUI\\PlayerStats\\";
 
 	// Textures for game objects
 	//! For cells that are a room
@@ -20,56 +54,16 @@ private:
 	//! For cells that are transparent
 	Texture emptyCell;
 	//! For door cells
-	Texture openDoorTexture;
-	Texture closedDoorTexture;
-	//! To show the oxygen level in a room
-	Texture oxygenTex;
-	//! To show oxygen tanks
-	Texture oxygenTank;
-	//! To show fireExtinguisher
-	Texture healthPack;
-	//! To show the character health
-	Texture healthBar;
-	//! Label for character health
-	Texture healthText;
-	//! To show the oxygen level
-	Texture oxygenBar;
-	//! Label for oxygen level
-	Texture oxygenText;
-	//! This will display when the player fails to win	
-	Texture gameOver;
-	//!will display over the background when the player fails to win
-	Texture gameOverText;
-	//! Is the texture for the win background
-	Texture winTexture;
-	//! Is the texture for the win text
-	Texture winText;
-	//! Is the texture for the goal
-	Texture goalTexture;
-	//! Is the texture for fire
-	Texture fireTexture;
-	//! Is the texture for the background
-	Texture backgroundTexture;
-
-	//! Is the texture for the cargoBay
-	Texture cargoBayTexture;
-	//! Is the texture for the cargo
-	Texture cargoTexture;
-
-	//! Is the texture for the beds
-	Texture bedSideTexture;
-	//! Is the texture for the toilet
-	Texture toiletTexture;
-	//! Is the texture for the kitchen
-	Texture kitchenTexture;
 	
-
-
 	//! Is the textures for the terrain
 	Texture Grass1Texture;
 	Texture Grass2Texture;
 	Texture OakTreeTexture;
 	Texture FernTreeTexture;
+
+	Texture TreePixelTexture;
+	Texture TreeTwoTexture;
+	Texture TreeThreeTexture;
 	Texture DirtTexture;
 	Texture Flower1Texture;
 	Texture Flower2Texture;
@@ -81,22 +75,25 @@ private:
 
 
 	Texture WaterTexture;
+	Texture WaterTexture2;
 	Texture SandTexture;
+	Texture StoneWallTexture;
+	Texture SnowTexture;
 
+	Texture WoodFenceSide;
+	Texture WoodFenceUP;
+	Texture WoodFenceCenter;
 
-	//! Is the texture for hull breaches
-	Texture hullBreachTexture;
-	//! Is the death animation texture
-	Texture deathAnim;
+	//! Character Textures
+	Texture characterTex;
 
-	//! Are the textures for the differnt sides of the room cells
-	Texture topRoomCell;
-	Texture topRightRoomCell;
-	Texture rightRoomCell;
-	Texture bottomRightRoomCell;
-	Texture bottomRoomCell;
-	Texture bottomLeftRoomCell;
-	Texture leftRoomCell;
-	Texture topLeftRoomCell;
+	//! Are the textures for the NPC
+	Texture npcDown;
+
+	//! Are the textures for the statusbars
+	Texture healthBarTexture;
+	Texture hungerBarTexture;
+	Texture tiredBarTexture;
+	Texture oxygenBarTexture;
 };
 

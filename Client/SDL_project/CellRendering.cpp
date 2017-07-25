@@ -3,42 +3,31 @@
 
 //! Constructor that initalises all the texture file locations
 CellRendering::CellRendering() : roomCell(RoomSpriteTextureLocation + "center.png"), emptyCell(RoomSpriteTextureLocation + "emptyCell.png"),
-	topRoomCell(RoomSpriteTextureLocation + "top.png"), topRightRoomCell(RoomSpriteTextureLocation + "topRight.png"), rightRoomCell(RoomSpriteTextureLocation + "right.png"), bottomRightRoomCell(RoomSpriteTextureLocation + "bottomRight.png"), bottomRoomCell(RoomSpriteTextureLocation + "bottom.png"), bottomLeftRoomCell(RoomSpriteTextureLocation + "bottomLeft.png"), leftRoomCell(RoomSpriteTextureLocation + "left.png"), topLeftRoomCell(RoomSpriteTextureLocation + "topLeft.png"),
-	cargoBayTexture(RoomSpriteTextureLocation + "cargoBayStorage.png"), cargoTexture("Resources\\roomSprites\\crate1.png"),
-	openDoorTexture(RoomSpriteTextureLocation + "center.png"),
-	closedDoorTexture(RoomSpriteTextureLocation + "door.png"),
-	oxygenTex("Resources\\oxygen.png"),
-	oxygenTank(ItemsSpriteTextureLocation + "oxygenTank.png"), healthPack(ItemsSpriteTextureLocation + "healthPack.png"),
-	healthBar("Resources\\health.png"),
-	healthText("Resources\\healthText.png"),
-	winTexture("Resources\\oxygenBar.png"),
-	winText("Resources\\you_win.png"),
-	oxygenBar("Resources\\oxygenBar.png"),
-	oxygenText("Resources\\oxygenText.png"),
-	gameOver("Resources\\health.png"),
-	gameOverText("Resources\\game_over.png"),
-	fireTexture(ItemsSpriteTextureLocation + "fire1.png"),
-	backgroundTexture("Resources\\background.png"),
-	hullBreachTexture("Resources\\roomSprites\\hullBreach2.png"),
-	deathAnim("Resources\\deathAnim.png"),
-	goalTexture("Resources\\roomSprites\\crate1.png"),
-	bedSideTexture(RoomSpriteTextureLocation + "Bed.png"),
-	toiletTexture(RoomSpriteTextureLocation + "wc.png"),
-	kitchenTexture(RoomSpriteTextureLocation + "cargoBayStorage.png"),
-	Grass1Texture(TerrainSpriteTextureLocation + "Grass.png"),
-	Grass2Texture(TerrainSpriteTextureLocation + "Grass2.png"),
-	OakTreeTexture(TerrainSpriteTextureLocation + "OakTree.png"),
-	FernTreeTexture(TerrainSpriteTextureLocation + "FernTree.png"),
-	DirtTexture(TerrainSpriteTextureLocation + "Dirt.png"),
-	Flower1Texture(TerrainSpriteTextureLocation + "Flower1.png"),
-	Flower2Texture(TerrainSpriteTextureLocation + "Flower2.png"),
-	BerryPlantTexture(TerrainSpriteTextureLocation + "Berry.png"),
-	BushTexture(TerrainSpriteTextureLocation + "Bush.png"),
-	WaterTexture(TerrainSpriteTextureLocation + "Water.png"),
-	SandTexture(TerrainSpriteTextureLocation + "Sand.png"),
-	LongGrass1(TerrainSpriteTextureLocation + "LongGrass1.png"),
-	LongGrass2(TerrainSpriteTextureLocation + "LongGrass2.png"),
-	LongGrass3(TerrainSpriteTextureLocation + "LongGrass3.png")
+Grass1Texture(TerrainSpriteTextureLocation + "Grass.png"),
+Grass2Texture(TerrainSpriteTextureLocation + "Grass2.png"),
+DirtTexture(TerrainSpriteTextureLocation + "Dirt.png"),
+Flower1Texture(TerrainSpriteTextureLocation + "Flower1.png"),
+Flower2Texture(TerrainSpriteTextureLocation + "Flower2.png"),
+BerryPlantTexture(TerrainSpriteTextureLocation + "Berry.png"),
+BushTexture(TerrainSpriteTextureLocation + "Bush.png"),
+WaterTexture(TerrainSpriteTextureLocation + "\\Sea\\Water.png"),
+WaterTexture2(TerrainSpriteTextureLocation + "\\Sea\\Water2.png"),
+SandTexture(TerrainSpriteTextureLocation + "Sand.png"),
+LongGrass1(TerrainSpriteTextureLocation + "LongGrass1.png"),
+LongGrass2(TerrainSpriteTextureLocation + "LongGrass2.png"),
+LongGrass3(TerrainSpriteTextureLocation + "LongGrass3.png"),
+StoneWallTexture(TerrainSpriteTextureLocation + "StoneWall.png"),
+OakTreeTexture(TerrainSpriteTextureLocation + "OakTree.png"),
+FernTreeTexture(TerrainSpriteTextureLocation + "FernTree.png"),
+TreePixelTexture(TreeTerrainSpriteTextureLocation + "pixelTree.png"),
+TreeTwoTexture(TreeTerrainSpriteTextureLocation + "Tree2.png"),
+TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
+SnowTexture(TerrainSpriteTextureLocation + "Snow.png"),
+WoodFenceSide(WallSpriteTextureLocation + "woodFenceSideCenter.png"), WoodFenceUP(WallSpriteTextureLocation + "woodFenceUp2.png"), WoodFenceCenter(WallSpriteTextureLocation + "woodFenceCenter.png"),
+
+characterTex(characterTextureLocation + "crew.png"), npcDown(characterTextureLocation + "npc.png"),
+healthBarTexture(playerStatsTextureLocation + "PlayerHealth.png"), oxygenBarTexture(playerStatsTextureLocation + "PlayerOxygen.png"), hungerBarTexture(playerStatsTextureLocation + "PlayerHunger.png"), tiredBarTexture(playerStatsTextureLocation + "PlayerTiredness.png")
+
 {
 }
 
@@ -47,245 +36,195 @@ CellRendering::~CellRendering()
 {
 }
 
-//! Renders the cells
-void CellRendering::RenderCells(Level& level, SDL_Renderer* renderer, int x, int y, int xOffset, int yOffset)
+void CellRendering::AlterTextures(Level& level)
 {
+	WaterTexture.alterTransparency(200);
+	WaterTexture2.alterTransparency(200);
+	//TreePixelTexture.alterTransparency(200);
+	float time = level.getTimeOfDay();
+
+	if (time > 9.0 && time < 21.0)
+	{
+		Tdarkness = 255;
+	}
+	else if (time < 9.0 || time > 21.0)
+	{
+		Tdarkness = 50;
+	}
+
+	
+		if (Tdarkness > darkness)
+			darkness++;
+		else if (Tdarkness < darkness)
+			darkness--;
+			
+		Grass1Texture.alterTextureColour(darkness, darkness, darkness);
+		TreePixelTexture.alterTextureColour(darkness, darkness, darkness);
+		SandTexture.alterTextureColour(darkness, darkness, darkness);
+		WaterTexture.alterTextureColour(darkness, darkness, darkness);
+		WaterTexture2.alterTextureColour(darkness, darkness, darkness);
+		LongGrass1.alterTextureColour(darkness, darkness, darkness);
+		LongGrass2.alterTextureColour(darkness, darkness, darkness);
+		LongGrass3.alterTextureColour(darkness, darkness, darkness);
+	
+	
+}
+
+void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_Renderer* renderer)
+{
+	int newX = 0, newY = 0;
+	int xPos = 0, yPos = 0;
 	int cellSize = level.getCellSize();
-	int xPos = x * cellSize + cellSize / 2;
-	int yPos = y * cellSize + cellSize / 2;
-	y = y + yOffset;
-	x = x + xOffset;
-	//RENDERING THE CELLS
-	//Grass1Texture.alterTextureColour(level.grid[x][y]->noiseValue * 10, 0, 0);
 
-	// VEGETATION
-
-
-	//Base Ground Textures
-	if (level.grid[x][y]->isGrass)
-		if (rand() % 2 < 0)
-			Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
-		else
-			Grass2Texture.render(renderer, xPos, yPos, cellSize, cellSize);
-	if (level.grid[x][y]->isDirt)
-		DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	if (level.grid[x][y]->isWater)
-		WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-	if (level.grid[x][y]->isSand)
-		SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-
-
-	if (level.grid[x][y]->isVegetation)
-	{
-		//Trees
-		if (level.grid[x][y]->isFernTree)
-			FernTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
-		else if (level.grid[x][y]->isOakTree)
-			OakTreeTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize * 3);
-
-		//Flowers
-		if (level.grid[x][y]->isFlower1)
-			Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
-		if (level.grid[x][y]->isFlower2)
-			Flower2Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
-		if (level.grid[x][y]->isBerryPlant)
-			BerryPlantTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
-		if (level.grid[x][y]->isBush)
-			BushTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
-
-		//Grass
-		if (level.grid[x][y]->isLongGrass)
+	for (int x = 0; x < level.getChunkSize(); x++)
+		for (int y = 0; y < level.getChunkSize(); y++)
 		{
-			int randVal = 0;
-			if (randVal == 0)
-				LongGrass1.render(renderer, xPos, yPos, cellSize, cellSize);
-			else if (randVal == 1)
-				LongGrass2.render(renderer, xPos, yPos, cellSize, cellSize);
+			newX = chunk.tiles[x][y]->getX();
+			newY = chunk.tiles[x][y]->getY();
+
+			xPos = newX * cellSize + cellSize / 2;
+			yPos = newY * cellSize + cellSize / 2;
+
+			xPos -= camera.getX();
+			yPos -= camera.getY();
+
+			if (chunk.tiles[x][y]->isWater)
+			{
+				// Code for ripples
+				//sin(sqrt(pow(chunk.tiles[x][y]->getX(),2) + pow(chunk.tiles[x][y]->getY(),2)) + SDL_GetTicks() / 500) > 0)
+				if (sin(chunk.tiles[x][y]->getX() + SDL_GetTicks() / 500) > 0)
+					WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				else
+					WaterTexture2.render(renderer, xPos, yPos, cellSize, cellSize);
+				
+			}
 			else
-				LongGrass3.render(renderer, xPos, yPos, cellSize, cellSize);
+			{
+				// Base Ground Textures rendered in decending order (Top layered textures at bottom of list)
+				if (chunk.tiles[x][y]->isGrass)
+					Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isFlower1)
+					Flower1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isDirt)
+					DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+
+					
+				if (chunk.tiles[x][y]->isSand)
+					SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isStoneWall)
+					StoneWallTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isFlower1)
+					Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
+				if (chunk.tiles[x][y]->isFlower2)
+					Flower2Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
+				if (chunk.tiles[x][y]->isBerryPlant)
+					BerryPlantTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
+				if (chunk.tiles[x][y]->isBush)
+					BushTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
+				if (chunk.tiles[x][y]->isLongGrass)
+					LongGrass1.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isLongGrass2)
+					LongGrass2.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isSnow)
+					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isTree)
+					SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk.tiles[x][y]->isTree)
+				{
+					tree t1;
+					t1.TreeType = 0;
+					t1.pos = glm::vec2(xPos, yPos - cellSize * 2);
+					t1.treeSize = glm::vec2(cellSize * 6, cellSize * 6);
+					trees.push_back(t1);
+				}
+
+					/*
+					
+					else if (chunk.tiles[x][y]->treeTwo)
+						OakTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize * 3);
+					else if (chunk.tiles[x][y]->treeThree)
+						FernTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize * 3);
+					else if (chunk.tiles[x][y]->treeFour)
+						SnowTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize);
+				*/
+				if (chunk.tiles[x][y]->isWoodFence)
+				{
+					if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1) && level.isCellInChunk(x - 1, y) && level.isCellInChunk(x + 1, y))
+					{
+						if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && !chunk.tiles[x + 1][y]->isWoodFence && !chunk.tiles[x - 1][y]->isWoodFence)
+							WoodFenceUP.render(renderer, xPos, yPos, cellSize, cellSize);
+						else if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && chunk.tiles[x + 1][y]->isWoodFence && chunk.tiles[x - 1][y]->isWoodFence)
+							WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
+						else
+							WoodFenceSide.render(renderer, xPos, yPos, cellSize, cellSize);
+					}
+				}
+			}
 		}
-	}
+}
 
+//! Renders the chunks of cells
+void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, Player& player, std::vector<Agent>& allAgents)
+{	
+	// Alter the textures
+	AlterTextures(level);
 
+	// Render all the cells in the chunks
+	for (int i = (camera.getX() / level.getCellSize()) / level.getChunkSize() - 1; i < ((camera.getX() / level.getCellSize()) / level.getChunkSize()) + camera.ChunksOnScreen.x; i++)
+		for (int j = (camera.getY() / level.getCellSize()) / level.getChunkSize() - 1; j < ((camera.getY() / level.getCellSize()) / level.getChunkSize()) + camera.ChunksOnScreen.y; j++)
+				RenderChunk(level,camera, level.World[i][j], renderer);
 
-	/*
-	if (level.grid[x][y]->isRoom)
+	// Render Agents
+	for (Agent& agent : allAgents)
+		RenderAgents(agent, renderer, level, camera);
+
+	// Render the player
+	RenderPlayer(renderer, player, level, camera);
+	
+
+	// Render the trees last
+	for each(auto &tree in trees)
+		TreePixelTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
+
+	// Erase the trees after rendering them
+	trees.erase(trees.begin(), trees.end());
+	
+}
+
+void CellRendering::RenderPlayer(SDL_Renderer* renderer, Player& player,  Level& level, Camera& camera)
+{
+	int x = player.getX() + (player.getSize() / 2) - camera.getX();
+	int y = player.getY() + (player.getSize() / 2) - camera.getY();
+	if (player.characterType == "Player")
+		characterTex.renderRotation(renderer, x, y, player.getSize(), player.getSize(), player.rotation);
+}
+
+void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera)
+{
+
+	int x = agent.getX() + (agent.getSize() / 2) - camera.getX();
+	int y = agent.getY() + (agent.getSize() / 2) - camera.getY();
+	if (agent.characterType == "NPC")
 	{
-		roomCell.alterTextureColour(level.grid[x][y]->noiseValue, 0, 0);
-		oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
-		roomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
+		//npcDown.alterTextureColour(0, rand(), 0);
+		npcDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
 
-		// Removes Oxyen from levels
-		if (level.grid[x][y]->getOxygenLevel() > 0 && level.grid[x][y]->getOxygenLevel() <= 100)
-			level.grid[x][y]->setOxygenLevel(level.grid[x][y]->getOxygenLevel() - 0.5);
-	}
-	*/
 
-	// Old code
-	{
-		if (!level.grid[x][y]->isRoom)
+		//Render agent stats to the right of agent
+		if (renderStats)
 		{
-			level.grid[x][y]->setOxygenLevel(0);
-			emptyCell.alterTransparency(0);
-			emptyCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-
-		// Renders the top cell orientation
-		if (level.grid[x][y]->cellOrientation == 0)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-			topRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->cellOrientation == 1)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-			topRightRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->cellOrientation == 2)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-			rightRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->cellOrientation == 3)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-			bottomRightRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->cellOrientation == 4)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-			bottomRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->cellOrientation == 5)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-			bottomLeftRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->cellOrientation == 6)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-			leftRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->cellOrientation == 7)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-			topLeftRoomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->cellOrientation == 8)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel / 2);
-			roomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->cellOrientation == 10)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
-			roomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-			level.grid[x][y]->isWalkable = true;
-		}
-		if (level.grid[x][y]->cellOrientation == 11)
-		{
-			level.grid[x][y]->setOxygenLevel(0);
-			emptyCell.alterTransparency(0);
-			emptyCell.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-
-		// Checks if the cell is a door
-		if (level.grid[x][y]->isOpenDoor)
-		{
-			openDoorTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-
-		// Checks if the cell is a door
-		if (level.grid[x][y]->isDockingPath)
-		{
-			hullBreachTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-
-		// Renders the fire cells
-		if (level.grid[x][y]->isOnFire)
-		{
-			fireTexture.alterTransparency(150);
-			fireTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		// Renders the hullBreach
-		if (level.grid[x][y]->isHullBreach)
-		{
-			level.grid[x][y]->setOxygenLevel(0);
-			hullBreachTexture.alterTransparency(150);
-			hullBreachTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		// Renders the oxygen Tanks
-		if (level.grid[x][y]->isOxygenTank)
-		{
-			oxygenTank.alterTransparency(200);
-			oxygenTank.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->isHealthPack)
-		{
-			healthPack.alterTransparency(200);
-			healthPack.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		// Renders open doors
-		if (level.grid[x][y]->isOpenDoor)
-		{
-			level.grid[x][y]->setOxygenLevel(0);
-			closedDoorTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		// Renders closed doors
-		if (level.grid[x][y]->isClosedDoor)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
-			openDoorTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		//Checks if the cell has the goal on it.
-		if (level.grid[x][y]->isGoal)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
-			roomCell.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-			goalTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->isVerticalAirlock)
-		{
-			closedDoorTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->isAirlockWall)
-		{
-			goalTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->isShipCargoBay)
-		{
-			oxygenTex.alterTransparency(level.grid[x][y]->oxygenLevel);
-			cargoBayTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-			oxygenTex.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->isCargo)
-		{
-			cargoTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->isBed)
-		{
-			bedSideTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->isToilet)
-		{
-			toiletTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-		}
-		if (level.grid[x][y]->isKitchen)
-		{
-			kitchenTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+			if (agent.getHealth() < 100.0)
+				healthBarTexture.render(renderer, x + agent.getSize() - agent.getSize() / 10, y, agent.getSize() / 10, agent.getHealth() / 2);
+			if (agent.getOxygenLevel() < 100.0)
+				oxygenBarTexture.render(renderer, x + agent.getSize(), y, agent.getSize() / 10, agent.getOxygenLevel() * 30.0);
+			if (agent.getHunger() < 100.0)
+				hungerBarTexture.render(renderer, x + agent.getSize() + agent.getSize() / 10, y, agent.getSize() / 10, agent.getHunger() * 30.0);
+			if (agent.getTiredness() > 0.0)
+				tiredBarTexture.render(renderer, x + agent.getSize() + agent.getSize() * 2 / 10, y, agent.getSize() / 10, agent.getTiredness() * 100);
+			if (agent.getToietNeed() > 0.0)
+				hungerBarTexture.render(renderer, x + agent.getSize() + agent.getSize() / 10, y, agent.getSize() / 10, agent.getToietNeed() * 100);
 		}
 	}
+	if (agent.characterType == "Player")
+		characterTex.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
 }

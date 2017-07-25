@@ -10,7 +10,7 @@ void Map::LoadMap(std::string filename, Level room)
 	std::ifstream mapFile(filename);
 	std::vector<std::string> lines;
 	width = 0;
-	for (int i = 0; i < room.grid.size(); i++)
+	for (int i = 0; i < room.tiles.size(); i++)
 	{
 		//make a vector containing all the lines in the file
 		std::string line;
@@ -22,7 +22,6 @@ void Map::LoadMap(std::string filename, Level room)
 	}
 	height = lines.size();
 
-	RoomDesign roomdesign;
 	for (int y = 0; y < height; y++)
 	{
 		const std::string& line = lines[y];
@@ -35,28 +34,21 @@ void Map::LoadMap(std::string filename, Level room)
 			}
 			if (character == ' ')
 			{
-				room.grid[x][y]->isRoom = true;
+				room.tiles[x][y]->isRoom = true;
 			}
 			if (character == '@')
 			{
-				room.grid[x][y]->isGoal = false;
+				room.tiles[x][y]->isGoal = false;
 			}
 			if (character == 'D')
 			{
-				room.grid[x][y]->isRoom = true;
-				room.grid[x][y]->isOpenDoor = true;
+				room.tiles[x][y]->isRoom = true;
+				room.tiles[x][y]->isOpenDoor = true;
 			}
 		}
 	}
 
-	// Loop through the level and change the orientation of each cell
-	for (int x = 0; x < room.grid.size() - 1; x++)
-	{
-		for (int y = 0; y < room.grid[x].size() - 1; y++)
-		{
-			roomdesign.designRoom(room, x, y);
-		}
-	}
+
 }
 
 
@@ -114,7 +106,7 @@ bool Map::generateRoom(Level level, int size, int entranceX, int entranceY, char
 	for (int x = topLeftX; x < topLeftX + size; x++)
 	{
 		//Detects if the room goes out the level horizontally
-		if (x < 0 || x >= level.grid.size())
+		if (x < 0 || x >= level.tiles.size())
 		{
 			return false;
 		}
@@ -122,16 +114,16 @@ bool Map::generateRoom(Level level, int size, int entranceX, int entranceY, char
 		for (int y = topLeftY; y < topLeftY + size; y++)
 		{
 			//Detects if the room goes out the level vertically
-			if (y < 0 || y >= level.grid[0].size())
+			if (y < 0 || y >= level.tiles[0].size())
 			{
 				return false;
 			}
 			//Detects if room overlaps
-			if (level.grid[x][y]->isRoom == true)
+			if (level.tiles[x][y]->isRoom == true)
 			{
 				return false;
 			}
-			column.push_back(level.grid[x][y]);
+			column.push_back(level.tiles[x][y]);
 		}
 		room.push_back(column);
 	}
@@ -194,7 +186,7 @@ bool Map::generateRoom(Level level, int size, int entranceX, int entranceY, char
 	return true;
 }
 
-void Map::generateMap(Level level, RoomDesign& roomdesign)
+void Map::generateMap(Level level)
 {
 
 	//Creates a seed to use
@@ -252,18 +244,18 @@ void Map::generateMap(Level level, RoomDesign& roomdesign)
 						int xStart = roomVector[roomBase][0][0]->getX();
 						int halfRoomSize = roundToNearestWhole(roomVector[roomBase].size() / 2);
 						int xOfDoor = xStart + halfRoomSize;
-						if (xOfDoor >= level.grid.size() || xOfDoor < 0 || yOfDoor >= level.grid[0].size() || yOfDoor < 0)
+						if (xOfDoor >= level.tiles.size() || xOfDoor < 0 || yOfDoor >= level.tiles[0].size() || yOfDoor < 0)
 						{
 							safe = false;
 						}
 						if (safe)
 						{
-							if (level.grid[xOfDoor][yOfDoor]->isRoom == false)
+							if (level.tiles[xOfDoor][yOfDoor]->isRoom == false)
 							{
 								if (generateRoom(level, size, xOfDoor, yOfDoor, 'n'))
 								{
-									level.grid[xOfDoor][yOfDoor]->isRoom = true;
-									level.grid[xOfDoor][yOfDoor]->isOpenDoor = true;
+									level.tiles[xOfDoor][yOfDoor]->isRoom = true;
+									level.tiles[xOfDoor][yOfDoor]->isOpenDoor = true;
 								}
 							}
 						}
@@ -273,7 +265,7 @@ void Map::generateMap(Level level, RoomDesign& roomdesign)
 				else if (direction == 1)
 				{
 					int east = roomVector[roomBase][0][0]->getY();
-					if (east < level.grid.size())
+					if (east < level.tiles.size())
 					{	
 						bool safe = true;
 						int xSize = roomVector[roomBase].size();
@@ -281,18 +273,18 @@ void Map::generateMap(Level level, RoomDesign& roomdesign)
 						int yStart = roomVector[roomBase][0][0]->getY();
 						int halfRoomSize = roundToNearestWhole(roomVector[roomBase][0].size() / 2);
 						int yOfDoor = yStart + halfRoomSize;
-						if (xOfDoor >= level.grid.size() || xOfDoor < 0 || yOfDoor >= level.grid[0].size() || yOfDoor < 0)
+						if (xOfDoor >= level.tiles.size() || xOfDoor < 0 || yOfDoor >= level.tiles[0].size() || yOfDoor < 0)
 						{
 							safe = false;
 						}
 						if (safe)
 						{
-							if (level.grid[xOfDoor][yOfDoor]->isRoom == false)
+							if (level.tiles[xOfDoor][yOfDoor]->isRoom == false)
 							{
 								if (generateRoom(level, size, xOfDoor, yOfDoor, 'e'))
 								{
-									level.grid[xOfDoor][yOfDoor]->isRoom = true;
-									level.grid[xOfDoor][yOfDoor]->isOpenDoor = true;
+									level.tiles[xOfDoor][yOfDoor]->isRoom = true;
+									level.tiles[xOfDoor][yOfDoor]->isOpenDoor = true;
 								}
 							}
 						}
@@ -302,25 +294,25 @@ void Map::generateMap(Level level, RoomDesign& roomdesign)
 				else if (direction == 2)
 				{
 					int south = roomVector[roomBase][0].size() + roomVector[roomBase][0][0]->getY() + 1;
-					if (south < level.grid[0].size())
+					if (south < level.tiles[0].size())
 					{
 						bool safe = true;
 						int yOfDoor = roomVector[roomBase][0].size() + roomVector[roomBase][0][0]->getY();
 						int xStart = roomVector[roomBase][0][0]->getX();
 						int halfRoomSize = roundToNearestWhole(roomVector[roomBase].size() / 2);
 						int xOfDoor = xStart + halfRoomSize;
-						if (xOfDoor >= level.grid.size() || xOfDoor < 0 || yOfDoor >= level.grid[0].size() || yOfDoor < 0)
+						if (xOfDoor >= level.tiles.size() || xOfDoor < 0 || yOfDoor >= level.tiles[0].size() || yOfDoor < 0)
 						{
 							safe = false;
 						}
 						if (safe)
 						{
-							if (level.grid[xOfDoor][yOfDoor]->isRoom == false)
+							if (level.tiles[xOfDoor][yOfDoor]->isRoom == false)
 							{
 								if (generateRoom(level, size, xOfDoor, yOfDoor, 's'))
 								{
-									level.grid[xOfDoor][yOfDoor]->isRoom = true;
-									level.grid[xOfDoor][yOfDoor]->isOpenDoor = true;
+									level.tiles[xOfDoor][yOfDoor]->isRoom = true;
+									level.tiles[xOfDoor][yOfDoor]->isOpenDoor = true;
 								}
 							}
 						}
@@ -330,7 +322,7 @@ void Map::generateMap(Level level, RoomDesign& roomdesign)
 				else
 				{
 					int west = roomVector[roomBase].size() + roomVector[roomBase][0][0]->getX() + 1;
-					if (west < level.grid.size())
+					if (west < level.tiles.size())
 					{
 						bool safe = true;
 						int xSize = roomVector[roomBase].size();
@@ -338,18 +330,18 @@ void Map::generateMap(Level level, RoomDesign& roomdesign)
 						int yStart = roomVector[roomBase][0][0]->getY();
 						int halfRoomSize = roundToNearestWhole(roomVector[roomBase][0].size() / 2);
 						int yOfDoor = yStart + halfRoomSize;
-						if (xOfDoor >= level.grid.size() || xOfDoor < 0 || yOfDoor >= level.grid[0].size() || yOfDoor < 0)
+						if (xOfDoor >= level.tiles.size() || xOfDoor < 0 || yOfDoor >= level.tiles[0].size() || yOfDoor < 0)
 						{
 							safe = false;
 						}
 						if (safe)
 						{
-							if (level.grid[xOfDoor][yOfDoor]->isRoom == false)
+							if (level.tiles[xOfDoor][yOfDoor]->isRoom == false)
 							{
 								if (generateRoom(level, size, xOfDoor, yOfDoor, 'w'))
 								{
-									level.grid[xOfDoor][yOfDoor]->isRoom = true;
-									level.grid[xOfDoor][yOfDoor]->isOpenDoor = true;
+									level.tiles[xOfDoor][yOfDoor]->isRoom = true;
+									level.tiles[xOfDoor][yOfDoor]->isOpenDoor = true;
 								}
 							}
 						}
@@ -367,15 +359,6 @@ void Map::generateMap(Level level, RoomDesign& roomdesign)
 			roomVector[roomVector.size() - 1][roomVector[0].size() / 2][roomVector[0][0].size() / 2] ->isOpenDoor = false;
 			roomVector[roomVector.size() - 1][roomVector[0].size() / 2][roomVector[0][0].size() / 2]->isHullBreach = false;
 			roomVector[roomVector.size() - 1][roomVector[0].size() / 2][roomVector[0][0].size() / 2]->oxygenLevel = 100;
-		}
-	}
-
-	//Loops through all the cells and sets the orientation of the cells
-	for (int x = 0; x < level.grid.size() - 1; x++)
-	{
-		for (int y = 0; y < level.grid[x].size() - 1; y++)
-		{
-			roomdesign.designRoom(level, x, y);
 		}
 	}
 	

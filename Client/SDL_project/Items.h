@@ -10,16 +10,14 @@ public:
 	//! Destructor
 	~Item();
 
-	struct Item_Type
+	enum Resource
 	{
-		enum food
-		{
-			BERRY,
-			FISH
-		};
+		isWOOD,
+		isSTONE,
+		isBERRY,
+		isFISH
 	};
-
-	bool isBerry = false;
+	
 
 	bool isInInventory = false;
 

@@ -26,8 +26,8 @@ public:
 	//! Contains a list of all the characters
 	std::vector<Agent> allAgents;
 
-	void AgentManager::UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* renderer, Level& level);
-	void AgentManager::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level);
+	void AgentManager::UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* renderer, Level& level, Camera& camera);
+	
 
 	//! Spawn character function (Character types are (NPC, Player)
 	void AgentManager::SpawnAgent(std::string CharacterTypeVar, std::vector<Agent>& allAgents, int x, int y);

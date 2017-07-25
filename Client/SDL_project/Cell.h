@@ -16,6 +16,11 @@ public:
 	Cell(int x, int y);
 	//! A destructor 
 	~Cell();
+	//! Gets the cells data and returns it in json format
+	json getCellData();
+
+	std::string getCellID() { return cellID; };
+	std::string setCellID(std::string newCellID) { return cellID = newCellID; }
 
 	// Getter functions
 	//! Gets the Cell's X value
@@ -65,9 +70,10 @@ public:
 	bool isCargo = false;
 	//! Whether the cell is a hydroponics bay
 	bool isHydroponicsBay = false;
-	std::string hydroponicsOrientation = "NA";
 
-	double terrainNoiseValue = 0;
+	//! Variables used for terrain
+	double terrainElevationValue = 0;
+	double climate = 0;
 
 	//! Whether the cell is a bed
 	bool isBed = false;
@@ -82,13 +88,22 @@ public:
 
 	bool isGrass = false;
 	bool isLongGrass = false;
+	bool isLongGrass2 = false;
 	bool isDirt = false;
-	bool isOakTree = false;
-	bool isFernTree = false;
 
+	bool isTree = false;
 
 	bool isWater = false;
 	bool isSand = false;
+	bool isSnow = false;
+
+	enum TreeType
+	{
+		treeOne,
+		treeTwo,
+		treeThree,
+		treeFour
+	};
 
 	bool isVegetation = false;
 	bool isFlower1 = false;
@@ -96,14 +111,18 @@ public:
 	bool isBerryPlant = false;
 	bool isBush = false;
 
+	bool isTown = false;
+	bool isBuilding = false;
+	bool isStoneWall = false;
+	bool isWoodFence = false;
 
-	//Item cellItem;
-	
-
-	//! cell Orientation
-	int cellOrientation = 9;
+	int renderLayer = 0;
 
 private:
 	//! The Cells X and Y values
 	int x = 0, y = 0;
+
+	std::string cellID;
+
+	int globalX = 0, GlobalY = 0;
 };

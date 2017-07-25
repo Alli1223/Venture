@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "NetworkClient.h"
 #include "Agent.h"
+#include "Player.h"
 #include "Level.h"
 #include "AgentManager.h"
 
@@ -12,15 +13,19 @@ public:
 	~NetworkManager();
 	void NetworkManager::Connect();
 	//! Main Network update function
-	void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager);
+	void NetworkManager::NetworkUpdate(Level& level,Player& player, AgentManager& agentManager);
 	//! Send a message using TCP
 	void NetworkManager::sendTCPMessage(std::string message);
+
 	//! Process the players location from string
 	void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
 	//! Process a list of player locations
 	void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
+	//! Process cell data
+	void NetworkManager::MapNetworkUpdate(Level& level);
 	//! Return a string from recieve message
 	std::string NetworkManager::RecieveMessage();
+	
 
 	void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager);
 
@@ -38,7 +43,7 @@ public:
 	bool GetNumPlayers = false;
 
 	//! Network update interval
-	int networkUpdateInterval = 50;
+	int networkUpdateInterval = 250;
 	//! Stores the number of players in the game
 	int numberOfPlayers = 0;
 
