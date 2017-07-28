@@ -17,6 +17,8 @@ public:
 	//! Send a message using TCP
 	void NetworkManager::sendTCPMessage(std::string message);
 
+	//! Process the players location from json
+	void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level, AgentManager& agentManager, Player& player);
 	//! Process the players location from string
 	void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
 	//! Process a list of player locations

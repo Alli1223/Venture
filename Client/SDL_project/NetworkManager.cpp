@@ -39,6 +39,18 @@ int GetGameInfo(std::string message)
 		}
 	}
 }
+//! Returns whether the player exists in the list of players
+bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playername)
+{
+	// Return true if theres a match
+	for (int i = 0; i < playerNames.size(); i++)
+	{
+		if (playername == playerNames[i])
+			return true;
+	}
+	// Return false if no player with that name exists
+	return false;
+}
 
 //! main netwrok update function
 void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& agentManager)
@@ -52,13 +64,47 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 
 
 	// process the list of players
-	//std::string updateMessage = RecieveMessage();
-	//ProcessArrayOfPlayerLocations(updateMessage, level, agentManager);
+	std::string updateMessage = RecieveMessage();
+	if(updateMessage[0] == *"{")
+		ProcessPlayerLocations(updateMessage, level, agentManager, player);
 
 	//Process the map data
 	//MapNetworkUpdate(level);
 
 }
+
+void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level, AgentManager& agentManager, Player& player)
+{
+	json jsonData = updateData;
+	int X = jsonData.at("X").get<int>();
+	int x = jsonData["X"].get<int>();
+	int y = jsonData["PlayerData"]["Players"]["Y"].get<int>();
+	//std::string name = jsonData.at("name").get<std::string>();
+	std::string name = jsonData["PlayerData"]["Players"]["name"].get<std::string>();
+
+	if (DoesPlayerExist(otherPlayerNames, name))
+	{
+		agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setX(x);
+		agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setY(y);
+	}
+	else
+	{
+		if (name.size() > 1 && name != localPlayerName)
+		{
+			otherPlayerNames.push_back(name);
+			Agent newPlayer;
+			newPlayer.characterType = "NPC";
+			newPlayer.setID(name);
+			agentManager.SpawnAgent(newPlayer);
+		}
+	}
+
+
+	
+}
+
+
+
 
 //TODO: reimplement multi threaded networking
 void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager)
@@ -79,18 +125,7 @@ void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager)
 }
 
 
-//! Returns whether the player exists in the list of players
-bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playername)
-{
-	// Return true if theres a match
-	for (int i = 0; i < playerNames.size(); i++)
-	{
-		if (playername == playerNames[i])
-			return true;
-	}
-	// Return false if no player with that name exists
-	return false;
-}
+
 
 //! Process map network update
 void NetworkManager::MapNetworkUpdate(Level& level)
