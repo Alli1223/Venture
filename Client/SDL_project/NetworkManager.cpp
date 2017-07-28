@@ -43,15 +43,17 @@ int GetGameInfo(std::string message)
 //! main netwrok update function
 void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& agentManager)
 {
-	std::string name = localPlayerName;
-	std::string playerPosition = "X:" + std::to_string(player.getX()) + ".Y:" + std::to_string(player.getY()) + ".";
+	json playerData;
+	playerData["name"] = localPlayerName;
+	playerData["X"] = player.getX();
+	playerData["Y"] = player.getY();
 
-	sendTCPMessage("{<" + localPlayerName + "> " + playerPosition + "}\n");
+	sendTCPMessage("[PlayerUpdate]" + playerData.dump() + "\n");
 
 
 	// process the list of players
-	std::string updateMessage = RecieveMessage();
-	ProcessArrayOfPlayerLocations(updateMessage, level, agentManager);
+	//std::string updateMessage = RecieveMessage();
+	//ProcessArrayOfPlayerLocations(updateMessage, level, agentManager);
 
 	//Process the map data
 	//MapNetworkUpdate(level);
@@ -96,6 +98,7 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 	sendTCPMessage("[RequestMapUpdate]\n");
 	std::string Data = RecieveMessage();
 	
+	/*
 	if (Data.size() > 1)
 	{
 		json cellData = Data;
@@ -114,7 +117,7 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 			level.SetCell(X, Y, newcell);
 		}
 	}
-
+	*/
 
 	
 	//level.World[X / level.getChunkSize()][Y / level.getChunkSize()].tiles[]
@@ -309,7 +312,7 @@ void NetworkManager::sendTCPMessage(std::string message)
 //! returns a string from the socket
 std::string NetworkManager::RecieveMessage()
 {
-	std::cout << "Recieveing message.." <<  std::endl;
+	std::cout << "Recieveing message..." <<  std::endl;
 	//Create return messages and an instream to put the buffer data into
 	std::string returnMessage;
 	std::stringstream inStream;
