@@ -75,12 +75,20 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 
 void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level, AgentManager& agentManager, Player& player)
 {
-	json jsonData = updateData;
-	int X = jsonData.at("X").get<int>();
-	int x = jsonData["X"].get<int>();
-	int y = jsonData["PlayerData"]["Players"]["Y"].get<int>();
-	//std::string name = jsonData.at("name").get<std::string>();
-	std::string name = jsonData["PlayerData"]["Players"]["name"].get<std::string>();
+	
+
+	// Remove anything at the end of the json string that isn't suppose to be there
+	int endOfJsonString = updateData.find_last_of("}");
+	updateData.erase(updateData.begin() + endOfJsonString + 1, updateData.end());
+	json jsonData = json::parse(updateData.begin(), updateData.end());;
+	
+
+
+	int x = jsonData.at("X").get<int>();
+	int y = jsonData.at("Y").get<int>();
+	std::string name = jsonData.at("name").get<std::string>();
+
+
 
 	if (DoesPlayerExist(otherPlayerNames, name))
 	{
@@ -99,7 +107,7 @@ void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level
 		}
 	}
 
-
+	
 	
 }
 
