@@ -75,40 +75,49 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 
 void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level, AgentManager& agentManager, Player& player)
 {
-	
+
 
 	// Remove anything at the end of the json string that isn't suppose to be there
 	int endOfJsonString = updateData.find_last_of("}");
 	updateData.erase(updateData.begin() + endOfJsonString + 1, updateData.end());
+
 	json jsonData = json::parse(updateData.begin(), updateData.end());;
-	
+
+	json playerData = jsonData.at("PlayerData");
 
 
-	int x = jsonData.at("X").get<int>();
-	int y = jsonData.at("Y").get<int>();
-	std::string name = jsonData.at("name").get<std::string>();
-
-
-
-	if (DoesPlayerExist(otherPlayerNames, name))
+	// range-based for
+	for (auto& element : playerData)
 	{
-		agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setX(x);
-		agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setY(y);
-	}
-	else
-	{
-		if (name.size() > 1 && name != localPlayerName)
+		std::cout << element.at("X").get<int>() << '\n';
+
+
+		int x = element.at("X").get<int>();
+		int y = element.at("Y").get<int>();
+		std::string name = element.at("name").get<std::string>();
+
+
+
+		if (DoesPlayerExist(otherPlayerNames, name))
 		{
-			otherPlayerNames.push_back(name);
-			Agent newPlayer;
-			newPlayer.characterType = "NPC";
-			newPlayer.setID(name);
-			agentManager.SpawnAgent(newPlayer);
+			agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setX(x);
+			agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setY(y);
+		}
+		else
+		{
+			if (name.size() > 1 && name != localPlayerName)
+			{
+				otherPlayerNames.push_back(name);
+				Agent newPlayer;
+				newPlayer.characterType = "NPC";
+				newPlayer.setID(name);
+				agentManager.SpawnAgent(newPlayer);
+			}
 		}
 	}
 
-	
-	
+
+
 }
 
 
