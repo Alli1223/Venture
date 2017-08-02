@@ -69,11 +69,19 @@ public:
 
 	bool isMoving = false;
 
-	int rotation = 0, targetRotation = 0, rotationSpeed = 5;
+	int getRotation() { return rotation; }
+	int getTargetRotation() { return targetRotation; }
+	int getRotationSpeed() { return rotationSpeed; }
+
+	int setRotation(int newRotation) { return rotation = newRotation; }
+	int setTargetRotation(int newTarget) { return targetRotation = newTarget; }
+	int setRotationSpeed(int newSpeed) { return rotationSpeed = newSpeed; }
 
 private:
 	//! string stores agent ID/Name
 	std::string ID = "";
+	//! Rotation values
+	int rotation = 0, targetRotation = 0, rotationSpeed = 5;
 	//! Integers for the agent's X and Y position
 	int offsetX = 0, offsetY = 0;
 	int x = 0; int y = 0;

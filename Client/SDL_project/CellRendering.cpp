@@ -196,7 +196,7 @@ void CellRendering::RenderPlayer(SDL_Renderer* renderer, Player& player,  Level&
 	int x = player.getX() + (player.getSize() / 2) - camera.getX();
 	int y = player.getY() + (player.getSize() / 2) - camera.getY();
 	if (player.characterType == "Player")
-		characterTex.renderRotation(renderer, x, y, player.getSize(), player.getSize(), player.rotation);
+		characterTex.renderRotation(renderer, x, y, player.getSize(), player.getSize(), player.getRotation());
 }
 
 void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera)
@@ -207,7 +207,7 @@ void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& le
 	if (agent.characterType == "NPC")
 	{
 		//npcDown.alterTextureColour(0, rand(), 0);
-		npcDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
+		npcDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.getRotation());
 
 
 		//Render agent stats to the right of agent
@@ -226,5 +226,5 @@ void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& le
 		}
 	}
 	if (agent.characterType == "Player")
-		characterTex.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
+		characterTex.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.getRotation());
 }

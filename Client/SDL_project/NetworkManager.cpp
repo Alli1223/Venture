@@ -55,10 +55,13 @@ bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playerna
 //! main netwrok update function
 void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& agentManager)
 {
+	//Create the json to send to the server
 	json playerData;
 	playerData["name"] = localPlayerName;
+	playerData["rotation"] = player.getRotation();
 	playerData["X"] = player.getX();
 	playerData["Y"] = player.getY();
+	
 
 	sendTCPMessage("[PlayerUpdate]" + playerData.dump() + "\n");
 
@@ -81,43 +84,50 @@ void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level
 	int endOfJsonString = updateData.find_last_of("}");
 	updateData.erase(updateData.begin() + endOfJsonString + 1, updateData.end());
 
-	json jsonData = json::parse(updateData.begin(), updateData.end());;
-
-	json playerData = jsonData.at("PlayerData");
-
-
-	// range-based for
-	for (auto& element : playerData)
+	try 
 	{
-		std::cout << element.at("X").get<int>() << '\n';
+		json jsonData = json::parse(updateData.begin(), updateData.end());;
 
-
-		int x = element.at("X").get<int>();
-		int y = element.at("Y").get<int>();
-		std::string name = element.at("name").get<std::string>();
+		json playerData = jsonData.at("PlayerData");
 
 
 
-		if (DoesPlayerExist(otherPlayerNames, name))
+		// range-based for
+		for (auto& element : playerData)
 		{
-			agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setX(x);
-			agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setY(y);
-		}
-		else
-		{
-			if (name.size() > 1 && name != localPlayerName)
+			std::cout << element.at("X").get<int>() << '\n';
+
+
+			int x = element.at("X").get<int>();
+			int y = element.at("Y").get<int>();
+			int rotation = element.at("rotation").get<int>();
+			std::string name = element.at("name").get<std::string>();
+
+
+
+			if (DoesPlayerExist(otherPlayerNames, name))
 			{
-				otherPlayerNames.push_back(name);
-				Agent newPlayer;
-				newPlayer.characterType = "NPC";
-				newPlayer.setID(name);
-				agentManager.SpawnAgent(newPlayer);
+				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setX(x);
+				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setY(y);
+				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setTargetRotation(rotation);
+			}
+			else
+			{
+				if (name.size() > 1 && name != localPlayerName)
+				{
+					otherPlayerNames.push_back(name);
+					Agent newPlayer;
+					newPlayer.characterType = "NPC";
+					newPlayer.setID(name);
+					agentManager.SpawnAgent(newPlayer);
+				}
 			}
 		}
 	}
-
-
-
+	catch (std::exception e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 }
 
 
