@@ -27,6 +27,7 @@ public:
 	void NetworkManager::MapNetworkUpdate(Level& level);
 	//! Return a string from recieve message
 	std::string NetworkManager::RecieveMessage();
+
 	
 
 	void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager);

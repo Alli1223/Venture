@@ -68,7 +68,7 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 
 	// process the list of players
 	std::string updateMessage = RecieveMessage();
-	if(updateMessage[0] == *"{")
+	if(updateMessage[0] == *"{" && updateMessage[1] == *"\"" && updateMessage[2] == *"P")
 		ProcessPlayerLocations(updateMessage, level, agentManager, player);
 
 	//Process the map data
@@ -78,8 +78,6 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 
 void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level, AgentManager& agentManager, Player& player)
 {
-
-
 	// Remove anything at the end of the json string that isn't suppose to be there
 	int endOfJsonString = updateData.find_last_of("}");
 	updateData.erase(updateData.begin() + endOfJsonString + 1, updateData.end());
@@ -87,7 +85,6 @@ void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level
 	try 
 	{
 		json jsonData = json::parse(updateData.begin(), updateData.end());;
-
 		json playerData = jsonData.at("PlayerData");
 
 
@@ -157,8 +154,8 @@ void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager)
 //! Process map network update
 void NetworkManager::MapNetworkUpdate(Level& level)
 {
-	sendTCPMessage("[RequestMapUpdate]\n");
-	std::string Data = RecieveMessage();
+	//sendTCPMessage("[RequestMapUpdate]\n");
+	//std::string Data = RecieveMessage();
 	
 	/*
 	if (Data.size() > 1)
@@ -374,7 +371,6 @@ void NetworkManager::sendTCPMessage(std::string message)
 //! returns a string from the socket
 std::string NetworkManager::RecieveMessage()
 {
-	std::cout << "Recieveing message..." <<  std::endl;
 	//Create return messages and an instream to put the buffer data into
 	std::string returnMessage;
 	std::stringstream inStream;
@@ -403,11 +399,9 @@ std::string NetworkManager::RecieveMessage()
 
 		// Return String
 		return returnMessage;
-
 	}
 	catch (std::exception& e)
 	{
 		std::cerr << e.what() << std::endl;
 	}
-
 }
