@@ -14,6 +14,7 @@ void NetworkManager::Connect()
 	socket = std::shared_ptr<tcp::socket>(new tcp::socket(io_service));
 	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(getServerIP()), port);
 	socket->connect(endpoint);
+	io_service.run();
 }
 //! Gets integer values from the string
 int GetGameInfo(std::string message)
@@ -68,8 +69,7 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 
 	// process the list of players
 	std::string updateMessage = RecieveMessage();
-	if(updateMessage[0] == *"{" && updateMessage[1] == *"\"" && updateMessage[2] == *"P")
-		ProcessPlayerLocations(updateMessage, level, agentManager, player);
+	ProcessPlayerLocations(updateMessage, level, agentManager, player);
 
 	//Process the map data
 	//MapNetworkUpdate(level);
@@ -80,6 +80,10 @@ void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level
 {
 	// Remove anything at the end of the json string that isn't suppose to be there
 	int endOfJsonString = updateData.find_last_of("}");
+	int startOfJsonString = updateData.find_first_of("{");
+	if(startOfJsonString >= 0)
+	updateData.erase(updateData.begin(), updateData.begin() + startOfJsonString);
+	if(endOfJsonString >= 0)
 	updateData.erase(updateData.begin() + endOfJsonString + 1, updateData.end());
 
 	try 
@@ -131,8 +135,9 @@ void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level
 
 
 //TODO: reimplement multi threaded networking
-void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager)
+void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::asio::io_service& io_service)
 {
+	
 	//std::thread readerThread;
 	//boost::thread_group g;
 	//g.create_thread(&NetworkManager::RecieveMessage);
@@ -367,7 +372,11 @@ void NetworkManager::sendTCPMessage(std::string message)
 	}
 }
 
-
+std::string make_string(boost::asio::streambuf& streambuf)
+{
+	return { boost::asio::buffers_begin(streambuf.data()),
+		boost::asio::buffers_end(streambuf.data()) };
+}
 //! returns a string from the socket
 std::string NetworkManager::RecieveMessage()
 {
@@ -377,28 +386,15 @@ std::string NetworkManager::RecieveMessage()
 	try
 	{
 		boost::array<char, 128> buffer;
-		boost::system::error_code error;
+		boost::asio::streambuf read_buffer;
+		 //bytes_transferred = boost::asio::write(*socket, write_buffer);
+		 auto bytes_transferred = boost::asio::read_until(*socket, read_buffer, ("\r\n"));
+		
+		std::cout << "Read: " << make_string(read_buffer) << std::endl;
+		 // Remove data that was read.
+		return returnMessage = make_string(read_buffer);
+		read_buffer.consume(bytes_transferred);
 
-		// Read the data from the socket
-		size_t len = socket->read_some(boost::asio::buffer(buffer), error);
-
-		if (error == boost::asio::error::eof)
-			return "QUIT"; // Connection closed cleanly by peer.
-		else if (error)
-			throw boost::system::system_error(error); // Some other error.
-
-		//Print receive message
-		//std::cout.write(buffer.data(), len);
-		// Feed the buffer data into the inStream
-		inStream << (buffer.data());
-
-		// Convert inStream to string
-		returnMessage = inStream.str();
-		// Remove weird character that gets stuck the the end of messages
-		returnMessage.erase(std::remove(returnMessage.begin(), returnMessage.end(), 'Ì'), returnMessage.end());
-
-		// Return String
-		return returnMessage;
 	}
 	catch (std::exception& e)
 	{

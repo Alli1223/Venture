@@ -30,7 +30,7 @@ public:
 
 	
 
-	void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager);
+	void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::asio::io_service& io_service);
 
 	// Server connection deets
 	int port = 2222;
@@ -46,7 +46,7 @@ public:
 	bool GetNumPlayers = false;
 
 	//! Network update interval
-	int networkUpdateInterval = 50;
+	int networkUpdateInterval = 200;
 	//! Stores the number of players in the game
 	int numberOfPlayers = 0;
 
@@ -67,6 +67,7 @@ public:
 	//! the io service for creating the socket
 	boost::asio::io_service io_service;
 	std::shared_ptr<tcp::socket> socket;
+	std::thread t;
 	
 
 private:
