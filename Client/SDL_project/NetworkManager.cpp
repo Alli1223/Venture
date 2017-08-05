@@ -96,14 +96,10 @@ void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level
 		// range-based for
 		for (auto& element : playerData)
 		{
-			std::cout << element.at("X").get<int>() << '\n';
-
-
 			int x = element.at("X").get<int>();
 			int y = element.at("Y").get<int>();
 			int rotation = element.at("rotation").get<int>();
 			std::string name = element.at("name").get<std::string>();
-
 
 
 			if (DoesPlayerExist(otherPlayerNames, name))
@@ -127,7 +123,7 @@ void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level
 	}
 	catch (std::exception e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << "Error processing player location data: " << e.what() << std::endl;
 	}
 }
 
@@ -159,8 +155,8 @@ void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::
 //! Process map network update
 void NetworkManager::MapNetworkUpdate(Level& level)
 {
-	//sendTCPMessage("[RequestMapUpdate]\n");
-	//std::string Data = RecieveMessage();
+	sendTCPMessage("[RequestMapUpdate]\n");
+	std::string Data = RecieveMessage();
 	
 	/*
 	if (Data.size() > 1)
@@ -349,7 +345,7 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 
 
 
-//! sends a tcp message to the socket
+//! Sends a tcp message to the socket
 void NetworkManager::sendTCPMessage(std::string message)
 {
 	// Fill the buffer with the data from the string
@@ -390,10 +386,9 @@ std::string NetworkManager::RecieveMessage()
 		 //bytes_transferred = boost::asio::write(*socket, write_buffer);
 		 auto bytes_transferred = boost::asio::read_until(*socket, read_buffer, ("\r\n"));
 		
-		std::cout << "Read: " << make_string(read_buffer) << std::endl;
-		 // Remove data that was read.
+		//std::cout << "Read: " << make_string(read_buffer) << std::endl;
+
 		return returnMessage = make_string(read_buffer);
-		read_buffer.consume(bytes_transferred);
 
 	}
 	catch (std::exception& e)
