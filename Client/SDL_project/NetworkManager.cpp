@@ -156,28 +156,47 @@ void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::
 void NetworkManager::MapNetworkUpdate(Level& level)
 {
 	sendTCPMessage("[RequestMapUpdate]\n");
-	std::string Data = RecieveMessage();
+	std::string mapData = RecieveMessage();
 	
-	/*
-	if (Data.size() > 1)
+	try
 	{
-		json cellData = Data;
+		json jsonData = json::parse(mapData.begin(), mapData.end());;
+		json playerData = jsonData.at("mapData");
 
 
-		// loop through all the cell data
-		for (json::iterator it = cellData.begin(); it != cellData.end(); ++it)
+
+		// range-based for
+		for (auto& element : playerData)
 		{
-			std::cout << it.key() << " : " << it.value() << "\n";
+			int x = element.at("X").get<int>();
+			int y = element.at("Y").get<int>();
+			int rotation = element.at("rotation").get<int>();
+			std::string name = element.at("name").get<std::string>();
 
-			int X = cellData.at("X").get<int>();
-			int Y = cellData.at("Y").get<int>();
-			bool fence = cellData.at("isFence").get<bool>();
-			std::shared_ptr<Cell> newcell;
-			newcell->isWoodFence = true;
-			level.SetCell(X, Y, newcell);
+
+			if (DoesPlayerExist(otherPlayerNames, name))
+			{
+				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setX(x);
+				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setY(y);
+				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setTargetRotation(rotation);
+			}
+			else
+			{
+				if (name.size() > 1 && name != localPlayerName)
+				{
+					otherPlayerNames.push_back(name);
+					Agent newPlayer;
+					newPlayer.characterType = "NPC";
+					newPlayer.setID(name);
+					agentManager.SpawnAgent(newPlayer);
+				}
+			}
 		}
 	}
-	*/
+	catch (std::exception e)
+	{
+		std::cout << "Error processing player location data: " << e.what() << std::endl;
+	}
 
 	
 	//level.World[X / level.getChunkSize()][Y / level.getChunkSize()].tiles[]
