@@ -21,7 +21,6 @@ void Level::CreateChunk(int initX, int initY)
 			World[initX][initY].tiles[x].push_back(sharedCell);
 		}
 	}
-	
 }
 
 
@@ -76,8 +75,9 @@ glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY)
 
 
 //set a cell with the values of another cell
-void Level::SetCell(int x, int y, std::shared_ptr<Cell> newcell)
+void Level::SetCell(int x, int y, Cell& newcell)
 {
+	auto sharedCell = std::make_shared<Cell>(newcell);
 	// ChunkX/Y is the chunk that the cell is in
 	int chunkX = x / chunkSize;
 	int chunkY = y / chunkSize;
@@ -88,7 +88,7 @@ void Level::SetCell(int x, int y, std::shared_ptr<Cell> newcell)
 		y = y - (chunkY * chunkSize);
 
 	std::cout << "Cell update at pos: " << x << " " << y << std::endl;
-	World[chunkX][chunkY].tiles[x][y] = newcell;
+	World[chunkX][chunkY].tiles[x][y] = sharedCell;
 
 }
 

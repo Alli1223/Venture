@@ -133,7 +133,7 @@ void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::
 void NetworkManager::MapNetworkUpdate(Level& level)
 {
 	sendTCPMessage("[RequestMapUpdate]\n");
-	std::string EmptyMap = "{\"MapData\":\"\"}\r\n";
+	std::string EmptyMap = "{\"MapData\":[]}\r\n";
 	std::string mapData = RecieveMessage();
 	if (mapData != EmptyMap)
 	{
@@ -158,10 +158,9 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 				bool isFence = element.at("Fence").get<bool>();
 
 				// Create a new cell to replace the old one
-				std::shared_ptr<Cell> newCell;
-				newCell->setPos(x, y);
-				newCell->isWoodFence = isFence;
-				level.SetCell(x, y, newCell);
+				Cell nc;
+				nc.isWoodFence = isFence;
+				level.SetCell(x, y, nc);
 
 			}
 		}
