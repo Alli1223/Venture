@@ -18,7 +18,7 @@ public:
 	void NetworkManager::sendTCPMessage(std::string message);
 
 	//! Process the players location from json
-	void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level, AgentManager& agentManager, Player& player);
+	void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentManager, Player& player);
 	//! Process the players location from string
 	void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
 	//! Process a list of player locations
@@ -46,11 +46,18 @@ public:
 	bool GetNumPlayers = false;
 
 	//! Network update interval
-	int networkUpdateInterval = 200;
+	int networkPlayerUpdateInterval = 200;
+	int networkMapUpdateInterval = 1000;
 	//! Stores the number of players in the game
 	int numberOfPlayers = 0;
 
-	
+	// Values for the network update timer
+	double lastTimeP = SDL_GetTicks();
+	double lastTimeM = SDL_GetTicks();
+	double timebehindP = 0;
+	double timebehindM = 0;
+	bool runPlayerNetworkTick = false;
+	bool runMapNetworkTick = false;
 
 	//! get and set server IP address
 	std::string getServerIP() { return IPAddress; }

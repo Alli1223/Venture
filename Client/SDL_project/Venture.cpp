@@ -190,23 +190,7 @@ void Venture::run()
 		mouseCellPosition.x = mouse_X / cellSize;
 		mouseCellPosition.y = mouse_Y / cellSize;
 
-		// Interval Timer
-		timebehind += SDL_GetTicks() - lastTime;
-		lastTime = SDL_GetTicks();
-
-		// Update intervalTimer
-		while (timebehind >= networkManager.networkUpdateInterval)
-		{
-			runNetworkTick = true;
-			timebehind -= networkManager.networkUpdateInterval;
-		}
-
-		// Update network
-		if (runNetworkTick && useNetworking)
-		{
-			runNetworkTick = false;
-			networkManager.NetworkUpdate(level,player, agentManager);
-		}
+		
 
 		// Handle the input
 		input.HandleUserInput(level, player, agentManager, networkManager, camera, playerName, useNetworking, running);

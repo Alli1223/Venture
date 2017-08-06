@@ -33,6 +33,46 @@ bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playerna
 //! main netwrok update function
 void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& agentManager)
 {
+
+	// Interval Timer
+	timebehindP += SDL_GetTicks() - lastTimeP;
+	lastTimeP = SDL_GetTicks();
+
+	// Interval Timer
+	timebehindM += SDL_GetTicks() - lastTimeM;
+	lastTimeM = SDL_GetTicks();
+
+	// Update intervalTimer
+	if (timebehindP >= networkPlayerUpdateInterval)
+	{
+		runPlayerNetworkTick = true;
+		timebehindP -= networkPlayerUpdateInterval;
+	}
+	if (timebehindM >= networkPlayerUpdateInterval)
+	{
+		runMapNetworkTick = true;
+		timebehindM -= networkPlayerUpdateInterval;
+	}
+
+	// Update network
+	if (runPlayerNetworkTick)
+	{
+		runPlayerNetworkTick = false;
+		ProcessPlayerLocations(level, agentManager, player);
+	}
+	if (runMapNetworkTick)
+	{
+		runMapNetworkTick = false;
+		//Process the map data
+		MapNetworkUpdate(level);
+	}
+
+
+	
+}
+
+void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentManager, Player& player)
+{
 	//Create the json to send to the server
 	json playerData;
 	playerData["name"] = localPlayerName;
@@ -45,16 +85,8 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 
 
 	// process the list of players
-	std::string updateMessage = RecieveMessage();
-	ProcessPlayerLocations(updateMessage, level, agentManager, player);
+	std::string updateData = RecieveMessage();
 
-	//Process the map data
-	MapNetworkUpdate(level);
-
-}
-
-void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level, AgentManager& agentManager, Player& player)
-{
 	// Remove anything at the end of the json string that isn't suppose to be there
 	int endOfJsonString = updateData.find_last_of("}");
 	int startOfJsonString = updateData.find_first_of("{");
