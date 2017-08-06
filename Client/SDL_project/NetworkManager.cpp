@@ -16,30 +16,7 @@ void NetworkManager::Connect()
 	socket->connect(endpoint);
 	io_service.run();
 }
-//! Gets integer values from the string
-int GetGameInfo(std::string message)
-{
-	std::string::size_type sz;
-	std::string number = "                       ";
-	//Number of players
-	for (int i = 0; i < message.size(); i++)
-	{
-		if (message[i] == *"[" && message[i + 1] == *"#" && message[i + 2] == *":")
-		{
-			for (int j = 0; j < 10; j++)
-			{
-				if (message[i + 3 + j] == *"]" && message[i + 4 + j] == *".")
-					break;
-				number[j] = message[i + 3 + j];
 
-			}
-			number.erase(std::remove(number.begin(), number.end(), ' '), number.end());
-			int num = std::stoi(number, &sz);
-			if (num < 40)
-				return num;
-		}
-	}
-}
 //! Returns whether the player exists in the list of players
 bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playername)
 {
@@ -62,7 +39,7 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 	playerData["rotation"] = player.getRotation();
 	playerData["X"] = player.getX();
 	playerData["Y"] = player.getY();
-	
+
 
 	sendTCPMessage("[PlayerUpdate]" + playerData.dump() + "\n");
 
@@ -72,7 +49,7 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 	ProcessPlayerLocations(updateMessage, level, agentManager, player);
 
 	//Process the map data
-	//MapNetworkUpdate(level);
+	MapNetworkUpdate(level);
 
 }
 
@@ -133,7 +110,6 @@ void NetworkManager::ProcessPlayerLocations(std::string updateData, Level& level
 //TODO: reimplement multi threaded networking
 void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::asio::io_service& io_service)
 {
-	
 	//std::thread readerThread;
 	//boost::thread_group g;
 	//g.create_thread(&NetworkManager::RecieveMessage);
@@ -153,53 +129,47 @@ void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::
 
 
 //! Process map network update
+//TODO: Process the Map Json Data
 void NetworkManager::MapNetworkUpdate(Level& level)
 {
 	sendTCPMessage("[RequestMapUpdate]\n");
+	std::string EmptyMap = "{\"MapData\":\"\"}\r\n";
 	std::string mapData = RecieveMessage();
-	
-	try
+	if (mapData != EmptyMap)
 	{
-		json jsonData = json::parse(mapData.begin(), mapData.end());;
-		json playerData = jsonData.at("mapData");
+		// Remove anything at the end of the json string that isn't suppose to be there
+
+		int endOfJsonString = mapData.find_last_of("}");
+		int startOfJsonString = mapData.find_first_of("{");
+		if (startOfJsonString >= 0)
+			mapData.erase(mapData.begin(), mapData.begin() + startOfJsonString);
 
 
-
-		// range-based for
-		for (auto& element : playerData)
+		try
 		{
-			int x = element.at("X").get<int>();
-			int y = element.at("Y").get<int>();
-			int rotation = element.at("rotation").get<int>();
-			std::string name = element.at("name").get<std::string>();
+			json jsonData = json::parse(mapData.begin(), mapData.end());;
+			json mapData = jsonData.at("MapData");
 
+			// Range-based for loop to iterate through the map data
+			for (auto& element : mapData)
+			{
+				int x = element.at("X").get<int>();
+				int y = element.at("Y").get<int>();
+				bool isFence = element.at("Fence").get<bool>();
 
-			if (DoesPlayerExist(otherPlayerNames, name))
-			{
-				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setX(x);
-				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setY(y);
-				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setTargetRotation(rotation);
-			}
-			else
-			{
-				if (name.size() > 1 && name != localPlayerName)
-				{
-					otherPlayerNames.push_back(name);
-					Agent newPlayer;
-					newPlayer.characterType = "NPC";
-					newPlayer.setID(name);
-					agentManager.SpawnAgent(newPlayer);
-				}
+				// Create a new cell to replace the old one
+				std::shared_ptr<Cell> newCell;
+				newCell->setPos(x, y);
+				newCell->isWoodFence = isFence;
+				level.SetCell(x, y, newCell);
+
 			}
 		}
+		catch (std::exception e)
+		{
+			std::cout << "Error processing player location data: " << e.what() << std::endl;
+		}
 	}
-	catch (std::exception e)
-	{
-		std::cout << "Error processing player location data: " << e.what() << std::endl;
-	}
-
-	
-	//level.World[X / level.getChunkSize()][Y / level.getChunkSize()].tiles[]
 }
 
 //! Processes an array of player locations

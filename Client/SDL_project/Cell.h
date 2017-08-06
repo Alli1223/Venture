@@ -35,8 +35,11 @@ public:
 	int setX(int newX) { return x = newX; }
 	//! Sets the Cells Y value
 	int setY(int newY) { return y = newY; }
+	//! Sets the Cells X and Y values
+	int setPos(int newX, int newY) { return x = newX, y = newY; }
 	//! Sets the Cell's oxygenLevel
 	int setOxygenLevel(int newOxygenLevel) { return oxygenLevel = newOxygenLevel; }
+	
 
 	//! Whether the cell is part of a room
 	bool isRoom = false;
