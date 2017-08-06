@@ -26,25 +26,27 @@ void Agent::Update(Level& level)
 	
 
 	// ROTATE AGENT /////
-	if (getRotation() == 360 - getRotationSpeed() || getRotation() == 360)
-		setRotation(0);
-	if (getRotation() == -90 - getRotationSpeed() || getRotation() == -90)
-		setRotation(270);
-	// Perform agent rotation based on player input
-	if (getRotation() != getTargetRotation())
+	if (agentCanRotate)
 	{
-		// Edge case
-		if (getRotation() == 270 && getTargetRotation() == 0)
-			setTargetRotation(360);
-		if (getRotation() == 0 && getTargetRotation() == 270)
-			setTargetRotation(-90);
+		if (getRotation() == 360 - getRotationSpeed() || getRotation() == 360)
+			setRotation(0);
+		if (getRotation() == -90 - getRotationSpeed() || getRotation() == -90)
+			setRotation(270);
+		// Perform agent rotation based on player input
+		if (getRotation() != getTargetRotation())
+		{
+			// Edge case
+			if (getRotation() == 270 && getTargetRotation() == 0)
+				setTargetRotation(360);
+			if (getRotation() == 0 && getTargetRotation() == 270)
+				setTargetRotation(-90);
 
-		if (getRotation() < getTargetRotation())
-			setRotation(getRotation() + getRotationSpeed());
-		else if (getRotation() > getTargetRotation())
-			setRotation(getRotation() - getRotationSpeed());
+			if (getRotation() < getTargetRotation())
+				setRotation(getRotation() + getRotationSpeed());
+			else if (getRotation() > getTargetRotation())
+				setRotation(getRotation() - getRotationSpeed());
+		}
 	}
-
 	// Determines what direction the user accesses cells based on direction
 	if (getRotation() == 90)
 		cellInteractionDirection.x = -1;

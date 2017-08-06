@@ -45,9 +45,11 @@ public:
 	//! Whether the client should request playernumers
 	bool GetNumPlayers = false;
 
-	//! Network update interval
-	int networkPlayerUpdateInterval = 200;
+	//! How frequent the client will update player positions
+	int networkPlayerUpdateInterval = 50;
+	//! How frequent the client will update the map from server
 	int networkMapUpdateInterval = 1000;
+
 	//! Stores the number of players in the game
 	int numberOfPlayers = 0;
 

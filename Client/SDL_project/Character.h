@@ -90,10 +90,12 @@ private:
 	//! Point for where the agent is located
 	Point agentPointLocation;
 	//! Integer for the agent's size when rendered
-	int size = 25;
+	int size = 50;
 	//! Integer for the agent current speed
 	float speed = 2.0;
 	//! A double for the agents's health
 	double health = 100.0;
+	//! If the Character can rotate
+	bool incrementalRotating = false;
 };
 

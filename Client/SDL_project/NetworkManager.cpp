@@ -43,15 +43,15 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 	lastTimeM = SDL_GetTicks();
 
 	// Update intervalTimer
-	if (timebehindP >= networkPlayerUpdateInterval)
+	while (timebehindP >= networkPlayerUpdateInterval)
 	{
 		runPlayerNetworkTick = true;
 		timebehindP -= networkPlayerUpdateInterval;
 	}
-	if (timebehindM >= networkPlayerUpdateInterval)
+	while (timebehindM >= networkMapUpdateInterval)
 	{
 		runMapNetworkTick = true;
-		timebehindM -= networkPlayerUpdateInterval;
+		timebehindM -= networkMapUpdateInterval;
 	}
 
 	// Update network
@@ -188,12 +188,13 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 				int x = element.at("X").get<int>();
 				int y = element.at("Y").get<int>();
 				bool isFence = element.at("Fence").get<bool>();
+				bool isDirt = element.at("Dirt").get<bool>();
 
 				// Create a new cell to replace the old one
 				Cell nc;
 				nc.setPos(x, y);
 				nc.isWoodFence = isFence;
-				nc.isGrass = true;
+				nc.isDirt = isDirt;
 				level.SetCell(x, y, nc);
 
 			}

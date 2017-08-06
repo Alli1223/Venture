@@ -25,7 +25,7 @@ TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
 SnowTexture(TerrainSpriteTextureLocation + "Snow.png"),
 WoodFenceSide(WallSpriteTextureLocation + "woodFenceSideCenter.png"), WoodFenceUP(WallSpriteTextureLocation + "woodFenceUp2.png"), WoodFenceCenter(WallSpriteTextureLocation + "woodFenceCenter.png"),
 
-characterTex(characterTextureLocation + "crew.png"), npcDown(characterTextureLocation + "npc.png"),
+characterTex(characterTextureLocation + "Alli.png"), npcDown(characterTextureLocation + "Sam.png"),
 healthBarTexture(playerStatsTextureLocation + "PlayerHealth.png"), oxygenBarTexture(playerStatsTextureLocation + "PlayerOxygen.png"), hungerBarTexture(playerStatsTextureLocation + "PlayerHunger.png"), tiredBarTexture(playerStatsTextureLocation + "PlayerTiredness.png")
 
 {
@@ -150,6 +150,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 				if (chunk.tiles[x][y]->isWoodFence)
 				{
 					WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
+					// Uncomment for fences to be combined
 					/*if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1) && level.isCellInChunk(x - 1, y) && level.isCellInChunk(x + 1, y))
 					{
 						if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && !chunk.tiles[x + 1][y]->isWoodFence && !chunk.tiles[x - 1][y]->isWoodFence)
@@ -195,8 +196,8 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 
 void CellRendering::RenderPlayer(SDL_Renderer* renderer, Player& player,  Level& level, Camera& camera)
 {
-	int x = player.getX() + (player.getSize() / 2) - camera.getX();
-	int y = player.getY() + (player.getSize() / 2) - camera.getY();
+	int x = player.getX()  - camera.getX();
+	int y = player.getY()  - camera.getY();
 	if (player.characterType == "Player")
 		characterTex.renderRotation(renderer, x, y, player.getSize(), player.getSize(), player.getRotation());
 }

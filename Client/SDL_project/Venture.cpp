@@ -190,7 +190,10 @@ void Venture::run()
 		mouseCellPosition.x = mouse_X / cellSize;
 		mouseCellPosition.y = mouse_Y / cellSize;
 
-		
+
+		// Do all the networking
+		if (useNetworking)
+			networkManager.NetworkUpdate(level, player, agentManager);
 
 		// Handle the input
 		input.HandleUserInput(level, player, agentManager, networkManager, camera, playerName, useNetworking, running);
