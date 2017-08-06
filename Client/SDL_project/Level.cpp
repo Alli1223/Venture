@@ -77,18 +77,41 @@ glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY)
 //set a cell with the values of another cell
 void Level::SetCell(int x, int y, Cell& newcell)
 {
-	auto sharedCell = std::make_shared<Cell>(newcell);
-	// ChunkX/Y is the chunk that the cell is in
-	int chunkX = x / chunkSize;
-	int chunkY = y / chunkSize;
+	try
+	{
+		auto sharedCell = std::make_shared<Cell>(newcell);
+		int chunkX = (x /chunkSize);
+		int chunkY = (y / chunkSize);
+		x = x - chunkX * chunkSize;
+		y = y - chunkY * chunkSize;
 
-	if (x >= chunkSize)
-		x = x - (chunkX * chunkSize);
-	if (y >= chunkSize)
-		y = y - (chunkY * chunkSize);
+		if (x > chunkSize)
+			x = x - (chunkX * chunkSize);
+		if (y > chunkSize)
+			y = y - (chunkY * chunkSize);
 
-	std::cout << "Cell update at pos: " << x << " " << y << std::endl;
-	World[chunkX][chunkY].tiles[x][y] = sharedCell;
+		if (x < 0)
+		{
+			x += chunkSize;
+			chunkX -= 1;
+		}
+		if (y < 0)
+		{
+			y += chunkSize;
+			chunkY -= 1;
+		}
+
+		if (isCellInChunk(x, y))
+		{
+			std::cout << "Cell update at pos: " << x << " " << y << std::endl;
+			World[chunkX][chunkY].tiles[x][y] = sharedCell;
+		}
+		
+	}
+	catch (std::exception e)
+	{
+		std::cout << "Error trying to set cell: " << x << ", " << y << ". " << e.what() << std::endl;
+	}
 
 }
 

@@ -149,7 +149,8 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 				*/
 				if (chunk.tiles[x][y]->isWoodFence)
 				{
-					if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1) && level.isCellInChunk(x - 1, y) && level.isCellInChunk(x + 1, y))
+					WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
+					/*if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1) && level.isCellInChunk(x - 1, y) && level.isCellInChunk(x + 1, y))
 					{
 						if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && !chunk.tiles[x + 1][y]->isWoodFence && !chunk.tiles[x - 1][y]->isWoodFence)
 							WoodFenceUP.render(renderer, xPos, yPos, cellSize, cellSize);
@@ -158,6 +159,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 						else
 							WoodFenceSide.render(renderer, xPos, yPos, cellSize, cellSize);
 					}
+					*/
 				}
 			}
 		}

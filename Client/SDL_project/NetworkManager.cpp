@@ -159,7 +159,9 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 
 				// Create a new cell to replace the old one
 				Cell nc;
+				nc.setPos(x, y);
 				nc.isWoodFence = isFence;
+				nc.isGrass = true;
 				level.SetCell(x, y, nc);
 
 			}
