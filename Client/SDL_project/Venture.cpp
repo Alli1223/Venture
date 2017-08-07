@@ -137,6 +137,7 @@ Venture::~Venture()
 void Venture::run()
 {
 
+	menu.MainMenu(player, camera, renderer);
 
 	// Generates the world around the camera position
 	terrainGen.setSeed(4123);
@@ -194,6 +195,10 @@ void Venture::run()
 	/////////// MAIN LOOP /////////////////
 	while (running)
 	{
+		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
+		{
+
+		}
 		mouseCellPosition.x = mouse_X / cellSize;
 		mouseCellPosition.y = mouse_Y / cellSize;
 		
@@ -204,10 +209,7 @@ void Venture::run()
 		// Handle the input
 		input.HandleUserInput(level, player, agentManager, networkManager, camera, playerName, useNetworking, running);
 
-		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
-		{
-
-		}
+		
 
 		// Set camera to follow player and generate the world
 		camera.setX(player.getX() - camera.WindowWidth / 2);
@@ -248,25 +250,6 @@ void Venture::run()
 
 		TextUI playerText("Sans");
 		playerText.render(renderer, networkManager.getPlayerName(), WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 50, 100, White);
-		
-
-		
-		///////////////////////////////////////
-		//MENU
-		///////////////////////////////////////
-
-		if (menu)
-		{
-			escapemenu.RunEscapeMenu(renderer, WINDOW_WIDTH, WINDOW_HEIGHT, mouse_X, mouse_Y, running);
-			running = false;
-			if (escapemenu.exit)
-			{
-				running = false;
-			}
-			if (escapemenu.restart)
-			{
-			}
-		}
 		
 		
 		SDL_RenderPresent(renderer);

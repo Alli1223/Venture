@@ -46,13 +46,7 @@
     <ClCompile Include="Items.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
-    <ClCompile Include="EscapeMenu.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="Icon.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerStats.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="CellRendering.cpp">
@@ -107,6 +101,7 @@
       <Filter>Source Files\Character</Filter>
     </ClCompile>
     <ClCompile Include="TextUI.cpp" />
+    <ClCompile Include="Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fire.h">
@@ -160,13 +155,7 @@
     <ClInclude Include="Items.h">
       <Filter>Headers\Items</Filter>
     </ClInclude>
-    <ClInclude Include="EscapeMenu.h">
-      <Filter>Headers\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Icon.h">
-      <Filter>Headers\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStats.h">
       <Filter>Headers\GUI</Filter>
     </ClInclude>
     <ClInclude Include="CellRendering.h">
@@ -224,6 +213,7 @@
       <Filter>Headers\Character</Filter>
     </ClInclude>
     <ClInclude Include="TextUI.h" />
+    <ClInclude Include="Menu.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />

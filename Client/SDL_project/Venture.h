@@ -12,8 +12,6 @@
 #include "GUI.h"
 #include "ToolBar.h"
 #include "Items.h"
-#include "EscapeMenu.h"
-#include "PlayerStats.h"
 #include "CellRendering.h"
 #include "Agent.h"
 #include "NetworkManager.h"
@@ -25,6 +23,7 @@
 #include "UserInput.h"
 #include "Player.h"
 #include "TextUI.h"
+#include "Menu.h"
 
 
 //! The main class
@@ -54,8 +53,6 @@ public:
 	AgentManager agentManager;
 	Cell cell;
 	ToolBar toolbar;
-	EscapeMenu escapemenu;
-	PlayerStats playerstats;
 	CellRendering cellrenderer;
 	NetworkManager networkManager;
 	NetworkClient networkClient;
@@ -63,6 +60,7 @@ public:
 	Camera camera;
 	UserInput input;
 	Player player;
+	Menu menu;
 
 	//! Vector of all other players names in the game
 	std::vector<std::string> otherPlayerNames;
@@ -83,7 +81,6 @@ public:
 
 	//! Whether the game is running or not
 	bool running = true;
-	bool menu;
 	//! Network update tick
 	float timer;
 private:
