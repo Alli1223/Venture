@@ -63,52 +63,52 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	//Diagonal movement
 	if (state[SDL_SCANCODE_W] && state[SDL_SCANCODE_D])
 	{
-		player.targetRotation = 225;
+		player.setTargetRotation(225);
 		if(CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY - playerSpeed))
 			player.setPosition(playerX + playerSpeed, playerY - playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_W] && state[SDL_SCANCODE_A])
 	{
-		player.targetRotation = 135;
+		player.setTargetRotation(135);
 		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY - playerSpeed))
 			player.setPosition(playerX - playerSpeed, playerY - playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_S] && state[SDL_SCANCODE_D])
 	{
-		player.targetRotation = -45;
+		player.setTargetRotation(-45);
 		if (CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY + playerSpeed))
 			player.setPosition(playerX + playerSpeed, playerY + playerSpeed);
 
 	}
 	else if (state[SDL_SCANCODE_S] && state[SDL_SCANCODE_A])
 	{
-		player.targetRotation = 45;
+		player.setTargetRotation(45);
 		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY + playerSpeed))
 			player.setPosition(playerX - playerSpeed, playerY + playerSpeed);
 	}
 	// Player Movement
 	else if (state[SDL_SCANCODE_S])
 	{
-		player.targetRotation = 0;
+		player.setTargetRotation(0);
 		if (CheckIfCellIsWalkable(level, playerX, playerY + playerSpeed))
 			player.setY(playerY + playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_A])
 	{
-		player.targetRotation = 90;
+		player.setTargetRotation(90);
 		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY))
 			player.setX(playerX - playerSpeed);
 
 	}
 	else if (state[SDL_SCANCODE_D])
 	{
-		player.targetRotation = 270;
+		player.setTargetRotation(270);
 		if (CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY))
 			player.setX(playerX + playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_W])
 	{
-		player.targetRotation = 180;
+		player.setTargetRotation(180);
 		if (CheckIfCellIsWalkable(level, playerX, playerY - playerSpeed))
 			player.setY(playerY - playerSpeed);
 	}
@@ -142,25 +142,27 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 
 	if (state[SDL_SCANCODE_F])
 	{
-		if (level.isCellInChunk(playercellPos.x, playercellPos.y -1))
-		{
+
 			std::cout << playercellPos.x - InterDir.x << " " << playercellPos.y - InterDir.y << std::endl;
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->isWoodFence = true;
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->isWalkable = false;
-			
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isDirt = true;
+			//level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWalkable = false;
 			
 			//dump celldata of where the player has changed the cell
-			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y - 1]->getCellData().dump();
+			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->getCellData().dump();
 			std::cout << seralisedData << std::endl;
-			networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
-		}
+			if(useNetworking)
+				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
+		
 	}
 	if (state[SDL_SCANCODE_M])
 	{
-		networkManager.MapNetworkUpdate(level);
+		if(useNetworking)
+			networkManager.MapNetworkUpdate(level);
 	}
 }
 
+
+//TODO: Re Implement This.
 void UserInput::ChangeCellsAroundPoint(Level& level, glm::vec2 point, int dist, std::string type)
 {
 	//Check if cell is in bounds

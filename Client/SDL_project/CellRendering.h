@@ -26,7 +26,12 @@ public:
 	struct tree
 	{
 		glm::vec2 pos;
-		int TreeType;
+		enum treeType
+		{
+			Fern,
+			Pine,
+			Oak
+		};
 		glm::vec2 treeSize;
 	};
 

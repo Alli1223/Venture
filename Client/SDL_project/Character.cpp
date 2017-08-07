@@ -27,23 +27,27 @@ void Character::Update(Level& level)
 
 
 	// ROTATE AGENT /////
-	if (rotation == 360 - rotationSpeed || rotation == 360)
-		rotation = 0;
-	if (rotation == -90 - rotationSpeed || rotation == -90)
-		rotation = 270;
-	// Perform agent rotation based on player input
-	if (rotation != targetRotation)
+	if (incrementalRotating)
 	{
-		// Edge case
-		if (rotation == 270 && targetRotation == 0)
-			targetRotation = 360;
-		if (rotation == 0 && targetRotation == 270)
-			targetRotation = -90;
 
-		if (rotation < targetRotation)
-			rotation += rotationSpeed;
-		else if (rotation > targetRotation)
-			rotation -= rotationSpeed;
+		if (rotation == 360 - rotationSpeed || rotation == 360)
+			rotation = 0;
+		if (rotation == -90 - rotationSpeed || rotation == -90)
+			rotation = 270;
+		// Perform agent rotation based on player input
+		if (rotation != targetRotation)
+		{
+			// Edge case
+			if (rotation == 270 && targetRotation == 0)
+				targetRotation = 360;
+			if (rotation == 0 && targetRotation == 270)
+				targetRotation = -90;
+
+			if (rotation < targetRotation)
+				rotation += rotationSpeed;
+			else if (rotation > targetRotation)
+				rotation -= rotationSpeed;
+		}
 	}
 
 

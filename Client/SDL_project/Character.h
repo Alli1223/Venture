@@ -69,11 +69,19 @@ public:
 
 	bool isMoving = false;
 
-	int rotation = 0, targetRotation = 0, rotationSpeed = 5;
+	int getRotation() { return rotation; }
+	int getTargetRotation() { return targetRotation; }
+	int getRotationSpeed() { return rotationSpeed; }
+
+	int setRotation(int newRotation) { return rotation = newRotation; }
+	int setTargetRotation(int newTarget) { return targetRotation = newTarget; }
+	int setRotationSpeed(int newSpeed) { return rotationSpeed = newSpeed; }
 
 private:
 	//! string stores agent ID/Name
 	std::string ID = "";
+	//! Rotation values
+	int rotation = 0, targetRotation = 0, rotationSpeed = 5;
 	//! Integers for the agent's X and Y position
 	int offsetX = 0, offsetY = 0;
 	int x = 0; int y = 0;
@@ -82,10 +90,12 @@ private:
 	//! Point for where the agent is located
 	Point agentPointLocation;
 	//! Integer for the agent's size when rendered
-	int size = 25;
+	int size = 50;
 	//! Integer for the agent current speed
 	float speed = 2.0;
 	//! A double for the agents's health
 	double health = 100.0;
+	//! If the Character can rotate
+	bool incrementalRotating = false;
 };
 

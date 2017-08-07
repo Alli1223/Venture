@@ -25,7 +25,7 @@ TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
 SnowTexture(TerrainSpriteTextureLocation + "Snow.png"),
 WoodFenceSide(WallSpriteTextureLocation + "woodFenceSideCenter.png"), WoodFenceUP(WallSpriteTextureLocation + "woodFenceUp2.png"), WoodFenceCenter(WallSpriteTextureLocation + "woodFenceCenter.png"),
 
-characterTex(characterTextureLocation + "crew.png"), npcDown(characterTextureLocation + "npc.png"),
+characterTex(characterTextureLocation + "Alli.png"), npcDown(characterTextureLocation + "Sam.png"),
 healthBarTexture(playerStatsTextureLocation + "PlayerHealth.png"), oxygenBarTexture(playerStatsTextureLocation + "PlayerOxygen.png"), hungerBarTexture(playerStatsTextureLocation + "PlayerHunger.png"), tiredBarTexture(playerStatsTextureLocation + "PlayerTiredness.png")
 
 {
@@ -128,13 +128,11 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 				if (chunk.tiles[x][y]->isSnow)
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isTree)
-					SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isTree)
 				{
 					tree t1;
-					t1.TreeType = 0;
-					t1.pos = glm::vec2(xPos, yPos - cellSize * 2);
-					t1.treeSize = glm::vec2(cellSize * 6, cellSize * 6);
+					t1.Oak;
+					t1.pos = glm::vec2(xPos - (cellSize / 2), yPos - (cellSize / 2));
+					t1.treeSize = glm::vec2(cellSize * 4, cellSize * 4);
 					trees.push_back(t1);
 				}
 
@@ -149,7 +147,9 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 				*/
 				if (chunk.tiles[x][y]->isWoodFence)
 				{
-					if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1) && level.isCellInChunk(x - 1, y) && level.isCellInChunk(x + 1, y))
+					WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
+					// Uncomment for fences to be combined
+					/*if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1) && level.isCellInChunk(x - 1, y) && level.isCellInChunk(x + 1, y))
 					{
 						if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && !chunk.tiles[x + 1][y]->isWoodFence && !chunk.tiles[x - 1][y]->isWoodFence)
 							WoodFenceUP.render(renderer, xPos, yPos, cellSize, cellSize);
@@ -158,6 +158,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 						else
 							WoodFenceSide.render(renderer, xPos, yPos, cellSize, cellSize);
 					}
+					*/
 				}
 			}
 		}
@@ -184,7 +185,14 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 
 	// Render the trees last
 	for each(auto &tree in trees)
-		TreePixelTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
+	{
+		if(tree.Oak)
+			TreePixelTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
+		else if (tree.Fern)
+			TreeTwoTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
+
+	}
+		
 
 	// Erase the trees after rendering them
 	trees.erase(trees.begin(), trees.end());
@@ -193,10 +201,10 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 
 void CellRendering::RenderPlayer(SDL_Renderer* renderer, Player& player,  Level& level, Camera& camera)
 {
-	int x = player.getX() + (player.getSize() / 2) - camera.getX();
-	int y = player.getY() + (player.getSize() / 2) - camera.getY();
+	int x = player.getX() - camera.getX();
+	int y = player.getY() - camera.getY();
 	if (player.characterType == "Player")
-		characterTex.renderRotation(renderer, x, y, player.getSize(), player.getSize(), player.rotation);
+		characterTex.renderRotation(renderer, x, y, player.getSize(), player.getSize(), player.getRotation());
 }
 
 void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera)
@@ -207,7 +215,7 @@ void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& le
 	if (agent.characterType == "NPC")
 	{
 		//npcDown.alterTextureColour(0, rand(), 0);
-		npcDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
+		npcDown.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.getRotation());
 
 
 		//Render agent stats to the right of agent
@@ -226,5 +234,5 @@ void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& le
 		}
 	}
 	if (agent.characterType == "Player")
-		characterTex.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.rotation);
+		characterTex.renderRotation(renderer, x, y, agent.getSize(), agent.getSize(), agent.getRotation());
 }

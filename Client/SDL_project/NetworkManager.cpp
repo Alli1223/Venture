@@ -14,52 +14,133 @@ void NetworkManager::Connect()
 	socket = std::shared_ptr<tcp::socket>(new tcp::socket(io_service));
 	boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(getServerIP()), port);
 	socket->connect(endpoint);
+	io_service.run();
 }
-//! Gets integer values from the string
-int GetGameInfo(std::string message)
-{
-	std::string::size_type sz;
-	std::string number = "                       ";
-	//Number of players
-	for (int i = 0; i < message.size(); i++)
-	{
-		if (message[i] == *"[" && message[i + 1] == *"#" && message[i + 2] == *":")
-		{
-			for (int j = 0; j < 10; j++)
-			{
-				if (message[i + 3 + j] == *"]" && message[i + 4 + j] == *".")
-					break;
-				number[j] = message[i + 3 + j];
 
-			}
-			number.erase(std::remove(number.begin(), number.end(), ' '), number.end());
-			int num = std::stoi(number, &sz);
-			if (num < 40)
-				return num;
-		}
+//! Returns whether the player exists in the list of players
+bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playername)
+{
+	// Return true if theres a match
+	for (int i = 0; i < playerNames.size(); i++)
+	{
+		if (playername == playerNames[i])
+			return true;
 	}
+	// Return false if no player with that name exists
+	return false;
 }
 
 //! main netwrok update function
 void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& agentManager)
 {
-	std::string name = localPlayerName;
-	std::string playerPosition = "X:" + std::to_string(player.getX()) + ".Y:" + std::to_string(player.getY()) + ".";
 
-	sendTCPMessage("{<" + localPlayerName + "> " + playerPosition + "}\n");
+	// Interval Timer
+	timebehindP += SDL_GetTicks() - lastTimeP;
+	lastTimeP = SDL_GetTicks();
+
+	// Interval Timer
+	timebehindM += SDL_GetTicks() - lastTimeM;
+	lastTimeM = SDL_GetTicks();
+
+	// Update intervalTimer
+	while (timebehindP >= networkPlayerUpdateInterval)
+	{
+		runPlayerNetworkTick = true;
+		timebehindP -= networkPlayerUpdateInterval;
+	}
+	while (timebehindM >= networkMapUpdateInterval)
+	{
+		runMapNetworkTick = true;
+		timebehindM -= networkMapUpdateInterval;
+	}
+
+	// Update network
+	if (runPlayerNetworkTick)
+	{
+		runPlayerNetworkTick = false;
+		ProcessPlayerLocations(level, agentManager, player);
+	}
+	if (runMapNetworkTick)
+	{
+		runMapNetworkTick = false;
+		//Process the map data
+		MapNetworkUpdate(level);
+	}
+
+
+	
+}
+
+void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentManager, Player& player)
+{
+	//Create the json to send to the server
+	json playerData;
+	playerData["name"] = localPlayerName;
+	playerData["rotation"] = player.getRotation();
+	playerData["X"] = player.getX();
+	playerData["Y"] = player.getY();
+
+
+	sendTCPMessage("[PlayerUpdate]" + playerData.dump() + "\n");
 
 
 	// process the list of players
-	std::string updateMessage = RecieveMessage();
-	ProcessArrayOfPlayerLocations(updateMessage, level, agentManager);
+	std::string updateData = RecieveMessage();
 
-	//Process the map data
-	//MapNetworkUpdate(level);
+	// Remove anything at the end of the json string that isn't suppose to be there
+	int endOfJsonString = updateData.find_last_of("}");
+	int startOfJsonString = updateData.find_first_of("{");
+	if(startOfJsonString >= 0)
+	updateData.erase(updateData.begin(), updateData.begin() + startOfJsonString);
+	if(endOfJsonString >= 0)
+	updateData.erase(updateData.begin() + endOfJsonString + 1, updateData.end());
 
+	try 
+	{
+		json jsonData = json::parse(updateData.begin(), updateData.end());;
+		json playerData = jsonData.at("PlayerData");
+
+
+
+		// range-based for
+		for (auto& element : playerData)
+		{
+			int x = element.at("X").get<int>();
+			int y = element.at("Y").get<int>();
+			int rotation = element.at("rotation").get<int>();
+			std::string name = element.at("name").get<std::string>();
+
+
+			if (DoesPlayerExist(otherPlayerNames, name))
+			{
+				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setX(x);
+				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setY(y);
+				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setTargetRotation(rotation);
+			}
+			else
+			{
+				if (name.size() > 1 && name != localPlayerName)
+				{
+					otherPlayerNames.push_back(name);
+					Agent newPlayer;
+					newPlayer.characterType = "NPC";
+					newPlayer.setID(name);
+					agentManager.SpawnAgent(newPlayer);
+				}
+			}
+		}
+	}
+	catch (std::exception e)
+	{
+		std::cout << "Error processing player location data: " << e.what() << std::endl;
+	}
 }
 
+
+
+
 //TODO: reimplement multi threaded networking
-void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager)
+void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::asio::io_service& io_service)
 {
 	//std::thread readerThread;
 	//boost::thread_group g;
@@ -77,47 +158,52 @@ void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager)
 }
 
 
-//! Returns whether the player exists in the list of players
-bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playername)
-{
-	// Return true if theres a match
-	for (int i = 0; i < playerNames.size(); i++)
-	{
-		if (playername == playerNames[i])
-			return true;
-	}
-	// Return false if no player with that name exists
-	return false;
-}
+
 
 //! Process map network update
+//TODO: Process the Map Json Data
 void NetworkManager::MapNetworkUpdate(Level& level)
 {
 	sendTCPMessage("[RequestMapUpdate]\n");
-	std::string Data = RecieveMessage();
-	
-	if (Data.size() > 1)
+	std::string EmptyMap = "{\"MapData\":[]}\r\n";
+	std::string mapData = RecieveMessage();
+	if (mapData != EmptyMap)
 	{
-		json cellData = Data;
+		// Remove anything at the end of the json string that isn't suppose to be there
+
+		int endOfJsonString = mapData.find_last_of("}");
+		int startOfJsonString = mapData.find_first_of("{");
+		if (startOfJsonString >= 0)
+			mapData.erase(mapData.begin(), mapData.begin() + startOfJsonString);
 
 
-		// loop through all the cell data
-		for (json::iterator it = cellData.begin(); it != cellData.end(); ++it)
+		try
 		{
-			std::cout << it.key() << " : " << it.value() << "\n";
+			json jsonData = json::parse(mapData.begin(), mapData.end());;
+			json mapData = jsonData.at("MapData");
 
-			int X = cellData.at("X").get<int>();
-			int Y = cellData.at("Y").get<int>();
-			bool fence = cellData.at("isFence").get<bool>();
-			std::shared_ptr<Cell> newcell;
-			newcell->isWoodFence = true;
-			level.SetCell(X, Y, newcell);
+			// Range-based for loop to iterate through the map data
+			for (auto& element : mapData)
+			{
+				int x = element.at("X").get<int>();
+				int y = element.at("Y").get<int>();
+				bool isFence = element.at("Fence").get<bool>();
+				bool isDirt = element.at("Dirt").get<bool>();
+
+				// Create a new cell to replace the old one
+				Cell nc;
+				nc.setPos(x, y);
+				nc.isWoodFence = isFence;
+				nc.isDirt = isDirt;
+				level.SetCell(x, y, nc);
+
+			}
+		}
+		catch (std::exception e)
+		{
+			std::cout << "Error processing player location data: " << e.what() << std::endl;
 		}
 	}
-
-
-	
-	//level.World[X / level.getChunkSize()][Y / level.getChunkSize()].tiles[]
 }
 
 //! Processes an array of player locations
@@ -282,7 +368,7 @@ void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& le
 
 
 
-//! sends a tcp message to the socket
+//! Sends a tcp message to the socket
 void NetworkManager::sendTCPMessage(std::string message)
 {
 	// Fill the buffer with the data from the string
@@ -305,44 +391,31 @@ void NetworkManager::sendTCPMessage(std::string message)
 	}
 }
 
-
+std::string make_string(boost::asio::streambuf& streambuf)
+{
+	return { boost::asio::buffers_begin(streambuf.data()),
+		boost::asio::buffers_end(streambuf.data()) };
+}
 //! returns a string from the socket
 std::string NetworkManager::RecieveMessage()
 {
-	std::cout << "Recieveing message.." <<  std::endl;
 	//Create return messages and an instream to put the buffer data into
 	std::string returnMessage;
 	std::stringstream inStream;
 	try
 	{
 		boost::array<char, 128> buffer;
-		boost::system::error_code error;
+		boost::asio::streambuf read_buffer;
+		 //bytes_transferred = boost::asio::write(*socket, write_buffer);
+		 auto bytes_transferred = boost::asio::read_until(*socket, read_buffer, ("\r\n"));
+		
+		//std::cout << "Read: " << make_string(read_buffer) << std::endl;
 
-		// Read the data from the socket
-		size_t len = socket->read_some(boost::asio::buffer(buffer), error);
-
-		if (error == boost::asio::error::eof)
-			return "QUIT"; // Connection closed cleanly by peer.
-		else if (error)
-			throw boost::system::system_error(error); // Some other error.
-
-		//Print receive message
-		//std::cout.write(buffer.data(), len);
-		// Feed the buffer data into the inStream
-		inStream << (buffer.data());
-
-		// Convert inStream to string
-		returnMessage = inStream.str();
-		// Remove weird character that gets stuck the the end of messages
-		returnMessage.erase(std::remove(returnMessage.begin(), returnMessage.end(), 'Ì'), returnMessage.end());
-
-		// Return String
-		return returnMessage;
+		return returnMessage = make_string(read_buffer);
 
 	}
 	catch (std::exception& e)
 	{
 		std::cerr << e.what() << std::endl;
 	}
-
 }
