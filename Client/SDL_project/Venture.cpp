@@ -118,6 +118,12 @@ Venture::Venture() : backgroundTexture("Resources\\background5.jpg")
 		showErrorMessage("glewInit failed", ":(");
 	}
 
+	// IF TTF Init error
+	if (!TTF_WasInit() && TTF_Init() == -1) {
+		printf("TTF_Init: %s\n", TTF_GetError());
+		exit(1);
+	}
+
 }
 
 Venture::~Venture()
@@ -130,6 +136,16 @@ Venture::~Venture()
 
 void Venture::run()
 {
+
+	TTF_Font* Sans = TTF_OpenFont("Resources\\Fonts\\ostrich.ttf", 32);
+	SDL_Color White = { 255, 255, 255 };
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "TEST", White);
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+	SDL_Rect Message_rect; //create a rect
+	Message_rect.x = 0;  //controls the rect's x coordinate 
+	Message_rect.y = 0; // controls the rect's y coordinte
+	Message_rect.w = 100; // controls the width of the rect
+	Message_rect.h = 50; // controls the height of the rect
 
 	// Generates the world around the camera position
 	terrainGen.setSeed(4123);
@@ -190,7 +206,7 @@ void Venture::run()
 		mouseCellPosition.x = mouse_X / cellSize;
 		mouseCellPosition.y = mouse_Y / cellSize;
 
-
+		
 		// Do all the networking
 		if (useNetworking)
 			networkManager.NetworkUpdate(level, player, agentManager);
@@ -223,8 +239,7 @@ void Venture::run()
 		//MAIN CELL LOOP
 		///////////////////////////////////
 
-		// Renders all the cells and players
-		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents);
+		
 
 		// Update the position of the player
 		player.Update(level);
@@ -233,8 +248,17 @@ void Venture::run()
 
 		// update other characters positions
 		agentManager.UpdateAgents(agentManager.allAgents, renderer, level, camera);
+
+		// Renders all the cells and players
+		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents);
 		
 
+
+
+
+		SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
+
+		
 		///////////////////////////////////////
 		//MENU
 		///////////////////////////////////////
@@ -251,6 +275,8 @@ void Venture::run()
 			{
 			}
 		}
+		
+		
 		SDL_RenderPresent(renderer);
 		// End while running
 	}
