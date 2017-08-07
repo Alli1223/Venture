@@ -161,7 +161,6 @@ void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::
 
 
 //! Process map network update
-//TODO: Process the Map Json Data
 void NetworkManager::MapNetworkUpdate(Level& level)
 {
 	sendTCPMessage("[RequestMapUpdate]\n");

@@ -24,6 +24,7 @@
 #include "Inventory.h"
 #include "UserInput.h"
 #include "Player.h"
+#include "TextUI.h"
 
 
 //! The main class
@@ -98,6 +99,10 @@ private:
 	SDL_GLContext glContext;
 
 	Texture backgroundTexture;
+
+	//! Some colours for text output
+	SDL_Color White = { 255, 255, 255 };
+	SDL_Color Black = { 0, 0, 0 };
 
 	
 };

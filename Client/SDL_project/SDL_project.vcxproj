@@ -192,6 +192,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SDL_project.h" />
     <ClInclude Include="SimplexNoise.h" />
+    <ClInclude Include="TextUI.h" />
     <ClInclude Include="Venture.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="Oxygen.cpp" />
     <ClCompile Include="SDL_project.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
+    <ClCompile Include="TextUI.cpp" />
     <ClCompile Include="Venture.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

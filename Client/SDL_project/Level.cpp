@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Level.h"
 
-
+// Creates a grid of cells at a specified location
 void Level::CreateChunk(int initX, int initY)
 {
 	Chunk chunk(initX, initY);
@@ -15,7 +15,7 @@ void Level::CreateChunk(int initX, int initY)
 		{
 			// Populates the column with pointers to cells
 			Cell cell(x + (initX * chunkSize), y + (initY * chunkSize));
-			cell.renderLayer = 0;
+			cell.renderLayer = 0;//Not used
 			cell.isWalkable = true;
 			auto sharedCell = std::make_shared<Cell>(cell);
 			World[initX][initY].tiles[x].push_back(sharedCell);
@@ -23,7 +23,7 @@ void Level::CreateChunk(int initX, int initY)
 	}
 }
 
-
+// Generates a hashmap of chunks around the camera
 void Level::GenerateWorld(Camera& camera)
 {
 	int numOfChunksWidth = ((camera.WindowWidth / cellSize) / chunkSize) + levelGenerationRadius;
@@ -74,7 +74,7 @@ glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY)
 }
 
 
-//set a cell with the values of another cell
+// Set a cell with the values of another cell
 void Level::SetCell(int x, int y, Cell& newcell)
 {
 	try
@@ -104,7 +104,11 @@ void Level::SetCell(int x, int y, Cell& newcell)
 		if (isCellInChunk(x, y))
 		{
 			std::cout << "Cell update at pos: " << x << " " << y << std::endl;
-			World[chunkX][chunkY].tiles[x][y] = sharedCell;
+			// Make sure that the chunk has been created before trying to place the cell
+			if (World[chunkX][chunkY].tiles.size() > 0)
+			{
+				World[chunkX][chunkY].tiles[x][y] = sharedCell;
+			}
 		}
 		
 	}

@@ -137,15 +137,7 @@ Venture::~Venture()
 void Venture::run()
 {
 
-	TTF_Font* Sans = TTF_OpenFont("Resources\\Fonts\\ostrich.ttf", 32);
-	SDL_Color White = { 255, 255, 255 };
-	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "TEST", White);
-	SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-	SDL_Rect Message_rect; //create a rect
-	Message_rect.x = 0;  //controls the rect's x coordinate 
-	Message_rect.y = 0; // controls the rect's y coordinte
-	Message_rect.w = 100; // controls the width of the rect
-	Message_rect.h = 50; // controls the height of the rect
+
 
 	// Generates the world around the camera position
 	terrainGen.setSeed(4123);
@@ -256,7 +248,9 @@ void Venture::run()
 
 
 
-		SDL_RenderCopy(renderer, Message, NULL, &Message_rect);
+		TextUI playerText("Sans");
+		playerText.render(renderer, networkManager.getPlayerName(), WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 50, 100, White);
+		
 
 		
 		///////////////////////////////////////
