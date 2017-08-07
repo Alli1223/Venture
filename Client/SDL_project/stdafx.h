@@ -46,6 +46,9 @@
 #include <glm.hpp>
 #include <GL\glew.h>
 
+//SDL TTF for writing to screen
+#include <SDL_ttf.h>
+
 
 // Networking headers
 #include <boost/asio.hpp>
