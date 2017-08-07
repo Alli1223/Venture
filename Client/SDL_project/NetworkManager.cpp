@@ -161,6 +161,7 @@ void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::
 
 
 //! Process map network update
+//TODO: Don't create new cells on top, only replace the old ones
 void NetworkManager::MapNetworkUpdate(Level& level)
 {
 	sendTCPMessage("[RequestMapUpdate]\n");
@@ -174,7 +175,7 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 		int startOfJsonString = mapData.find_first_of("{");
 		if (startOfJsonString >= 0)
 			mapData.erase(mapData.begin(), mapData.begin() + startOfJsonString);
-
+		int cellsUpdated = 0;
 
 		try
 		{
@@ -195,8 +196,9 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 				nc.isWoodFence = isFence;
 				nc.isDirt = isDirt;
 				level.SetCell(x, y, nc);
-
+				cellsUpdated++;
 			}
+			std::cout << "Cells Updated: " << cellsUpdated << std::endl;
 		}
 		catch (std::exception e)
 		{

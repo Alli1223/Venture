@@ -103,7 +103,7 @@ void Level::SetCell(int x, int y, Cell& newcell)
 
 		if (isCellInChunk(x, y))
 		{
-			std::cout << "Cell update at pos: " << x << " " << y << std::endl;
+			//std::cout << "Cell update at pos: " << x << " " << y << std::endl;
 			// Make sure that the chunk has been created before trying to place the cell
 			if (World[chunkX][chunkY].tiles.size() > 0)
 			{

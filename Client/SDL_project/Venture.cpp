@@ -138,7 +138,6 @@ void Venture::run()
 {
 
 
-
 	// Generates the world around the camera position
 	terrainGen.setSeed(4123);
 
@@ -197,7 +196,6 @@ void Venture::run()
 	{
 		mouseCellPosition.x = mouse_X / cellSize;
 		mouseCellPosition.y = mouse_Y / cellSize;
-
 		
 		// Do all the networking
 		if (useNetworking)
