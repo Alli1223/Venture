@@ -128,13 +128,11 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 				if (chunk.tiles[x][y]->isSnow)
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isTree)
-					SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isTree)
 				{
 					tree t1;
-					t1.TreeType = 0;
-					t1.pos = glm::vec2(xPos, yPos - cellSize * 2);
-					t1.treeSize = glm::vec2(cellSize * 6, cellSize * 6);
+					t1.Oak;
+					t1.pos = glm::vec2(xPos - (cellSize / 2), yPos - (cellSize / 2));
+					t1.treeSize = glm::vec2(cellSize * 4, cellSize * 4);
 					trees.push_back(t1);
 				}
 
@@ -187,7 +185,14 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 
 	// Render the trees last
 	for each(auto &tree in trees)
-		TreePixelTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
+	{
+		if(tree.Oak)
+			TreePixelTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
+		else if (tree.Fern)
+			TreeTwoTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
+
+	}
+		
 
 	// Erase the trees after rendering them
 	trees.erase(trees.begin(), trees.end());
@@ -196,8 +201,8 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 
 void CellRendering::RenderPlayer(SDL_Renderer* renderer, Player& player,  Level& level, Camera& camera)
 {
-	int x = player.getX()  - camera.getX();
-	int y = player.getY()  - camera.getY();
+	int x = player.getX() - camera.getX();
+	int y = player.getY() - camera.getY();
 	if (player.characterType == "Player")
 		characterTex.renderRotation(renderer, x, y, player.getSize(), player.getSize(), player.getRotation());
 }
