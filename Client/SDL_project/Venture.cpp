@@ -136,7 +136,7 @@ Venture::~Venture()
 
 void Venture::run()
 {
-
+	// Run the main menu
 	menu.MainMenu(player, camera, renderer);
 
 	// Generates the world around the camera position
@@ -186,13 +186,8 @@ void Venture::run()
 		player.setX(0);
 		player.setY(0);
 	}
-	// Values for the network update timer
-	double lastTime = SDL_GetTicks();
-	double timebehind = 0;
-	bool runNetworkTick = false;
 
-
-	/////////// MAIN LOOP /////////////////
+	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
 	while (running)
 	{
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
@@ -209,8 +204,6 @@ void Venture::run()
 		// Handle the input
 		input.HandleUserInput(level, player, agentManager, networkManager, camera, playerName, useNetworking, running);
 
-		
-
 		// Set camera to follow player and generate the world
 		camera.setX(player.getX() - camera.WindowWidth / 2);
 		camera.setY(player.getY() - camera.WindowHeight / 2);
@@ -223,15 +216,13 @@ void Venture::run()
 			
 		}
 
-		// Rendering process:
+		// Clear Rendering process:
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 
 		//////////////////////////////////
 		//MAIN CELL LOOP
 		///////////////////////////////////
-
-		
 
 		// Update the position of the player
 		player.Update(level);
@@ -243,9 +234,6 @@ void Venture::run()
 
 		// Renders all the cells and players
 		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents);
-		
-
-
 
 
 		TextUI playerText("Sans");
@@ -260,24 +248,5 @@ void Venture::run()
 		// Send quit message and close socket when game ends
 		networkManager.sendTCPMessage("QUIT\n");
 		networkManager.socket->close();
-	}
-}
-
-
-void Venture::deleteVectors()
-{
-}
-
-bool static isMouseOverRoomCell(Level& level)
-{
-	int mouse_X, mouse_Y;
-	SDL_GetMouseState(&mouse_X, &mouse_Y);
-	if (level.tiles[mouse_X / level.getCellSize()][mouse_Y / level.getCellSize()]->isRoom)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
 	}
 }

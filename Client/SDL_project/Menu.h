@@ -16,9 +16,11 @@ private:
 	std::string menuTextures = "Resources\\Sprites\\Menu\\";
 
 	int mouseX, mouseY;
-	
+	int menuCursorSize = 30;
 
 	//! Stores the menus background texture
 	Texture menuBackground;
+	Texture button;
+	Texture cursor;
 };
 

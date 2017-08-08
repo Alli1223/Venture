@@ -66,9 +66,6 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 		//Process the map data
 		MapNetworkUpdate(level);
 	}
-
-
-	
 }
 
 void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentManager, Player& player)
