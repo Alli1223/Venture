@@ -2,7 +2,7 @@
 #include "Menu.h"
 
 
-Menu::Menu() : menuBackground(menuTextures + "Background.png"), button(menuTextures + "Button.png"), cursor(menuTextures + "Cursor.png")
+Menu::Menu() : menuBackground(menuTextures + "Background.png"), button("test"), cursor(menuTextures + "Cursor.png")
 {
 }
 
@@ -27,6 +27,10 @@ void Menu::MainMenu(Player& player, Camera& camera, SDL_Renderer* renderer)
 		SDL_RenderClear(renderer);
 
 		menuBackground.render(renderer, camera.WindowWidth / 2, camera.WindowHeight / 2, camera.WindowWidth, camera.WindowHeight);
+
+		button.setText("what");
+		button.render(renderer, 100, 200, 100, 100);
+
 		if (SDL_GetMouseState(&mouseX, &mouseY))
 		{
 			

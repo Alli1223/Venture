@@ -2,6 +2,7 @@
 class TextUI
 {
 public:
+	//! Font types are "Sans" and "Ostrich"
 	TextUI(std::string fontType);
 	~TextUI();
 
@@ -11,6 +12,8 @@ public:
 	SDL_Texture* getTexture() { return texture; }
 private:
 	SDL_Texture* texture;
+	//SDL_Texture* Message;
+	SDL_Rect Message_rect;
 	std::string FontType;
 };
 

@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Texture.h"
 #include "Camera.h"
+#include "Button.h"
 class Menu
 {
 public:
@@ -18,9 +19,11 @@ private:
 	int mouseX, mouseY;
 	int menuCursorSize = 30;
 
+	Button button;
+
 	//! Stores the menus background texture
 	Texture menuBackground;
-	Texture button;
+
 	Texture cursor;
 };
 
