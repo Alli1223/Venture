@@ -2,7 +2,7 @@
 #include "Player.h"
 
 
-Player::Player() : characterTex(characterTextureLocation + "Alli.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png")
+Player::Player() : characterTex(characterTextureLocation + "Alli.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png"), hairShape(clothesTextureLocation + "Hair.png")
 {
 }
 
@@ -14,6 +14,21 @@ Player::~Player()
 void Player::RenderPlayer(SDL_Renderer* renderer)
 {
 	characterTex.renderRotation(renderer, getX(), getY(), getSize(), getSize(), getRotation());
+
+	switch (PlayerClothes.hair)
+	{
+	case Clothing::black:
+		hairColour = { 10, 10, 10 };
+		break;
+	case Clothing::red:
+		hairColour = { 200, 25, 25 };
+		break;
+	case Clothing::pink:
+		hairColour = { 255, 182, 193 };
+	}
+	hairShape.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
+	hairShape.renderRotation(renderer, getX(), getY(), getSize(), getSize(), getRotation());
+
 	//Render head wear texture
 	switch (PlayerClothes.head)
 	{
@@ -23,9 +38,14 @@ void Player::RenderPlayer(SDL_Renderer* renderer)
 	case Clothing::hat:
 		break;
 	}
+
+
 	//Render legs
 	switch (PlayerClothes.body)
 	{
+	case Clothing::jacket:
+		jacket.renderRotation(renderer, getX(), getY(), getSize(), getSize(), getRotation());
+		break;
 	case Clothing::dress:
 
 		break;
@@ -34,9 +54,7 @@ void Player::RenderPlayer(SDL_Renderer* renderer)
 
 		break;
 
-	case Clothing::jacket:
-		jacket.renderRotation(renderer, getX(), getY(), getSize(), getSize(), getRotation());
-		break;
+	
 	}
 	//Render leg wear
 	switch (PlayerClothes.leg)

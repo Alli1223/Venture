@@ -9,6 +9,17 @@ Button::Button(std::string newText) : buttonText("Ostrich"), text(newText), butt
 Button::~Button()
 {
 }
+bool Button::isPressed()
+{
+	if (isActivated)
+	{
+		isActivated = false;
+		return true;
+	}
+	else
+		return false;
+		
+}
 
 void Button::render(SDL_Renderer* renderer, int x, int y, int width, int height)
 {
@@ -32,16 +43,9 @@ void Button::render(SDL_Renderer* renderer, int x, int y, int width, int height)
 				isActivated = true;
 				timeButtonWasPressed = SDL_GetTicks() / 1000.0;
 				timeout = true;
-				std::cout << "button pressed" << std::endl;
 			}
-
 		}
 		
-	
-	
-	
-		
-	
 	//Render background
 	buttonBackground.render(renderer, getX(), getY(), getWidth(), getHeight());
 

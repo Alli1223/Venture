@@ -19,7 +19,7 @@ public:
 	int setSizeIncrease(int newSize) { return mouseOverSizeInrease = newSize; }
 
 	//! If the button has been pressed
-	bool isPressed() { return isActivated; }
+	bool isPressed();
 
 private:
 	//! Buttons text

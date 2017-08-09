@@ -83,12 +83,18 @@ void Menu::MainMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* re
 void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* renderer)
 {
 	Button exit("Exit");
+	Button changeHead("Change Head");
+	Button changeBody("Change Body");
 	Button changeLegs("Change Trousers");
-
+	Button changeHairColour("Change Hair Colour");
+	
+	
 	Player playerCreation;
 	playerCreation.setSize(gameSettings.WINDOW_WIDTH / 5);
 	playerCreation.setPosition(gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2);
 	playerCreation.PlayerClothes.leg = Player::Clothing::chinos;
+	playerCreation.PlayerClothes.body = Player::Clothing::jacket;
+	playerCreation.PlayerClothes.hair = Player::Clothing::pink;
 
 	
 	int legCycle = 0;
@@ -109,20 +115,34 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 		SDL_RenderClear(renderer);
 		menuBackground.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, gameSettings.WINDOW_WIDTH, gameSettings.WINDOW_HEIGHT);
 		
-		
-		changeLegs.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY(), 100, 50);
-		
+		changeHead.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() - 100, 100, 50);
+		changeBody.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() , 100, 50);
+		changeLegs.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() + 100, 100, 50);
+		changeHairColour.render(renderer, playerCreation.getX() + playerCreation.getSize() + 200, playerCreation.getY() - 100, 200, 50);
 
 		if (changeLegs.isPressed())
 		{
-			
 			if(playerCreation.PlayerClothes.leg == Player::Clothing::chinos)
 				playerCreation.PlayerClothes.leg = Player::Clothing::jeans;
 			else if (playerCreation.PlayerClothes.leg == Player::Clothing::jeans)
 				playerCreation.PlayerClothes.leg = Player::Clothing::chinos;
 		}
-		
-		
+
+		if (changeBody.isPressed())
+		{
+			if (playerCreation.PlayerClothes.body == Player::Clothing::jacket)
+				playerCreation.PlayerClothes.body = Player::Clothing::tshirt;
+			else if (playerCreation.PlayerClothes.body == Player::Clothing::tshirt)
+				playerCreation.PlayerClothes.body = Player::Clothing::jacket;
+		}
+
+		if (changeHead.isPressed())
+		{
+			if (playerCreation.PlayerClothes.head == Player::Clothing::noHeadWear)
+				playerCreation.PlayerClothes.head = Player::Clothing::hat;
+			else if (playerCreation.PlayerClothes.head == Player::Clothing::hat)
+				playerCreation.PlayerClothes.head = Player::Clothing::noHeadWear;
+		}
 		
 		playerCreation.RenderPlayer(renderer);
 

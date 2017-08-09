@@ -10,6 +10,14 @@ public:
 
 	typedef struct
 	{
+		enum HairColour {
+			red,
+			yellow,
+			pink,
+			brown,
+			black,
+			ginger
+		}hair;
 		enum HeadWear {
 			noHeadWear,
 			hat
@@ -32,10 +40,12 @@ public:
 	bool gender = false;
 	Clothing PlayerClothes;
 private:
+	SDL_Color hairColour = { 255,255,255 };
 	std::string characterTextureLocation = "Resources\\Sprites\\Character\\";
 	std::string clothesTextureLocation = "Resources\\Sprites\\Character\\Clothes\\";
 	//! For the Character
 	Texture characterTex;
+	Texture hairShape;
 
 	Texture jacket;
 	Texture jeans;
