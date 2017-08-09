@@ -13,9 +13,9 @@ TextUI::~TextUI()
 
 void TextUI::render(SDL_Renderer* renderer, std::string text, int x, int y, int width, int height, SDL_Color Colour)
 {
-	if (!texture)
+	if (!texture || text != textContent)
 	{
-
+		textContent = text;
 	
 	TTF_Font* font = TTF_OpenFont("Resources\\Fonts\\OpenSans.ttf", height);
 	if (FontType == "Ostrich")

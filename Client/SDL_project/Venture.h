@@ -41,14 +41,10 @@ public:
 	//! Main Run loop
 	void run();
 
-	//! Removes all the data from stored vectors
-	void Venture::deleteVectors();
 	//! Initalising all classes needed for game
 	Level level;
 	GameSettings gameSettings;
 	Map mapLoader;
-	Oxygen oxygen;
-	Fire fire;
 	PlayerInteraction characterInteraction;
 	AgentManager agentManager;
 	Cell cell;
@@ -65,23 +61,10 @@ public:
 	//! Vector of all other players names in the game
 	std::vector<std::string> otherPlayerNames;
 
-	//! The window width 
-	int WINDOW_WIDTH = gameSettings.WINDOW_WIDTH;
-	//! The window height
-	int WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT;
 	//! Coordinates of the mouse 
 	int mouse_X, mouse_Y;
 
-
-	bool spawnPlayer = true;
-	
-	bool useNetworking = true;
-
 	glm::vec2 mouseCellPosition;
-
-
-	//! Network update tick
-	float timer;
 private:
 
 	//! start point and end point for pathfinding

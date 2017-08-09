@@ -89,10 +89,10 @@ Venture::Venture() : backgroundTexture("Resources\\background5.jpg")
 		throw InitialisationError("SDL_Init failed");
 	}
 	gameSettings.getScreenResolution();
-	WINDOW_HEIGHT = gameSettings.WINDOW_HEIGHT / 2;
-	WINDOW_WIDTH = gameSettings.WINDOW_WIDTH / 2;
-	camera.WindowHeight = WINDOW_HEIGHT;
-	camera.WindowWidth = WINDOW_WIDTH;
+	gameSettings.WINDOW_HEIGHT /= 2;
+	gameSettings.WINDOW_WIDTH /= 2;
+	camera.WindowHeight = gameSettings.WINDOW_HEIGHT;
+	camera.WindowWidth = gameSettings.WINDOW_WIDTH;
 	camera.SetPos(0, 0);
 
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -100,7 +100,7 @@ Venture::Venture() : backgroundTexture("Resources\\background5.jpg")
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	window = SDL_CreateWindow("Venture", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("Venture", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, gameSettings.WINDOW_WIDTH, gameSettings.WINDOW_HEIGHT, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 	glContext = SDL_GL_CreateContext(window);
 	if (window == nullptr)
 	{
@@ -154,7 +154,7 @@ void Venture::run()
 
 	// Create a unique playername
 	std::string playerName = std::to_string(SDL_GetTicks());
-	if (useNetworking)
+	if (gameSettings.useNetworking)
 	{
 		networkManager.Connect();
 		// Or Get player name
@@ -198,11 +198,11 @@ void Venture::run()
 		mouseCellPosition.y = mouse_Y / cellSize;
 		
 		// Do all the networking
-		if (useNetworking)
+		if (gameSettings.useNetworking)
 			networkManager.NetworkUpdate(level, player, agentManager);
 
 		// Handle the input
-		input.HandleUserInput(level, player, agentManager, networkManager, camera, playerName, useNetworking, gameSettings.running);
+		input.HandleUserInput(level, player, agentManager, networkManager, camera, playerName, gameSettings.useNetworking, gameSettings.running);
 
 		// Set camera to follow player and generate the world
 		camera.setX(player.getX() - camera.WindowWidth / 2);
@@ -237,13 +237,13 @@ void Venture::run()
 
 
 		TextUI playerText("Sans");
-		playerText.render(renderer, networkManager.getPlayerName(), WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 50, 100, White);
+		playerText.render(renderer, networkManager.getPlayerName(), gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, 50, 100, White);
 		
 		
 		SDL_RenderPresent(renderer);
 		// End while running
 	}
-	if (useNetworking)
+	if (gameSettings.useNetworking)
 	{
 		// Send quit message and close socket when game ends
 		networkManager.sendTCPMessage("QUIT\n");

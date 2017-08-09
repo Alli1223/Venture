@@ -12,7 +12,11 @@ public:
 	int WINDOW_WIDTH = 800;
 	int WINDOW_HEIGHT = 600;
 
+	//! Whether the game is fullscreen
 	bool fullscreen = false;
+
+	//! Whether the game uses networking and false if singleplayer
+	bool useNetworking = true;
 
 	//! Whether the game is running or not
 	bool running = true;
