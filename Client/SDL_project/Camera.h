@@ -37,6 +37,8 @@ private:
 	int X;
 	int Y;
 
+	
+
 	int cameraSpeed = 3;
 
 	int* TargetX;

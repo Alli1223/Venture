@@ -137,7 +137,7 @@ Venture::~Venture()
 void Venture::run()
 {
 	// Run the main menu
-	menu.MainMenu(player, camera, renderer);
+	menu.MainMenu(gameSettings, player, renderer);
 
 	// Generates the world around the camera position
 	terrainGen.setSeed(4123);
@@ -188,7 +188,7 @@ void Venture::run()
 	}
 
 	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
-	while (running)
+	while (gameSettings.running)
 	{
 		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
 		{
@@ -202,7 +202,7 @@ void Venture::run()
 			networkManager.NetworkUpdate(level, player, agentManager);
 
 		// Handle the input
-		input.HandleUserInput(level, player, agentManager, networkManager, camera, playerName, useNetworking, running);
+		input.HandleUserInput(level, player, agentManager, networkManager, camera, playerName, useNetworking, gameSettings.running);
 
 		// Set camera to follow player and generate the world
 		camera.setX(player.getX() - camera.WindowWidth / 2);

@@ -79,8 +79,7 @@ public:
 
 	glm::vec2 mouseCellPosition;
 
-	//! Whether the game is running or not
-	bool running = true;
+
 	//! Network update tick
 	float timer;
 private:
