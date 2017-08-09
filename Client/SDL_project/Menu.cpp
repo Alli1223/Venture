@@ -75,7 +75,7 @@ void Menu::MainMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* re
 			CharacterCustomisationMenu(gameSettings, player, renderer);
 		}
 		//Render the mouse cursor last
-		cursor.render(renderer, mouseX + (menuCursorSize / 2), mouseY + (menuCursorSize / menuCursorSize), menuCursorSize, menuCursorSize);
+		cursor.render(renderer, mouseX + (menuCursorSize / 2), mouseY + (menuCursorSize / 2), menuCursorSize, menuCursorSize);
 		SDL_RenderPresent(renderer);
 	}	
 }
@@ -83,6 +83,15 @@ void Menu::MainMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* re
 void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* renderer)
 {
 	Button exit("Exit");
+	Button changeLegs("Change Trousers");
+
+	Player playerCreation;
+	playerCreation.setSize(gameSettings.WINDOW_WIDTH / 5);
+	playerCreation.setPosition(gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2);
+	playerCreation.PlayerClothes.leg = Player::Clothing::chinos;
+
+	
+	int legCycle = 0;
 	while (displayCharacterMenu)
 	{
 		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
@@ -99,9 +108,23 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 		menuBackground.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, gameSettings.WINDOW_WIDTH, gameSettings.WINDOW_HEIGHT);
+		
+		
+		changeLegs.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY(), 100, 50);
+		
 
-
-
+		if (changeLegs.isPressed())
+		{
+			
+			if(playerCreation.PlayerClothes.leg == Player::Clothing::chinos)
+				playerCreation.PlayerClothes.leg = Player::Clothing::jeans;
+			else if (playerCreation.PlayerClothes.leg == Player::Clothing::jeans)
+				playerCreation.PlayerClothes.leg = Player::Clothing::chinos;
+		}
+		
+		
+		
+		playerCreation.RenderPlayer(renderer);
 
 		exit.render(renderer, 50, 25, 100, 50);
 		if (exit.isPressed())
@@ -117,4 +140,5 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 		cursor.render(renderer, mouseX + (menuCursorSize / 2), mouseY + (menuCursorSize / menuCursorSize), menuCursorSize, menuCursorSize);
 		SDL_RenderPresent(renderer);
 	}
+	player = playerCreation;
 }

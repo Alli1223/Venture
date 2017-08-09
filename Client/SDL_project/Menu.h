@@ -33,8 +33,6 @@ private:
 	int mouseX, mouseY;
 	int menuCursorSize = 30;
 
-	
-
 	//! Stores the menus background texture
 	Texture menuBackground;
 

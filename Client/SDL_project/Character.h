@@ -48,6 +48,8 @@ public:
 	int setX(int newX) { return x = newX; }
 	//! Sets the characters Y value
 	int setY(int newY) { return y = newY; }
+	//! Sets the size of the character
+	int setSize(int newSize) { return size = newSize; }
 	//! Sets the characters cellX offset value
 	int setOffsetX(int newOffsetX) { return offsetX = newOffsetX; }
 	//! Sets the characters Y offset value
@@ -76,6 +78,9 @@ public:
 	int setRotation(int newRotation) { return rotation = newRotation; }
 	int setTargetRotation(int newTarget) { return targetRotation = newTarget; }
 	int setRotationSpeed(int newSpeed) { return rotationSpeed = newSpeed; }
+
+	
+
 
 private:
 	//! string stores agent ID/Name

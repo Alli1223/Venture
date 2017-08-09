@@ -4,9 +4,6 @@
 #include "Map.h"
 #include "Point.h"
 #include "Cell.h"
-#include "Oxygen.h"
-#include "Fire.h"
-#include "AgentInteraction.h"
 #include "PathFinder.h"
 #include "GameSettings.h"
 #include "GUI.h"
@@ -45,7 +42,6 @@ public:
 	Level level;
 	GameSettings gameSettings;
 	Map mapLoader;
-	PlayerInteraction characterInteraction;
 	AgentManager agentManager;
 	Cell cell;
 	ToolBar toolbar;

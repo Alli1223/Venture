@@ -24,11 +24,13 @@ public:
 private:
 	//! Buttons text
 	std::string text;
-
+	float timeButtonWasPressed = 0;
+	float buttonTimeout = 0.2;
 	//! mouse position
 	int tx, ty;
 	//! if the button is active
 	bool isActivated = false;
+	bool timeout = false;
 
 	bool mouseOverIncreaseSize = true;
 	int mouseOverSizeInrease = 5;
