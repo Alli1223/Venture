@@ -2,7 +2,7 @@
 #include "Player.h"
 
 
-Player::Player() : characterTex(characterTextureLocation + "AlliBald.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png"), shortHair(clothesTextureLocation + "Hair.png"), longHair(clothesTextureLocation + "LongHair.png"),
+Player::Player() : characterTex(characterTextureLocation + "animTemplate.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png"), shortHair(clothesTextureLocation + "Hair.png"), longHair(clothesTextureLocation + "LongHair.png"),
 eyes(clothesTextureLocation + "Eyes.png")
 {
 }
@@ -12,9 +12,13 @@ Player::~Player()
 {
 }
 
-void Player::RenderPlayer(SDL_Renderer* renderer, bool useOffset)
+void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 {
-	if (useOffset)
+	walkR.maxFrames = 6;
+	walkR.oscillate = true;
+	walkR.OnAnimate();
+
+	if (renderCenter)
 	{
 		renderOffset.x = screenCenter.x;
 		renderOffset.y = screenCenter.y;
@@ -24,7 +28,9 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool useOffset)
 		renderOffset.x = getX();
 		renderOffset.y = getY();
 	}
-	characterTex.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
+	//characterTex.renderRotation(renderer, renderOffset.x, renderOffset.y, walkR.getCurrentFrame() * 32, getSize(),getSize(), getSize(), getRotation());
+	characterTex.renderAnim(renderer, walkR.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, getSize(), getSize(), 0);
+
 
 	switch (PlayerClothes.hair)
 	{

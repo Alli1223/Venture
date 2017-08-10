@@ -59,6 +59,13 @@ void Texture::renderRotation(SDL_Renderer* renderer, int x, int y, int width, in
 
 	SDL_RenderCopyEx(renderer, texture, nullptr, &dest, angle, 0, SDL_FLIP_NONE);
 }
+void Texture::renderAnim(SDL_Renderer* renderer, int sX, int sY, int dX, int dY, int width, int height, int angle)
+{
+	SDL_Rect srcrect = { sX, sY, width, height };
+	SDL_Rect dstrect = { dX, dY, width, height };
+
+	SDL_RenderCopy(renderer, texture, &srcrect, &dstrect);
+}
 
 void Texture::alterTransparency(int transparencyLevel)
 {

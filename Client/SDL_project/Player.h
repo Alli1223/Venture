@@ -1,5 +1,6 @@
 #pragma once
 #include "Character.h"
+#include "Animation.h"
 class Player : public Character
 {
 public:
@@ -63,6 +64,7 @@ private:
 	Texture shortHair;
 	Texture longHair;
 	Texture eyes;
+	Animation walkR;
 
 	Texture jacket;
 	Texture jeans;
