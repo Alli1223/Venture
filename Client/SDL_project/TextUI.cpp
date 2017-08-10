@@ -43,6 +43,4 @@ void TextUI::render(SDL_Renderer* renderer, std::string text, int x, int y, int 
 	{
 		SDL_RenderCopy(renderer, texture, NULL, &Message_rect);
 	}
-
-	;
 }

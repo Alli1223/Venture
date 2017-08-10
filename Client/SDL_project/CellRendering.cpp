@@ -214,8 +214,8 @@ void CellRendering::RenderPlayer(SDL_Renderer* renderer, Player& player,  Level&
 void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera)
 {
 
-	int x = agent.getX() + (agent.getSize() / 2) - camera.getX();
-	int y = agent.getY() + (agent.getSize() / 2) - camera.getY();
+	int x = agent.getX()  - camera.getX();
+	int y = agent.getY()  - camera.getY();
 	if (agent.characterType == "NPC")
 	{
 		//npcDown.alterTextureColour(0, rand(), 0);
