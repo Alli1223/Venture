@@ -180,7 +180,11 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 		RenderAgents(agent, renderer, level, camera);
 
 	// Render the player
-	RenderPlayer(renderer, player, level, camera);
+	//int x = player.getX() - (camera.getX() - camera.WindowWidth);
+	//int y = player.getY() - (camera.getY() - camera.WindowHeight);
+	//player.setPosition(player.getX() - (camera.getX() + camera.WindowWidth / 2), player.getY() - (camera.getY() + camera.WindowHeight / 2));
+	player.RenderPlayer(renderer, true);
+	//RenderPlayer(renderer, player, level, camera);
 	
 
 	// Render the trees last
@@ -190,10 +194,7 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 			TreePixelTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
 		else if (tree.Fern)
 			TreeTwoTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
-
 	}
-		
-
 	// Erase the trees after rendering them
 	trees.erase(trees.begin(), trees.end());
 	
@@ -201,10 +202,13 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 
 void CellRendering::RenderPlayer(SDL_Renderer* renderer, Player& player,  Level& level, Camera& camera)
 {
-	int x = player.getX() - camera.getX();
-	int y = player.getY() - camera.getY();
-	if (player.characterType == "Player")
-		characterTex.renderRotation(renderer, x, y, player.getSize(), player.getSize(), player.getRotation());
+	//int x = player.getX() - camera.getX();
+	//int y = player.getY() - camera.getY();
+	//player.setPosition(x, y);
+	//if (player.characterType == "Player")
+		//characterTex.renderRotation(renderer, x, y, player.getSize(), player.getSize(), player.getRotation());
+		//player.RenderPlayer(renderer);
+
 }
 
 void CellRendering::RenderAgents(Agent& agent, SDL_Renderer* renderer, Level& level, Camera& camera)

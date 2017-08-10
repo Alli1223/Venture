@@ -138,7 +138,9 @@ void Venture::run()
 {
 	// Run the main menu
 	menu.MainMenu(gameSettings, player, renderer);
-
+	player.screenCenter.x = gameSettings.WINDOW_WIDTH / 2;
+	player.screenCenter.y = gameSettings.WINDOW_HEIGHT / 2;
+	player.xOffset = gameSettings.WINDOW_WIDTH / 2;
 	// Generates the world around the camera position
 	terrainGen.setSeed(4123);
 
@@ -236,8 +238,8 @@ void Venture::run()
 		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents);
 
 
-		TextUI playerText("Sans");
-		playerText.render(renderer, networkManager.getPlayerName(), gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, 50, 100, White);
+		//TextUI playerText("Sans");
+		//playerText.render(renderer, networkManager.getPlayerName(), gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, 50, 100, White);
 		
 		
 		SDL_RenderPresent(renderer);

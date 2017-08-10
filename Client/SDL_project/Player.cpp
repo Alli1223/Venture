@@ -2,7 +2,8 @@
 #include "Player.h"
 
 
-Player::Player() : characterTex(characterTextureLocation + "Alli.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png"), hairShape(clothesTextureLocation + "Hair.png")
+Player::Player() : characterTex(characterTextureLocation + "AlliBald.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png"), shortHair(clothesTextureLocation + "Hair.png"), longHair(clothesTextureLocation + "LongHair.png"),
+eyes(clothesTextureLocation + "Eyes.png")
 {
 }
 
@@ -11,40 +12,72 @@ Player::~Player()
 {
 }
 
-void Player::RenderPlayer(SDL_Renderer* renderer)
+void Player::RenderPlayer(SDL_Renderer* renderer, bool useOffset)
 {
-	characterTex.renderRotation(renderer, getX(), getY(), getSize(), getSize(), getRotation());
+	if (useOffset)
+	{
+		renderOffset.x = screenCenter.x;
+		renderOffset.y = screenCenter.y;
+	}
+	else
+	{
+		renderOffset.x = getX();
+		renderOffset.y = getY();
+	}
+	characterTex.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
 
 	switch (PlayerClothes.hair)
 	{
-	case Clothing::black:
+	case Clothing::blackHair:
 		hairColour = { 10, 10, 10 };
 		break;
-	case Clothing::red:
+	case Clothing::brownHair:
+		hairColour = { 139,69,19 };
+		break;
+	case Clothing::redHair:
 		hairColour = { 200, 25, 25 };
 		break;
-	case Clothing::pink:
+	case Clothing::pinkHair:
 		hairColour = { 255, 182, 193 };
 	}
-	hairShape.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
-	hairShape.renderRotation(renderer, getX(), getY(), getSize(), getSize(), getRotation());
+	shortHair.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
+	longHair.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
+
+	
+
+	//Render head wear texture
+	
+	switch (PlayerClothes.eyes)
+	{
+	case Clothing::brownEye:
+		eyeColour = { 139,69,19 };
+		break;
+	case Clothing::greenEye:
+		eyeColour = { 34,139,34 };
+		break;
+	case Clothing::blueEye:
+		eyeColour = { 0, 191, 255 };
+		break;
+	}
+	eyes.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
+	eyes.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
 
 	//Render head wear texture
 	switch (PlayerClothes.head)
 	{
-	case Clothing::noHeadWear:
-		//Donothing
+	case Clothing::shortHair:
+		shortHair.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
 		break;
-	case Clothing::hat:
+	case Clothing::longHair:
+		longHair.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
 		break;
 	}
-
 
 	//Render legs
 	switch (PlayerClothes.body)
 	{
 	case Clothing::jacket:
-		jacket.renderRotation(renderer, getX(), getY(), getSize(), getSize(), getRotation());
+		jacket.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
 		break;
 	case Clothing::dress:
 
@@ -64,11 +97,22 @@ void Player::RenderPlayer(SDL_Renderer* renderer)
 		break;
 
 	case Clothing::jeans:
-		jeans.renderRotation(renderer, getX(), getY(), getSize(), getSize(), getRotation());
+		jeans.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
 		break;
 
 	case Clothing::skirt:
 
 		break;
 	}
+}
+
+//TODO: Calcualte number of values in each enum
+void Player::calcualteNumofvalues()
+{
+	
+	for (int i = Clothing::redHair; i != Clothing::gingerHair; i++)
+	{
+
+	}
+	
 }

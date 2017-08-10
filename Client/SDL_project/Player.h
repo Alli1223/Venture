@@ -6,20 +6,28 @@ public:
 	Player();
 	~Player();
 	
-	void RenderPlayer(SDL_Renderer* renderer);
-
+	void RenderPlayer(SDL_Renderer* renderer, bool useOffset);
+	
 	typedef struct
 	{
 		enum HairColour {
-			red,
-			yellow,
-			pink,
-			brown,
-			black,
-			ginger
+			redHair,
+			yellowHair,
+			pinkHair,
+			brownHair,
+			blackHair,
+			gingerHair
 		}hair;
+		enum EyeColour {
+			brownEye,
+			greenEye,
+			blueEye
+		}eyes;
+
 		enum HeadWear {
 			noHeadWear,
+			shortHair,
+			longHair,
 			hat
 		}head;
 
@@ -37,15 +45,24 @@ public:
 		}leg;
 	} Clothing;
 	
-	bool gender = false;
+	glm::vec2 renderOffset;
+	glm::vec2 screenCenter;
+	int xOffset, yOffset;
 	Clothing PlayerClothes;
+
 private:
+
+	
+	void calcualteNumofvalues();
 	SDL_Color hairColour = { 255,255,255 };
+	SDL_Color eyeColour = { 255,255,255 };
 	std::string characterTextureLocation = "Resources\\Sprites\\Character\\";
 	std::string clothesTextureLocation = "Resources\\Sprites\\Character\\Clothes\\";
 	//! For the Character
 	Texture characterTex;
-	Texture hairShape;
+	Texture shortHair;
+	Texture longHair;
+	Texture eyes;
 
 	Texture jacket;
 	Texture jeans;
