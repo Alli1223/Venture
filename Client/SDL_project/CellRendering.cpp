@@ -70,12 +70,12 @@ void CellRendering::AlterTextures(Level& level)
 	
 }
 
-void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_Renderer* renderer)
+void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Chunk& chunk, SDL_Renderer* renderer)
 {
 	int newX = 0, newY = 0;
 	int xPos = 0, yPos = 0;
 	int cellSize = level.getCellSize();
-
+	
 	for (int x = 0; x < level.getChunkSize(); x++)
 		for (int y = 0; y < level.getChunkSize(); y++)
 		{
@@ -127,13 +127,14 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Chunk& chunk, SDL_
 					LongGrass2.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isSnow)
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+
 				if (chunk.tiles[x][y]->isTree)
 				{
-					tree t1;
-					t1.Oak;
-					t1.pos = glm::vec2(xPos - (cellSize / 2), yPos - (cellSize / 2));
-					t1.treeSize = glm::vec2(cellSize * 4, cellSize * 4);
-					trees.push_back(t1);
+						tree t1;
+						t1.Oak;
+						t1.pos = glm::vec2(xPos, yPos);
+						t1.treeSize = glm::vec2(cellSize * 4, cellSize * 4);
+						trees.push_back(t1);
 				}
 
 					/*
@@ -173,7 +174,7 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 	// Render all the cells in the chunks
 	for (int i = (camera.getX() / level.getCellSize()) / level.getChunkSize() - 1; i < ((camera.getX() / level.getCellSize()) / level.getChunkSize()) + camera.ChunksOnScreen.x; i++)
 		for (int j = (camera.getY() / level.getCellSize()) / level.getChunkSize() - 1; j < ((camera.getY() / level.getCellSize()) / level.getChunkSize()) + camera.ChunksOnScreen.y; j++)
-				RenderChunk(level,camera, level.World[i][j], renderer);
+				RenderChunk(level,camera,player, level.World[i][j], renderer);
 
 	// Render Agents
 	for (Agent& agent : allAgents)

@@ -15,7 +15,7 @@ Player::~Player()
 void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 {
 	walkR.maxFrames = 6;
-	walkR.oscillate = true;
+	//walkR.oscillate = true;
 	walkR.OnAnimate();
 
 	if (renderCenter)
@@ -29,7 +29,7 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 		renderOffset.y = getY();
 	}
 	//characterTex.renderRotation(renderer, renderOffset.x, renderOffset.y, walkR.getCurrentFrame() * 32, getSize(),getSize(), getSize(), getRotation());
-	characterTex.renderAnim(renderer, walkR.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, getSize(), getSize(), 0);
+	characterTex.renderAnim(renderer, walkR.getCurrentFrame() * 32, 0, screenCenter.x, screenCenter.y, 32, 32, getRotation());
 
 
 	switch (PlayerClothes.hair)
@@ -110,6 +110,8 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 
 		break;
 	}
+
+	
 }
 
 //TODO: Calcualte number of values in each enum

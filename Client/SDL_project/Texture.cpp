@@ -61,10 +61,26 @@ void Texture::renderRotation(SDL_Renderer* renderer, int x, int y, int width, in
 }
 void Texture::renderAnim(SDL_Renderer* renderer, int sX, int sY, int dX, int dY, int width, int height, int angle)
 {
+	SDL_Surface* image = IMG_Load("Resources\\Sprites\\Character\\animTemplate.png");
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
+
 	SDL_Rect srcrect = { sX, sY, width, height };
 	SDL_Rect dstrect = { dX, dY, width, height };
 
 	SDL_RenderCopy(renderer, texture, &srcrect, &dstrect);
+
+	/*Death animation
+	SDL_Surface* image = IMG_Load("Resources\\deathAnim.png");
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, image);
+
+	Uint32 ticks = SDL_GetTicks();
+	Uint32 sprite = (ticks / 500) % 10;
+
+	SDL_Rect srcrect = { sprite * 10, 0, 10, 100, };
+	SDL_Rect dstrect = { characterOne.getX() - (characterOne.getSize() / 2), characterOne.getY() - (characterOne.getSize() / 2), characterOne.getSize(), characterOne.getSize() };
+
+	SDL_RenderCopy(renderer, texture, &srcrect, &dstrect);
+	*/
 }
 
 void Texture::alterTransparency(int transparencyLevel)
