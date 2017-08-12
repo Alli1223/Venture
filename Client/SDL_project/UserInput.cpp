@@ -58,7 +58,6 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	int agentNo = agentManager.GetAgentNumberFomID(playerName);
 	playerChunkPos = player.chunkPos;
 	playercellPos = player.cellPos;
-	player.setPlayerMoving(false);
 	/////////// PLAYER MOVEMENT ////////////
 	//Diagonal movement
 	if (state[SDL_SCANCODE_W] && state[SDL_SCANCODE_D])
@@ -119,6 +118,12 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 		player.setTargetRotation(180);
 		if (CheckIfCellIsWalkable(level, playerX, playerY - playerSpeed))
 			player.setY(playerY - playerSpeed);
+	}
+	else
+	{
+		player.setSpeed(0);
+		player.setPlayerMoving(false);
+		player.setTargetRotation(0);
 	}
 
 

@@ -2,7 +2,7 @@
 #include "Player.h"
 
 
-Player::Player() : characterTex(characterTextureLocation + "base.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png"), shortHair(clothesTextureLocation + "Hair.png"), longHair(clothesTextureLocation + "LongHair.png"),
+Player::Player() : characterTex(characterTextureLocation + "animTemplate.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png"), shortHair(clothesTextureLocation + "Hair.png"), longHair(clothesTextureLocation + "LongHair.png"),
 eyes(characterTextureLocation + "eyesAnim.png"), sideWalk(characterTextureLocation + "walkSide.png"), sideBlink(characterTextureLocation + "sideBlink.png")
 {
 }
@@ -16,7 +16,9 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 {
 	walk.maxFrames = 4;
 	blink.maxFrames = 4;
-	//blink.setFrameRate(60);
+	blink.setFrameRate(60);
+
+	if(getSpeed() == 0)
 	blink.OnAnimate();
 
 
@@ -40,7 +42,7 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	//Walk Down
 	if (getTargetRotation() == 0 || getTargetRotation() == 360)
 	{
-
+		characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
 	}
 	// Walk Left
 	else if (getTargetRotation() == 90)
@@ -54,7 +56,7 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
 		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
 	}
-	characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
+	
 
 	switch (PlayerClothes.hair)
 	{
