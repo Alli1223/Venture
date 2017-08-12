@@ -29,7 +29,7 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 		renderOffset.y = getY();
 	}
 	//characterTex.renderRotation(renderer, renderOffset.x, renderOffset.y, walkR.getCurrentFrame() * 32, getSize(),getSize(), getSize(), getRotation());
-	characterTex.renderAnim(renderer, walkR.getCurrentFrame() * 32, 0, screenCenter.x, screenCenter.y, 32, 32, getRotation());
+	characterTex.renderAnim(renderer, walkR.getCurrentFrame() * 32, 0, screenCenter.x, screenCenter.y, 32, 32, 32);
 
 
 	switch (PlayerClothes.hair)
