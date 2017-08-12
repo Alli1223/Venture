@@ -2,8 +2,8 @@
 #include "Player.h"
 
 
-Player::Player() : characterTex(characterTextureLocation + "walkTemplate.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png"), shortHair(clothesTextureLocation + "Hair.png"), longHair(clothesTextureLocation + "LongHair.png"),
-eyes(characterTextureLocation + "eyesAnim.png")
+Player::Player() : characterTex(characterTextureLocation + "base.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png"), shortHair(clothesTextureLocation + "Hair.png"), longHair(clothesTextureLocation + "LongHair.png"),
+eyes(characterTextureLocation + "eyesAnim.png"), sideWalk(characterTextureLocation + "walkSide.png"), sideBlink(characterTextureLocation + "sideBlink.png")
 {
 }
 
@@ -14,14 +14,16 @@ Player::~Player()
 
 void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 {
-	walkR.maxFrames = 6;
-	blink.maxFrames = 6;
-	//blink.setFrameRate(20);
+	walk.maxFrames = 4;
+	blink.maxFrames = 4;
+	//blink.setFrameRate(60);
 	blink.OnAnimate();
 
-	//walkR.oscillate = true;
-	//walkR.OnAnimate();
-	walkR.setFrameRate(3);
+
+
+	if(isPlayerMoving())
+		walk.OnAnimate();
+
 
 	if (renderCenter)
 	{
@@ -33,10 +35,26 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 		renderOffset.x = getX();
 		renderOffset.y = getY();
 	}
-	//characterTex.renderRotation(renderer, renderOffset.x, renderOffset.y, walkR.getCurrentFrame() * 32, getSize(),getSize(), getSize(), getRotation());
-	characterTex.renderAnim(renderer, walkR.getCurrentFrame() * 32, 0, screenCenter.x, screenCenter.y, 32, 32, 32);
+	//characterTex.renderRotation(renderer, renderOffset.x, renderOffset.y, walk.getCurrentFrame() * 32, getSize(),getSize(), getSize(), getRotation());
+	
+	//Walk Down
+	if (getTargetRotation() == 0 || getTargetRotation() == 360)
+	{
 
-
+	}
+	// Walk Left
+	else if (getTargetRotation() == 90)
+	{
+		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 32, renderOffset.x, renderOffset.y, 32, 32, 32);
+		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 32, renderOffset.x, renderOffset.y, 32, 32, 32);
+	}
+	// Walk Right
+	else if (getTargetRotation() == 270)
+	{
+		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
+		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
+	}
+	characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
 
 	switch (PlayerClothes.hair)
 	{
@@ -54,7 +72,6 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	}
 	shortHair.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
 	longHair.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
-
 	
 
 	//Render head wear texture
@@ -72,8 +89,11 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 		break;
 	}
 	eyes.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
-	characterTex.renderAnim(renderer, walkR.getCurrentFrame() * 32, 0, screenCenter.x, screenCenter.y, 32, 32, 32);
-	eyes.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, screenCenter.x, screenCenter.y, 32, 32, 32);
+	sideBlink.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
+	//characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
+	//eyes.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
+	
+
 
 	//Render head wear texture
 	switch (PlayerClothes.head)
@@ -90,7 +110,7 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	switch (PlayerClothes.body)
 	{
 	case Clothing::jacket:
-		jacket.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
+		//jacket.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
 		break;
 	case Clothing::dress:
 
@@ -110,7 +130,7 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 		break;
 
 	case Clothing::jeans:
-		jeans.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
+		//jeans.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
 		break;
 
 	case Clothing::skirt:

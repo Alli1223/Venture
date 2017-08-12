@@ -31,6 +31,9 @@ public:
 	//! Gets and the agents health
 	double getHealth() { return health; }
 
+	bool setPlayerMoving(bool yayornay) { return isMoving = yayornay; }
+	bool isPlayerMoving() { return isMoving; }
+
 	//! Agent ID
 	std::string getID() { return ID; }
 	std::string setID(std::string newID) { return ID = newID; }
@@ -69,7 +72,6 @@ public:
 	Point getAgentPointLocation() { return agentPointLocation; }
 	Point setAgentPointLocation(Point newPointLocation) { return agentPointLocation = newPointLocation; }
 
-	bool isMoving = false;
 
 	int getRotation() { return rotation; }
 	int getTargetRotation() { return targetRotation; }
@@ -102,5 +104,7 @@ private:
 	double health = 100.0;
 	//! If the Character can rotate
 	bool incrementalRotating = false;
+
+	bool isMoving = false;
 };
 

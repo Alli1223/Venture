@@ -2,7 +2,7 @@
 #include "Menu.h"
 
 
-Menu::Menu() : menuBackground(colourTextures + "Grey.png"), cursor(menuTextures + "Cursor.png")
+Menu::Menu() : menuBackground(colourTextures + "Grey.png"), cursor(menuTextures + "Cursor.png"), rgb(colourTextures + "Spectrum.png")
 {
 }
 
@@ -98,10 +98,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 	playerCreation.PlayerClothes.hair = Player::Clothing::pinkHair;
 	playerCreation.PlayerClothes.head = Player::Clothing::longHair;
 
-	int legsVal = 0;
-
 	
-	int legCycle = 0;
 	while (displayCharacterMenu)
 	{
 		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
@@ -119,12 +116,16 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 		SDL_RenderClear(renderer);
 		menuBackground.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, gameSettings.WINDOW_WIDTH, gameSettings.WINDOW_HEIGHT);
 		
+		// Customisation buttons
 		changeHead.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() - 100, 100, 50);
 		changeBody.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() , 100, 50);
 		changeLegs.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() + 100, 100, 50);
 		changeHairColour.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 100, 150, 50);
 		changeEyeColour.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 50, 150, 50);
 
+
+		// Button functionality
+		//Legs
 		if (changeLegs.isPressed())
 		{
 			if(playerCreation.PlayerClothes.leg == Player::Clothing::chinos)
@@ -132,7 +133,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 			else if (playerCreation.PlayerClothes.leg == Player::Clothing::jeans)
 				playerCreation.PlayerClothes.leg = Player::Clothing::chinos;
 		}
-
+		// Body
 		if (changeBody.isPressed())
 		{
 			if (playerCreation.PlayerClothes.body == Player::Clothing::jacket)
@@ -140,7 +141,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 			else if (playerCreation.PlayerClothes.body == Player::Clothing::tshirt)
 				playerCreation.PlayerClothes.body = Player::Clothing::jacket;
 		}
-
+		// Head
 		if (changeHead.isPressed())
 		{
 			if (playerCreation.PlayerClothes.head == Player::Clothing::shortHair)
@@ -148,6 +149,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 			else if (playerCreation.PlayerClothes.head == Player::Clothing::longHair)
 				playerCreation.PlayerClothes.head = Player::Clothing::shortHair;
 		}
+		// Hair colour
 		if (changeHairColour.isPressed())
 		{
 			if (playerCreation.PlayerClothes.hair == Player::Clothing::brownHair)
@@ -155,6 +157,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 			else if (playerCreation.PlayerClothes.hair == Player::Clothing::pinkHair)
 				playerCreation.PlayerClothes.hair = Player::Clothing::brownHair;
 		}
+		// Eye colour
 		if (changeEyeColour.isPressed())
 		{
 			if (playerCreation.PlayerClothes.eyes == Player::Clothing::brownEye)
@@ -163,9 +166,12 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 				playerCreation.PlayerClothes.eyes = Player::Clothing::brownEye;
 		}
 		
+		// Render player
 		playerCreation.RenderPlayer(renderer, false);
 
+		//rgb.render(renderer, gameSettings.WINDOW_WIDTH - (gameSettings.WINDOW_WIDTH / 4), gameSettings.WINDOW_HEIGHT - (gameSettings.WINDOW_HEIGHT / 4), 100, 100);
 		exit.render(renderer, 50, 25, 100, 50);
+		// Exit button
 		if (exit.isPressed())
 		{
 			//gameSettings.running = false;

@@ -36,6 +36,8 @@ private:
 	//! Stores the menus background texture
 	Texture menuBackground;
 
+	Texture rgb;
+
 	//! Cursor texture
 	Texture cursor;
 };

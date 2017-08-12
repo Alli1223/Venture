@@ -51,9 +51,9 @@ public:
 	int xOffset, yOffset;
 	Clothing PlayerClothes;
 
-private:
 
-	int playerWalkDirection = 0;
+
+private:
 	void calcualteNumofvalues();
 	SDL_Color hairColour = { 255,255,255 };
 	SDL_Color eyeColour = { 255,255,255 };
@@ -61,13 +61,17 @@ private:
 	std::string clothesTextureLocation = "Resources\\Sprites\\Character\\Clothes\\";
 	//! For the Character
 	Texture characterTex;
+	Texture sideWalk;
+	Texture sideBlink;
 	Texture shortHair;
 	Texture longHair;
 	Texture eyes;
-	Animation walkR;
+	Animation walk;
+
 	Animation blink;
 
 	Texture jacket;
 	Texture jeans;
+
 };
 

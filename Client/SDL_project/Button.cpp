@@ -2,7 +2,7 @@
 #include "Button.h"
 
 
-Button::Button(std::string newText) : buttonText("Ostrich"), text(newText), buttonBackground(buttonTextureLocation + "Red.png")
+Button::Button(std::string newText) : buttonText("Ostrich"), text(newText), buttonBackground(buttonTextureLocation + "Grey.png")
 {
 }
 

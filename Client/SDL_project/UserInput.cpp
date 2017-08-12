@@ -58,23 +58,26 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	int agentNo = agentManager.GetAgentNumberFomID(playerName);
 	playerChunkPos = player.chunkPos;
 	playercellPos = player.cellPos;
-
+	player.setPlayerMoving(false);
 	/////////// PLAYER MOVEMENT ////////////
 	//Diagonal movement
 	if (state[SDL_SCANCODE_W] && state[SDL_SCANCODE_D])
 	{
 		player.setTargetRotation(225);
+		player.setPlayerMoving(true);
 		if(CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY - playerSpeed))
 			player.setPosition(playerX + playerSpeed, playerY - playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_W] && state[SDL_SCANCODE_A])
 	{
 		player.setTargetRotation(135);
+		player.setPlayerMoving(true);
 		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY - playerSpeed))
 			player.setPosition(playerX - playerSpeed, playerY - playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_S] && state[SDL_SCANCODE_D])
 	{
+		player.setPlayerMoving(true);
 		player.setTargetRotation(-45);
 		if (CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY + playerSpeed))
 			player.setPosition(playerX + playerSpeed, playerY + playerSpeed);
@@ -82,6 +85,7 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	}
 	else if (state[SDL_SCANCODE_S] && state[SDL_SCANCODE_A])
 	{
+		player.setPlayerMoving(true);
 		player.setTargetRotation(45);
 		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY + playerSpeed))
 			player.setPosition(playerX - playerSpeed, playerY + playerSpeed);
@@ -89,12 +93,14 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	// Player Movement
 	else if (state[SDL_SCANCODE_S])
 	{
+		player.setPlayerMoving(true);
 		player.setTargetRotation(0);
 		if (CheckIfCellIsWalkable(level, playerX, playerY + playerSpeed))
 			player.setY(playerY + playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_A])
 	{
+		player.setPlayerMoving(true);
 		player.setTargetRotation(90);
 		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY))
 			player.setX(playerX - playerSpeed);
@@ -102,12 +108,14 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	}
 	else if (state[SDL_SCANCODE_D])
 	{
+		player.setPlayerMoving(true);
 		player.setTargetRotation(270);
 		if (CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY))
 			player.setX(playerX + playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_W])
 	{
+		player.setPlayerMoving(true);
 		player.setTargetRotation(180);
 		if (CheckIfCellIsWalkable(level, playerX, playerY - playerSpeed))
 			player.setY(playerY - playerSpeed);

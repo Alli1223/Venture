@@ -20,7 +20,8 @@ Animation::~Animation()
 }
 
 
-void Animation::OnAnimate() {
+void Animation::OnAnimate() 
+{
 	if (oldTime + frameRate > SDL_GetTicks()) {
 		return;
 	}

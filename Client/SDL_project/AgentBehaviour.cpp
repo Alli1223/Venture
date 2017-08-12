@@ -21,7 +21,7 @@ void AgentBehaviour::DecideTask(Level& level, Agent& agent)
 
 		// Set whether the actions are possible //TODO: make this run once every few seconds, not every frame
 		// Level has bed and agent is tired
-		if (levelHasBed && agent.getTiredness() > tirednessThreshold && agent.isMoving == false)
+		if (levelHasBed && agent.getTiredness() > tirednessThreshold)
 		{
 			// Find path to bed
 			std::vector<Point> testpath = agent.pathfinder.findPath(level, agent.getAgentPointLocation(), emptyBedLocations[0]);
@@ -32,7 +32,7 @@ void AgentBehaviour::DecideTask(Level& level, Agent& agent)
 		}
 
 		// Level has toilet and agent needs it
-		if (LevelHasToilet && agent.getToietNeed() > toiletThreshold && agent.isMoving == false)
+		if (LevelHasToilet && agent.getToietNeed() > toiletThreshold)
 		{
 			// Find path to toilet
 			std::vector<Point> testpath = agent.pathfinder.findPath(level, agent.getAgentPointLocation(), emptyToiletLocations[0]);

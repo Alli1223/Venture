@@ -106,6 +106,6 @@ void Agent::Move(Level& level, Point& StartPoint, Point& EndPoint)
 	if (path.size() > 0)
 	{
 		movementStatus = TraversingPath;
-		this->isMoving = true;
+		//this->isMoving = true;
 	}
 }
