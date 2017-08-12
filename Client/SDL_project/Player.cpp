@@ -2,8 +2,8 @@
 #include "Player.h"
 
 
-Player::Player() : characterTex(characterTextureLocation + "animTemplate.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png"), shortHair(clothesTextureLocation + "Hair.png"), longHair(clothesTextureLocation + "LongHair.png"),
-eyes(clothesTextureLocation + "Eyes.png")
+Player::Player() : characterTex(characterTextureLocation + "walkTemplate.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png"), shortHair(clothesTextureLocation + "Hair.png"), longHair(clothesTextureLocation + "LongHair.png"),
+eyes(characterTextureLocation + "eyesAnim.png")
 {
 }
 
@@ -15,8 +15,13 @@ Player::~Player()
 void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 {
 	walkR.maxFrames = 6;
+	blink.maxFrames = 6;
+	//blink.setFrameRate(20);
+	blink.OnAnimate();
+
 	//walkR.oscillate = true;
-	walkR.OnAnimate();
+	//walkR.OnAnimate();
+	walkR.setFrameRate(3);
 
 	if (renderCenter)
 	{
@@ -30,6 +35,7 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	}
 	//characterTex.renderRotation(renderer, renderOffset.x, renderOffset.y, walkR.getCurrentFrame() * 32, getSize(),getSize(), getSize(), getRotation());
 	characterTex.renderAnim(renderer, walkR.getCurrentFrame() * 32, 0, screenCenter.x, screenCenter.y, 32, 32, 32);
+
 
 
 	switch (PlayerClothes.hair)
@@ -66,7 +72,8 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 		break;
 	}
 	eyes.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
-	eyes.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
+	characterTex.renderAnim(renderer, walkR.getCurrentFrame() * 32, 0, screenCenter.x, screenCenter.y, 32, 32, 32);
+	eyes.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, screenCenter.x, screenCenter.y, 32, 32, 32);
 
 	//Render head wear texture
 	switch (PlayerClothes.head)

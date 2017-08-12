@@ -53,7 +53,7 @@ public:
 
 private:
 
-	
+	int playerWalkDirection = 0;
 	void calcualteNumofvalues();
 	SDL_Color hairColour = { 255,255,255 };
 	SDL_Color eyeColour = { 255,255,255 };
@@ -65,6 +65,7 @@ private:
 	Texture longHair;
 	Texture eyes;
 	Animation walkR;
+	Animation blink;
 
 	Texture jacket;
 	Texture jeans;
