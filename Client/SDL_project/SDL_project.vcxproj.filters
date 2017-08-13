@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Fire.cpp">
-      <Filter>Source Files\Disaster Classes</Filter>
-    </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Source Files\Level Classes</Filter>
     </ClCompile>
@@ -12,9 +9,6 @@
     </ClCompile>
     <ClCompile Include="Cell.cpp">
       <Filter>Source Files\Level Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Oxygen.cpp">
-      <Filter>Source Files\Disaster Classes</Filter>
     </ClCompile>
     <ClCompile Include="InitialisationError.cpp">
       <Filter>Source Files\Main Game Classes</Filter>
@@ -106,9 +100,6 @@
     <ClCompile Include="Animation.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Fire.h">
-      <Filter>Headers\Disaster Classes</Filter>
-    </ClInclude>
     <ClInclude Include="Cell.h">
       <Filter>Headers\Level Classes</Filter>
     </ClInclude>
@@ -129,9 +120,6 @@
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Headers\Main Game Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Oxygen.h">
-      <Filter>Headers\Disaster Classes</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Headers\Main Game Classes</Filter>
@@ -236,17 +224,11 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{e1050c3b-6661-4e0f-ad9a-f78f73c03ba3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers\Disaster Classes">
-      <UniqueIdentifier>{c63de961-89a3-4296-9133-074379e47619}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Headers\Level Classes">
       <UniqueIdentifier>{08f85d67-6788-4104-9167-eb2fc004eebe}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Level Classes">
       <UniqueIdentifier>{fd541410-06d9-4c7a-8100-8879ba19dc6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Disaster Classes">
-      <UniqueIdentifier>{2c03c8d0-c3f1-46df-b2d4-4d9faff506ba}</UniqueIdentifier>
     </Filter>
     <Filter Include="Headers\Main Game Classes">
       <UniqueIdentifier>{dbf0ae6c-7b23-4079-96ed-6b6cddeddbed}</UniqueIdentifier>

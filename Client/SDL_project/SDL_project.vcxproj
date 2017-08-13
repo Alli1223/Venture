@@ -177,7 +177,6 @@
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="AgentInteraction.h" />
-    <ClInclude Include="Fire.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="NetworkClient.h" />
     <ClInclude Include="NetworkManager.h" />
@@ -189,7 +188,6 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="InitialisationError.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="Oxygen.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SDL_project.h" />
     <ClInclude Include="SimplexNoise.h" />
@@ -219,7 +217,6 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="AgentInteraction.cpp" />
-    <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NetworkClient.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
@@ -231,7 +228,6 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="InitialisationError.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="Oxygen.cpp" />
     <ClCompile Include="SDL_project.cpp" />
     <ClCompile Include="SimplexNoise.cpp" />
     <ClCompile Include="TextUI.cpp" />

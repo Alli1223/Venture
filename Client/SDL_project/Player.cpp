@@ -23,10 +23,6 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	//blink.OnAnimate();
 	
 	
-
-	
-
-
 	if(isPlayerMoving())
 		walk.OnAnimate();
 

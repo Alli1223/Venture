@@ -38,12 +38,12 @@ void Map::LoadMap(std::string filename, Level room)
 			}
 			if (character == '@')
 			{
-				room.tiles[x][y]->isGoal = false;
+				//room.tiles[x][y]->isGoal = false;
 			}
 			if (character == 'D')
 			{
-				room.tiles[x][y]->isRoom = true;
-				room.tiles[x][y]->isOpenDoor = true;
+				//room.tiles[x][y]->isRoom = true;
+				//room.tiles[x][y]->isOpenDoor = true;
 			}
 		}
 	}
@@ -149,9 +149,6 @@ bool Map::generateRoom(Level level, int size, int entranceX, int entranceY, char
 	{
 		for (int y = 0; y < room[0].size(); y++)
 		{
-			room[x][y]->oxygenLevel = oxygenLevel;
-			room[x][y]->isRoom = true;
-
 
 			// Spawn random hull breach and oxygen tanks
 			int randomHullBreachChance = rand() % (0 - hullBreachSpawnChance);
@@ -159,27 +156,7 @@ bool Map::generateRoom(Level level, int size, int entranceX, int entranceY, char
 			int randomInitialFireSpawnChance = rand() % (0 - initialFireSpawnChance);
 			int randomHealthPackChance = rand() % (0 - healthPackSpawnChance);
 
-			// Spawns objects within the room
-			if (randomHullBreachChance == 0 && !roomVector.empty())
-			{
-				room[x][y]->isHullBreach = true;
-				room[x][y]->oxygenLevel = 0;
-			}
-			if (randomOxygenTankChance == 0 && !roomVector.empty())
-			{
-				room[x][y]->isOxygenTank = true;
-				room[x][y]->setOxygenLevel(100);
-			}
-			if (randomHealthPackChance == 0 && room[x][y]->isOxygenTank == false)
-			{
-				room[x][y]->isHealthPack = true;
-				room[x][y]->setOxygenLevel(100);
-			}
-			if (randomInitialFireSpawnChance == 0 && !roomVector.empty() && room[x][y]->isHullBreach == false && room[x][y]->oxygenLevel == 0)
-			{
-				room[x][y]->isOnFire = true;
-				room[x][y]->setOxygenLevel(0);
-			}
+			
 		}
 	}
 	roomVector.push_back(room);
@@ -255,7 +232,7 @@ void Map::generateMap(Level level)
 								if (generateRoom(level, size, xOfDoor, yOfDoor, 'n'))
 								{
 									level.tiles[xOfDoor][yOfDoor]->isRoom = true;
-									level.tiles[xOfDoor][yOfDoor]->isOpenDoor = true;
+									
 								}
 							}
 						}
@@ -284,7 +261,7 @@ void Map::generateMap(Level level)
 								if (generateRoom(level, size, xOfDoor, yOfDoor, 'e'))
 								{
 									level.tiles[xOfDoor][yOfDoor]->isRoom = true;
-									level.tiles[xOfDoor][yOfDoor]->isOpenDoor = true;
+									
 								}
 							}
 						}
@@ -312,7 +289,7 @@ void Map::generateMap(Level level)
 								if (generateRoom(level, size, xOfDoor, yOfDoor, 's'))
 								{
 									level.tiles[xOfDoor][yOfDoor]->isRoom = true;
-									level.tiles[xOfDoor][yOfDoor]->isOpenDoor = true;
+									
 								}
 							}
 						}
@@ -341,7 +318,7 @@ void Map::generateMap(Level level)
 								if (generateRoom(level, size, xOfDoor, yOfDoor, 'w'))
 								{
 									level.tiles[xOfDoor][yOfDoor]->isRoom = true;
-									level.tiles[xOfDoor][yOfDoor]->isOpenDoor = true;
+									
 								}
 							}
 						}
@@ -351,15 +328,7 @@ void Map::generateMap(Level level)
 		}
 		//Check if you can attempt to place a new room
 		roomBase++;
-		if (roomBase  >= roomVector.size())
-		{
-			thereIsSpace = false;
-			//Places Goal in last room generated
-			roomVector[roomVector.size() - 1][roomVector[0].size() / 2][roomVector[0][0].size() / 2] ->isGoal = true;
-			roomVector[roomVector.size() - 1][roomVector[0].size() / 2][roomVector[0][0].size() / 2] ->isOpenDoor = false;
-			roomVector[roomVector.size() - 1][roomVector[0].size() / 2][roomVector[0][0].size() / 2]->isHullBreach = false;
-			roomVector[roomVector.size() - 1][roomVector[0].size() / 2][roomVector[0][0].size() / 2]->oxygenLevel = 100;
-		}
+
 	}
 	
 }
