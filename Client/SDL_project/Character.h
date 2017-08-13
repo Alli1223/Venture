@@ -4,11 +4,15 @@
 #include "Inventory.h"
 #include "Items.h"
 #include "PathFinder.h"
+#include "Animation.h"
 class Character
 {
 public:
 	Character();
 	~Character();
+
+
+
 
 
 	//Getter methods
@@ -81,8 +85,43 @@ public:
 	int setTargetRotation(int newTarget) { return targetRotation = newTarget; }
 	int setRotationSpeed(int newSpeed) { return rotationSpeed = newSpeed; }
 
-	
+	typedef struct
+	{
+		enum HairColour {
+			redHair,
+			yellowHair,
+			pinkHair,
+			brownHair,
+			blackHair,
+			gingerHair
+		}hair;
+		enum EyeColour {
+			brownEye,
+			greenEye,
+			blueEye
+		}eyes;
 
+		enum HeadWear {
+			noHeadWear,
+			shortHair,
+			longHair,
+			hat
+		}head;
+
+		enum ShirtWear {
+			noShirt,
+			tshirt,
+			jacket,
+			dress
+		}body;
+		enum LegWear {
+			noLeg,
+			jeans,
+			chinos,
+			skirt
+		}leg;
+	} Clothing;
+	Clothing PlayerClothes;
 
 private:
 	//! string stores agent ID/Name
@@ -106,5 +145,7 @@ private:
 	bool incrementalRotating = false;
 
 	bool isMoving = false;
+
+
 };
 

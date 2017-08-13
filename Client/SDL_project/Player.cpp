@@ -2,8 +2,8 @@
 #include "Player.h"
 
 
-Player::Player() : characterTex(characterTextureLocation + "animTemplate.png"), jacket(clothesTextureLocation + "Jacket.png"), jeans(clothesTextureLocation + "Jeans.png"), shortHair(clothesTextureLocation + "Hair.png"), longHair(clothesTextureLocation + "LongHair.png"),
-eyes(characterTextureLocation + "eyesAnim.png"), sideWalk(characterTextureLocation + "walkSide.png"), sideBlink(characterTextureLocation + "sideBlink.png")
+Player::Player() : characterTexture(characterTextureLocation + "animTemplate.png"), jacketTexture(clothesTextureLocation + "Jacket.png"), jeansTexture(clothesTextureLocation + "Jeans.png"), shortHairTexture(clothesTextureLocation + "hair1.png"), longHairTexture(clothesTextureLocation + "hair3.png"),
+eyesTexture(characterTextureLocation + "eyesAnim.png"), walkTexture(characterTextureLocation + "walk.png"), sideBlinkTexture(characterTextureLocation + "sideBlink.png")
 {
 }
 
@@ -14,17 +14,17 @@ Player::~Player()
 
 void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 {
-	walk.maxFrames = 4;
-	blink.maxFrames = 4;
-	blink.setFrameRate(200);
-	blink.oscillate = true;
+	walkAnimation.maxFrames = 4;
+	blinkAnimation.maxFrames = 4;
+	blinkAnimation.setFrameRate(200);
+	blinkAnimation.oscillate = true;
 
 	//blink.addDelay(3000, 500);
 	//blink.OnAnimate();
 	
 	
 	if(isPlayerMoving())
-		walk.OnAnimate();
+		walkAnimation.OnAnimate();
 
 
 	if (renderCenter)
@@ -40,7 +40,6 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 
 	
 	// Alter colours
-
 	switch (PlayerClothes.hair)
 	{
 	case Clothing::blackHair:
@@ -55,8 +54,8 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	case Clothing::pinkHair:
 		hairColour = { 255, 182, 193 };
 	}
-	shortHair.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
-	longHair.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
+	shortHairTexture.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
+	longHairTexture.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
 	
 
 	//Render head wear texture
@@ -73,45 +72,52 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 		eyeColour = { 0, 191, 255 };
 		break;
 	}
-	eyes.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
-	sideBlink.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
+	eyesTexture.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
+	sideBlinkTexture.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
 	//characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
 
-	int pixelSize = 32;
+	
 	/// RENDER ROTATIONS ///
 	//Walk Down
 	if (getTargetRotation() == 0 || getTargetRotation() == 360)
 	{
-		characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		eyes.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		walkTexture.renderAnim(renderer, walkAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		eyesTexture.renderAnim(renderer, blinkAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		renderCharacterItems(renderer, walkAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	// Walk Left
 	else if (getTargetRotation() == 90)
 	{
-		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 32, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 32, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		walkTexture.renderAnim(renderer, walkAnimation.getCurrentFrame() * pixelSize, pixelSize, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		sideBlinkTexture.renderAnim(renderer, blinkAnimation.getCurrentFrame() * pixelSize, pixelSize, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		renderCharacterItems(renderer, walkAnimation.getCurrentFrame() * pixelSize, pixelSize, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	// Walk Right
 	else if (getTargetRotation() == 270)
 	{
-		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		walkTexture.renderAnim(renderer, walkAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		sideBlinkTexture.renderAnim(renderer, blinkAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		renderCharacterItems(renderer, walkAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	else if (getTargetRotation() == 180)
 	{
-		characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		walkTexture.renderAnim(renderer, walkAnimation.getCurrentFrame() * pixelSize, pixelSize * 3, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		renderCharacterItems(renderer, walkAnimation.getCurrentFrame() * pixelSize, pixelSize * 3, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	
+}
 
+void Player::renderCharacterItems(SDL_Renderer* renderer, int frameX, int frameY, int x, int y, int pixelSize, int characterSize)
+{
 
 	//Render head wear texture
 	switch (PlayerClothes.head)
 	{
 	case Clothing::shortHair:
-		//shortHair.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
+		shortHairTexture.renderAnim(renderer, frameX, frameY, x, y, pixelSize, characterSize);
 		break;
 	case Clothing::longHair:
-		//longHair.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
+		longHairTexture.renderAnim(renderer, frameX, frameY, x, y, pixelSize, characterSize);
 		break;
 	}
 
@@ -129,7 +135,7 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 
 		break;
 
-	
+
 	}
 	//Render leg wear
 	switch (PlayerClothes.leg)
@@ -146,9 +152,8 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 
 		break;
 	}
-
-	
 }
+
 
 //TODO: Calcualte number of values in each enum
 void Player::calcualteNumofvalues()

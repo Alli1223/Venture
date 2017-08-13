@@ -83,6 +83,7 @@ void Menu::MainMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* re
 void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* renderer)
 {
 	Button exit("Exit");
+	Button play("Play");
 	Button changeHead("Change Head");
 	Button changeBody("Change Body");
 	Button changeLegs("Change Trousers");
@@ -122,6 +123,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 		changeLegs.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() + 100, 100, 50);
 		changeHairColour.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 100, 150, 50);
 		changeEyeColour.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 50, 150, 50);
+		play.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT - 50, 100, 50);
 
 
 		// Button functionality
@@ -174,7 +176,12 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 		// Exit button
 		if (exit.isPressed())
 		{
-			//gameSettings.running = false;
+			gameSettings.running = false;
+			displayCharacterMenu = false;
+			displayMainMenu = false;
+		}
+		if (play.isPressed())
+		{
 			displayCharacterMenu = false;
 			displayMainMenu = false;
 		}
@@ -182,7 +189,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 
 
 		//Render the mouse cursor last
-		cursor.render(renderer, mouseX + (menuCursorSize / 2), mouseY + (menuCursorSize / menuCursorSize), menuCursorSize, menuCursorSize);
+		cursor.render(renderer, mouseX + (menuCursorSize / 2), mouseY + (menuCursorSize / 2), menuCursorSize, menuCursorSize);
 		SDL_RenderPresent(renderer);
 	}
 	//playerCreation.setPosition(gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2);

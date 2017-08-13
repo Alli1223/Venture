@@ -62,14 +62,16 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	//Diagonal movement
 	if (state[SDL_SCANCODE_W] && state[SDL_SCANCODE_D])
 	{
-		player.setTargetRotation(225);
+		//player.setTargetRotation(225);
+		player.setTargetRotation(270);
 		player.setPlayerMoving(true);
 		if(CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY - playerSpeed))
 			player.setPosition(playerX + playerSpeed, playerY - playerSpeed);
 	}
 	else if (state[SDL_SCANCODE_W] && state[SDL_SCANCODE_A])
 	{
-		player.setTargetRotation(135);
+		//player.setTargetRotation(135);
+		player.setTargetRotation(90);
 		player.setPlayerMoving(true);
 		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY - playerSpeed))
 			player.setPosition(playerX - playerSpeed, playerY - playerSpeed);
@@ -77,15 +79,16 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	else if (state[SDL_SCANCODE_S] && state[SDL_SCANCODE_D])
 	{
 		player.setPlayerMoving(true);
-		player.setTargetRotation(-45);
+		//player.setTargetRotation(-45);
+		player.setTargetRotation(270);
 		if (CheckIfCellIsWalkable(level, playerX + playerSpeed, playerY + playerSpeed))
 			player.setPosition(playerX + playerSpeed, playerY + playerSpeed);
-
 	}
 	else if (state[SDL_SCANCODE_S] && state[SDL_SCANCODE_A])
 	{
 		player.setPlayerMoving(true);
-		player.setTargetRotation(45);
+		//player.setTargetRotation(45);
+		player.setTargetRotation(90);
 		if (CheckIfCellIsWalkable(level, playerX - playerSpeed, playerY + playerSpeed))
 			player.setPosition(playerX - playerSpeed, playerY + playerSpeed);
 	}
@@ -124,6 +127,8 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 		player.setSpeed(0);
 		player.setPlayerMoving(false);
 		player.setTargetRotation(0);
+		//Reset the walk animation
+		player.getWalkAnimation().setCurrentFrame(0);
 	}
 
 

@@ -94,10 +94,18 @@
     <ClCompile Include="Agent.cpp">
       <Filter>Source Files\Character</Filter>
     </ClCompile>
-    <ClCompile Include="TextUI.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Animation.cpp">
+      <Filter>Headers\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files\Main Game Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\Main Game Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="TextUI.cpp">
+      <Filter>Source Files\Main Game Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h">
@@ -202,10 +210,18 @@
     <ClInclude Include="Agent.h">
       <Filter>Headers\Character</Filter>
     </ClInclude>
-    <ClInclude Include="TextUI.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="Button.h" />
-    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Animation.h">
+      <Filter>Source Files\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Headers\Main Game Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Headers\Main Game Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="TextUI.h">
+      <Filter>Headers\Main Game Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />

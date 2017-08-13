@@ -8,70 +8,44 @@ public:
 	~Player();
 	
 	void RenderPlayer(SDL_Renderer* renderer, bool useOffset);
-	
-	typedef struct
-	{
-		enum HairColour {
-			redHair,
-			yellowHair,
-			pinkHair,
-			brownHair,
-			blackHair,
-			gingerHair
-		}hair;
-		enum EyeColour {
-			brownEye,
-			greenEye,
-			blueEye
-		}eyes;
-
-		enum HeadWear {
-			noHeadWear,
-			shortHair,
-			longHair,
-			hat
-		}head;
-
-		enum ShirtWear {
-			noShirt,
-			tshirt,
-			jacket,
-			dress
-		}body;
-		enum LegWear {
-			noLeg,
-			jeans,
-			chinos,
-			skirt
-		}leg;
-	} Clothing;
+	void renderCharacterItems(SDL_Renderer* renderer, int frameX, int frameY, int x, int y, int pixelSize, int characterSize);
 	
 	glm::vec2 renderOffset;
 	glm::vec2 screenCenter;
 	int xOffset, yOffset;
 	Clothing PlayerClothes;
 
-
+	Animation getWalkAnimation() { return walkAnimation; }
 
 private:
+	// Unused function that may be useful later
 	void calcualteNumofvalues();
+	//! Pixel size of the player sprite in the spritesheet
+	int pixelSize = 32;
+	//! Default colours
 	SDL_Color hairColour = { 255,255,255 };
 	SDL_Color eyeColour = { 255,255,255 };
+	//! Texture locations
 	std::string characterTextureLocation = "Resources\\Sprites\\Character\\";
 	std::string clothesTextureLocation = "Resources\\Sprites\\Character\\Clothes\\";
-	//! For the Character
-	Texture characterTex;
-	Texture sideWalk;
-	Texture sideBlink;
-	Texture shortHair;
-	Texture longHair;
-	Texture eyes;
-	Animation walk;
 
-	Animation blink;
+	//! Texture for the Character
+	Texture characterTexture;
+	Texture walkTexture;
+	Texture sideBlinkTexture;
+	Texture shortHairTexture;
+	Texture longHairTexture;
+	Texture eyesTexture;
+	
+	//! Texture for the clothes
+	Texture jacketTexture;
+	Texture jeansTexture;
+	
+	//! Animations
+	Animation walkAnimation;
+	Animation blinkAnimation;
 
-	Texture jacket;
-	Texture jeans;
+	
 
 };
 
