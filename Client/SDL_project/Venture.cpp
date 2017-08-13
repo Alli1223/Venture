@@ -84,10 +84,11 @@ GLuint loadShaders(const std::string& vertex_file_path, const std::string& fragm
 
 Venture::Venture() : backgroundTexture("Resources\\background5.jpg")
 {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO) < 0 || SDL_Init(SDL_INIT_TIMER) < 0)
 	{
 		throw InitialisationError("SDL_Init failed");
 	}
+	
 	gameSettings.getScreenResolution();
 	gameSettings.WINDOW_HEIGHT /= 2;
 	gameSettings.WINDOW_WIDTH /= 2;
@@ -137,10 +138,11 @@ Venture::~Venture()
 void Venture::run()
 {
 	// Run the main menu
-	//menu.MainMenu(gameSettings, player, renderer);
+	menu.MainMenu(gameSettings, player, renderer);
 	player.screenCenter.x = gameSettings.WINDOW_WIDTH / 2;
 	player.screenCenter.y = gameSettings.WINDOW_HEIGHT / 2;
 	player.xOffset = gameSettings.WINDOW_WIDTH / 2;
+
 	// Generates the world around the camera position
 	terrainGen.setSeed(4123);
 

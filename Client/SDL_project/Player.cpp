@@ -16,11 +16,15 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 {
 	walk.maxFrames = 4;
 	blink.maxFrames = 4;
-	blink.setFrameRate(60);
+	blink.setFrameRate(200);
+	blink.oscillate = true;
 
-	if(getSpeed() == 0)
-	blink.OnAnimate();
+	//blink.addDelay(3000, 500);
+	//blink.OnAnimate();
+	
+	
 
+	
 
 
 	if(isPlayerMoving())
@@ -37,26 +41,9 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 		renderOffset.x = getX();
 		renderOffset.y = getY();
 	}
-	//characterTex.renderRotation(renderer, renderOffset.x, renderOffset.y, walk.getCurrentFrame() * 32, getSize(),getSize(), getSize(), getRotation());
+
 	
-	//Walk Down
-	if (getTargetRotation() == 0 || getTargetRotation() == 360)
-	{
-		characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
-	}
-	// Walk Left
-	else if (getTargetRotation() == 90)
-	{
-		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 32, renderOffset.x, renderOffset.y, 32, 32, 32);
-		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 32, renderOffset.x, renderOffset.y, 32, 32, 32);
-	}
-	// Walk Right
-	else if (getTargetRotation() == 270)
-	{
-		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
-		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
-	}
-	
+	// Alter colours
 
 	switch (PlayerClothes.hair)
 	{
@@ -93,7 +80,31 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	eyes.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
 	sideBlink.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
 	//characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
-	//eyes.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
+
+	/// RENDER ROTATIONS ///
+	//Walk Down
+	if (getTargetRotation() == 0 || getTargetRotation() == 360)
+	{
+		characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, getSize());
+	}
+	// Walk Left
+	else if (getTargetRotation() == 90)
+	{
+		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 32, renderOffset.x, renderOffset.y, 32, 32, getSize());
+		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 32, renderOffset.x, renderOffset.y, 32, 32, getSize());
+	}
+	// Walk Right
+	else if (getTargetRotation() == 270)
+	{
+		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, getSize());
+		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, getSize());
+	}
+	else if (getTargetRotation() == 180)
+	{
+		characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, getSize());
+	}
+	if (getTargetRotation() == 180 || getTargetRotation() == 0)
+		eyes.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 0);
 	
 
 
@@ -101,10 +112,10 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	switch (PlayerClothes.head)
 	{
 	case Clothing::shortHair:
-		shortHair.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
+		//shortHair.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
 		break;
 	case Clothing::longHair:
-		longHair.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
+		//longHair.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
 		break;
 	}
 

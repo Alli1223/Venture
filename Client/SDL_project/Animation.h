@@ -14,12 +14,13 @@ public:
 	int setCurrentFrame(int newFrame) { return currentFrame = newFrame; }
 	int getCurrentFrame() { return currentFrame; }
 
-
+	void addDelay(int delayTime, int animationRunTime);
 
 private:
 	int currentFrame;
 	int frameInc;
 	int frameRate;
 	long oldTime;
+	int startTime;
 };
 

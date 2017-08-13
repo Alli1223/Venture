@@ -19,6 +19,18 @@ Animation::~Animation()
 {
 }
 
+//TODO: re-implemnt this to run the animation for a few seconds every few seconds
+void Animation::addDelay(int delayTime, int animationRunTime)
+{
+	// if time has elapsed
+	if (startTime <= SDL_GetTicks() - delayTime)
+	{
+		OnAnimate();
+		if (startTime <= (SDL_GetTicks() - delayTime) + animationRunTime)
+			startTime = SDL_GetTicks();
+	}
+}
+
 
 void Animation::OnAnimate() 
 {

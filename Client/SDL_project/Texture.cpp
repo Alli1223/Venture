@@ -72,9 +72,9 @@ void Texture::renderAnim(SDL_Renderer* renderer, int sX, int sY, int dX, int dY,
 		}
 	}
 	SDL_Rect srcrect = { sX, sY, width, height };
-	SDL_Rect dstrect = { dX, dY, width + sizeOffset, height + sizeOffset };
-	dstrect.x = dX - width / 2;
-	dstrect.y = dY - height / 2;
+	SDL_Rect dstrect = { dX, dY, width, height };
+	dstrect.x = dX - width  / 2;
+	dstrect.y = dY - height  / 2;
 
 	SDL_RenderCopy(renderer, texture, &srcrect, &dstrect);
 }
