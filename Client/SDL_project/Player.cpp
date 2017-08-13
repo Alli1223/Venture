@@ -2,8 +2,10 @@
 #include "Player.h"
 
 
-Player::Player() : characterTexture(characterTextureLocation + "animTemplate.png"), jacketTexture(clothesTextureLocation + "Jacket.png"), jeansTexture(clothesTextureLocation + "Jeans.png"), shortHairTexture(clothesTextureLocation + "hair1.png"), longHairTexture(clothesTextureLocation + "hair3.png"),
-eyesTexture(characterTextureLocation + "eyesAnim.png"), walkTexture(characterTextureLocation + "walk.png"), sideBlinkTexture(characterTextureLocation + "sideBlink.png")
+Player::Player() : characterIdleTexture(characterTextureLocation + "idle.png"), 
+shortHairTexture(clothesTextureLocation + "hair1.png"), longHairTexture(clothesTextureLocation + "hair2.png"),
+eyesTexture(characterTextureLocation + "eyesAnim.png"), walkTexture(characterTextureLocation + "walk2.png"), sideBlinkTexture(characterTextureLocation + "sideBlink.png"),
+jacketTexture(clothesTextureLocation + "Jacket.png"), jeansTexture(clothesTextureLocation + "Jeans.png")
 {
 }
 
@@ -14,7 +16,10 @@ Player::~Player()
 
 void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 {
-	walkAnimation.maxFrames = 4;
+	walkHorizontalAnimation.maxFrames = 4;
+	walkVerticalAnimation.maxFrames = 2;
+	idleAnimation.maxFrames = 4;
+	walkVerticalAnimation.setFrameRate(150);
 	blinkAnimation.maxFrames = 4;
 	blinkAnimation.setFrameRate(200);
 	blinkAnimation.oscillate = true;
@@ -23,8 +28,15 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	//blink.OnAnimate();
 	
 	
-	if(isPlayerMoving())
-		walkAnimation.OnAnimate();
+	if (isPlayerMoving())
+	{
+		walkHorizontalAnimation.OnAnimate();
+		walkVerticalAnimation.OnAnimate();
+	}
+	else
+	{
+		idleAnimation.OnAnimate();
+	}
 
 
 	if (renderCenter)
@@ -81,28 +93,31 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	//Walk Down
 	if (getTargetRotation() == 0 || getTargetRotation() == 360)
 	{
-		walkTexture.renderAnim(renderer, walkAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		if (isPlayerMoving())
+			walkTexture.renderAnim(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		else
+			characterIdleTexture.renderAnim(renderer, idleAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
 		eyesTexture.renderAnim(renderer, blinkAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		renderCharacterItems(renderer, walkAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		renderCharacterItems(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	// Walk Left
 	else if (getTargetRotation() == 90)
 	{
-		walkTexture.renderAnim(renderer, walkAnimation.getCurrentFrame() * pixelSize, pixelSize, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		walkTexture.renderAnim(renderer, walkHorizontalAnimation.getCurrentFrame() * pixelSize, pixelSize, renderOffset.x, renderOffset.y, pixelSize, getSize());
 		sideBlinkTexture.renderAnim(renderer, blinkAnimation.getCurrentFrame() * pixelSize, pixelSize, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		renderCharacterItems(renderer, walkAnimation.getCurrentFrame() * pixelSize, pixelSize, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		renderCharacterItems(renderer, walkHorizontalAnimation.getCurrentFrame() * pixelSize, pixelSize, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	// Walk Right
 	else if (getTargetRotation() == 270)
 	{
-		walkTexture.renderAnim(renderer, walkAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		walkTexture.renderAnim(renderer, walkHorizontalAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
 		sideBlinkTexture.renderAnim(renderer, blinkAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		renderCharacterItems(renderer, walkAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		renderCharacterItems(renderer, walkHorizontalAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	else if (getTargetRotation() == 180)
 	{
-		walkTexture.renderAnim(renderer, walkAnimation.getCurrentFrame() * pixelSize, pixelSize * 3, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		renderCharacterItems(renderer, walkAnimation.getCurrentFrame() * pixelSize, pixelSize * 3, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		walkTexture.renderAnim(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 3, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		renderCharacterItems(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 3, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	
 }

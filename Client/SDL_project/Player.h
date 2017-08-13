@@ -15,7 +15,7 @@ public:
 	int xOffset, yOffset;
 	Clothing PlayerClothes;
 
-	Animation getWalkAnimation() { return walkAnimation; }
+	Animation getWalkAnimation() { return walkHorizontalAnimation; }
 
 private:
 	// Unused function that may be useful later
@@ -30,7 +30,7 @@ private:
 	std::string clothesTextureLocation = "Resources\\Sprites\\Character\\Clothes\\";
 
 	//! Texture for the Character
-	Texture characterTexture;
+	Texture characterIdleTexture;
 	Texture walkTexture;
 	Texture sideBlinkTexture;
 	Texture shortHairTexture;
@@ -42,7 +42,10 @@ private:
 	Texture jeansTexture;
 	
 	//! Animations
-	Animation walkAnimation;
+	Animation walkHorizontalAnimation;
+	Animation walkVerticalAnimation;
+	Animation idleAnimation;
+
 	Animation blinkAnimation;
 
 	
