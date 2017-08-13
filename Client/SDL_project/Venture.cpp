@@ -237,7 +237,7 @@ void Venture::run()
 		agentManager.UpdateAgents(agentManager.allAgents, renderer, level, camera);
 
 		// Renders all the cells and players
-		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents);
+		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents, networkManager.allPlayers);
 
 
 		//TextUI playerText("Sans");

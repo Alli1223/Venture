@@ -11,22 +11,26 @@ class NetworkManager
 public:
 	NetworkManager();
 	~NetworkManager();
-	void NetworkManager::Connect();
+	std::vector<std::shared_ptr<Player>> allPlayers;
+
+	void Connect();
 	//! Main Network update function
-	void NetworkManager::NetworkUpdate(Level& level,Player& player, AgentManager& agentManager);
+	void NetworkUpdate(Level& level,Player& player, AgentManager& agentManager);
 	//! Send a message using TCP
-	void NetworkManager::sendTCPMessage(std::string message);
+	void sendTCPMessage(std::string message);
 
 	//! Process the players location from json
-	void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentManager, Player& player);
+	void ProcessPlayerLocations(Level& level, AgentManager& agentManager, Player& player);
 	//! Process the players location from string
-	void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
+	void ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
 	//! Process a list of player locations
-	void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
+	void ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
 	//! Process cell data
-	void NetworkManager::MapNetworkUpdate(Level& level);
+	void MapNetworkUpdate(Level& level);
 	//! Return a string from recieve message
-	std::string NetworkManager::RecieveMessage();
+	std::string RecieveMessage();
+
+	void spawnPlayer(Player& player);
 
 	
 

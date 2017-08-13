@@ -186,8 +186,6 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 			displayMainMenu = false;
 		}
 
-
-
 		//Render the mouse cursor last
 		cursor.render(renderer, mouseX + (menuCursorSize / 2), mouseY + (menuCursorSize / 2), menuCursorSize, menuCursorSize);
 		SDL_RenderPresent(renderer);

@@ -30,10 +30,15 @@ bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playerna
 	return false;
 }
 
+void NetworkManager::spawnPlayer(Player& player)
+{
+	auto playerPtr = std::make_shared<Player>(player);
+	allPlayers.push_back(playerPtr);
+}
+
 //! main netwrok update function
 void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& agentManager)
 {
-
 	// Interval Timer
 	timebehindP += SDL_GetTicks() - lastTimeP;
 	lastTimeP = SDL_GetTicks();
@@ -96,8 +101,6 @@ void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentMan
 	{
 		json jsonData = json::parse(updateData.begin(), updateData.end());;
 		json playerData = jsonData.at("PlayerData");
-
-
 
 		// range-based for
 		for (auto& element : playerData)
@@ -203,166 +206,6 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 		}
 	}
 }
-
-//! Processes an array of player locations
-void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager)
-{
-	std::string temp = "                                                                                                                                     ";
-	//Create a list of all the players in the update message
-	std::vector<std::string> allPlayers;
-	int iterator = 0;
-	// if the update message is not null
-	if (updateMessage != "NULL" && updateMessage != "QUIT")
-	{
-
-		//TODO: get string of data between { and }
-		for (int i = 0; i < updateMessage.size(); i++)
-		{
-
-			if (updateMessage[i] == *"{")
-			{
-				int dataSize = 0;
-				for (int j = i; j < updateMessage.size(); j++)
-				{
-					if (updateMessage[j] == *"}")
-						break;
-					else
-						dataSize++;
-				}
-				//Fill string with the data
-				std::string playerData = "                                                                                                ";
-				int t = 1;
-				for (int d = i; d < i + dataSize; d++)
-				{
-					playerData[t] = updateMessage[d];
-					t++;
-				}
-				playerData.erase(std::remove(playerData.begin(), playerData.end(), ' '), playerData.end());
-				ProcessPlayerLocations(playerData, level, agentManager);
-				iterator++;
-			}
-		}
-		std::cout << "Number Of Players: " << iterator << std::endl;
-	}
-
-}
-//! loops through the playerdata string and puts that into the agent manager
-void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager)
-{
-	if (updateMessage != "NULL" && updateMessage != "QUIT")
-	{
-		//print to console what the message is for debug purposes
-		std::cout << "RECIEVE MESSAGE: " << updateMessage << std::endl;
-		// Create a temp playername string to be overwirtten later
-		std::string otherPlayerName = "                                                          ";
-
-		// loop throuh the message to get the player name
-		for (int i = 2; i < updateMessage.size(); i++)
-		{
-			if (updateMessage[i] != *">" && updateMessage[i + 1] != *" " && updateMessage[1] == *"<")
-				otherPlayerName[i] = updateMessage[i];
-			else
-				break;
-		}
-		// Remove any spaces from name
-		otherPlayerName.erase(std::remove(otherPlayerName.begin(), otherPlayerName.end(), ' '), otherPlayerName.end());
-
-
-		// If the player already exists
-		if (DoesPlayerExist(otherPlayerNames, otherPlayerName))
-		{
-			// If it does
-			// Update Player Positions
-			for (int i = 0; i < updateMessage.size(); i++)
-			{
-				// Don't go out of range
-				if (i + 4 < updateMessage.size())
-				{
-					// Process X position
-					if (updateMessage[i] == *"X" && updateMessage[i + 1] == *":")
-					{
-						// Convert string to int
-						std::string::size_type sz;
-						std::string updatenumber = "        ";
-						if (updateMessage[i] + 5 != *"." || updateMessage[i] + 5 != *"Y")
-							updatenumber[3] = updateMessage[i + 5];
-						// Get the three digits after
-						updatenumber[0] = updateMessage[i + 2]; updatenumber[1] = updateMessage[i + 3]; updatenumber[2] = updateMessage[i + 4];
-						// Remove white space
-						updatenumber.erase(std::remove(updatenumber.begin(), updatenumber.end(), ' '), updatenumber.end());
-						//convert string to int
-						int pos = std::stoi(updatenumber, &sz);
-						//pos *= level.getCellSize();
-						agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].setX(pos);
-
-					}
-					//Process Y position
-					if (updateMessage[i] == *"Y" && updateMessage[i + 1] == *":")
-					{
-
-						// Convert string to int
-						std::string::size_type sz;
-						std::string updatenumber = "            ";
-						if (updateMessage[i] + 5 != *"." || updateMessage[i] + 5 != *"A")
-							updatenumber[3] = updateMessage[i + 5];
-						// Get the three digits after
-						updatenumber[0] = updateMessage[i + 2]; updatenumber[1] = updateMessage[i + 3]; updatenumber[2] = updateMessage[i + 4];
-						// Remove white space
-						updatenumber.erase(std::remove(updatenumber.begin(), updatenumber.end(), ' '), updatenumber.end());
-						//convert string to int
-						int pos = std::stoi(updatenumber, &sz);
-						//pos *= level.getCellSize();
-						agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].setY(pos);
-					}
-
-
-
-					// Update Player Actions
-					std::string otherPlayerAction = "                                                                     ";
-					if (updateMessage[i] == *"A" && updateMessage[i + 1] == *"C" && updateMessage[i + 2] == *"T" && updateMessage[i + 3] == *":")
-					{
-						for (int j = 0; j < 10; j++)
-						{
-							if (updateMessage[i + 4 + j] == *".")
-								break;
-							otherPlayerAction[j] = updateMessage[i + 4 + j];
-
-						}
-						//Remove Spaces
-						otherPlayerAction.erase(std::remove(otherPlayerAction.begin(), otherPlayerAction.end(), ' '), otherPlayerAction.end());
-						//Place bed on cell if the player places a bed
-						if (otherPlayerAction == "PLACE_BED")
-						{
-							std::cout << otherPlayerAction << std::endl;
-							//level.tiles[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isBed = true;
-						}
-						else if (otherPlayerAction == "PLACE_BOX")
-						{
-							std::cout << otherPlayerAction << std::endl;
-							//level.tiles[agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getX() / 50][agentManager.allAgents[agentManager.GetAgentNumberFomID(otherPlayerName)].getY() / 50]->isCargo = true;
-						}
-					}
-				}
-			}
-		}
-
-		// Spawn new player
-		else
-		{
-			if (otherPlayerName.size() > 1 && otherPlayerName != localPlayerName)
-			{
-				otherPlayerNames.push_back(otherPlayerName);
-				Agent newPlayer;
-				newPlayer.characterType = "NPC";
-				newPlayer.setID(otherPlayerName);
-				agentManager.SpawnAgent(newPlayer);
-			}
-		}
-
-	}
-}
-
-
 
 
 

@@ -177,7 +177,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 }
 
 //! Renders the chunks of cells
-void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, Player& player, std::vector<Agent>& allAgents)
+void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, Player& player, std::vector<Agent>& allAgents, std::vector<std::shared_ptr<Player>> allPlayers)
 {	
 	// Alter the textures
 	AlterTextures(level);
@@ -190,6 +190,14 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 	// Render Agents
 	for (Agent& agent : allAgents)
 		RenderAgents(agent, renderer, level, camera);
+	
+
+	for each (auto &player in allPlayers)
+	{
+		player->Update(level);
+		player->RenderPlayer(renderer, false);
+	}
+		
 
 	// Render the player
 	//int x = player.getX() - (camera.getX() - camera.WindowWidth);

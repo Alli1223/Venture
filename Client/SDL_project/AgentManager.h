@@ -26,21 +26,22 @@ public:
 	//! Contains a list of all the characters
 	std::vector<Agent> allAgents;
 
-	void AgentManager::UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* renderer, Level& level, Camera& camera);
+
+	void UpdateAgents(std::vector<Agent>& allAgents, SDL_Renderer* renderer, Level& level, Camera& camera);
 	
 
 	//! Spawn character function (Character types are (NPC, Player)
-	void AgentManager::SpawnAgent(std::string CharacterTypeVar, std::vector<Agent>& allAgents, int x, int y);
-	void AgentManager::SpawnAgent(Agent& agent);
+	void SpawnAgent(std::string CharacterTypeVar, std::vector<Agent>& allAgents, int x, int y);
+	void SpawnAgent(Agent& agent);
 
 	//! Retuns the agents number
-	int AgentManager::GetAgentNumberFomID(std::string ID);
+	int GetAgentNumberFomID(std::string ID);
 
 	//! Erases all the agents path.
-	void AgentManager::EraseAllAgentPaths(std::vector<Agent>& allAgents);
+	void EraseAllAgentPaths(std::vector<Agent>& allAgents);
 
 	//! Erases all the agents in the game
-	void AgentManager::EraseAllAgents(std::vector<Agent>& allAgents);
+	void EraseAllAgents(std::vector<Agent>& allAgents);
 
 	//! Whether the game will render agent stats
 	bool renderStats = true;

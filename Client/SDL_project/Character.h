@@ -12,9 +12,6 @@ public:
 	~Character();
 
 
-
-
-
 	//Getter methods
 	//! Gets the characters X value
 	int getX() { return x; }
@@ -85,6 +82,7 @@ public:
 	int setTargetRotation(int newTarget) { return targetRotation = newTarget; }
 	int setRotationSpeed(int newSpeed) { return rotationSpeed = newSpeed; }
 
+	//! Enum for chacter customisation
 	typedef struct
 	{
 		enum HairColour {
