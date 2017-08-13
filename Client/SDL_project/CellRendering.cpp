@@ -75,6 +75,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 	int newX = 0, newY = 0;
 	int xPos = 0, yPos = 0;
 	int cellSize = level.getCellSize();
+
 	
 	for (int x = 0; x < level.getChunkSize(); x++)
 		for (int y = 0; y < level.getChunkSize(); y++)
@@ -87,6 +88,16 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 
 			xPos -= camera.getX();
 			yPos -= camera.getY();
+
+			int darkness = chunk.tiles[x][y]->cellLightness;
+			Grass1Texture.alterTextureColour(darkness, darkness, darkness);
+			TreePixelTexture.alterTextureColour(darkness, darkness, darkness);
+			SandTexture.alterTextureColour(darkness, darkness, darkness);
+			WaterTexture.alterTextureColour(darkness, darkness, darkness);
+			WaterTexture2.alterTextureColour(darkness, darkness, darkness);
+			LongGrass1.alterTextureColour(darkness, darkness, darkness);
+			LongGrass2.alterTextureColour(darkness, darkness, darkness);
+			LongGrass3.alterTextureColour(darkness, darkness, darkness);
 
 			if (chunk.tiles[x][y]->isWater)
 			{

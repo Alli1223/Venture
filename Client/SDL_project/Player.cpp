@@ -77,30 +77,30 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	sideBlink.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
 	//characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
 
+	int pixelSize = 32;
 	/// RENDER ROTATIONS ///
 	//Walk Down
 	if (getTargetRotation() == 0 || getTargetRotation() == 360)
 	{
-		characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, getSize());
+		characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		eyes.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	// Walk Left
 	else if (getTargetRotation() == 90)
 	{
-		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 32, renderOffset.x, renderOffset.y, 32, 32, getSize());
-		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 32, renderOffset.x, renderOffset.y, 32, 32, getSize());
+		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 32, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 32, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	// Walk Right
 	else if (getTargetRotation() == 270)
 	{
-		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, getSize());
-		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, getSize());
+		sideWalk.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		sideBlink.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	else if (getTargetRotation() == 180)
 	{
-		characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, getSize());
+		characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
-	if (getTargetRotation() == 180 || getTargetRotation() == 0)
-		eyes.renderAnim(renderer, blink.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 0);
 	
 
 

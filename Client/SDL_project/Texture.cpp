@@ -59,7 +59,7 @@ void Texture::renderRotation(SDL_Renderer* renderer, int x, int y, int width, in
 
 	SDL_RenderCopyEx(renderer, texture, nullptr, &dest, angle, 0, SDL_FLIP_NONE);
 }
-void Texture::renderAnim(SDL_Renderer* renderer, int sX, int sY, int dX, int dY, int width, int height, int sizeOffset)
+void Texture::renderAnim(SDL_Renderer* renderer, int sourceX, int sourceY, int destX, int destY, int pixelSize, int renderSize)
 {
 	if (!texture)
 	{
@@ -71,10 +71,13 @@ void Texture::renderAnim(SDL_Renderer* renderer, int sX, int sY, int dX, int dY,
 			throw InitialisationError("IMG_LoadTexture failed");
 		}
 	}
-	SDL_Rect srcrect = { sX, sY, width, height };
-	SDL_Rect dstrect = { dX, dY, width, height };
-	dstrect.x = dX - width  / 2;
-	dstrect.y = dY - height  / 2;
+	SDL_Rect srcrect = { sourceX, sourceY, pixelSize, pixelSize };
+	SDL_Rect dstrect = { destX, destY, pixelSize, pixelSize };
+	dstrect.w = renderSize;
+	dstrect.h = renderSize;
+	dstrect.x = destX  - dstrect.w / 2;
+	dstrect.y = destY - dstrect.h / 2;
+
 
 	SDL_RenderCopy(renderer, texture, &srcrect, &dstrect);
 }
