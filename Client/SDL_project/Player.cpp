@@ -4,7 +4,7 @@
 
 Player::Player() : characterIdleTexture(characterTextureLocation + "idle.png"), 
 shortHairTexture(clothesTextureLocation + "hair1.png"), longHairTexture(clothesTextureLocation + "hair2.png"),
-eyesTexture(characterTextureLocation + "eyesAnim.png"), walkTexture(characterTextureLocation + "walk2.png"), sideBlinkTexture(characterTextureLocation + "sideBlink.png"),
+eyesTexture(characterTextureLocation + "eyesAnim.png"), walkTexture(characterTextureLocation + "walk.png"), sideBlinkTexture(characterTextureLocation + "sideBlink.png"),
 jacketTexture(clothesTextureLocation + "Jacket.png"), jeansTexture(clothesTextureLocation + "Jeans.png")
 {
 }
@@ -25,7 +25,7 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	blinkAnimation.oscillate = true;
 
 	//blink.addDelay(3000, 500);
-	//blink.OnAnimate();
+	//blinkAnimation.OnAnimate();
 	
 	
 	if (isPlayerMoving())
@@ -71,7 +71,6 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 	
 
 	//Render head wear texture
-	
 	switch (PlayerClothes.eyes)
 	{
 	case Clothing::brownEye:
@@ -97,7 +96,7 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 			walkTexture.renderAnim(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
 		else
 			characterIdleTexture.renderAnim(renderer, idleAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		eyesTexture.renderAnim(renderer, blinkAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		eyesTexture.renderAnim(renderer, blinkAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
 		renderCharacterItems(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	// Walk Left

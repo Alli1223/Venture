@@ -84,7 +84,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 {
 	Button exit("Exit");
 	Button play("Play");
-	Button changeHead("Change Head");
+	Button changeHead("Change Hair");
 	Button changeBody("Change Body");
 	Button changeLegs("Change Trousers");
 	Button changeHairColour("Change Hair Colour");

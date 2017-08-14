@@ -12,7 +12,7 @@ public:
 	NetworkManager();
 	~NetworkManager();
 	std::vector<std::shared_ptr<Player>> allPlayers;
-
+	int getPlayer(std::string ID);
 	void Connect();
 	//! Main Network update function
 	void NetworkUpdate(Level& level,Player& player, AgentManager& agentManager);
@@ -21,16 +21,12 @@ public:
 
 	//! Process the players location from json
 	void ProcessPlayerLocations(Level& level, AgentManager& agentManager, Player& player);
-	//! Process the players location from string
-	void ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
-	//! Process a list of player locations
-	void ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
 	//! Process cell data
 	void MapNetworkUpdate(Level& level);
 	//! Return a string from recieve message
 	std::string RecieveMessage();
 
-	void spawnPlayer(Player& player);
+	void SpawnPlayer(Player& player);
 
 	
 

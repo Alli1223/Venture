@@ -194,12 +194,6 @@ void Venture::run()
 	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
 	while (gameSettings.running)
 	{
-		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_LEFT))
-		{
-
-		}
-		mouseCellPosition.x = mouse_X / cellSize;
-		mouseCellPosition.y = mouse_Y / cellSize;
 		
 		// Do all the networking
 		if (gameSettings.useNetworking)
@@ -213,25 +207,12 @@ void Venture::run()
 		camera.setY(player.getY() - camera.WindowHeight / 2);
 		level.GenerateWorld(camera);
 
-
-		// Right click
-		if (SDL_GetMouseState(&mouse_X, &mouse_Y) & SDL_BUTTON(SDL_BUTTON_RIGHT))
-		{
-			
-		}
-
 		// Clear Rendering process:
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 
-		//////////////////////////////////
-		//MAIN CELL LOOP
-		///////////////////////////////////
-
 		// Update the position of the player
 		player.Update(level);
-
-		
 
 		// update other characters positions
 		agentManager.UpdateAgents(agentManager.allAgents, renderer, level, camera);
@@ -240,10 +221,6 @@ void Venture::run()
 		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents, networkManager.allPlayers);
 
 
-		//TextUI playerText("Sans");
-		//playerText.render(renderer, networkManager.getPlayerName(), gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, 50, 100, White);
-		
-		
 		SDL_RenderPresent(renderer);
 		// End while running
 	}

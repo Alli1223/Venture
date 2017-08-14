@@ -29,8 +29,18 @@ bool DoesPlayerExist(std::vector<std::string>& playerNames, std::string playerna
 	// Return false if no player with that name exists
 	return false;
 }
+int NetworkManager::getPlayer(std::string ID)
+{
+	for (int i = 0; i < allPlayers.size(); i++)
+	{
+		if (ID == allPlayers[i]->getID())
+		{
+			return i;
+		}
+	}
+}
 
-void NetworkManager::spawnPlayer(Player& player)
+void NetworkManager::SpawnPlayer(Player& player)
 {
 	auto playerPtr = std::make_shared<Player>(player);
 	allPlayers.push_back(playerPtr);
@@ -78,7 +88,7 @@ void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentMan
 	//Create the json to send to the server
 	json playerData;
 	playerData["name"] = localPlayerName;
-	playerData["rotation"] = player.getRotation();
+	playerData["rotation"] = player.getTargetRotation();
 	playerData["X"] = player.getX();
 	playerData["Y"] = player.getY();
 
@@ -113,19 +123,22 @@ void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentMan
 
 			if (DoesPlayerExist(otherPlayerNames, name))
 			{
-				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setX(x);
-				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setY(y);
-				agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setTargetRotation(rotation);
+				allPlayers[getPlayer(name)]->setX(x);
+				allPlayers[getPlayer(name)]->setY(y);
+				allPlayers[getPlayer(name)]->setTargetRotation(rotation);
+				//agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setX(x);
+				//agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setY(y);
+				//agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setTargetRotation(rotation);
 			}
 			else
 			{
 				if (name.size() > 1 && name != localPlayerName)
 				{
 					otherPlayerNames.push_back(name);
-					Agent newPlayer;
+					Player newPlayer;
 					newPlayer.characterType = "NPC";
 					newPlayer.setID(name);
-					agentManager.SpawnAgent(newPlayer);
+					SpawnPlayer(newPlayer);
 				}
 			}
 		}

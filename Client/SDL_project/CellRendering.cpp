@@ -188,13 +188,13 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 				RenderChunk(level,camera,player, level.World[i][j], renderer);
 
 	// Render Agents
-	for (Agent& agent : allAgents)
-		RenderAgents(agent, renderer, level, camera);
+	//for (Agent& agent : allAgents)
+		//RenderAgents(agent, renderer, level, camera);
 	
 
 	for each (auto &player in allPlayers)
 	{
-		player->Update(level);
+		//player->Update(level);
 		player->RenderPlayer(renderer, false);
 	}
 		
