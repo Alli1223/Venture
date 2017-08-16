@@ -14,7 +14,7 @@ Player::~Player()
 {
 }
 
-void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
+void Player::RenderPlayer(SDL_Renderer* renderer, Camera& camera)
 {
 	walkHorizontalAnimation.maxFrames = 4;
 	walkVerticalAnimation.maxFrames = 2;
@@ -26,6 +26,9 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 
 	//blink.addDelay(3000, 500);
 	//blinkAnimation.OnAnimate();
+
+	//int x = agent.getX() - camera.getX();
+	//int y = agent.getY() - camera.getY();
 	
 	
 	if (isPlayerMoving())
@@ -38,17 +41,9 @@ void Player::RenderPlayer(SDL_Renderer* renderer, bool renderCenter)
 		idleAnimation.OnAnimate();
 	}
 
-
-	if (renderCenter)
-	{
-		renderOffset.x = screenCenter.x;
-		renderOffset.y = screenCenter.y;
-	}
-	else
-	{
-		renderOffset.x = getX();
-		renderOffset.y = getY();
-	}
+		renderOffset.x = getX() - camera.getX();
+		renderOffset.y = getY() - camera.getY();
+	
 
 	
 	// Alter colours

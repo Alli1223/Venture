@@ -45,7 +45,7 @@ public:
 
 	//! Position in the world
 	glm::vec2 chunkPos, cellPos;
-	void Character::Update(Level& level);
+	void Character::Update(Level& level, Camera& camera);
 
 	//Setter methods
 	//! Sets the characters X value

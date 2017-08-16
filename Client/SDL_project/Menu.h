@@ -13,10 +13,10 @@ public:
 	~Menu();
 
 	//! Run main menu loop
-	void MainMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* renderer);
+	void MainMenu(GameSettings& gameSettings,Camera& camera, Player& player, SDL_Renderer* renderer);
 
 	//! Run character screen loop
-	void CharacterCustomisationMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* renderer);
+	void CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera, Player& player, SDL_Renderer* renderer);
 
 	// Set mouse pointer size
 	int setCursorSize(int newCursorSize) { return menuCursorSize = newCursorSize; }

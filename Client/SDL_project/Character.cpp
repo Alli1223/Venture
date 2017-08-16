@@ -18,7 +18,7 @@ void RenderCharacter()
 }
 
 
-void Character::Update(Level& level)
+void Character::Update(Level& level, Camera& camera)
 {
 	// Set agents cell x & y tile values & point values
 	int cellSize = level.getCellSize();

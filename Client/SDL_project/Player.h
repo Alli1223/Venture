@@ -7,7 +7,7 @@ public:
 	Player();
 	~Player();
 	
-	void RenderPlayer(SDL_Renderer* renderer, bool useOffset);
+	void RenderPlayer(SDL_Renderer* renderer, Camera& camera);
 	void renderCharacterItems(SDL_Renderer* renderer, int frameX, int frameY, int x, int y, int pixelSize, int characterSize);
 	
 	glm::vec2 renderOffset;

@@ -11,7 +11,7 @@ Menu::~Menu()
 {
 }
 
-void Menu::MainMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* renderer)
+void Menu::MainMenu(GameSettings& gameSettings, Camera& camera, Player& player, SDL_Renderer* renderer)
 {
 	// Create buttons
 	Button characterScreen("Character Customisation");
@@ -72,7 +72,7 @@ void Menu::MainMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* re
 		characterScreen.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 4, 400, 100);
 		if (characterScreen.isPressed())
 		{
-			CharacterCustomisationMenu(gameSettings, player, renderer);
+			CharacterCustomisationMenu(gameSettings,camera, player, renderer);
 		}
 		//Render the mouse cursor last
 		cursor.render(renderer, mouseX + (menuCursorSize / 2), mouseY + (menuCursorSize / 2), menuCursorSize, menuCursorSize);
@@ -80,7 +80,7 @@ void Menu::MainMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* re
 	}	
 }
 
-void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player, SDL_Renderer* renderer)
+void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera, Player& player, SDL_Renderer* renderer)
 {
 	Button exit("Exit");
 	Button play("Play");
@@ -169,7 +169,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Player& player
 		}
 		
 		// Render player
-		playerCreation.RenderPlayer(renderer, false);
+		playerCreation.RenderPlayer(renderer, camera);
 
 		//rgb.render(renderer, gameSettings.WINDOW_WIDTH - (gameSettings.WINDOW_WIDTH / 4), gameSettings.WINDOW_HEIGHT - (gameSettings.WINDOW_HEIGHT / 4), 100, 100);
 		exit.render(renderer, 50, 25, 100, 50);
