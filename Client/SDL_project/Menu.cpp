@@ -94,7 +94,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 	Player playerCreation;
 	playerCreation.setSize(gameSettings.WINDOW_WIDTH / 5);
 	playerCreation.setPosition(gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2);
-	playerCreation.PlayerClothes.leg = Player::Clothing::chinos;
+	playerCreation.PlayerClothes.leg = Player::Clothing::jeans;
 	playerCreation.PlayerClothes.body = Player::Clothing::jacket;
 	playerCreation.PlayerClothes.hair = Player::Clothing::pinkHair;
 	playerCreation.PlayerClothes.head = Player::Clothing::longHair;

@@ -45,7 +45,7 @@ public:
 
 	//! Position in the world
 	glm::vec2 chunkPos, cellPos;
-	void Character::Update(Level& level, Camera& camera);
+	void Character::Update(Level& level);
 
 	//Setter methods
 	//! Sets the characters X value
@@ -106,7 +106,7 @@ public:
 			hat
 		}head;
 
-		enum ShirtWear {
+		enum BodyWear {
 			noShirt,
 			tshirt,
 			jacket,

@@ -211,7 +211,7 @@ void Venture::run()
 		SDL_RenderClear(renderer);
 
 		// Update the position of the player
-		player.Update(level, camera);
+		player.Update(level);
 
 		// update other characters positions
 		agentManager.UpdateAgents(agentManager.allAgents, renderer, level, camera);

@@ -91,6 +91,12 @@ void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentMan
 	playerData["rotation"] = player.getTargetRotation();
 	playerData["X"] = player.getX();
 	playerData["Y"] = player.getY();
+	playerData["isMoving"] = player.isPlayerMoving();
+	playerData["headWear"] = player.PlayerClothes.head;
+	playerData["hairColour"] = player.PlayerClothes.hair;
+	playerData["eyeColour"] = player.PlayerClothes.eyes;
+	playerData["bodyWear"] = player.PlayerClothes.body;
+	playerData["legWear"] = player.PlayerClothes.leg;
 
 
 	sendTCPMessage("[PlayerUpdate]" + playerData.dump() + "\n");
@@ -119,16 +125,30 @@ void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentMan
 			int y = element.at("Y").get<int>();
 			int rotation = element.at("rotation").get<int>();
 			std::string name = element.at("name").get<std::string>();
+			bool isMoving = element.at("isMoving").get<bool>();
 
+			int headWear = element.at("eyeColour").get<int>();
+			int hairColour = element.at("hairColour").get<int>();
+			int eyeColour = element.at("eyeColour").get<int>();
+			int bodyWear = element.at("bodyWear").get<int>();
+			int legWear = element.at("legWear").get<int>();
+			
 
 			if (DoesPlayerExist(otherPlayerNames, name))
 			{
-				allPlayers[getPlayer(name)]->setX(x);
-				allPlayers[getPlayer(name)]->setY(y);
-				allPlayers[getPlayer(name)]->setTargetRotation(rotation);
-				//agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setX(x);
-				//agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setY(y);
-				//agentManager.allAgents[agentManager.GetAgentNumberFomID(name)].setTargetRotation(rotation);
+				int val = getPlayer(name);
+				allPlayers[val]->PlayerClothes.head = (Player::Clothing::HeadWear)headWear;
+				allPlayers[val]->PlayerClothes.hair = (Player::Clothing::HairColour)hairColour;
+				allPlayers[val]->PlayerClothes.eyes = (Player::Clothing::EyeColour)eyeColour;
+				allPlayers[val]->PlayerClothes.body = (Player::Clothing::BodyWear)bodyWear;
+				allPlayers[val]->PlayerClothes.leg = (Player::Clothing::LegWear)legWear;
+
+
+				allPlayers[val]->setPlayerMoving(isMoving);
+				allPlayers[val]->setX(x);
+				allPlayers[val]->setY(y);
+				allPlayers[val]->setTargetRotation(rotation);
+
 			}
 			else
 			{
@@ -226,7 +246,7 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 void NetworkManager::sendTCPMessage(std::string message)
 {
 	// Fill the buffer with the data from the string
-	boost::array<char, 128> buf;
+	boost::array<char, 256> buf;
 	for (int i = 0; i < message.size(); i++)
 	{
 		buf[i] = message[i];

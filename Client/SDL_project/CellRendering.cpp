@@ -194,17 +194,13 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 
 	for each (auto &player in allPlayers)
 	{
-		player->Update(level, camera);
+		player->Update(level);
 		player->RenderPlayer(renderer, camera);
 	}
 		
 
 	// Render the player
-	//int x = player.getX() - (camera.getX() - camera.WindowWidth);
-	//int y = player.getY() - (camera.getY() - camera.WindowHeight);
-	//player.setPosition(player.getX() - (camera.getX() + camera.WindowWidth / 2), player.getY() - (camera.getY() + camera.WindowHeight / 2));
 	player.RenderPlayer(renderer, camera);
-	//RenderPlayer(renderer, player, level, camera);
 	
 
 	// Render the trees last
