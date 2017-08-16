@@ -54,6 +54,8 @@ public:
 	Player player;
 	Menu menu;
 
+	
+
 	//! Vector of all other players names in the game
 	std::vector<std::string> otherPlayerNames;
 

@@ -23,12 +23,6 @@ void Player::RenderPlayer(SDL_Renderer* renderer, Camera& camera)
 	blinkAnimation.maxFrames = 4;
 	blinkAnimation.setFrameRate(200);
 	blinkAnimation.oscillate = true;
-
-	//blink.addDelay(3000, 500);
-	//blinkAnimation.OnAnimate();
-
-	//int x = agent.getX() - camera.getX();
-	//int y = agent.getY() - camera.getY();
 	
 	
 	if (isPlayerMoving())

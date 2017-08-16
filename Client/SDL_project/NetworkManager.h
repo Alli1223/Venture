@@ -36,7 +36,7 @@ public:
 	int port = 2222;
 	
 	std::string ExternalIPAddress = "46.101.9.185";
-	std::string InternalIPAddresss = "127.0.0.1";
+	std::string InternalIPAddress = "127.0.0.1";
 
 	//! Whether the client should connect to external server
 	bool isServerLocal = true;

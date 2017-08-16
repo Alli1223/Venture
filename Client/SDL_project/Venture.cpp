@@ -138,10 +138,11 @@ Venture::~Venture()
 void Venture::run()
 {
 	// Run the main menu
-	menu.MainMenu(gameSettings,camera, player, renderer);
-	player.screenCenter.x = gameSettings.WINDOW_WIDTH / 2;
-	player.screenCenter.y = gameSettings.WINDOW_HEIGHT / 2;
-	player.xOffset = gameSettings.WINDOW_WIDTH / 2;
+	menu.MainMenu(gameSettings, camera, player, renderer);
+	//player.screenCenter.x = gameSettings.WINDOW_WIDTH / 2;
+	//player.screenCenter.y = gameSettings.WINDOW_HEIGHT / 2;
+	//player.xOffset = gameSettings.WINDOW_WIDTH / 2;
+
 
 	// Generates the world around the camera position
 	terrainGen.setSeed(4123);
@@ -152,7 +153,7 @@ void Venture::run()
 
 	// If the client wants to connect to loopback address or external server
 	if (networkManager.isServerLocal)
-		networkManager.setServerIP(networkManager.InternalIPAddresss);
+		networkManager.setServerIP(networkManager.InternalIPAddress);
 	else
 		networkManager.setServerIP(networkManager.ExternalIPAddress);
 
@@ -223,6 +224,7 @@ void Venture::run()
 		SDL_RenderPresent(renderer);
 		// End while running
 	}
+	gameSettings.savePlayerSettings(player);
 	if (gameSettings.useNetworking)
 	{
 		// Send quit message and close socket when game ends

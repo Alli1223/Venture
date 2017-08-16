@@ -90,15 +90,15 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 	Button changeHairColour("Change Hair Colour");
 	Button changeEyeColour("Change Eye Colour");
 	
-	
 	Player playerCreation;
-	playerCreation.setSize(gameSettings.WINDOW_WIDTH / 5);
-	playerCreation.setPosition(gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2);
+
 	playerCreation.PlayerClothes.leg = Player::Clothing::jeans;
 	playerCreation.PlayerClothes.body = Player::Clothing::jacket;
 	playerCreation.PlayerClothes.hair = Player::Clothing::pinkHair;
 	playerCreation.PlayerClothes.head = Player::Clothing::longHair;
-
+	playerCreation = gameSettings.getPlayerFromSave();
+	playerCreation.setSize(gameSettings.WINDOW_WIDTH / 5);
+	playerCreation.setPosition(gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2);
 	
 	while (displayCharacterMenu)
 	{
@@ -150,19 +150,31 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 				playerCreation.PlayerClothes.head = Player::Clothing::longHair;
 			else if (playerCreation.PlayerClothes.head == Player::Clothing::longHair)
 				playerCreation.PlayerClothes.head = Player::Clothing::shortHair;
+			else if (playerCreation.PlayerClothes.head == Player::Clothing::noHeadWear)
+				playerCreation.PlayerClothes.head = Player::Clothing::shortHair;
 		}
 		// Hair colour
 		if (changeHairColour.isPressed())
 		{
-			if (playerCreation.PlayerClothes.hair == Player::Clothing::brownHair)
+			if (playerCreation.PlayerClothes.hair == Player::Clothing::redHair)
+				playerCreation.PlayerClothes.hair = Player::Clothing::yellowHair;
+			else if (playerCreation.PlayerClothes.hair == Player::Clothing::yellowHair)
 				playerCreation.PlayerClothes.hair = Player::Clothing::pinkHair;
 			else if (playerCreation.PlayerClothes.hair == Player::Clothing::pinkHair)
 				playerCreation.PlayerClothes.hair = Player::Clothing::brownHair;
+			else if (playerCreation.PlayerClothes.hair == Player::Clothing::brownHair)
+				playerCreation.PlayerClothes.hair = Player::Clothing::blackHair;
+			else if (playerCreation.PlayerClothes.hair == Player::Clothing::blackHair)
+				playerCreation.PlayerClothes.hair = Player::Clothing::gingerHair;
+			else if (playerCreation.PlayerClothes.hair == Player::Clothing::gingerHair)
+				playerCreation.PlayerClothes.hair = Player::Clothing::redHair;
 		}
 		// Eye colour
 		if (changeEyeColour.isPressed())
 		{
 			if (playerCreation.PlayerClothes.eyes == Player::Clothing::brownEye)
+				playerCreation.PlayerClothes.eyes = Player::Clothing::greenEye;
+			else if (playerCreation.PlayerClothes.eyes == Player::Clothing::greenEye)
 				playerCreation.PlayerClothes.eyes = Player::Clothing::blueEye;
 			else if (playerCreation.PlayerClothes.eyes == Player::Clothing::blueEye)
 				playerCreation.PlayerClothes.eyes = Player::Clothing::brownEye;
