@@ -85,20 +85,6 @@ public:
 	//! Enum for chacter customisation
 	typedef struct
 	{
-		enum HairColour {
-			redHair,
-			yellowHair,
-			pinkHair,
-			brownHair,
-			blackHair,
-			gingerHair
-		}hair;
-		enum EyeColour {
-			brownEye,
-			greenEye,
-			blueEye
-		}eyes;
-
 		enum HeadWear {
 			noHeadWear,
 			shortHair,

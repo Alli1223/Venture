@@ -40,38 +40,8 @@ void Player::RenderPlayer(SDL_Renderer* renderer, Camera& camera)
 	
 
 	
-	// Alter colours
-	switch (PlayerClothes.hair)
-	{
-	case Clothing::blackHair:
-		hairColour = { 10, 10, 10 };
-		break;
-	case Clothing::brownHair:
-		hairColour = { 139,69,19 };
-		break;
-	case Clothing::redHair:
-		hairColour = { 200, 25, 25 };
-		break;
-	case Clothing::pinkHair:
-		hairColour = { 255, 182, 193 };
-	}
 	shortHairTexture.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
 	longHairTexture.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
-	
-
-	//Render head wear texture
-	switch (PlayerClothes.eyes)
-	{
-	case Clothing::brownEye:
-		eyeColour = { 139,69,19 };
-		break;
-	case Clothing::greenEye:
-		eyeColour = { 34,139,34 };
-		break;
-	case Clothing::blueEye:
-		eyeColour = { 0, 191, 255 };
-		break;
-	}
 	eyesTexture.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
 	sideBlinkTexture.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
 	//characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
@@ -162,9 +132,5 @@ void Player::renderCharacterItems(SDL_Renderer* renderer, int frameX, int frameY
 void Player::calcualteNumofvalues()
 {
 	
-	for (int i = Clothing::redHair; i != Clothing::gingerHair; i++)
-	{
-
-	}
 	
 }

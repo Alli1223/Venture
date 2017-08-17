@@ -101,10 +101,10 @@
       <Filter>Source Files\Main Game Classes</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-      <Filter>Source Files\Main Game Classes</Filter>
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="TextUI.cpp">
-      <Filter>Source Files\Main Game Classes</Filter>
+      <Filter>Source Files\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -217,10 +217,10 @@
       <Filter>Headers\Main Game Classes</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
-      <Filter>Headers\Main Game Classes</Filter>
+      <Filter>Headers\GUI</Filter>
     </ClInclude>
     <ClInclude Include="TextUI.h">
-      <Filter>Headers\Main Game Classes</Filter>
+      <Filter>Headers\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

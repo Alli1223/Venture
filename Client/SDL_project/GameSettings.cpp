@@ -39,8 +39,12 @@ void GameSettings::savePlayerSettings(Player& player)
 	playerData["PlayerData"]["Y"] = player.getY();
 	playerData["PlayerData"]["isMoving"] = player.isPlayerMoving();
 	playerData["PlayerData"]["headWear"] = player.PlayerClothes.head;
-	playerData["PlayerData"]["hairColour"] = player.PlayerClothes.hair;
-	playerData["PlayerData"]["eyeColour"] = player.PlayerClothes.eyes;
+	playerData["PlayerData"]["hairColour"]["r"] = player.gethairColour().r;
+	playerData["PlayerData"]["hairColour"]["g"] = player.gethairColour().g;
+	playerData["PlayerData"]["hairColour"]["b"] = player.gethairColour().b;
+	playerData["PlayerData"]["eyeColour"]["r"] = player.getEyeColour().r;
+	playerData["PlayerData"]["eyeColour"]["g"] = player.getEyeColour().g;
+	playerData["PlayerData"]["eyeColour"]["b"] = player.getEyeColour().b;
 	playerData["PlayerData"]["bodyWear"] = player.PlayerClothes.body;
 	playerData["PlayerData"]["legWear"] = player.PlayerClothes.leg;
 	playerSave.open("Resources\\SaveData\\playerData.txt");
@@ -71,14 +75,23 @@ Player GameSettings::getPlayerFromSave()
 
 				// Player clothes
 				int headWear = playerData.at("headWear").get<int>();
-				int hairColour = playerData.at("hairColour").get<int>();
-				int eyeColour = playerData.at("eyeColour").get<int>();
 				int bodyWear = playerData.at("bodyWear").get<int>();
 				int legWear = playerData.at("legWear").get<int>();
 
+
+				json hairColour = playerData.at("hairColour");
+				json eyeColour = playerData.at("eyeColour");
+				int hr = hairColour.at("r").get<int>();
+				int hg = hairColour.at("g").get<int>();
+				int hb = hairColour.at("b").get<int>();
+				int er = eyeColour.at("r").get<int>();
+				int eg = eyeColour.at("g").get<int>();
+				int eb = eyeColour.at("b").get<int>();
+
+				existingPlayer.setEyeColour(er, eg, eb);
+				existingPlayer.setHairColour(hr, hg, hb);
+
 				existingPlayer.PlayerClothes.head = (Player::Clothing::HeadWear)headWear;
-				existingPlayer.PlayerClothes.hair = (Player::Clothing::HairColour)hairColour;
-				existingPlayer.PlayerClothes.eyes = (Player::Clothing::EyeColour)eyeColour;
 				existingPlayer.PlayerClothes.body = (Player::Clothing::BodyWear)bodyWear;
 				existingPlayer.PlayerClothes.leg = (Player::Clothing::LegWear)legWear;
 				existingPlayer.setPlayerMoving(isMoving);

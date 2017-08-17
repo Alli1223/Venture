@@ -93,8 +93,12 @@ void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentMan
 	playerData["Y"] = player.getY();
 	playerData["isMoving"] = player.isPlayerMoving();
 	playerData["headWear"] = player.PlayerClothes.head;
-	playerData["hairColour"] = player.PlayerClothes.hair;
-	playerData["eyeColour"] = player.PlayerClothes.eyes;
+	playerData["hairColour"]["r"] = player.gethairColour().r;
+	playerData["hairColour"]["g"] = player.gethairColour().g;
+	playerData["hairColour"]["b"] = player.gethairColour().b;
+	playerData["eyeColour"]["r"] = player.getEyeColour().r;
+	playerData["eyeColour"]["g"] = player.getEyeColour().g;
+	playerData["eyeColour"]["b"] = player.getEyeColour().b;
 	playerData["bodyWear"] = player.PlayerClothes.body;
 	playerData["legWear"] = player.PlayerClothes.leg;
 
@@ -112,12 +116,11 @@ void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentMan
 	if(endOfJsonString >= 0)
 	updateData.erase(updateData.begin() + endOfJsonString + 1, updateData.end());
 
-	try 
+	try
 	{
 		json jsonData = json::parse(updateData.begin(), updateData.end());;
 		json playerData = jsonData.at("PlayerData");
 
-		// Loop through all the player data
 		for (auto& element : playerData)
 		{
 			// Player movement
@@ -129,21 +132,27 @@ void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentMan
 
 			// Player clothes
 			int headWear = element.at("headWear").get<int>();
-			int hairColour = element.at("hairColour").get<int>();
-			int eyeColour = element.at("eyeColour").get<int>();
 			int bodyWear = element.at("bodyWear").get<int>();
 			int legWear = element.at("legWear").get<int>();
-			
+
+			// Hair and eye colour
+			json hairColour = element.at("hairColour");
+			json eyeColour = element.at("eyeColour");
+			int hr = hairColour.at("r").get<int>();
+			int hg = hairColour.at("g").get<int>();
+			int hb = hairColour.at("b").get<int>();
+			int er = eyeColour.at("r").get<int>();
+			int eg = eyeColour.at("g").get<int>();
+			int eb = eyeColour.at("b").get<int>();
 
 			// IF player exists update deets
 			if (DoesPlayerExist(otherPlayerNames, name))
 			{
 				//Get players array number
 				int val = getPlayer(name);
-
+				allPlayers[val]->setEyeColour(er, eg, eb);
+				allPlayers[val]->setHairColour(hr, hg, hb);
 				allPlayers[val]->PlayerClothes.head = (Player::Clothing::HeadWear)headWear;
-				allPlayers[val]->PlayerClothes.hair = (Player::Clothing::HairColour)hairColour;
-				allPlayers[val]->PlayerClothes.eyes = (Player::Clothing::EyeColour)eyeColour;
 				allPlayers[val]->PlayerClothes.body = (Player::Clothing::BodyWear)bodyWear;
 				allPlayers[val]->PlayerClothes.leg = (Player::Clothing::LegWear)legWear;
 				allPlayers[val]->setPlayerMoving(isMoving);
