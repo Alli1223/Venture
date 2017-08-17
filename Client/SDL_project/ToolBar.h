@@ -17,7 +17,9 @@ public:
 	void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings);
 
 	std::vector<std::shared_ptr<Icon>> allIcons;
+
 	void createToolbar(Player& player, GameSettings& gameSettings);
+	void Update(Player& player, GameSettings& gameSettings);
 
 
 private:

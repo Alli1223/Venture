@@ -32,25 +32,27 @@ void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
 		}
 	}
 }
-
+void ToolBar::Update(Player& player, GameSettings& gameSettings)
+{
+	for (int i = 1; i <= player.inventory.getSize(); i++)
+	{
+		//if(allIcons[i]->getIconItem() player.inventory.get(i))
+		allIcons[i]->setIconItem(player.inventory.get(i));
+	}
+}
 void ToolBar::createToolbar(Player& player, GameSettings& gameSettings)
 {
 	int WW = gameSettings.WINDOW_WIDTH;
 	int WH = gameSettings.WINDOW_HEIGHT;
-	std::vector<Item> playeritems;
-	for (int i = 0; i < player.inventory.getSize(); i++)
-	{
-		playeritems.push_back(player.inventory.get(i));
-	}
-	
+
 	for (int i = 1; i <= numberOfIcons; i++)
 	{
 		Icon icon;
 		auto sharedIcon = std::make_shared<Icon>(icon);
 		int startX = WW / 2 - (WW / 4);
 		int iconSize = WW / 25;
-		if(player.inventory.getSize() > 1)
-			sharedIcon->setIconItem(playeritems.at(1));
+		if(player.inventory.getSize() > i)
+			
 		sharedIcon->setX(startX + (i * iconSize));
 		sharedIcon->setY(WH - iconSize);
 		sharedIcon->setWidth(iconSize);
