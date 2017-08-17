@@ -39,23 +39,23 @@ bool UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
 		return true;
 }
 
-void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, std::string playerName, bool useNetworking, bool& running)
+void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, GameSettings& gameSettings, ToolBar& toolbar)
 {
 	int cellSize = level.getCellSize();
 	SDL_Event ev;
 	if (SDL_PollEvent(&ev) != 0) {
 		if (ev.type == SDL_QUIT) {
-			running = false;
+			gameSettings.running = false;
 		}
 	}
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	if (state[SDL_SCANCODE_ESCAPE])
-		running = false;
+		gameSettings.running = false;
 
 	int playerX = player.getX();
 	int playerY = player.getY();
 	int playerSpeed = player.getSpeed();
-	int agentNo = agentManager.GetAgentNumberFomID(playerName);
+	int agentNo = agentManager.GetAgentNumberFomID(player.getID());
 	playerChunkPos = player.chunkPos;
 	playercellPos = player.cellPos;
 	/////////// PLAYER MOVEMENT ////////////
@@ -136,15 +136,28 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// CAMERA
+	Item hoe;
+	hoe.type.isHoe;
+	Item Axe;
+	hoe.type.isAxe;
 
+	
 	if (state[SDL_SCANCODE_RIGHT])
-	{ }
+	{ 
+		player.inventory.add(hoe);
+	}
 	if (state[SDL_SCANCODE_DOWN])
-	{ }
+	{
+		toolbar.createToolbar(player, gameSettings);
+	}
 	if (state[SDL_SCANCODE_LEFT])
-	{ }
+	{
+		player.inventory.add(Axe);
+	}
 	if (state[SDL_SCANCODE_UP])
-	{ }
+	{
+		std::cout << player.inventory.getSize() << " " << std::endl;
+	}
 
 	// Set cell size
 	if (state[SDL_SCANCODE_PAGEUP])
@@ -168,13 +181,13 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 			//dump celldata of where the player has changed the cell
 			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->getCellData().dump();
 			std::cout << seralisedData << std::endl;
-			if(useNetworking)
+			if(gameSettings.useNetworking)
 				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
 		
 	}
 	if (state[SDL_SCANCODE_M])
 	{
-		if(useNetworking)
+		if(gameSettings.useNetworking)
 			networkManager.MapNetworkUpdate(level);
 	}
 }

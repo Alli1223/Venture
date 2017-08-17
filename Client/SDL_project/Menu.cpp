@@ -162,6 +162,8 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		// Hair colour
 		if (changeHairColour.isPressed())
 		{
+			changeEyes = false;
+			changeHair = true;
 			if(showColourWheel == false)
 				showColourWheel = true;
 			else
@@ -171,7 +173,12 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		// Eye colour
 		if (changeEyeColour.isPressed())
 		{
-			
+			changeEyes = true;
+			changeHair = false;
+			if (showColourWheel == false)
+				showColourWheel = true;
+			else
+				showColourWheel = false;
 		}
 		if(randomiseAll.isPressed())
 		{
@@ -203,7 +210,10 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 						int r = ccX - mouseX;
 						int g = ccY + mouseY;
 						int b = ccX + mouseX;
-						playerCreation.setHairColour(r, g, b);
+						if(changeHair)
+							playerCreation.setHairColour(r, g, b);
+						else if(changeEyes)
+							playerCreation.setEyeColour(r, g, b);
 					}
 					renderCursor = false;
 					cursor.render(renderer, mouseX, mouseY, 10, 20);

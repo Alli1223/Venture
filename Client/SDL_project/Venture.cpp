@@ -195,13 +195,18 @@ void Venture::run()
 	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
 	while (gameSettings.running)
 	{
+		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_RIGHT))
+		{
+			toolbar.createToolbar(player, gameSettings);
+		}
 		// Do all the networking
 		if (gameSettings.useNetworking)
 			networkManager.NetworkUpdate(level, player, agentManager);
 
 		// Handle the input
-		input.HandleUserInput(level, player, agentManager, networkManager, camera, playerName, gameSettings.useNetworking, gameSettings.running);
+		input.HandleUserInput(level, player, agentManager, networkManager, camera, gameSettings, toolbar);
 
+		
 		// Set camera to follow player and generate the world
 		camera.setX(player.getX() - camera.WindowWidth / 2);
 		camera.setY(player.getY() - camera.WindowHeight / 2);
@@ -220,7 +225,7 @@ void Venture::run()
 		// Renders all the cells and players
 		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents, networkManager.allPlayers);
 
-
+		toolbar.RenderToolbar(renderer, gameSettings);
 		SDL_RenderPresent(renderer);
 		// End while running
 	}

@@ -27,26 +27,14 @@ public:
 	int getCellY() { return cellY; }
 	//! Gets the characters size
 	int getSize() { return size; }
+	//! Gets rotations
+	int getRotation() { return rotation; }
+	int getTargetRotation() { return targetRotation; }
+	int getRotationSpeed() { return rotationSpeed; }
 	//! Gets the characters speed
 	double getSpeed() { return speed; }
 	//! Gets and the agents health
 	double getHealth() { return health; }
-
-	bool setPlayerMoving(bool yayornay) { return isMoving = yayornay; }
-	bool isPlayerMoving() { return isMoving; }
-
-	//! Agent ID
-	std::string getID() { return ID; }
-	std::string setID(std::string newID) { return ID = newID; }
-
-
-	//! Character Type
-	std::string characterType = "NPC";
-
-	//! Position in the world
-	glm::vec2 chunkPos, cellPos;
-	void Character::Update(Level& level);
-
 	//Setter methods
 	//! Sets the characters X value
 	int setX(int newX) { return x = newX; }
@@ -68,19 +56,25 @@ public:
 	double setSpeed(double newSpeed) { return speed = newSpeed; }
 	//! Sets the characters health
 	double setHealth(double newHealth) { return health = newHealth; }
-
-	//! Gets and sets the agents point location
-	Point getAgentPointLocation() { return agentPointLocation; }
-	Point setAgentPointLocation(Point newPointLocation) { return agentPointLocation = newPointLocation; }
-
-
-	int getRotation() { return rotation; }
-	int getTargetRotation() { return targetRotation; }
-	int getRotationSpeed() { return rotationSpeed; }
-
+	//! Sets rotations
 	int setRotation(int newRotation) { return rotation = newRotation; }
 	int setTargetRotation(int newTarget) { return targetRotation = newTarget; }
 	int setRotationSpeed(int newSpeed) { return rotationSpeed = newSpeed; }
+	//! Player movement boolean
+	bool setPlayerMoving(bool yayornay) { return isMoving = yayornay; }
+	bool isPlayerMoving() { return isMoving; }
+	//! Agent ID
+	std::string getID() { return ID; }
+	std::string setID(std::string newID) { return ID = newID; }
+	//! Gets and sets the agents point location
+	Point getAgentPointLocation() { return agentPointLocation; }
+	Point setAgentPointLocation(Point newPointLocation) { return agentPointLocation = newPointLocation; }
+	//! Character Type
+	std::string characterType = "NPC";
+
+	//! Position in the world
+	glm::vec2 chunkPos, cellPos;
+	void Character::Update(Level& level);
 
 	//! Enum for chacter customisation
 	typedef struct
@@ -105,6 +99,8 @@ public:
 			skirt
 		}leg;
 	} Clothing;
+
+	//! Character clothes
 	Clothing PlayerClothes;
 
 private:
@@ -127,7 +123,7 @@ private:
 	double health = 100.0;
 	//! If the Character can rotate
 	bool incrementalRotating = false;
-
+	//! if the Character is moving
 	bool isMoving = false;
 
 

@@ -37,6 +37,7 @@ private:
 	int r = 0;
 	int g = 0;
 	int b = 0;
+	bool changeHair = false, changeEyes = false;
 	SDL_Color getColourWheelvalue(SDL_Renderer* renderer, int x, int y);
 
 	//! Stores the menus background texture

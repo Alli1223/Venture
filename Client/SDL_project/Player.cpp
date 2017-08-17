@@ -37,14 +37,11 @@ void Player::RenderPlayer(SDL_Renderer* renderer, Camera& camera)
 
 		renderOffset.x = getX() - camera.getX();
 		renderOffset.y = getY() - camera.getY();
-	
 
-	
 	shortHairTexture.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
 	longHairTexture.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
 	eyesTexture.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
 	sideBlinkTexture.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
-	//characterTex.renderAnim(renderer, walk.getCurrentFrame() * 32, 0, renderOffset.x, renderOffset.y, 32, 32, 32);
 
 	
 	/// RENDER ROTATIONS ///
@@ -56,31 +53,30 @@ void Player::RenderPlayer(SDL_Renderer* renderer, Camera& camera)
 		else
 			characterIdleTexture.renderAnim(renderer, idleAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
 		eyesTexture.renderAnim(renderer, blinkAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		renderCharacterItems(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		renderCharacterClothes(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	// Walk Left
 	else if (getTargetRotation() == 90)
 	{
 		walkTexture.renderAnim(renderer, walkHorizontalAnimation.getCurrentFrame() * pixelSize, pixelSize, renderOffset.x, renderOffset.y, pixelSize, getSize());
 		sideBlinkTexture.renderAnim(renderer, blinkAnimation.getCurrentFrame() * pixelSize, pixelSize, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		renderCharacterItems(renderer, walkHorizontalAnimation.getCurrentFrame() * pixelSize, pixelSize, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		renderCharacterClothes(renderer, walkHorizontalAnimation.getCurrentFrame() * pixelSize, pixelSize, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	// Walk Right
 	else if (getTargetRotation() == 270)
 	{
 		walkTexture.renderAnim(renderer, walkHorizontalAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
 		sideBlinkTexture.renderAnim(renderer, blinkAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		renderCharacterItems(renderer, walkHorizontalAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		renderCharacterClothes(renderer, walkHorizontalAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	else if (getTargetRotation() == 180)
 	{
 		walkTexture.renderAnim(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 3, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		renderCharacterItems(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 3, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		renderCharacterClothes(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 3, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
-	
 }
 
-void Player::renderCharacterItems(SDL_Renderer* renderer, int frameX, int frameY, int x, int y, int pixelSize, int characterSize)
+void Player::renderCharacterClothes(SDL_Renderer* renderer, int frameX, int frameY, int x, int y, int pixelSize, int characterSize)
 {
 
 	//Render head wear texture
@@ -125,12 +121,4 @@ void Player::renderCharacterItems(SDL_Renderer* renderer, int frameX, int frameY
 
 		break;
 	}
-}
-
-
-//TODO: Calcualte number of values in each enum
-void Player::calcualteNumofvalues()
-{
-	
-	
 }

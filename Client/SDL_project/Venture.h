@@ -60,7 +60,7 @@ public:
 	std::vector<std::string> otherPlayerNames;
 
 	//! Coordinates of the mouse 
-	int mouse_X, mouse_Y;
+	int mouseX, mouseY;
 
 	glm::vec2 mouseCellPosition;
 private:

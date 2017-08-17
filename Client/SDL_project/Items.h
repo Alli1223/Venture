@@ -9,16 +9,27 @@ public:
 	Item();
 	//! Destructor
 	~Item();
-
-	enum Resource
+	typedef struct
 	{
-		isWOOD,
-		isSTONE,
-		isBERRY,
-		isFISH
-	};
-	
+		enum Resource
+		{
+			isWOOD,
+			isSTONE,
+		} Resource;
+		enum Food
+		{
+			isBERRY,
+			isFISH
+		} Food;
 
+		enum Tool
+		{
+			isAxe,
+			isHoe
+		}Tool;
+	} ItemType;
+	
+	ItemType type;
 	bool isInInventory = false;
 
 
