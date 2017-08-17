@@ -2,7 +2,7 @@
 #include "Menu.h"
 
 
-Menu::Menu() : menuBackground(colourTextures + "Grey.png"), cursor(menuTextures + "Cursor.png"), rgb(colourTextures + "Spectrum.png")
+Menu::Menu() : menuBackground(colourTextures + "Grey.png"), cursor(menuTextures + "Cursor.png"), rgb(colourTextures + "Spectrum.png"), rgbWheel(colourTextures + "rgbWheel.png")
 {
 }
 
@@ -157,14 +157,19 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		// Hair colour
 		if (changeHairColour.isPressed())
 		{
-
+			if(showColourWheel == false)
+				showColourWheel = true;
+			else
+				showColourWheel = false;
+			
 		}
 		// Eye colour
 		if (changeEyeColour.isPressed())
 		{
 
 		}
-		
+		if(showColourWheel)
+			rgbWheel.render(renderer, playerCreation.getX() - playerCreation.getSize(), playerCreation.getY() + 100, 100, 100);
 		// Render player
 		playerCreation.RenderPlayer(renderer, camera);
 
@@ -191,4 +196,19 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 	playerCreation.setSize(50);
 	player.PlayerClothes = playerCreation.PlayerClothes;
 
+}
+
+SDL_Color Menu::getColourWheelvalue(SDL_Renderer* renderer,int x, int y)
+{
+	//Uint32 * pixels;
+	//Uint8 * rgb;
+	//SDL_RenderReadPixels(renderer, NULL, 0, pixels, SDL_PIXELFORMAT_RGB444);
+	//SDL_GetRGB(pixels[x*y], SDL_PIXELFORMAT_RGBA4444, &rgb[0], &rgb[1], &rgb[2])
+
+}
+Uint32 get_pixel32(Uint32 *pixels, int x, int y)
+{
+	//Convert the pixels to 32 bit
+	//Get the requested pixel
+	return pixels[y * 220 + x];
 }
