@@ -33,12 +33,16 @@ private:
 	int mouseX, mouseY;
 	int menuCursorSize = 30;
 	bool showColourWheel = false;
+
+	int r = 0;
+	int g = 0;
+	int b = 0;
 	SDL_Color getColourWheelvalue(SDL_Renderer* renderer, int x, int y);
 
 	//! Stores the menus background texture
 	Texture menuBackground;
-	//Texture rgbWheel;
-	SDL_Surface rgbWheel;
+	Texture rgbWheel;
+	//SDL_Surface rgbWheel;
 
 	Texture rgb;
 

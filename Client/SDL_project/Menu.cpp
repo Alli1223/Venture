@@ -10,7 +10,10 @@ Menu::Menu() : menuBackground(colourTextures + "Grey.png"), cursor(menuTextures 
 Menu::~Menu()
 {
 }
-
+Uint32 get_pixel_at(Uint32 * pixels, int x, int y, int w)
+{
+	return pixels[y * w + x];
+}
 void Menu::MainMenu(GameSettings& gameSettings, Camera& camera, Player& player, SDL_Renderer* renderer)
 {
 	// Create buttons
@@ -89,6 +92,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 	Button changeLegs("Change Trousers");
 	Button changeHairColour("Change Hair Colour");
 	Button changeEyeColour("Change Eye Colour");
+	Button randomiseAll("Random");
 	
 	Player playerCreation;
 
@@ -105,7 +109,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 	{
 		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
 		{
-
+			//getColourWheelvalue(renderer, mouseX, mouseY);
 		}
 		SDL_Event ev;
 		if (SDL_PollEvent(&ev) != 0) {
@@ -122,10 +126,11 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		changeHead.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() - 100, 100, 50);
 		changeBody.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() , 100, 50);
 		changeLegs.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() + 100, 100, 50);
+		randomiseAll.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 150, 150, 50);
 		changeHairColour.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 100, 150, 50);
 		changeEyeColour.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 50, 150, 50);
 		play.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT - 50, 100, 50);
-
+		
 
 		// Button functionality
 		//Legs
@@ -166,10 +171,45 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		// Eye colour
 		if (changeEyeColour.isPressed())
 		{
-
+			
 		}
-		if(showColourWheel)
-			rgbWheel.render(renderer, playerCreation.getX() - playerCreation.getSize(), playerCreation.getY() + 100, 100, 100);
+		if(randomiseAll.isPressed())
+		{
+			playerCreation.setHairColour(rand() % 255, rand() % 255, rand() % 255);
+			playerCreation.setEyeColour(rand() % 255, rand() % 255, rand() % 255);
+		}
+
+		bool renderCursor = true;
+		// Mouse controls rgb in relation to center of image
+
+
+		//TODO: Refactor this mess to be a proper colour wheel
+		if (showColourWheel)
+		{
+			int size = 250;
+			rgb.render(renderer, playerCreation.getX() - size , playerCreation.getY() , size, size);
+			
+
+			int ccX = playerCreation.getX() - playerCreation.getSize();
+			int ccY = playerCreation.getY() + 100;
+			if (mouseX > playerCreation.getX() + size - (size * 2) -150  && mouseX < playerCreation.getX() - (size / 2))
+			{
+				if (mouseY > playerCreation.getY() - size/ 2 && mouseY < playerCreation.getY() + (size / 2))
+				{
+
+					if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
+					{
+
+						int r = ccX - mouseX;
+						int g = ccY + mouseY;
+						int b = ccX + mouseX;
+						playerCreation.setHairColour(r, g, b);
+					}
+					renderCursor = false;
+					cursor.render(renderer, mouseX, mouseY, 10, 20);
+				}
+			}
+		}
 		// Render player
 		playerCreation.RenderPlayer(renderer, camera);
 
@@ -189,26 +229,51 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		}
 
 		//Render the mouse cursor last
-		cursor.render(renderer, mouseX + (menuCursorSize / 2), mouseY + (menuCursorSize / 2), menuCursorSize, menuCursorSize);
+		if(renderCursor)
+			cursor.render(renderer, mouseX + (menuCursorSize / 2), mouseY + (menuCursorSize / 2), menuCursorSize, menuCursorSize);
 		SDL_RenderPresent(renderer);
 	}
-	//playerCreation.setPosition(gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2);
+	
+
+	// Only copy over the customsiation stuff
 	playerCreation.setSize(50);
 	player.PlayerClothes = playerCreation.PlayerClothes;
+	player.setHairColour(playerCreation.gethairColour().r, playerCreation.gethairColour().g, playerCreation.gethairColour().b);
+	player.setEyeColour(playerCreation.getEyeColour().r, playerCreation.getEyeColour().g, playerCreation.getEyeColour().b);
 
 }
 
 SDL_Color Menu::getColourWheelvalue(SDL_Renderer* renderer,int x, int y)
 {
+	
+	SDL_Surface * img = IMG_Load("Resources\\Sprites\\Colours\\rgbWheel.png");
+	//SDL_SetRenderTarget(renderer, rgbWheel.getTexture());
+
+	//SDL_RenderReadPixels(renderer, &rect, SDL_PIXELFORMAT_ABGR8888, pixels, pitch);
+	SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, img->w, img->h);
+	void * pixels;
+
+	SDL_LockTexture(rgbWheel.getTexture(), &img->clip_rect, &pixels, &img->pitch);
+
+	memcpy(pixels, img->pixels, img->w * img->h);
+
+	Uint32 * upixels = (Uint32 *)pixels;
+
+	// get or modify pixels
+
+	SDL_UnlockTexture(rgbWheel.getTexture());
+
+
+
+
+	Uint32 pixel = get_pixel_at(upixels, x, y, img->w);
+	Uint8 * colors = (Uint8 *)pixel;
+	SDL_Color returncolor = { colors[0],colors[1],colors[2] };
+
+	return returncolor;
 	//Uint32 * pixels;
 	//Uint8 * rgb;
 	//SDL_RenderReadPixels(renderer, NULL, 0, pixels, SDL_PIXELFORMAT_RGB444);
 	//SDL_GetRGB(pixels[x*y], SDL_PIXELFORMAT_RGBA4444, &rgb[0], &rgb[1], &rgb[2])
 
-}
-Uint32 get_pixel32(Uint32 *pixels, int x, int y)
-{
-	//Convert the pixels to 32 bit
-	//Get the requested pixel
-	return pixels[y * 220 + x];
 }

@@ -80,10 +80,10 @@ Player GameSettings::getPlayerFromSave()
 
 
 				json hairColour = playerData.at("hairColour");
-				json eyeColour = playerData.at("eyeColour");
 				int hr = hairColour.at("r").get<int>();
 				int hg = hairColour.at("g").get<int>();
 				int hb = hairColour.at("b").get<int>();
+				json eyeColour = playerData.at("eyeColour");
 				int er = eyeColour.at("r").get<int>();
 				int eg = eyeColour.at("g").get<int>();
 				int eb = eyeColour.at("b").get<int>();
