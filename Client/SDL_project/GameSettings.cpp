@@ -30,8 +30,10 @@ void GameSettings::getScreenResolution()
 
 }
 
+//TODO: Create a mapdata json file for singleplayer
 void GameSettings::savePlayerSettings(Player& player)
 {
+	
 	json playerData;
 	playerData["PlayerData"]["name"] = player.getID();
 	playerData["PlayerData"]["rotation"] = player.getTargetRotation();
@@ -68,8 +70,8 @@ Player GameSettings::getPlayerFromSave()
 
 				// Player movement
 				int x = playerData.at("X").get<int>();
-				//int y = element.at("Y").get<int>();
-				//int rotation = element.at("rotation").get<int>();
+				int y = playerData.at("Y").get<int>();
+				int rotation = playerData.at("rotation").get<int>();
 				std::string name = playerData.at("name").get<std::string>();
 				bool isMoving = playerData.at("isMoving").get<bool>();
 
@@ -95,15 +97,9 @@ Player GameSettings::getPlayerFromSave()
 				existingPlayer.PlayerClothes.body = (Player::Clothing::BodyWear)bodyWear;
 				existingPlayer.PlayerClothes.leg = (Player::Clothing::LegWear)legWear;
 				existingPlayer.setPlayerMoving(isMoving);
-				//existingPlayer.setX(x);
-				//existingPlayer.setY(y);
-				//existingPlayer.setTargetRotation(rotation);
-
-			
 		}
 		
 		readPlayerSave.close();
 	}
 	return existingPlayer;
-	
 }

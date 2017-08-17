@@ -100,8 +100,8 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 	playerCreation.PlayerClothes.body = Player::Clothing::jacket;
 	playerCreation.PlayerClothes.head = Player::Clothing::longHair;
 
-
-	//playerCreation = gameSettings.getPlayerFromSave();
+	// Load player from file
+	playerCreation = gameSettings.getPlayerFromSave();
 	playerCreation.setSize(gameSettings.WINDOW_WIDTH / 5);
 	playerCreation.setPosition(gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2);
 	
