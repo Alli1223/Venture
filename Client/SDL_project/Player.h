@@ -1,6 +1,7 @@
 #pragma once
 #include "Character.h"
 #include "Animation.h"
+#include "Items.h"
 class Player : public Character
 {
 public:

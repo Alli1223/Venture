@@ -24,6 +24,7 @@ public:
 
 		enum Tool
 		{
+			none,
 			isAxe,
 			isHoe
 		}Tool;

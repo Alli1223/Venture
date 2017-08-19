@@ -137,9 +137,9 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// CAMERA
 	Item hoe;
-	hoe.type.isHoe;
+	hoe.type.Tool = Item::ItemType::isHoe;
 	Item Axe;
-	hoe.type.isAxe;
+	Axe.type.Tool = Item::ItemType::isAxe;
 
 	
 	if (state[SDL_SCANCODE_RIGHT])

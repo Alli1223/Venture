@@ -24,7 +24,7 @@ public:
 
 private:
 	int toolbarSelection = 1;
-	int numberOfIcons = 5;
+	int numberOfIcons = 20;
 	bool toolbarRender = true;
 	
 

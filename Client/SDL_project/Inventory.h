@@ -7,6 +7,7 @@ public:
 	Inventory();
 	~Inventory();
 
+
 	// Add item to inventory
 	bool add(const Item& item)
 	{
