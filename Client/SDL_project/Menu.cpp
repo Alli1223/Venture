@@ -93,6 +93,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 	Button changeHairColour("Change Hair Colour");
 	Button changeEyeColour("Change Eye Colour");
 	Button randomiseAll("Random");
+	Button startingProfession("Profession");
 	
 	Player playerCreation;
 
@@ -127,9 +128,11 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		changeBody.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() , 100, 50);
 		changeLegs.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() + 100, 100, 50);
 		randomiseAll.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 150, 150, 50);
+		startingProfession.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 200, 150, 50);
 		changeHairColour.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 100, 150, 50);
 		changeEyeColour.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 50, 150, 50);
 		play.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT - 50, 100, 50);
+
 		
 
 		// Button functionality
@@ -184,6 +187,10 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		{
 			playerCreation.setHairColour(rand() % 255, rand() % 255, rand() % 255);
 			playerCreation.setEyeColour(rand() % 255, rand() % 255, rand() % 255);
+		}
+		if (startingProfession.isPressed())
+		{
+
 		}
 
 		bool renderCursor = true;
@@ -251,6 +258,13 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 	player.setHairColour(playerCreation.gethairColour().r, playerCreation.gethairColour().g, playerCreation.gethairColour().b);
 	player.setEyeColour(playerCreation.getEyeColour().r, playerCreation.getEyeColour().g, playerCreation.getEyeColour().b);
 
+	// Add starting items
+	Item hoe;
+	hoe.type.Tool = Item::ItemType::isHoe;
+	Item Axe;
+	Axe.type.Tool = Item::ItemType::isAxe;
+	player.inventory.add(Axe);
+	player.inventory.add(hoe);
 }
 
 SDL_Color Menu::getColourWheelvalue(SDL_Renderer* renderer,int x, int y)

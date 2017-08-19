@@ -138,10 +138,7 @@ Venture::~Venture()
 void Venture::run()
 {
 	// Run the main menu
-	//menu.MainMenu(gameSettings, camera, player, renderer);
-	//player.screenCenter.x = gameSettings.WINDOW_WIDTH / 2;
-	//player.screenCenter.y = gameSettings.WINDOW_HEIGHT / 2;
-	//player.xOffset = gameSettings.WINDOW_WIDTH / 2;
+	menu.MainMenu(gameSettings, camera, player, renderer);
 
 
 	// Generates the world around the camera position

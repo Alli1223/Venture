@@ -8,13 +8,20 @@ public:
 	Player();
 	~Player();
 	
+	//! Render the player
 	void RenderPlayer(SDL_Renderer* renderer, Camera& camera);
+	//! Renders the characters clothes
 	void renderCharacterClothes(SDL_Renderer* renderer, int frameX, int frameY, int x, int y, int pixelSize, int characterSize);
+	
 	
 	glm::vec2 renderOffset;
 	glm::vec2 screenCenter;
 	int xOffset, yOffset;
+
+	//! Player clothes
 	Clothing PlayerClothes;
+
+
 
 	Animation getWalkAnimation() { return walkHorizontalAnimation; }
 	SDL_Color gethairColour() { return hairColour; }
@@ -23,9 +30,8 @@ public:
 	int setEyeColour(int r, int g, int b) { return eyeColour.r = r, eyeColour.g = g, eyeColour.b = b; }
 	Inventory inventory;
 private:
+	//! Json data to store player stats
 	json playerJsondata;
-
-
 	//! Pixel size of the player sprite in the spritesheet
 	int pixelSize = 32;
 	//! Default colours

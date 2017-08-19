@@ -1,1 +1,1 @@
-{"PlayerData":{"X":0,"Y":0,"bodyWear":0,"eyeColour":{"b":255,"g":255,"r":255},"hairColour":{"b":255,"g":255,"r":255},"headWear":0,"isMoving":false,"legWear":0,"name":"1122","rotation":0}}
+{"PlayerData":{"X":-120,"Y":65,"bodyWear":0,"eyeColour":{"b":72,"g":174,"r":33},"hairColour":{"b":146,"g":84,"r":102},"headWear":2,"isMoving":false,"legWear":0,"name":"4438","rotation":0}}
