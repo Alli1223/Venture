@@ -2,9 +2,9 @@
 #include "ToolBar.h"
 
 
-ToolBar::ToolBar() : selectionTexture(toolbarTextureLocation + "grey.png")
+ToolBar::ToolBar() : selectionTexture("Resources\\Sprites\\Toolbar\\grey.png")
 {
-
+	selectionTexture.alterTransparency(150);
 }
 
 
@@ -14,7 +14,7 @@ ToolBar::~ToolBar()
 
 void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
 {
-	
+	selectionTexture.alterTransparency(150);
 	int mouseX, mouseY;
 	if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
 	{
@@ -26,13 +26,13 @@ void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
 		for each (auto &icon in allIcons)
 		{
 			icon->RenderIcon(renderer);
-			
 		}
 	}
 	for(int i = 0; i < numberOfIcons; i++ )
 	{
 		if (i == toolbarSelection)
 			selectionTexture.render(renderer, allIcons[i]->getX(), allIcons[i]->getY(), allIcons[i]->getWidth(), allIcons[i]->getHeight());
+		
 	}
 }
 void ToolBar::Update(Player& player, GameSettings& gameSettings)
@@ -42,13 +42,17 @@ void ToolBar::Update(Player& player, GameSettings& gameSettings)
 		if (i < numberOfIcons)
 			allIcons[i]->setIconItem(player.inventory.get(i));
 	}
+	if (toolbarSelection > numberOfIcons)
+		toolbarSelection = 0;
+	if (toolbarSelection < 0)
+		toolbarSelection = numberOfIcons;
 	
 }
 void ToolBar::createToolbar(Player& player, GameSettings& gameSettings)
 {
 	int WW = gameSettings.WINDOW_WIDTH;
 	int WH = gameSettings.WINDOW_HEIGHT;
-
+	
 	for (int i = 1; i <= numberOfIcons; i++)
 	{
 		Icon icon;
