@@ -144,7 +144,7 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	
 	if (state[SDL_SCANCODE_RIGHT])
 	{ 
-		player.inventory.add(hoe);
+		toolbar.setToolbarSelection(toolbar.getToolbarSelection() + 1);
 	}
 	if (state[SDL_SCANCODE_DOWN])
 	{

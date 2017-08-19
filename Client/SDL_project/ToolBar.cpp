@@ -2,8 +2,7 @@
 #include "ToolBar.h"
 
 
-ToolBar::ToolBar()
-	
+ToolBar::ToolBar() : selectionTexture(toolbarTextureLocation + "grey.png")
 {
 
 }
@@ -30,15 +29,20 @@ void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
 			
 		}
 	}
+	for(int i = 0; i < numberOfIcons; i++ )
+	{
+		if (i == toolbarSelection)
+			selectionTexture.render(renderer, allIcons[i]->getX(), allIcons[i]->getY(), allIcons[i]->getWidth(), allIcons[i]->getHeight());
+	}
 }
 void ToolBar::Update(Player& player, GameSettings& gameSettings)
 {
 	for (int i = 0; i < player.inventory.getSize(); i++)
 	{
-		Item test;
-		test = player.inventory.get(i);
-		allIcons[i]->setIconItem(test);
+		if (i < numberOfIcons)
+			allIcons[i]->setIconItem(player.inventory.get(i));
 	}
+	
 }
 void ToolBar::createToolbar(Player& player, GameSettings& gameSettings)
 {

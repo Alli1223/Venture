@@ -3,6 +3,7 @@
 #include "Level.h"
 #include "Icon.h"
 #include "GameSettings.h"
+#include "Texture.h"
 
 
 class ToolBar : public GUI
@@ -21,10 +22,15 @@ public:
 	void createToolbar(Player& player, GameSettings& gameSettings);
 	void Update(Player& player, GameSettings& gameSettings);
 
+	int getToolbarSelection() { return toolbarSelection; }
+	int setToolbarSelection(int newSelection) { return toolbarSelection = newSelection; }
+
 
 private:
-	int toolbarSelection = 1;
-	int numberOfIcons = 20;
+	Texture selectionTexture;
+	std::string toolbarTextureLocation = "Resources\\Sprites\\Toolbar\\";
+	int toolbarSelection = 0;
+	int numberOfIcons = 10;
 	bool toolbarRender = true;
 	
 
