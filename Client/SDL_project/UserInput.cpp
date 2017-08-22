@@ -43,15 +43,41 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 {
 	int cellSize = level.getCellSize();
 	SDL_Event ev;
-	if (SDL_PollEvent(&ev) != 0) {
-		if (ev.type == SDL_QUIT) {
+	if (SDL_PollEvent(&ev) != 0) 
+	{
+		if (ev.type == SDL_QUIT) 
+		{
 			gameSettings.running = false;
 		}
+		//Mouse wheel
+		switch (ev.type)
+		{
+		case SDL_MOUSEWHEEL:
+			if (ev.wheel.x < 0)
+			{
+				std::cout << "MOUSE : WHEEL LEFT" << std::endl;
+			}
+			else if (ev.wheel.x > 0)
+			{
+				std::cout << "MOUSE : WHEEL RIGHT" << std::endl;
+			}
+			if (ev.wheel.y < 0)
+			{
+				toolbar.setToolbarSelection(toolbar.getToolbarSelection() + 1);
+			}
+			else if (ev.wheel.y > 0)
+			{
+				toolbar.setToolbarSelection(toolbar.getToolbarSelection() - 1);
+			}
+			break;
+		}
 	}
+
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	if (state[SDL_SCANCODE_ESCAPE])
 		gameSettings.running = false;
 
+	
 	int playerX = player.getX();
 	int playerY = player.getY();
 	int playerSpeed = player.getSpeed();
@@ -145,6 +171,7 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	{
 		toolbar.createToolbar(player, gameSettings);
 	}
+	
 	if (state[SDL_SCANCODE_LEFT])
 	{
 		toolbar.setToolbarSelection(toolbar.getToolbarSelection() - 1);
@@ -166,19 +193,10 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	if (state[SDL_SCANCODE_F9])
 		level.setTimeOfDay(7.0);
 
+	// Use Action
 	if (state[SDL_SCANCODE_F])
 	{
-
-			std::cout << playercellPos.x - InterDir.x << " " << playercellPos.y - InterDir.y << std::endl;
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isDirt = true;
-			//level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWalkable = false;
-			
-			//dump celldata of where the player has changed the cell
-			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->getCellData().dump();
-			std::cout << seralisedData << std::endl;
-			if(gameSettings.useNetworking)
-				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
-		
+		playerUseAction(toolbar, player, level, networkManager, gameSettings);
 	}
 	if (state[SDL_SCANCODE_M])
 	{
@@ -194,9 +212,6 @@ void UserInput::ChangeCellsAroundPoint(Level& level, glm::vec2 point, int dist, 
 	//Check if cell is in bounds
 	glm::vec2 chunkPos;
 	glm::vec2 actionPos;
-
-
-
 
 	/*
 	for (int playerPosX = playerX - cellSize * 2; playerPosX < playerX + cellSize * 2; playerPosX += cellSize)
@@ -222,4 +237,42 @@ void UserInput::ChangeCellsAroundPoint(Level& level, glm::vec2 point, int dist, 
 		}
 	}
 	*/
+}
+
+void UserInput::playerUseAction(ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings)
+{
+	if (toolbar.getToolbarSelection() == 0)
+	{
+		for (int x = -1; x < 1; x++)
+			for (int y = -1; y < 1; y++)
+			{
+				InterDir.x = playercellPos.x + x;
+				InterDir.y = playercellPos.y - y;
+				if (InterDir.x > 0 && InterDir.x < level.getChunkSize() && InterDir.x > 0 && InterDir.y < level.getChunkSize())
+				{
+					if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[InterDir.x][InterDir.y]->isTree)
+					{
+						//dump celldata of where the player has changed the cell
+						level.World[playerChunkPos.x][playerChunkPos.y].tiles[InterDir.x][InterDir.y]->isTree = false;
+						level.World[playerChunkPos.x][playerChunkPos.y].tiles[InterDir.x][InterDir.y]->isDirt = true;
+						std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[InterDir.x][InterDir.y]->getCellData().dump();
+						std::cout << seralisedData << std::endl;
+						if (gameSettings.useNetworking)
+							networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
+					}
+				}
+			}
+	}
+	if (toolbar.getToolbarSelection() == 1)
+	{
+		if (!level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isDirt)
+		{
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isDirt = true;
+			//dump celldata of where the player has changed the cell
+			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->getCellData().dump();
+			std::cout << seralisedData << std::endl;
+			if (gameSettings.useNetworking)
+				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
+		}
+	}
 }

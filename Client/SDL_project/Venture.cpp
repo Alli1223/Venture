@@ -138,7 +138,15 @@ Venture::~Venture()
 void Venture::run()
 {
 	// Run the main menu
-	menu.MainMenu(gameSettings, camera, player, renderer);
+	//menu.MainMenu(gameSettings, camera, player, renderer);
+
+	// Add starting items
+	Item hoe;
+	hoe.type.Tool = Item::ItemType::isHoe;
+	Item Axe;
+	Axe.type.Tool = Item::ItemType::isAxe;
+	player.inventory.add(Axe);
+	player.inventory.add(hoe);
 
 
 	// Generates the world around the camera position

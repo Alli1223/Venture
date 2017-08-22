@@ -138,14 +138,20 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 					LongGrass2.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isSnow)
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-
 				if (chunk.tiles[x][y]->isTree)
 				{
+					TreePixelTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				}
+				else
+				{
+					if (chunk.tiles[x][y]->isTree)
+					{
 						tree t1;
 						t1.Oak;
 						t1.pos = glm::vec2(xPos, yPos);
 						t1.treeSize = glm::vec2(cellSize * 4, cellSize * 4);
 						trees.push_back(t1);
+					}
 				}
 
 					/*

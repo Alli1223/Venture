@@ -257,14 +257,6 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 	player.PlayerClothes = playerCreation.PlayerClothes;
 	player.setHairColour(playerCreation.gethairColour().r, playerCreation.gethairColour().g, playerCreation.gethairColour().b);
 	player.setEyeColour(playerCreation.getEyeColour().r, playerCreation.getEyeColour().g, playerCreation.getEyeColour().b);
-
-	// Add starting items
-	Item hoe;
-	hoe.type.Tool = Item::ItemType::isHoe;
-	Item Axe;
-	Axe.type.Tool = Item::ItemType::isAxe;
-	player.inventory.add(Axe);
-	player.inventory.add(hoe);
 }
 
 SDL_Color Menu::getColourWheelvalue(SDL_Renderer* renderer,int x, int y)
