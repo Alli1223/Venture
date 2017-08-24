@@ -275,4 +275,18 @@ void UserInput::playerUseAction(ToolBar& toolbar, Player& player, Level& level, 
 				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
 		}
 	}
+
+	if (toolbar.getToolbarSelection() == 2)
+	{
+		if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isDirt)
+		{
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWheat = true;
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->seedsStage = Cell::seedsGrowthStage::PlantStageOne;
+			//dump celldata of where the player has changed the cell
+			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->getCellData().dump();
+			std::cout << seralisedData << std::endl;
+			if (gameSettings.useNetworking)
+				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
+		}
+	}
 }

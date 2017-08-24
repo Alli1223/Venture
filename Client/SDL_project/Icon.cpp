@@ -2,7 +2,7 @@
 #include "Icon.h"
 
 
-Icon::Icon() : AxeTexture(iconTextureLocation + "axe.png"), hoeTexture(iconTextureLocation + "hoe.png")
+Icon::Icon() : AxeTexture(iconTextureLocation + "axe.png"), hoeTexture(iconTextureLocation + "hoe.png"), seedsTexture(iconTextureLocation + "seeds.png")
 {
 }
 
@@ -15,13 +15,20 @@ void Icon::RenderIcon(SDL_Renderer* renderer)
 {
 	switch (iconItem.type.Tool)
 	{
-	case Item::ItemType::isAxe:
+	case Item::ItemType::isAXE:
 		AxeTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
 		break;
-	case Item::ItemType::isHoe:
+	case Item::ItemType::isHOE:
 		hoeTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
 		break;
 	}
+	switch (iconItem.type.Food)
+	{
+	case Item::ItemType::isSEEDS:
+		seedsTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
+		break;
+	}
+
 	/*
 	if(this->iconItem.type.isAxe)
 		AxeTexture.render(renderer, getX(), getY(), getWidth(), getHeight());

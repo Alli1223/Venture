@@ -232,12 +232,16 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 				int y = element.at("Y").get<int>();
 				bool isFence = element.at("Fence").get<bool>();
 				bool isDirt = element.at("Dirt").get<bool>();
+				bool isWheat = element.at("Wheat").get<bool>();
+				int plantGrowthStage = element.at("PlantStage").get<int>();
 
 				// Create a new cell to replace the old one
 				Cell nc;
 				nc.setPos(x, y);
 				nc.isWoodFence = isFence;
 				nc.isDirt = isDirt;
+				nc.isWheat = isWheat;
+				nc.seedsStage = (Cell::seedsGrowthStage)plantGrowthStage;
 				level.SetCell(x, y, nc);
 				cellsUpdated++;
 			}
@@ -245,7 +249,7 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 		}
 		catch (std::exception e)
 		{
-			std::cout << "Error processing player location data: " << e.what() << std::endl;
+			std::cout << "Error processing map data: " << e.what() << std::endl;
 		}
 	}
 }

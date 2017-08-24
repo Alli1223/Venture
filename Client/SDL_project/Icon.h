@@ -20,8 +20,11 @@ public:
 private:
 	Item iconItem;
 	std::string iconTextureLocation = "Resources\\Sprites\\\Toolbar\\";
+
+	//Refactor this to be more memory effecient
 	Texture AxeTexture;
 	Texture hoeTexture;
+	Texture seedsTexture;
 	int iconID;
 };
 

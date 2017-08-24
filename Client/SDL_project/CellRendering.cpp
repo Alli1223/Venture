@@ -24,6 +24,7 @@ TreeTwoTexture(TreeTerrainSpriteTextureLocation + "Tree2.png"),
 TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
 SnowTexture(TerrainSpriteTextureLocation + "Snow.png"),
 WoodFenceSide(WallSpriteTextureLocation + "woodFenceSideCenter.png"), WoodFenceUP(WallSpriteTextureLocation + "woodFenceUp2.png"), WoodFenceCenter(WallSpriteTextureLocation + "woodFenceCenter.png"),
+WheatStageOne(TerrainSpriteTextureLocation + "WheatStageOne.png"), WheatStageTwo(TerrainSpriteTextureLocation + "WheatStageTwo.png"), WheatStageThree(TerrainSpriteTextureLocation + "WheatStageThree.png"), WheatStageFour(TerrainSpriteTextureLocation + "WheatStageFour.png"),
 
 characterTex(characterTextureLocation + "Alli.png"), npcDown(characterTextureLocation + "Sam.png"),
 healthBarTexture(playerStatsTextureLocation + "PlayerHealth.png"), oxygenBarTexture(playerStatsTextureLocation + "PlayerOxygen.png"), hungerBarTexture(playerStatsTextureLocation + "PlayerHunger.png"), tiredBarTexture(playerStatsTextureLocation + "PlayerTiredness.png")
@@ -139,20 +140,37 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 				if (chunk.tiles[x][y]->isSnow)
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isTree)
+					TreeThreeTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+
+				if (chunk.tiles[x][y]->isWheat)
 				{
-					TreePixelTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				}
-				else
-				{
-					if (chunk.tiles[x][y]->isTree)
+					switch (chunk.tiles[x][y]->seedsStage)
 					{
-						tree t1;
-						t1.Oak;
-						t1.pos = glm::vec2(xPos, yPos);
-						t1.treeSize = glm::vec2(cellSize * 4, cellSize * 4);
-						trees.push_back(t1);
+					case Cell::seedsGrowthStage::PlantStageOne:
+						WheatStageOne.render(renderer, xPos, yPos, cellSize, cellSize);
+						break;
+					case Cell::seedsGrowthStage::PlantStageTwo:
+						WheatStageTwo.render(renderer, xPos, yPos, cellSize, cellSize);
+						break;
+					case Cell::seedsGrowthStage::PlantStageThree:
+						WheatStageThree.render(renderer, xPos, yPos, cellSize, cellSize);
+						break;
+					case Cell::seedsGrowthStage::PlantStageFour:
+						WheatStageFour.render(renderer, xPos, yPos, cellSize, cellSize);
+						break;
 					}
 				}
+				
+				if (chunk.tiles[x][y]->isTree)
+				{
+					tree t1;
+					t1.Oak;
+					t1.pos = glm::vec2(xPos, yPos);
+					t1.treeSize = glm::vec2(cellSize * 4, cellSize * 4);
+					trees.push_back(t1);
+				}
+					
+				
 
 					/*
 					

@@ -77,6 +77,10 @@ private:
 	Texture LongGrass1;
 	Texture LongGrass2;
 	Texture LongGrass3;
+	Texture WheatStageOne;
+	Texture WheatStageTwo;
+	Texture WheatStageThree;
+	Texture WheatStageFour;
 
 
 	Texture WaterTexture;

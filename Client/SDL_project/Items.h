@@ -14,27 +14,24 @@ public:
 		enum Resource
 		{
 			isWOOD,
-			isSTONE,
+			isSTONE
 		} Resource;
 		enum Food
 		{
 			isBERRY,
-			isFISH
+			isFISH,
+			isSEEDS
 		} Food;
 
 		enum Tool
 		{
 			none,
-			isAxe,
-			isHoe
+			isAXE,
+			isHOE
 		}Tool;
 	} ItemType;
 	
 	ItemType type;
 	bool isInInventory = false;
-
-
-	std::string itemFileDirectory = "Resources\\SpawnItems\\";
-	Texture berryTexture;
 };
 

@@ -66,10 +66,20 @@ public:
 	bool isDirt = false;
 
 	bool isTree = false;
+	bool isWheat = false;
 
 	bool isWater = false;
 	bool isSand = false;
 	bool isSnow = false;
+
+	enum seedsGrowthStage
+	{
+		PlantStageZero,
+		PlantStageOne,
+		PlantStageTwo,
+		PlantStageThree,
+		PlantStageFour
+	} seedsStage;
 
 	enum TreeType
 	{

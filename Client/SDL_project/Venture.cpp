@@ -142,11 +142,15 @@ void Venture::run()
 
 	// Add starting items
 	Item hoe;
-	hoe.type.Tool = Item::ItemType::isHoe;
+	hoe.type.Tool = Item::ItemType::isHOE;
 	Item Axe;
-	Axe.type.Tool = Item::ItemType::isAxe;
+	Axe.type.Tool = Item::ItemType::isAXE;
+	Item seeds;
+	seeds.type.Food = Item::ItemType::isSEEDS;
+
 	player.inventory.add(Axe);
 	player.inventory.add(hoe);
+	player.inventory.add(seeds);
 
 
 	// Generates the world around the camera position
