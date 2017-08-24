@@ -161,7 +161,26 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// CAMERA
+	// ACTION BAR
+	if (state[SDL_SCANCODE_0])
+		toolbar.setToolbarSelection(10);
+	else if (state[SDL_SCANCODE_1])
+		toolbar.setToolbarSelection(0);
+	else if (state[SDL_SCANCODE_2])
+		toolbar.setToolbarSelection(1);
+	else if (state[SDL_SCANCODE_3])
+		toolbar.setToolbarSelection(2);
+	else if (state[SDL_SCANCODE_4])
+		toolbar.setToolbarSelection(3);
+	else if (state[SDL_SCANCODE_5])
+		toolbar.setToolbarSelection(4);
+	else if (state[SDL_SCANCODE_6])
+		toolbar.setToolbarSelection(5);
+	else if (state[SDL_SCANCODE_7])
+		toolbar.setToolbarSelection(6);
+	else if (state[SDL_SCANCODE_8])
+		toolbar.setToolbarSelection(7);
+
 	
 	if (state[SDL_SCANCODE_RIGHT])
 	{ 
@@ -241,7 +260,8 @@ void UserInput::ChangeCellsAroundPoint(Level& level, glm::vec2 point, int dist, 
 
 void UserInput::playerUseAction(ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings)
 {
-	if (toolbar.getToolbarSelection() == 0)
+	// AXE
+	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isAXE)
 	{
 		for (int x = -1; x < 1; x++)
 			for (int y = -1; y < 1; y++)
@@ -263,7 +283,8 @@ void UserInput::playerUseAction(ToolBar& toolbar, Player& player, Level& level, 
 				}
 			}
 	}
-	if (toolbar.getToolbarSelection() == 1)
+	// HOE
+	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isHOE)
 	{
 		if (!level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isDirt)
 		{
@@ -275,10 +296,30 @@ void UserInput::playerUseAction(ToolBar& toolbar, Player& player, Level& level, 
 				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
 		}
 	}
-
-	if (toolbar.getToolbarSelection() == 2)
+	// SCYTHE
+	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isSCYTHE)
 	{
-		if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isDirt)
+		if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWheat)
+		{
+			if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->seedsStage == Cell::seedsGrowthStage::PlantStageFour)
+			{
+				Item wheat;
+				wheat.type.Food = Item::ItemType::isWHEAT;
+				player.inventory.add(wheat);
+			}
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWheat = false;
+			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->seedsStage = Cell::seedsGrowthStage::PlantStageZero;
+			//dump celldata of where the player has changed the cell
+			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->getCellData().dump();
+			std::cout << seralisedData << std::endl;
+			if (gameSettings.useNetworking)
+				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
+		}
+	}
+	// Wheat SEEDS
+	if (toolbar.getSelectedItem().type.Food == Item::ItemType::isSEEDS)
+	{
+		if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isDirt && !level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWheat)
 		{
 			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWheat = true;
 			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->seedsStage = Cell::seedsGrowthStage::PlantStageOne;
@@ -288,5 +329,11 @@ void UserInput::playerUseAction(ToolBar& toolbar, Player& player, Level& level, 
 			if (gameSettings.useNetworking)
 				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
 		}
+	}
+
+	// FISHING ROD
+	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isHOE)
+	{
+
 	}
 }

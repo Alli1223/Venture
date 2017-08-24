@@ -20,14 +20,17 @@ public:
 		{
 			isBERRY,
 			isFISH,
-			isSEEDS
+			isSEEDS,
+			isWHEAT
 		} Food;
 
 		enum Tool
 		{
 			none,
 			isAXE,
-			isHOE
+			isHOE,
+			isSCYTHE,
+			
 		}Tool;
 	} ItemType;
 	

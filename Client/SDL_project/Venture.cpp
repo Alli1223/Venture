@@ -138,18 +138,22 @@ Venture::~Venture()
 void Venture::run()
 {
 	// Run the main menu
-	//menu.MainMenu(gameSettings, camera, player, renderer);
+	menu.MainMenu(gameSettings, camera, player, renderer);
 
 	// Add starting items
 	Item hoe;
 	hoe.type.Tool = Item::ItemType::isHOE;
 	Item Axe;
 	Axe.type.Tool = Item::ItemType::isAXE;
+	Item Scythe;
+	Scythe.type.Tool = Item::ItemType::isSCYTHE;
 	Item seeds;
 	seeds.type.Food = Item::ItemType::isSEEDS;
+	
 
 	player.inventory.add(Axe);
 	player.inventory.add(hoe);
+	player.inventory.add(Scythe);
 	player.inventory.add(seeds);
 
 

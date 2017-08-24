@@ -25,6 +25,9 @@ private:
 	Texture AxeTexture;
 	Texture hoeTexture;
 	Texture seedsTexture;
+	Texture WheatTexture;
+	Texture ScytheTexture;
+
 	int iconID;
 };
 

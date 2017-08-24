@@ -11,7 +11,11 @@ ToolBar::ToolBar() : selectionTexture("Resources\\Sprites\\Toolbar\\grey.png")
 ToolBar::~ToolBar()
 {
 }
-
+Item ToolBar::getSelectedItem()
+{
+	auto& item = allIcons.at(toolbarSelection);
+	return item->getIconItem();
+}
 void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
 {
 	selectionTexture.alterTransparency(150);
@@ -42,6 +46,7 @@ void ToolBar::Update(Player& player, GameSettings& gameSettings)
 		if (i < numberOfIcons)
 			allIcons[i]->setIconItem(player.inventory.get(i));
 	}
+	// Loop the toolbar when the player gets to the end
 	if (toolbarSelection > numberOfIcons)
 		toolbarSelection = 0;
 	if (toolbarSelection < 0)
