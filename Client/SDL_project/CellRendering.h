@@ -26,14 +26,12 @@ public:
 	struct tree
 	{
 		glm::vec2 pos;
-		enum treeType
-		{
-			Fern,
-			Pine,
-			Oak
-		};
+		bool isFern = false;
+		bool isOak = false;
+		bool isPine = false;
 		glm::vec2 treeSize;
 	};
+	
 
 	std::vector<tree> trees;
 

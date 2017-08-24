@@ -2,7 +2,8 @@
 #include "Icon.h"
 
 
-Icon::Icon() : AxeTexture(iconTextureLocation + "axe.png"), hoeTexture(iconTextureLocation + "hoe.png"), seedsTexture(iconTextureLocation + "seeds.png"), ScytheTexture(iconTextureLocation + "scythe.png"), WheatTexture(iconTextureLocation + "wheat.png")
+Icon::Icon() : AxeTexture(iconTextureLocation + "axe.png"), hoeTexture(iconTextureLocation + "hoe.png"), seedsTexture(iconTextureLocation + "seeds.png"), ScytheTexture(iconTextureLocation + "scythe.png"), WheatTexture(iconTextureLocation + "wheat.png"),
+FishingRodTexture(iconTextureLocation + "fishingPole.png"), WateringCanTexture(iconTextureLocation + "wateringCan.png")
 {
 }
 
@@ -23,6 +24,12 @@ void Icon::RenderIcon(SDL_Renderer* renderer)
 		break;
 	case Item::ItemType::isSCYTHE:
 		ScytheTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
+		break;
+	case Item::ItemType::isFISHINGROD:
+		FishingRodTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
+		break;
+	case Item::ItemType::isWATERINGCAN:
+		WateringCanTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
 		break;
 	}
 	switch (iconItem.type.Food)

@@ -38,12 +38,12 @@ void ProceduralTerrain::spawnRandomTrees(Chunk& chunk)
 			{
 				chunk.tiles[x][y]->isTree = true;
 				chunk.tiles[x][y]->isWalkable = false;
-				chunk.tiles[x][y]->treeOne;
+				chunk.tiles[x][y]->treeType = Cell::fernTree;
 			}
 			else
 			{
 				chunk.tiles[x][y]->isTree = true;
-				chunk.tiles[x][y]->treeThree;
+				chunk.tiles[x][y]->treeType = Cell::oakTree;
 				chunk.tiles[x][y]->isWalkable = false;
 			}
 		}
@@ -151,13 +151,13 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 		if (chunk.tiles[x][y]->isGrass && fNoise > 14.0 && rand() % numberOfTrees == 1)
 		{
 			chunk.tiles[x][y]->isTree = true;
-			chunk.tiles[x][y]->treeOne;
+			chunk.tiles[x][y]->treeType == Cell::fernTree;
 			chunk.tiles[x][y]->isWalkable = false;
 		}
 		else if (chunk.tiles[x][y]->isGrass && fNoise > 8.0 && fNoise < 12.0 && rand() % numberOfTrees == 1)
 		{
 			chunk.tiles[x][y]->isTree = true;
-			chunk.tiles[x][y]->treeTwo;
+			chunk.tiles[x][y]->treeType == Cell::oakTree;
 			chunk.tiles[x][y]->isWalkable = false;
 		}
 

@@ -149,10 +149,16 @@ void Venture::run()
 	Scythe.type.Tool = Item::ItemType::isSCYTHE;
 	Item seeds;
 	seeds.type.Food = Item::ItemType::isSEEDS;
+	Item waterCan;
+	waterCan.type.Tool = Item::ItemType::isWATERINGCAN;
+	Item fishingPole;
+	fishingPole.type.Tool = Item::ItemType::isFISHINGROD;
 	
 
 	player.inventory.add(Axe);
 	player.inventory.add(hoe);
+	player.inventory.add(waterCan);
+	player.inventory.add(fishingPole);
 	player.inventory.add(Scythe);
 	player.inventory.add(seeds);
 

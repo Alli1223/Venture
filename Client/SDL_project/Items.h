@@ -30,6 +30,8 @@ public:
 			isAXE,
 			isHOE,
 			isSCYTHE,
+			isWATERINGCAN,
+			isFISHINGROD
 			
 		}Tool;
 	} ItemType;

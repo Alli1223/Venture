@@ -83,11 +83,12 @@ public:
 
 	enum TreeType
 	{
-		treeOne,
-		treeTwo,
-		treeThree,
-		treeFour
+		fernTree,
+		oakTree,
+		mapleTree,
+		pineTree
 	};
+	TreeType treeType;
 
 	bool isVegetation = false;
 	bool isFlower1 = false;

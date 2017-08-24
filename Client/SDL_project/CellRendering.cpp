@@ -139,8 +139,6 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 					LongGrass2.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isSnow)
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isTree)
-					TreeThreeTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 
 				if (chunk.tiles[x][y]->isWheat)
 				{
@@ -163,24 +161,41 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 				
 				if (chunk.tiles[x][y]->isTree)
 				{
-					tree t1;
-					t1.Oak;
-					t1.pos = glm::vec2(xPos, yPos);
-					t1.treeSize = glm::vec2(cellSize * 4, cellSize * 4);
-					trees.push_back(t1);
+					// Above player
+					if (chunk.tiles[x][y]->getY() >= player.getY() / level.getCellSize())
+					{
+						tree t;
+						if (chunk.tiles[x][y]->treeType == Cell::TreeType::oakTree)
+							t.isOak = true;
+						if (chunk.tiles[x][y]->treeType == Cell::TreeType::fernTree)
+							t.isFern = true;
+						if (chunk.tiles[x][y]->treeType == Cell::TreeType::pineTree)
+							t.isPine = true;
+						t.pos = glm::vec2(xPos - cellSize * 1.5, yPos - cellSize * 1.5);
+						t.treeSize = glm::vec2(cellSize * 3, cellSize * 3);
+						trees.push_back(t);
+					}
+					// Below player
+					else
+					{
+						//TreePixelTexture.render(renderer, xPos - cellSize * 2, yPos - cellSize * 2, cellSize * 4, cellSize * 4);
+						
+						switch (chunk.tiles[x][y]->treeType)
+						{
+						case Cell::TreeType::oakTree:
+							OakTreeTexture.render(renderer, xPos - cellSize * 1.5, yPos - cellSize * 1.5, cellSize * 3, cellSize * 3);
+							break;
+						case Cell::TreeType::fernTree:
+							FernTreeTexture.render(renderer, xPos - cellSize * 1.5, yPos - cellSize * 1.5, cellSize * 3, cellSize * 3);
+							break;
+
+						}
+						
+					}
 				}
 					
-				
-
-					/*
 					
-					else if (chunk.tiles[x][y]->treeTwo)
-						OakTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize * 3);
-					else if (chunk.tiles[x][y]->treeThree)
-						FernTreeTexture.render(renderer, xPos, yPos, cellSize, cellSize * 3);
-					else if (chunk.tiles[x][y]->treeFour)
-						SnowTexture.render(renderer, xPos, yPos - cellSize, cellSize, cellSize);
-				*/
+				
 				if (chunk.tiles[x][y]->isWoodFence)
 				{
 					WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
@@ -230,11 +245,12 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 	// Render the trees last
 	for each(auto &tree in trees)
 	{
-		if(tree.Oak)
-			TreePixelTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
-		else if (tree.Fern)
-			TreeTwoTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
+		if (tree.isFern)
+			FernTreeTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
+		else if (tree.isOak)
+			OakTreeTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
 	}
+	
 	// Erase the trees after rendering them
 	trees.erase(trees.begin(), trees.end());
 	
