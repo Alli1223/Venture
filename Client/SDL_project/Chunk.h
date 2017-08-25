@@ -8,6 +8,9 @@ public:
 	Chunk::Chunk(int initX, int initY);
 	int getChunkSize() { return chunkSize; }
 	std::vector<std::vector<std::shared_ptr<Cell>>> tiles;
+
+	int getX() { return x; }
+	int getY() { return y; }
 	
 private:
 	int x = 0;

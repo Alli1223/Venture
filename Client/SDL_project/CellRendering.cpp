@@ -162,7 +162,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 				if (chunk.tiles[x][y]->isTree)
 				{
 					// Above player
-					if (chunk.tiles[x][y]->getY() >= player.getY() / level.getCellSize())
+					if (chunk.tiles[x][y]->getY() > player.getY() / level.getCellSize())
 					{
 						tree t;
 						if (chunk.tiles[x][y]->treeType == Cell::TreeType::oakTree)
@@ -171,8 +171,8 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 							t.isFern = true;
 						if (chunk.tiles[x][y]->treeType == Cell::TreeType::pineTree)
 							t.isPine = true;
-						t.pos = glm::vec2(xPos - cellSize * 1.5, yPos - cellSize * 1.5);
-						t.treeSize = glm::vec2(cellSize * 3, cellSize * 3);
+						t.pos = glm::vec2(xPos, yPos - cellSize * 3);
+						t.treeSize = glm::vec2(cellSize * 3, cellSize * 6);
 						trees.push_back(t);
 					}
 					// Below player
@@ -183,10 +183,10 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 						switch (chunk.tiles[x][y]->treeType)
 						{
 						case Cell::TreeType::oakTree:
-							OakTreeTexture.render(renderer, xPos - cellSize * 1.5, yPos - cellSize * 1.5, cellSize * 3, cellSize * 3);
+							OakTreeTexture.render(renderer, xPos, yPos - cellSize * 3, cellSize * 3, cellSize * 6);
 							break;
 						case Cell::TreeType::fernTree:
-							FernTreeTexture.render(renderer, xPos - cellSize * 1.5, yPos - cellSize * 1.5, cellSize * 3, cellSize * 3);
+							FernTreeTexture.render(renderer, xPos, yPos - cellSize * 3, cellSize * 3, cellSize * 6);
 							break;
 
 						}

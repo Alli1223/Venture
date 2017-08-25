@@ -11,7 +11,7 @@ ToolBar::ToolBar() : selectionTexture("Resources\\Sprites\\Toolbar\\grey.png")
 ToolBar::~ToolBar()
 {
 }
-Item ToolBar::getSelectedItem()
+Item& ToolBar::getSelectedItem()
 {
 	auto& item = allIcons.at(toolbarSelection);
 	return item->getIconItem();

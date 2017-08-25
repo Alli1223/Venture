@@ -14,7 +14,7 @@ public:
 	void RenderIcon(SDL_Renderer* renderer);
 
 
-	const Item& getIconItem() { return iconItem; }
+	Item& getIconItem() { return iconItem; }
 	Item setIconItem(Item newIcon) { return iconItem = newIcon; }
 	
 private:

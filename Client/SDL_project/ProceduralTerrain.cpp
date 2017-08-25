@@ -40,6 +40,12 @@ void ProceduralTerrain::spawnRandomTrees(Chunk& chunk)
 				chunk.tiles[x][y]->isWalkable = false;
 				chunk.tiles[x][y]->treeType = Cell::fernTree;
 			}
+			else if (treeType == 1)
+			{
+				chunk.tiles[x][y]->isTree = true;
+				chunk.tiles[x][y]->isWalkable = false;
+				chunk.tiles[x][y]->treeType = Cell::pineTree;
+			}
 			else
 			{
 				chunk.tiles[x][y]->isTree = true;
@@ -95,7 +101,7 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 	}
 	//Cant spawn random items because that will cause de-sync between clients
 	spawnRandomTrees(chunk);
-	//spawnRandomVegetation(chunk);
+	spawnRandomVegetation(chunk);
 }
 
 //TODO: Put all constant values in the headder
