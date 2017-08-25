@@ -11,7 +11,7 @@ class UserInput
 public:
 	UserInput();
 	~UserInput();
-	void UserInput::playerUseAction(ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings);
+	void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings);
 
 	void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, GameSettings& gameSettings, ToolBar& toolbar);
 

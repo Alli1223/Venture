@@ -215,7 +215,7 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	// Use Action
 	if (state[SDL_SCANCODE_F])
 	{
-		playerUseAction(toolbar, player, level, networkManager, gameSettings);
+		UseItemFromToolbar(toolbar, player, level, networkManager, gameSettings);
 	}
 	if (state[SDL_SCANCODE_M])
 	{
@@ -258,7 +258,7 @@ void UserInput::ChangeCellsAroundPoint(Level& level, glm::vec2 point, int dist, 
 	*/
 }
 
-void UserInput::playerUseAction(ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings)
+void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings)
 {
 	// AXE
 	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isAXE)
@@ -332,8 +332,21 @@ void UserInput::playerUseAction(ToolBar& toolbar, Player& player, Level& level, 
 	}
 
 	// FISHING ROD
-	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isHOE)
+	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isFISHINGROD)
 	{
-
+		if (level.getCell(player.getCellX() + 2, player.getCellY())->isWater)
+		{
+			
+		}
+		/*
+		if (level.getCell(player.getCellX() + 2, player.getCellY())->isWater)
+		// Cast Line Right
+		else if (level.getCell(player.getCellX() - 2, player.getCellY())->isWater)
+			// Cast Line Left
+		else if (level.getCell(player.getCellX(), player.getCellY() - 2)->isWater)
+			// Cast line up
+		else if (level.getCell(player.getCellX(), player.getCellY() + 2)->isWater)
+			// Cast line down
+			*/
 	}
 }

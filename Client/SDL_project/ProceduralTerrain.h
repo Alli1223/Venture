@@ -50,6 +50,9 @@ private:
 	int riverBendyness = 50;
 	int forrestJaggedness = 50;
 
+	//! Needs work
+	//! Makes the sin of the y cell pos to be the climate
+	//! Turns grass into snow and water into ice
 	bool thereIsClimate = false;
 
 	float terrainNoiseOffest = 180.0;

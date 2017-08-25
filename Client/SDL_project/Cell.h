@@ -19,9 +19,6 @@ public:
 	//! Gets the cells data and returns it in json format
 	json getCellData();
 
-	std::string getCellID() { return cellID; };
-	std::string setCellID(std::string newCellID) { return cellID = newCellID; }
-
 	// Getter functions
 	//! Gets the Cell's X value
 	int getX() const { return x; }
@@ -101,13 +98,7 @@ public:
 	bool isStoneWall = false;
 	bool isWoodFence = false;
 
-	int renderLayer = 0;
-
 private:
 	//! The Cells X and Y values
 	int x = 0, y = 0;
-
-	std::string cellID;
-
-	int globalX = 0, GlobalY = 0;
 };

@@ -15,8 +15,8 @@ void Level::CreateChunk(int initX, int initY)
 		{
 			// Populates the column with pointers to cells
 			Cell cell(x + (initX * chunkSize), y + (initY * chunkSize));
-			cell.renderLayer = 0;//Not used
 			cell.isWalkable = true;
+			
 			auto sharedCell = std::make_shared<Cell>(cell);
 			World[initX][initY].tiles[x].push_back(sharedCell);
 		}
@@ -73,6 +73,34 @@ glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY)
 	return returnPoint;
 }
 
+std::shared_ptr<Cell>& Level::getCell(int cellX, int cellY)
+{
+	
+	int chunkX = (cellX / chunkSize);
+	int chunkY = (cellY / chunkSize);
+	cellX = cellX - chunkX * chunkSize;
+	cellY = cellY - chunkY * chunkSize;
+
+	if (cellX > chunkSize)
+		cellX = cellX - (chunkX * chunkSize);
+	if (cellY > chunkSize)
+		cellY = cellY - (chunkY * chunkSize);
+
+	if (cellX < 0)
+	{
+		cellX += chunkSize;
+		chunkX -= 1;
+	}
+	if (cellY < 0)
+	{
+		cellY += chunkSize;
+		chunkY -= 1;
+	}
+	if (isCellInChunk(cellX, cellY))
+	{
+		return World[chunkX][chunkY].tiles[cellX][cellY];
+	}
+}
 
 // Set a cell with the values of another cell
 void Level::SetCell(int x, int y, Cell& newcell)

@@ -18,6 +18,8 @@ public:
 	//! A deconstructor 
 	~Level();
 
+	std::shared_ptr<Cell>& getCell(int cellX, int cellY);
+
 	//! Return the cellSizes and level with/height
 	int getCellSize() { return cellSize; }
 	int getChunkSize() { return chunkSize; }
