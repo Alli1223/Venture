@@ -164,7 +164,7 @@ void Venture::run()
 
 
 	// Generates the world around the camera position
-	terrainGen.setSeed(4123);
+	terrainGen.setSeed(0123);
 
 	level.GenerateWorld(camera);
 

@@ -66,7 +66,7 @@ void ProceduralTerrain::spawnRandomVegetation(Chunk& chunk)
 		if (!chunk.tiles[x][y]->isVegetation && !chunk.tiles[x][y]->isWater && !chunk.tiles[x][y]->isSand)
 		{
 			chunk.tiles[x][y]->isVegetation = true;
-			int vegType = rand() % 4;
+			int vegType = rand() % 3;
 
 			switch (vegType)
 			{
@@ -79,7 +79,6 @@ void ProceduralTerrain::spawnRandomVegetation(Chunk& chunk)
 				//chunk.grid[x][y]->cellItem = item;
 				break;
 			case 2:
-			
 				chunk.tiles[x][y]->isFlower2 = true;
 				break;
 			}
@@ -101,7 +100,7 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 	}
 	//Cant spawn random items because that will cause de-sync between clients
 	spawnRandomTrees(chunk);
-	spawnRandomVegetation(chunk);
+	//spawnRandomVegetation(chunk);
 }
 
 //TODO: Put all constant values in the headder

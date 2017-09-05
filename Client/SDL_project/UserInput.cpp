@@ -336,7 +336,7 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 	{
 		if (level.getCell(player.getCellX() + 2, player.getCellY())->isWater)
 		{
-			
+			level.getCell(player.getCellX() + 2, player.getCellY())->isWater = false;
 		}
 		/*
 		if (level.getCell(player.getCellX() + 2, player.getCellY())->isWater)
