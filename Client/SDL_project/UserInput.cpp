@@ -202,9 +202,15 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 
 	// Set cell size
 	if (state[SDL_SCANCODE_PAGEUP])
+	{
 		level.setCellSize(level.getCellSize() + 1);
+	}
+		
 	if (state[SDL_SCANCODE_PAGEDOWN] && level.getCellSize() > 1)
+	{
 		level.setCellSize(level.getCellSize() - 1);
+	}
+		
 
 	if (state[SDL_SCANCODE_F10])
 		level.setTimeOfDay(12.0);
@@ -222,6 +228,12 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 		if(gameSettings.useNetworking)
 			networkManager.MapNetworkUpdate(level);
 	}
+	if (state[SDL_SCANCODE_B])
+	{
+
+	}
+
+	
 }
 
 
@@ -279,6 +291,10 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 						std::cout << seralisedData << std::endl;
 						if (gameSettings.useNetworking)
 							networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
+
+						Item wood;
+						wood.type.Resource = Item::ItemType::isWOOD;
+						player.inventory.add(wood);
 					}
 				}
 			}

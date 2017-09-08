@@ -42,6 +42,7 @@ private:
 	//Target Darkness
 	float Tdarkness;
 	float darkness = 255;
+	float time = 0;
 	const std::string RoomSpriteTextureLocation = "Resources\\Sprites\\roomSprites\\texturePack\\";
 	const std::string ItemsSpriteTextureLocation = "Resources\\Sprites\\SpawnItems\\";
 	const std::string TerrainSpriteTextureLocation = "Resources\\Sprites\\Terrain\\";

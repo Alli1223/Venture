@@ -3,7 +3,7 @@
 
 
 Icon::Icon() : AxeTexture(iconTextureLocation + "axe.png"), hoeTexture(iconTextureLocation + "hoe.png"), seedsTexture(iconTextureLocation + "seeds.png"), ScytheTexture(iconTextureLocation + "scythe.png"), WheatTexture(iconTextureLocation + "wheat.png"),
-FishingRodTexture(iconTextureLocation + "fishingPole.png"), WateringCanTexture(iconTextureLocation + "wateringCan.png")
+FishingRodTexture(iconTextureLocation + "fishingPole.png"), WateringCanTexture(iconTextureLocation + "wateringCan.png"), WoodTexture(iconTextureLocation + "wood.png")
 {
 }
 
@@ -39,6 +39,12 @@ void Icon::RenderIcon(SDL_Renderer* renderer)
 		break;
 	case Item::ItemType::isWHEAT:
 		WheatTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
+		break;
+	}
+	switch (iconItem.type.Resource)
+	{
+	case Item::ItemType::isWOOD:
+		WoodTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
 		break;
 	}
 

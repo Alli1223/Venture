@@ -13,7 +13,6 @@ public:
 	//! Renders the characters clothes
 	void renderCharacterClothes(SDL_Renderer* renderer, int frameX, int frameY, int x, int y, int pixelSize, int characterSize);
 	
-	
 	glm::vec2 renderOffset;
 	glm::vec2 screenCenter;
 	int xOffset, yOffset;
@@ -58,8 +57,6 @@ private:
 	Animation walkVerticalAnimation;
 	Animation idleAnimation;
 	Animation blinkAnimation;
-
-	
 
 };
 

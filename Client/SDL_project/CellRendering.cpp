@@ -42,23 +42,24 @@ void CellRendering::AlterTextures(Level& level)
 	WaterTexture.alterTransparency(200);
 	WaterTexture2.alterTransparency(200);
 	//TreePixelTexture.alterTransparency(200);
-	float time = level.getTimeOfDay();
 
-	if (time > 9.0 && time < 21.0)
-	{
-		Tdarkness = 255;
-	}
-	else if (time < 9.0 || time > 21.0)
-	{
-		Tdarkness = 50;
-	}
+		time = level.getTimeOfDay();
 
-	
+		if (time > 9.0 && time < 21.0)
+		{
+			Tdarkness = 255;
+		}
+		else if (time < 9.0 || time > 21.0)
+		{
+			Tdarkness = 50;
+		}
+
+
 		if (Tdarkness > darkness)
 			darkness++;
 		else if (Tdarkness < darkness)
 			darkness--;
-			
+		
 		Grass1Texture.alterTextureColour(darkness, darkness, darkness);
 		TreePixelTexture.alterTextureColour(darkness, darkness, darkness);
 		SandTexture.alterTextureColour(darkness, darkness, darkness);
@@ -67,8 +68,6 @@ void CellRendering::AlterTextures(Level& level)
 		LongGrass1.alterTextureColour(darkness, darkness, darkness);
 		LongGrass2.alterTextureColour(darkness, darkness, darkness);
 		LongGrass3.alterTextureColour(darkness, darkness, darkness);
-	
-	
 }
 
 void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Chunk& chunk, SDL_Renderer* renderer)
@@ -90,15 +89,8 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 			xPos -= camera.getX();
 			yPos -= camera.getY();
 
-			int darkness = chunk.tiles[x][y]->cellLightness;
-			Grass1Texture.alterTextureColour(darkness, darkness, darkness);
-			TreePixelTexture.alterTextureColour(darkness, darkness, darkness);
-			SandTexture.alterTextureColour(darkness, darkness, darkness);
-			WaterTexture.alterTextureColour(darkness, darkness, darkness);
-			WaterTexture2.alterTextureColour(darkness, darkness, darkness);
-			LongGrass1.alterTextureColour(darkness, darkness, darkness);
-			LongGrass2.alterTextureColour(darkness, darkness, darkness);
-			LongGrass3.alterTextureColour(darkness, darkness, darkness);
+			//int light = chunk.tiles[x][y]->cellLightness;
+			//LongGrass3.alterTextureColour(darkness + light, darkness + light, darkness + light);
 
 			if (chunk.tiles[x][y]->isWater)
 			{

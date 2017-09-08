@@ -29,6 +29,7 @@ private:
 	Texture ScytheTexture;
 	Texture FishingRodTexture;
 	Texture WateringCanTexture;
+	Texture WoodTexture;
 
 	int iconID;
 };

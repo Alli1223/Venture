@@ -121,6 +121,8 @@ private:
 	float speed = 2.0;
 	//! A double for the agents's health
 	double health = 100.0;
+	//! A double for agents hunger decrease speed
+	double hunger = 0.0;
 	//! If the Character can rotate
 	bool incrementalRotating = false;
 	//! if the Character is moving

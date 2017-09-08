@@ -197,7 +197,7 @@ void Venture::run()
 
 
 		player.characterType = "Player";
-		player.setSpeed(5);
+		player.setSpeed(1);
 		player.setID(playerName);
 		player.setX(0);
 		player.setY(0);
@@ -205,15 +205,20 @@ void Venture::run()
 	else
 	{
 		player.characterType = "Player";
-		player.setSpeed(5);
+		player.setSpeed(1);
 		player.setID(playerName);
 		player.setX(0);
 		player.setY(0);
 	}
 	toolbar.createToolbar(player, gameSettings);
+
+
+
+
 	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
 	while (gameSettings.running)
 	{
+		
 		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		{
 			

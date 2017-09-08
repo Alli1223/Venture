@@ -13,6 +13,7 @@ public:
 	{
 		enum Resource
 		{
+			empty,
 			isWOOD,
 			isSTONE
 		} Resource;
