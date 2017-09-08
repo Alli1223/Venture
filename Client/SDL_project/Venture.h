@@ -21,6 +21,7 @@
 #include "Player.h"
 #include "TextUI.h"
 #include "Menu.h"
+#include "InventoryUI.h"
 
 
 //! The main class

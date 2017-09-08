@@ -17,7 +17,8 @@ public:
 	//! Function that renders the toolbar
 	void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings);
 
-	std::vector<std::shared_ptr<Icon>> allIcons;
+	std::vector<std::shared_ptr<Icon>> toolbarIcons;
+
 
 	void createToolbar(Player& player, GameSettings& gameSettings);
 	void Update(Player& player, GameSettings& gameSettings);

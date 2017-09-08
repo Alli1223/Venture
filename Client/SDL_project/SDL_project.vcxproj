@@ -175,6 +175,7 @@
     <ClInclude Include="GUI.h" />
     <ClInclude Include="Icon.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="InventoryUI.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="AgentInteraction.h" />
     <ClInclude Include="Menu.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Icon.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="InventoryUI.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="AgentInteraction.cpp" />
     <ClCompile Include="Menu.cpp" />

@@ -138,7 +138,7 @@ Venture::~Venture()
 void Venture::run()
 {
 	// Run the main menu
-	menu.MainMenu(gameSettings, camera, player, renderer);
+	//menu.MainMenu(gameSettings, camera, player, renderer);
 
 	// Add starting items
 	Item hoe;
@@ -213,12 +213,18 @@ void Venture::run()
 	toolbar.createToolbar(player, gameSettings);
 
 
-
-
+	InventoryUI ui;
+	ui.setX(gameSettings.WINDOW_WIDTH / 2);
+	ui.setY(100);
+	ui.setHeight(100);
+	ui.setWidth(100);
+	ui.CreateInventory(renderer, gameSettings, player);
 	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
 	while (gameSettings.running)
 	{
+		ui.RenderInventory(renderer, gameSettings, player);
 		
+
 		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		{
 			

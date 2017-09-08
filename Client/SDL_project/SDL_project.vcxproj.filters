@@ -106,6 +106,9 @@
     <ClCompile Include="Animation.cpp">
       <Filter>Source Files\Character</Filter>
     </ClCompile>
+    <ClCompile Include="InventoryUI.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h">
@@ -221,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Headers\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryUI.h">
+      <Filter>Headers\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

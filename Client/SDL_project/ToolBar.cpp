@@ -13,7 +13,7 @@ ToolBar::~ToolBar()
 }
 Item& ToolBar::getSelectedItem()
 {
-	auto& item = allIcons.at(toolbarSelection);
+	auto& item = toolbarIcons.at(toolbarSelection);
 	return item->getIconItem();
 }
 void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
@@ -27,7 +27,7 @@ void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
 	if (toolbarRender)
 	{
 		// Set the icons position and ID
-		for each (auto &icon in allIcons)
+		for each (auto &icon in toolbarIcons)
 		{
 			icon->RenderIcon(renderer);
 		}
@@ -35,16 +35,17 @@ void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
 	for(int i = 0; i < numberOfIcons; i++ )
 	{
 		if (i == toolbarSelection)
-			selectionTexture.render(renderer, allIcons[i]->getX(), allIcons[i]->getY(), allIcons[i]->getWidth(), allIcons[i]->getHeight());
+			selectionTexture.render(renderer, toolbarIcons[i]->getX(), toolbarIcons[i]->getY(), toolbarIcons[i]->getWidth(), toolbarIcons[i]->getHeight());
 		
 	}
 }
+
 void ToolBar::Update(Player& player, GameSettings& gameSettings)
 {
 	for (int i = 0; i < player.inventory.getSize(); i++)
 	{
 		if (i < numberOfIcons)
-			allIcons[i]->setIconItem(player.inventory.get(i));
+			toolbarIcons[i]->setIconItem(player.inventory.get(i));
 	}
 	// Loop the toolbar when the player gets to the end
 	if (toolbarSelection > numberOfIcons)
@@ -69,7 +70,7 @@ void ToolBar::createToolbar(Player& player, GameSettings& gameSettings)
 		sharedIcon->setY(WH - iconSize);
 		sharedIcon->setWidth(iconSize);
 		sharedIcon->setHeight(iconSize);
-		allIcons.push_back(sharedIcon);
+		toolbarIcons.push_back(sharedIcon);
 	}
 }
 
