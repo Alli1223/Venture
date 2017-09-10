@@ -10,7 +10,7 @@ class Character
 public:
 	Character();
 	~Character();
-
+	
 
 	//Getter methods
 	//! Gets the characters X value

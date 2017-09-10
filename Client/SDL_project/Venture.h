@@ -54,7 +54,7 @@ public:
 	UserInput input;
 	Player player;
 	Menu menu;
-	InventoryUI InventoryPanel;
+	
 
 	
 

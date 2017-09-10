@@ -1,6 +1,6 @@
 #pragma once
 #include "Texture.h"
-#include "GameSettings.h"
+
 class GUI 
 {
 public:

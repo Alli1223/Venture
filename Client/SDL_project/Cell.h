@@ -1,5 +1,7 @@
 #pragma once
 #include "Texture.h"
+
+
 //! 
 /*!
 
@@ -35,7 +37,7 @@ public:
 	int setPos(int newX, int newY) { return x = newX, y = newY; }
 
 	int cellLightness = 255;
-	
+
 
 	//! Whether the cell is part of a room
 	bool isRoom = false;
@@ -48,14 +50,6 @@ public:
 
 	//! Whether the cell is a bed
 	bool isBed = false;
-	//! Wehther the cell is a bed and in use
-	bool isOccupiedBed = false;
-	//! Whether the cell is a toilet
-	bool isToilet = false;
-	//! Whether the cell is a toilet and in use
-	bool isOccupiedToilet = false;
-	//! Whether the cell is a kitchen
-	bool isKitchen = false;
 
 	bool isGrass = false;
 	bool isLongGrass = false;
@@ -69,6 +63,7 @@ public:
 	bool isSand = false;
 	bool isSnow = false;
 
+	
 	enum seedsGrowthStage
 	{
 		PlantStageZero,

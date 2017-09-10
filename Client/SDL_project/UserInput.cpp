@@ -188,7 +188,9 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	}
 	if (state[SDL_SCANCODE_DOWN])
 	{
-		toolbar.createToolbar(player, gameSettings);
+		Item wheat;
+		wheat.type.Food = Item::ItemType::isWHEAT;
+		player.inventory.add(wheat);
 	}
 	
 	if (state[SDL_SCANCODE_LEFT])
@@ -230,7 +232,10 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	}
 	if (state[SDL_SCANCODE_I])
 	{
-
+		if (player.InventoryPanel.getDispalayInventory())
+			player.InventoryPanel.setDisplayInventory(false);
+		else
+			player.InventoryPanel.setDisplayInventory(true);
 	}
 
 	

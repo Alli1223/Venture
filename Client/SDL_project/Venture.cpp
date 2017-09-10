@@ -214,18 +214,27 @@ void Venture::run()
 
 
 	
-	InventoryPanel.setX(gameSettings.WINDOW_WIDTH / 2 + gameSettings.WINDOW_WIDTH / 4);
-	InventoryPanel.setY(gameSettings.WINDOW_HEIGHT / 2);
-	InventoryPanel.setHeight(gameSettings.WINDOW_HEIGHT - gameSettings.WINDOW_HEIGHT / 4);
-	InventoryPanel.setWidth(gameSettings.WINDOW_WIDTH / 3);
-	InventoryPanel.CreateInventory(renderer, gameSettings, player.inventory);
+	player.InventoryPanel.setX(gameSettings.WINDOW_WIDTH / 2 + gameSettings.WINDOW_WIDTH / 4);
+	player.InventoryPanel.setY(gameSettings.WINDOW_HEIGHT / 2);
+	player.InventoryPanel.setHeight(gameSettings.WINDOW_HEIGHT - gameSettings.WINDOW_HEIGHT / 4);
+	player.InventoryPanel.setWidth(gameSettings.WINDOW_WIDTH / 3);
+	player.InventoryPanel.setIconSize(gameSettings.WINDOW_WIDTH / 25);
+	player.InventoryPanel.CreateInventory(renderer, player.inventory);
+	player.InventoryPanel.setDisplayInventory(false);
+
+	player.ItemInventoryPanel.setX(gameSettings.WINDOW_WIDTH / 4);
+	player.ItemInventoryPanel.setY(gameSettings.WINDOW_HEIGHT / 2);
+	player.ItemInventoryPanel.setHeight(gameSettings.WINDOW_HEIGHT - gameSettings.WINDOW_HEIGHT / 4);
+	player.ItemInventoryPanel.setWidth(gameSettings.WINDOW_WIDTH / 3);
+	player.ItemInventoryPanel.setIconSize(gameSettings.WINDOW_WIDTH / 25);
+	player.ItemInventoryPanel.setDisplayInventory(false);
+	player.ItemInventoryPanel.CreateInventory(renderer, player.inventory);
+	
 	
 	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
 	while (gameSettings.running)
 	{
 		
-		
-
 		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_RIGHT))
 		{
 			
@@ -255,12 +264,15 @@ void Venture::run()
 
 		// Renders all the cells and players
 		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents, networkManager.allPlayers);
-		InventoryPanel.RenderInventory(renderer, gameSettings, player.inventory);
+
+		player.InventoryPanel.RenderInventory(renderer, player.inventory);
+		player.ItemInventoryPanel.RenderInventory(renderer, player.inventory);
 		toolbar.Update(player, gameSettings);
 		toolbar.RenderToolbar(renderer, gameSettings);
 		SDL_RenderPresent(renderer);
 		// End while running
 	}
+	// Save player settings when the game ends the game loop
 	gameSettings.savePlayerSettings(player);
 	if (gameSettings.useNetworking)
 	{

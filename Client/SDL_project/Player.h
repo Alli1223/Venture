@@ -2,6 +2,8 @@
 #include "Character.h"
 #include "Animation.h"
 #include "Items.h"
+#include "GUI.h"
+#include "InventoryUI.h"
 class Player : public Character
 {
 public:
@@ -19,8 +21,8 @@ public:
 
 	//! Player clothes
 	Clothing PlayerClothes;
-
-	
+	InventoryUI InventoryPanel;
+	InventoryUI ItemInventoryPanel;
 
 	Animation getWalkAnimation() { return walkHorizontalAnimation; }
 	SDL_Color gethairColour() { return hairColour; }
@@ -28,7 +30,7 @@ public:
 	int setHairColour(int r, int g, int b) { return hairColour.r = r, hairColour.g = g, hairColour.b = b; }
 	int setEyeColour(int r, int g, int b) { return eyeColour.r = r, eyeColour.g = g, eyeColour.b = b; }
 	Inventory inventory;
-
+	
 private:
 	//! Json data to store player stats
 	json playerJsondata;

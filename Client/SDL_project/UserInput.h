@@ -6,6 +6,7 @@
 #include "NetworkManager.h"
 #include "Player.h"
 #include "ToolBar.h"
+#include "InventoryUI.h"
 class UserInput
 {
 public:

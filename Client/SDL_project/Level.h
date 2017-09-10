@@ -17,7 +17,6 @@ public:
 	Level();
 	//! A deconstructor 
 	~Level();
-
 	std::shared_ptr<Cell>& getCell(int cellX, int cellY);
 
 	//! Return the cellSizes and level with/height

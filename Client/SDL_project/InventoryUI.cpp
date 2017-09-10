@@ -11,23 +11,25 @@ InventoryUI::~InventoryUI()
 {
 }
 
-void InventoryUI::RenderInventory(SDL_Renderer* renderer, GameSettings& gameSettings, Inventory& inventory)
+void InventoryUI::RenderInventory(SDL_Renderer* renderer, Inventory& inventory)
 {
-	backgroundTexture.alterTransparency(150);
-	backgroundTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
-	for (int i = 0; i < inventory.getSize(); i++)
+	if (displayInventory)
 	{
-		inventoryIcons[i]->setIconItem(inventory.get(i));
-	}
-	for each (auto &icon in inventoryIcons)
-	{
-		icon->RenderIcon(renderer);
+		backgroundTexture.alterTransparency(150);
+		backgroundTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
+		for (int i = 0; i < inventory.getSize(); i++)
+		{
+			inventoryIcons[i]->setIconItem(inventory.get(i));
+		}
+		for each (auto &icon in inventoryIcons)
+		{
+			icon->RenderIcon(renderer);
+		}
 	}
 	
 }
-void InventoryUI::CreateInventory(SDL_Renderer* renderer, GameSettings& gameSettings, Inventory& inventory)
+void InventoryUI::CreateInventory(SDL_Renderer* renderer, Inventory& inventory)
 {
-	int iconSize = gameSettings.WINDOW_WIDTH / 25;
 	int x = getX() - getWidth() / 2 + iconSize;
 	int y = getY() - getHeight() / 2 + iconSize * 2;
 	for (int i = 0; i < inventory.getCapacity(); i++)
