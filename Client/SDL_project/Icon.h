@@ -23,7 +23,8 @@ private:
 	std::string iconTextureLocation = "Resources\\Sprites\\\Toolbar\\";
 
 	//Refactor this to be more memory effecient
-	Texture AxeTexture;
+	Texture WoodAxeTexture;
+	Texture PickAxeTexture;
 	Texture hoeTexture;
 	Texture seedsTexture;
 	Texture WheatTexture;

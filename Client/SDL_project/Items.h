@@ -9,16 +9,19 @@ public:
 	Item();
 	//! Destructor
 	~Item();
+	int getItemHealth() { return itemHealth; }
+	int setItemHealth(int newHealth) { return itemHealth = newHealth; }
 	typedef struct
 	{
 		enum Resource
 		{
-			empty,
+			noResource,
 			isWOOD,
 			isSTONE
 		} Resource;
 		enum Food
 		{
+			noFood,
 			isBERRY,
 			isFISH,
 			isSEEDS,
@@ -27,8 +30,9 @@ public:
 
 		enum Tool
 		{
-			none,
-			isAXE,
+			noTool,
+			isWOODAXE,
+			isPICKAXE,
 			isHOE,
 			isSCYTHE,
 			isWATERINGCAN,
@@ -39,5 +43,7 @@ public:
 	
 	ItemType type;
 	bool isInInventory = false;
+private:
+	int itemHealth = 100;
 };
 

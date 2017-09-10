@@ -35,8 +35,8 @@ void Player::RenderPlayer(SDL_Renderer* renderer, Camera& camera)
 		idleAnimation.OnAnimate();
 	}
 
-		renderOffset.x = getX() - camera.getX();
-		renderOffset.y = getY() - camera.getY();
+		renderOffset.x = getX() - camera.getX() + getSize() / 2;
+		renderOffset.y = getY() - camera.getY() - getSize() / 2;
 
 	shortHairTexture.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
 	longHairTexture.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);

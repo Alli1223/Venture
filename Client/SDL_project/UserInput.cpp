@@ -278,7 +278,7 @@ void UserInput::ChangeCellsAroundPoint(Level& level, glm::vec2 point, int dist, 
 void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings)
 {
 	// AXE
-	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isAXE)
+	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isWOODAXE)
 	{
 		for (int x = -1; x < 1; x++)
 			for (int y = -1; y < 1; y++)
@@ -357,7 +357,7 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 	{
 		if (level.getCell(player.getCellX() + 2, player.getCellY())->isWater)
 		{
-			level.getCell(player.getCellX() + 2, player.getCellY())->isWater = false;
+			level.getCell(player.getCellX() + 2, player.getCellY())->isFishingBob = true;
 		}
 		/*
 		if (level.getCell(player.getCellX() + 2, player.getCellY())->isWater)
@@ -369,5 +369,20 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 		else if (level.getCell(player.getCellX(), player.getCellY() + 2)->isWater)
 			// Cast line down
 			*/
+	}
+	if (toolbar.getSelectedItem().type.Resource == Item::ItemType::isWOOD)
+	{
+		level.getCell(player.getCellX(), player.getCellY())->isWood = true;
+		toolbar.getSelectedItem().type.Resource = Item::ItemType::noResource;
+		toolbar.getSelectedItem().type.noResource;
+	}
+	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isPICKAXE)
+	{
+		if (level.getCell(player.getCellX(), player.getCellY())->isRock)
+		{
+			level.getCell(player.getCellX(), player.getCellY())->isRock = false;
+		}
+		
+		toolbar.getSelectedItem().type.Tool = Item::ItemType::noTool;
 	}
 }

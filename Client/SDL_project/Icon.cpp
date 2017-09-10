@@ -2,7 +2,7 @@
 #include "Icon.h"
 
 
-Icon::Icon() : AxeTexture(iconTextureLocation + "axe.png"), hoeTexture(iconTextureLocation + "hoe.png"), seedsTexture(iconTextureLocation + "seeds.png"), ScytheTexture(iconTextureLocation + "scythe.png"), WheatTexture(iconTextureLocation + "wheat.png"),
+Icon::Icon() : WoodAxeTexture(iconTextureLocation + "axe.png"), PickAxeTexture(iconTextureLocation + "pickAxe.png"), hoeTexture(iconTextureLocation + "hoe.png"), seedsTexture(iconTextureLocation + "seeds.png"), ScytheTexture(iconTextureLocation + "scythe.png"), WheatTexture(iconTextureLocation + "wheat.png"),
 FishingRodTexture(iconTextureLocation + "fishingPole.png"), WateringCanTexture(iconTextureLocation + "wateringCan.png"), WoodTexture(iconTextureLocation + "wood.png"), IconBackgroundTexture(iconTextureLocation + "IconBackground.png")
 {
 }
@@ -22,8 +22,11 @@ void Icon::RenderIcon(SDL_Renderer* renderer)
 	}
 	switch (iconItem.type.Tool)
 	{
-	case Item::ItemType::isAXE:
-		AxeTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
+	case Item::ItemType::isWOODAXE:
+		WoodAxeTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
+		break;
+	case Item::ItemType::isPICKAXE:
+		PickAxeTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
 		break;
 	case Item::ItemType::isHOE:
 		hoeTexture.render(renderer, getX(), getY(), getWidth(), getHeight());

@@ -143,8 +143,10 @@ void Venture::run()
 	// Add starting items
 	Item hoe;
 	hoe.type.Tool = Item::ItemType::isHOE;
-	Item Axe;
-	Axe.type.Tool = Item::ItemType::isAXE;
+	Item WoodAxe;
+	WoodAxe.type.Tool = Item::ItemType::isWOODAXE;
+	Item PickAxe;
+	PickAxe.type.Tool = Item::ItemType::isPICKAXE;
 	Item Scythe;
 	Scythe.type.Tool = Item::ItemType::isSCYTHE;
 	Item seeds;
@@ -155,10 +157,11 @@ void Venture::run()
 	fishingPole.type.Tool = Item::ItemType::isFISHINGROD;
 	
 
-	player.inventory.add(Axe);
+	player.inventory.add(WoodAxe);
+	player.inventory.add(PickAxe);
 	player.inventory.add(hoe);
 	player.inventory.add(waterCan);
-	player.inventory.add(fishingPole);
+	//player.inventory.add(fishingPole);
 	player.inventory.add(Scythe);
 	player.inventory.add(seeds);
 

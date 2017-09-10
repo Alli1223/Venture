@@ -87,6 +87,7 @@ private:
 	Texture SandTexture;
 	Texture StoneWallTexture;
 	Texture SnowTexture;
+	Texture WoodTexture;
 
 	Texture WoodFenceSide;
 	Texture WoodFenceUP;

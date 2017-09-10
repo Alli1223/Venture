@@ -1,11 +1,6 @@
 #pragma once
 #include "Texture.h"
 
-
-//! 
-/*!
-
-*/
 class Cell
 {
 public:
@@ -38,7 +33,6 @@ public:
 
 	int cellLightness = 255;
 
-
 	//! Whether the cell is part of a room
 	bool isRoom = false;
 	//! Whether the cell is walkable
@@ -60,8 +54,12 @@ public:
 	bool isWheat = false;
 
 	bool isWater = false;
+	bool isFishingBob = false;
 	bool isSand = false;
 	bool isSnow = false;
+	bool isWood = false;
+	bool isStone = false;
+	bool isRock = false;
 
 	
 	enum seedsGrowthStage

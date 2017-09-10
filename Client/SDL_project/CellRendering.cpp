@@ -23,6 +23,7 @@ TreePixelTexture(TreeTerrainSpriteTextureLocation + "pixelTree.png"),
 TreeTwoTexture(TreeTerrainSpriteTextureLocation + "Tree2.png"),
 TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
 SnowTexture(TerrainSpriteTextureLocation + "Snow.png"),
+WoodTexture(TerrainSpriteTextureLocation + "Wood.png"),
 WoodFenceSide(WallSpriteTextureLocation + "woodFenceSideCenter.png"), WoodFenceUP(WallSpriteTextureLocation + "woodFenceUp2.png"), WoodFenceCenter(WallSpriteTextureLocation + "woodFenceCenter.png"),
 WheatStageOne(TerrainSpriteTextureLocation + "WheatStageOne.png"), WheatStageTwo(TerrainSpriteTextureLocation + "WheatStageTwo.png"), WheatStageThree(TerrainSpriteTextureLocation + "WheatStageThree.png"), WheatStageFour(TerrainSpriteTextureLocation + "WheatStageFour.png"),
 
@@ -112,7 +113,8 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 				if (chunk.tiles[x][y]->isDirt)
 					DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 
-					
+				if (chunk.tiles[x][y]->isWood)
+					WoodTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isSand)
 					SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isStoneWall)
