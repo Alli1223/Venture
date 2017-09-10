@@ -7,8 +7,8 @@ class InventoryUI : public GUI
 public:
 	InventoryUI();
 	~InventoryUI();
-	void RenderInventory(SDL_Renderer* renderer, GameSettings& gameSettings, Player& player);
-	void CreateInventory(SDL_Renderer* renderer, GameSettings& gameSettings, Player& player);
+	void RenderInventory(SDL_Renderer* renderer, GameSettings& gameSettings, Inventory& inventory);
+	void CreateInventory(SDL_Renderer* renderer, GameSettings& gameSettings, Inventory& inventory);
 private:
 	std::vector<std::shared_ptr<Icon>> inventoryIcons;
 	Texture backgroundTexture;

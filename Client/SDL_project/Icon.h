@@ -13,6 +13,7 @@ public:
 	int setIconID(int newIconID) { return iconID = newIconID; }
 	void RenderIcon(SDL_Renderer* renderer);
 
+	bool renderBackground = false;
 
 	Item& getIconItem() { return iconItem; }
 	Item setIconItem(Item newIcon) { return iconItem = newIcon; }
@@ -30,6 +31,7 @@ private:
 	Texture FishingRodTexture;
 	Texture WateringCanTexture;
 	Texture WoodTexture;
+	Texture IconBackgroundTexture;
 
 	int iconID;
 };

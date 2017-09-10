@@ -213,16 +213,17 @@ void Venture::run()
 	toolbar.createToolbar(player, gameSettings);
 
 
-	InventoryUI ui;
-	ui.setX(gameSettings.WINDOW_WIDTH / 2);
-	ui.setY(100);
-	ui.setHeight(100);
-	ui.setWidth(100);
-	ui.CreateInventory(renderer, gameSettings, player);
+	
+	InventoryPanel.setX(gameSettings.WINDOW_WIDTH / 2 + gameSettings.WINDOW_WIDTH / 4);
+	InventoryPanel.setY(gameSettings.WINDOW_HEIGHT / 2);
+	InventoryPanel.setHeight(gameSettings.WINDOW_HEIGHT - gameSettings.WINDOW_HEIGHT / 4);
+	InventoryPanel.setWidth(gameSettings.WINDOW_WIDTH / 3);
+	InventoryPanel.CreateInventory(renderer, gameSettings, player.inventory);
+	
 	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
 	while (gameSettings.running)
 	{
-		ui.RenderInventory(renderer, gameSettings, player);
+		
 		
 
 		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_RIGHT))
@@ -254,7 +255,7 @@ void Venture::run()
 
 		// Renders all the cells and players
 		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents, networkManager.allPlayers);
-
+		InventoryPanel.RenderInventory(renderer, gameSettings, player.inventory);
 		toolbar.Update(player, gameSettings);
 		toolbar.RenderToolbar(renderer, gameSettings);
 		SDL_RenderPresent(renderer);

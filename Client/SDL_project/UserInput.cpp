@@ -228,7 +228,7 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 		if(gameSettings.useNetworking)
 			networkManager.MapNetworkUpdate(level);
 	}
-	if (state[SDL_SCANCODE_B])
+	if (state[SDL_SCANCODE_I])
 	{
 
 	}

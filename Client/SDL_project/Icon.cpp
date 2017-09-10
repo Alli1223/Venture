@@ -3,7 +3,7 @@
 
 
 Icon::Icon() : AxeTexture(iconTextureLocation + "axe.png"), hoeTexture(iconTextureLocation + "hoe.png"), seedsTexture(iconTextureLocation + "seeds.png"), ScytheTexture(iconTextureLocation + "scythe.png"), WheatTexture(iconTextureLocation + "wheat.png"),
-FishingRodTexture(iconTextureLocation + "fishingPole.png"), WateringCanTexture(iconTextureLocation + "wateringCan.png"), WoodTexture(iconTextureLocation + "wood.png")
+FishingRodTexture(iconTextureLocation + "fishingPole.png"), WateringCanTexture(iconTextureLocation + "wateringCan.png"), WoodTexture(iconTextureLocation + "wood.png"), IconBackgroundTexture(iconTextureLocation + "IconBackground.png")
 {
 }
 
@@ -14,6 +14,12 @@ Icon::~Icon()
 
 void Icon::RenderIcon(SDL_Renderer* renderer)
 {
+
+	if (renderBackground)
+	{
+		IconBackgroundTexture.alterTransparency(150);
+		IconBackgroundTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
+	}
 	switch (iconItem.type.Tool)
 	{
 	case Item::ItemType::isAXE:

@@ -2,7 +2,7 @@
 #include "InventoryUI.h"
 
 
-InventoryUI::InventoryUI() : backgroundTexture(iconTextureLocation + "InventoryBackground.png")
+InventoryUI::InventoryUI() : backgroundTexture("Resources\\Sprites\\Toolbar\\InventoryBackground.png")
 {
 }
 
@@ -11,11 +11,13 @@ InventoryUI::~InventoryUI()
 {
 }
 
-void InventoryUI::RenderInventory(SDL_Renderer* renderer, GameSettings& gameSettings, Player& player)
+void InventoryUI::RenderInventory(SDL_Renderer* renderer, GameSettings& gameSettings, Inventory& inventory)
 {
-	for (int i = 0; i < player.inventory.getSize(); i++)
+	backgroundTexture.alterTransparency(150);
+	backgroundTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
+	for (int i = 0; i < inventory.getSize(); i++)
 	{
-		inventoryIcons[i]->setIconItem(player.inventory.get(i));
+		inventoryIcons[i]->setIconItem(inventory.get(i));
 	}
 	for each (auto &icon in inventoryIcons)
 	{
@@ -23,22 +25,28 @@ void InventoryUI::RenderInventory(SDL_Renderer* renderer, GameSettings& gameSett
 	}
 	
 }
-void InventoryUI::CreateInventory(SDL_Renderer* renderer, GameSettings& gameSettings, Player& player)
+void InventoryUI::CreateInventory(SDL_Renderer* renderer, GameSettings& gameSettings, Inventory& inventory)
 {
-	int WW = gameSettings.WINDOW_WIDTH;
-	int WH = gameSettings.WINDOW_HEIGHT;
-
-	for (int i = 0; i < player.inventory.getSize(); i++)
+	int iconSize = gameSettings.WINDOW_WIDTH / 25;
+	int x = getX() - getWidth() / 2 + iconSize;
+	int y = getY() - getHeight() / 2 + iconSize * 2;
+	for (int i = 0; i < inventory.getCapacity(); i++)
 	{
 		Icon icon;
 		auto sharedIcon = std::make_shared<Icon>(icon);
-		
-		int iconSize = WW / 25;
 
-		sharedIcon->setX(getX() + (i * iconSize));
-		sharedIcon->setY(getY());
+		if (x > getX() + getWidth() / 2 - iconSize)
+		{
+			x = getX() - getWidth() / 2 + iconSize;
+			y += iconSize;
+		}
+		sharedIcon->setX(x);
+		sharedIcon->setY(y);
 		sharedIcon->setWidth(iconSize);
 		sharedIcon->setHeight(iconSize);
+		sharedIcon->renderBackground = true;
 		inventoryIcons.push_back(sharedIcon);
+		x += iconSize;
 	}
+		
 }
