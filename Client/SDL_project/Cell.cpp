@@ -25,6 +25,7 @@ json Cell::getCellData()
 	cellData["Fence"] = isWoodFence;
 	cellData["Dirt"] = isDirt;
 	cellData["Grass"] = isGrass;
+	cellData["Wood"] = isWood;
 	cellData["Wheat"] = isWheat;
 	cellData["PlantStage"] = seedsStage;
 	

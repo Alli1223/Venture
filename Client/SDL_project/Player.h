@@ -34,6 +34,8 @@ public:
 private:
 	//! Json data to store player stats
 	json playerJsondata;
+	//! Whether the player is able to move
+	bool playerCanMove = true;
 	//! Pixel size of the player sprite in the spritesheet
 	int pixelSize = 32;
 	//! Default colours
@@ -60,6 +62,8 @@ private:
 	Animation walkVerticalAnimation;
 	Animation idleAnimation;
 	Animation blinkAnimation;
+
+	
 
 };
 

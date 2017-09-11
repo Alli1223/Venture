@@ -204,7 +204,7 @@ void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::
 
 
 //! Process map network update
-//TODO: Don't create new cells on top, only replace the old ones
+//Make sure the network send name is the same as the recieve
 void NetworkManager::MapNetworkUpdate(Level& level)
 {
 	sendTCPMessage("[RequestMapUpdate]\n");
@@ -233,6 +233,7 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 				bool isFence = element.at("Fence").get<bool>();
 				bool isDirt = element.at("Dirt").get<bool>();
 				bool isWheat = element.at("Wheat").get<bool>();
+				bool isWood = element.at("Wood").get<bool>();
 				int plantGrowthStage = element.at("PlantStage").get<int>();
 
 				// Create a new cell to replace the old one
@@ -241,6 +242,7 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 				nc.isWoodFence = isFence;
 				nc.isDirt = isDirt;
 				nc.isWheat = isWheat;
+				nc.isWood = isWood;
 				nc.seedsStage = (Cell::seedsGrowthStage)plantGrowthStage;
 				level.SetCell(x, y, nc);
 				cellsUpdated++;

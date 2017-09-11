@@ -120,3 +120,4 @@ void Player::renderCharacterClothes(SDL_Renderer* renderer, int frameX, int fram
 		break;
 	}
 }
+

@@ -48,7 +48,6 @@ public:
 	ToolBar toolbar;
 	CellRendering cellrenderer;
 	NetworkManager networkManager;
-	NetworkClient networkClient;
 	ProceduralTerrain terrainGen;
 	Camera camera;
 	UserInput input;

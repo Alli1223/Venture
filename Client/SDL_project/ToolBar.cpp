@@ -2,9 +2,9 @@
 #include "ToolBar.h"
 
 
-ToolBar::ToolBar() : selectionTexture("Resources\\Sprites\\Toolbar\\grey.png")
+ToolBar::ToolBar() : selectionTexture("Resources\\Sprites\\Toolbar\\grey.png"), playerHunger(toolbarTextureLocation + "PlayerHunger.png")
 {
-	selectionTexture.alterTransparency(150);
+	
 }
 
 
@@ -13,8 +13,10 @@ ToolBar::~ToolBar()
 }
 Item& ToolBar::getSelectedItem()
 {
-	auto& item = toolbarIcons.at(toolbarSelection);
-	return item->getIconItem();
+	if(toolbarSelection >= toolbarIcons.size())
+		return toolbarIcons.at(0)->getIconItem();
+	else
+		return toolbarIcons.at(toolbarSelection)->getIconItem();
 }
 
 bool ToolBar::removeToolbarItem(int index)
@@ -34,7 +36,7 @@ void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
 	int mouseX, mouseY;
 	if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
 	{
-	
+
 	}
 	if (toolbarRender)
 	{
@@ -44,27 +46,23 @@ void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
 			icon->RenderIcon(renderer);
 		}
 	}
-	for(int i = 0; i < numberOfIcons; i++ )
-	{
-		if (i == toolbarSelection)
-			selectionTexture.render(renderer, toolbarIcons[i]->getX(), toolbarIcons[i]->getY(), toolbarIcons[i]->getWidth(), toolbarIcons[i]->getHeight());
-		
-	}
+
+	if (toolbarSelection < toolbarIcons.size() && toolbarSelection >= 0)
+		selectionTexture.render(renderer, toolbarIcons[toolbarSelection]->getX(), toolbarIcons[toolbarSelection]->getY(), toolbarIcons[toolbarSelection]->getWidth(), toolbarIcons[toolbarSelection]->getHeight());
 }
 
 void ToolBar::Update(Player& player, GameSettings& gameSettings)
 {
 	for (int i = 0; i < player.inventory.getCurrentSize(); i++)
-	{
-		if (i < numberOfIcons)
+		if (i < toolbarIcons.size() && i >= 0)
 			toolbarIcons[i]->setIconItem(player.inventory.get(i));
 	
-	}
+	
 	// Loop the toolbar when the player gets to the end
-	if (toolbarSelection > numberOfIcons)
+	if (toolbarSelection >= toolbarIcons.size())
 		toolbarSelection = 0;
 	if (toolbarSelection < 0)
-		toolbarSelection = numberOfIcons;
+		toolbarSelection = toolbarIcons.size();
 	
 }
 void ToolBar::createToolbar(Player& player, GameSettings& gameSettings)

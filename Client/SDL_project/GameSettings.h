@@ -24,7 +24,7 @@ public:
 	bool fullscreen = false;
 
 	//! Whether the game uses networking and false if singleplayer
-	bool useNetworking = false;
+	bool useNetworking = true;
 
 	//! Whether the game is running or not
 	bool running = true;

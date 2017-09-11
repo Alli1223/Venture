@@ -35,6 +35,9 @@ private:
 	int toolbarSelection = 0;
 	int numberOfIcons = 10;
 	bool toolbarRender = true;
+
+	Texture playerHunger;
+	
 	
 
 };
