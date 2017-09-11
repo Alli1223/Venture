@@ -60,7 +60,8 @@ GLuint loadShaders(const std::string& vertex_file_path, const std::string& fragm
 	glAttachShader(programId, vertexShaderId);
 	glAttachShader(programId, fragmentShaderId);
 	glLinkProgram(programId);
-
+	
+	
 	// Check the program
 	GLint result = GL_FALSE;
 	int infoLogLength = 0;
@@ -251,9 +252,15 @@ void Venture::run()
 		input.HandleUserInput(level, player, agentManager, networkManager, camera, gameSettings, toolbar);
 
 		
+		glm::vec2 playerPos;
+		playerPos.x = player.getX() - camera.WindowWidth / 2;
+		playerPos.y = player.getY() - camera.WindowHeight / 2;
+		
+		
+		camera.Lerp_To(playerPos, 0.25);
 		// Set camera to follow player and generate the world
-		camera.setX(player.getX() - camera.WindowWidth / 2);
-		camera.setY(player.getY() - camera.WindowHeight / 2);
+		//camera.setX(player.getX() - camera.WindowWidth / 2);
+		//camera.setY(player.getY() - camera.WindowHeight / 2);
 		level.GenerateWorld(camera);
 
 		// Clear Rendering process:

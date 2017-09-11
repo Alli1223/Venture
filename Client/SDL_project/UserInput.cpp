@@ -280,7 +280,7 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 	// AXE
 	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isWOODAXE)
 	{
-
+		level.getCell(player.getCellX(), player.getCellY())->isLongGrass = true;
 		for (int x = -1; x <= 1; x++)
 			for (int y = -1; y <= 1; y++)
 			{

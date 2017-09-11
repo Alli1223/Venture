@@ -72,6 +72,9 @@ void CellRendering::AlterTextures(Level& level)
 		LongGrass1.alterTextureColour(darkness, darkness, darkness);
 		LongGrass2.alterTextureColour(darkness, darkness, darkness);
 		LongGrass3.alterTextureColour(darkness, darkness, darkness);
+		PineTreeTexture.alterTextureColour(darkness, darkness, darkness);
+		OakTreeTexture.alterTextureColour(darkness, darkness, darkness);
+		FernTreeTexture.alterTextureColour(darkness, darkness, darkness);
 }
 
 void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Chunk& chunk, SDL_Renderer* renderer)
@@ -131,7 +134,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 				if (chunk.tiles[x][y]->isBush)
 					BushTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
 				if (chunk.tiles[x][y]->isLongGrass)
-					LongGrass1.render(renderer, xPos, yPos, cellSize, cellSize);
+					LongGrass1.render(renderer, xPos - cellSize, yPos, cellSize * 2, cellSize);
 				if (chunk.tiles[x][y]->isLongGrass2)
 					LongGrass2.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk.tiles[x][y]->isSnow)
@@ -171,7 +174,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 						t.isFern = true;
 					if (chunk.tiles[x][y]->treeType == Cell::TreeType::pineTree)
 						t.isPine = true;
-					t.pos = glm::vec2(xPos, yPos - cellSize * 3);
+					t.pos = glm::vec2(xPos, yPos - cellSize * 3 + cellSize);
 					t.treeSize = glm::vec2(cellSize * 3, cellSize * 6);
 					if (chunk.tiles[x][y]->getY() > player.getY() / level.getCellSize())
 						treesBelow.push_back(t);
