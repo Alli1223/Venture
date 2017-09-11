@@ -215,7 +215,7 @@ void Venture::run()
 	}
 	toolbar.createToolbar(player, gameSettings);
 
-
+	player.inventory.setCapacity(56);
 	
 	player.InventoryPanel.setX(gameSettings.WINDOW_WIDTH / 2 + gameSettings.WINDOW_WIDTH / 4);
 	player.InventoryPanel.setY(gameSettings.WINDOW_HEIGHT / 2);
@@ -224,6 +224,7 @@ void Venture::run()
 	player.InventoryPanel.setIconSize(gameSettings.WINDOW_WIDTH / 25);
 	player.InventoryPanel.CreateInventory(renderer, player.inventory);
 	player.InventoryPanel.setDisplayInventory(false);
+	
 
 	player.ItemInventoryPanel.setX(gameSettings.WINDOW_WIDTH / 4);
 	player.ItemInventoryPanel.setY(gameSettings.WINDOW_HEIGHT / 2);

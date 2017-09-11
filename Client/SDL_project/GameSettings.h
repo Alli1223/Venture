@@ -18,7 +18,8 @@ public:
 	//! initial window settings
 	int WINDOW_WIDTH = 800;
 	int WINDOW_HEIGHT = 600;
-	
+	int amountOfWoodInTrees = 3;
+
 	//! Whether the game is fullscreen
 	bool fullscreen = false;
 

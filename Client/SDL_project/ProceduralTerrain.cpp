@@ -74,12 +74,10 @@ void ProceduralTerrain::spawnRandomVegetation(Chunk& chunk)
 				chunk.tiles[x][y]->isFlower1 = true;
 				break;
 			case 1:
-				chunk.tiles[x][y]->isBerryPlant = true;
-				//item.isBerry = true;
-				//chunk.grid[x][y]->cellItem = item;
+				chunk.tiles[x][y]->isFlower2 = true;
 				break;
 			case 2:
-				chunk.tiles[x][y]->isFlower2 = true;
+				chunk.tiles[x][y]->isRock = true;
 				break;
 			}
 		}
@@ -100,7 +98,7 @@ void ProceduralTerrain::populateTerrain(Chunk& chunk)
 	}
 	//Cant spawn random items because that will cause de-sync between clients
 	spawnRandomTrees(chunk);
-	//spawnRandomVegetation(chunk);
+	spawnRandomVegetation(chunk);
 }
 
 //TODO: Put all constant values in the headder
@@ -145,6 +143,10 @@ void ProceduralTerrain::generateGround(Chunk& chunk, int x, int y)
 		else if (terrainElevation < -2.3)
 		{
 			chunk.tiles[x][y]->isWater = true;
+		}
+		else if (terrainElevation > 10.0 && terrainElevation < 20.0)
+		{
+			chunk.tiles[x][y]->isStone = true;
 		}
 		else if (terrainElevation > 20.0)
 		{

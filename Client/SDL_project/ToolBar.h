@@ -13,6 +13,7 @@ public:
 	~ToolBar();
 
 	Item& getSelectedItem();
+	void setSelectedItem(Item& item);
 	
 	//! Function that renders the toolbar
 	void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings);

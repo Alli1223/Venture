@@ -199,7 +199,7 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	}
 	if (state[SDL_SCANCODE_UP])
 	{
-		std::cout << player.inventory.getSize() << " " << std::endl;
+		std::cout << player.inventory.getCurrentSize() << " " << std::endl;
 	}
 
 	// Set cell size
@@ -280,27 +280,32 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 	// AXE
 	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isWOODAXE)
 	{
-		for (int x = -1; x < 1; x++)
-			for (int y = -1; y < 1; y++)
-			{
-				InterDir.x = playercellPos.x + x;
-				InterDir.y = playercellPos.y - y;
-				if (InterDir.x > 0 && InterDir.x < level.getChunkSize() && InterDir.x > 0 && InterDir.y < level.getChunkSize())
-				{
-					if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[InterDir.x][InterDir.y]->isTree)
-					{
-						//dump celldata of where the player has changed the cell
-						level.World[playerChunkPos.x][playerChunkPos.y].tiles[InterDir.x][InterDir.y]->isTree = false;
-						level.World[playerChunkPos.x][playerChunkPos.y].tiles[InterDir.x][InterDir.y]->isDirt = true;
-						std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[InterDir.x][InterDir.y]->getCellData().dump();
-						std::cout << seralisedData << std::endl;
-						if (gameSettings.useNetworking)
-							networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
 
+		for (int x = -1; x <= 1; x++)
+			for (int y = -1; y <= 1; y++)
+			{
+				//level.getCell(player.getCellX() + x, player.getCellY() + y)->isWood = true;
+				if (level.getCell(player.getCellX() + x, player.getCellY() + y)->isTree)
+				{
+					//dump celldata of where the player has changed the cell
+					level.getCell(player.getCellX() + x, player.getCellY() + y)->isTree = false;
+					level.getCell(player.getCellX() + x, player.getCellY() + y)->isDirt = true;
+					//level.getCell(player.getCellX() + x, player.getCellY() + y)->isWalkable = true;
+					std::string seralisedData = level.getCell(player.getCellX() + x, player.getCellY() + y)->getCellData().dump();
+					std::cout << seralisedData << std::endl;
+					if (gameSettings.useNetworking)
+						networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
+
+					
+
+					for (int i = 0; i < gameSettings.amountOfWoodInTrees; i++)
+					{
 						Item wood;
 						wood.type.Resource = Item::ItemType::isWOOD;
 						player.inventory.add(wood);
 					}
+						
+
 				}
 			}
 	}
@@ -373,8 +378,13 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 	if (toolbar.getSelectedItem().type.Resource == Item::ItemType::isWOOD)
 	{
 		level.getCell(player.getCellX(), player.getCellY())->isWood = true;
-		toolbar.getSelectedItem().type.Resource = Item::ItemType::noResource;
-		toolbar.getSelectedItem().type.noResource;
+		//player.inventory.remove(toolbar.getToolbarSelection());
+		Item::ItemType wood;
+		wood.Resource = Item::ItemType::isWOOD;
+		player.inventory.remove(toolbar.getToolbarSelection());
+		//if(player.inventory.get(toolbar.getToolbarSelection()).type.Resource == Item::ItemType::isWOOD)
+			
+
 	}
 	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isPICKAXE)
 	{

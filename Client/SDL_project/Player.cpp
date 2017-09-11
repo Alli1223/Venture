@@ -23,8 +23,8 @@ void Player::RenderPlayer(SDL_Renderer* renderer, Camera& camera)
 	blinkAnimation.maxFrames = 4;
 	blinkAnimation.setFrameRate(200);
 	blinkAnimation.oscillate = true;
-	
-	
+
+
 	if (isPlayerMoving())
 	{
 		walkHorizontalAnimation.OnAnimate();
@@ -35,15 +35,15 @@ void Player::RenderPlayer(SDL_Renderer* renderer, Camera& camera)
 		idleAnimation.OnAnimate();
 	}
 
-		renderOffset.x = getX() - camera.getX() + getSize() / 2;
-		renderOffset.y = getY() - camera.getY() - getSize() / 2;
+	renderOffset.x = getX() - camera.getX();
+	renderOffset.y = getY() - camera.getY();
 
 	shortHairTexture.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
 	longHairTexture.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
 	eyesTexture.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
 	sideBlinkTexture.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
 
-	
+
 	/// RENDER ROTATIONS ///
 	//Walk Down
 	if (getTargetRotation() == 0 || getTargetRotation() == 360)
@@ -103,8 +103,6 @@ void Player::renderCharacterClothes(SDL_Renderer* renderer, int frameX, int fram
 	case Clothing::tshirt:
 
 		break;
-
-
 	}
 	//Render leg wear
 	switch (PlayerClothes.leg)

@@ -17,7 +17,7 @@ void InventoryUI::RenderInventory(SDL_Renderer* renderer, Inventory& inventory)
 	{
 		backgroundTexture.alterTransparency(150);
 		backgroundTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
-		for (int i = 0; i < inventory.getSize(); i++)
+		for (int i = 0; i < inventory.getCurrentSize(); i++)
 		{
 			inventoryIcons[i]->setIconItem(inventory.get(i));
 		}

@@ -33,7 +33,8 @@ public:
 	};
 	
 
-	std::vector<tree> trees;
+	std::vector<tree> treesBelow;
+	std::vector<tree> treesAbove;
 
 	bool isThereDarkness = true;
 	
@@ -64,6 +65,7 @@ private:
 	Texture Grass2Texture;
 	Texture OakTreeTexture;
 	Texture FernTreeTexture;
+	Texture PineTreeTexture;
 
 	Texture TreePixelTexture;
 	Texture TreeTwoTexture;
@@ -76,6 +78,7 @@ private:
 	Texture LongGrass1;
 	Texture LongGrass2;
 	Texture LongGrass3;
+	Texture rockTexture;
 	Texture WheatStageOne;
 	Texture WheatStageTwo;
 	Texture WheatStageThree;
@@ -86,6 +89,7 @@ private:
 	Texture WaterTexture2;
 	Texture SandTexture;
 	Texture StoneWallTexture;
+	Texture StoneTexture;
 	Texture SnowTexture;
 	Texture WoodTexture;
 

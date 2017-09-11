@@ -16,6 +16,7 @@ Item& ToolBar::getSelectedItem()
 	auto& item = toolbarIcons.at(toolbarSelection);
 	return item->getIconItem();
 }
+
 void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
 {
 	selectionTexture.alterTransparency(150);
@@ -42,10 +43,11 @@ void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
 
 void ToolBar::Update(Player& player, GameSettings& gameSettings)
 {
-	for (int i = 0; i < player.inventory.getSize(); i++)
+	for (int i = 0; i < player.inventory.getCurrentSize(); i++)
 	{
 		if (i < numberOfIcons)
 			toolbarIcons[i]->setIconItem(player.inventory.get(i));
+	
 	}
 	// Loop the toolbar when the player gets to the end
 	if (toolbarSelection > numberOfIcons)
