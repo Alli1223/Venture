@@ -295,7 +295,6 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 					std::cout << seralisedData << std::endl;
 					if (gameSettings.useNetworking)
 						networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
-
 					
 
 					for (int i = 0; i < gameSettings.amountOfWoodInTrees; i++)
@@ -375,15 +374,18 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 			// Cast line down
 			*/
 	}
+	
+
+	// Place wood on ground
 	if (toolbar.getSelectedItem().type.Resource == Item::ItemType::isWOOD)
 	{
-		level.getCell(player.getCellX(), player.getCellY())->isWood = true;
-		//player.inventory.remove(toolbar.getToolbarSelection());
-		Item::ItemType wood;
-		wood.Resource = Item::ItemType::isWOOD;
-		player.inventory.remove(toolbar.getToolbarSelection());
-		//if(player.inventory.get(toolbar.getToolbarSelection()).type.Resource == Item::ItemType::isWOOD)
+		if (level.getCell(player.getCellX(), player.getCellY())->isWood == false)
+		{
+			level.getCell(player.getCellX(), player.getCellY())->isWood = true;
 			
+			player.inventory.remove(toolbar.getToolbarSelection());
+			toolbar.removeToolbarItem(toolbar.getToolbarSelection());
+		}
 
 	}
 	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isPICKAXE)
@@ -393,6 +395,6 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 			level.getCell(player.getCellX(), player.getCellY())->isRock = false;
 		}
 		
-		toolbar.getSelectedItem().type.Tool = Item::ItemType::noTool;
+		//toolbar.getSelectedItem().type.Tool = Item::ItemType::noTool;
 	}
 }

@@ -17,6 +17,17 @@ Item& ToolBar::getSelectedItem()
 	return item->getIconItem();
 }
 
+bool ToolBar::removeToolbarItem(int index)
+{
+	if (index < toolbarIcons.size())
+	{
+		toolbarIcons.erase(toolbarIcons.begin() + index);
+		return true;
+	}
+	else
+		return false;
+}
+
 void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings)
 {
 	selectionTexture.alterTransparency(150);
