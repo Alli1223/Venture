@@ -4,7 +4,8 @@
 
 Icon::Icon() : WoodAxeTexture(iconTextureLocation + "axe.png"), PickAxeTexture(iconTextureLocation + "pickAxe.png"), hoeTexture(iconTextureLocation + "hoe.png"), seedsTexture(iconTextureLocation + "seeds.png"), ScytheTexture(iconTextureLocation + "scythe.png"), WheatTexture(iconTextureLocation + "wheat.png"),
 FishingRodTexture(iconTextureLocation + "fishingPole.png"), WateringCanTexture(iconTextureLocation + "wateringCan.png"),
-WoodTexture(iconTextureLocation + "wood.png"), StoneTexture(iconTextureLocation + "stone.png"), IconBackgroundTexture(iconTextureLocation + "IconBackground.png")
+WoodTexture(iconTextureLocation + "wood.png"), StoneTexture(iconTextureLocation + "stone.png"), IconBackgroundTexture(iconTextureLocation + "IconBackground.png"),
+WoodFenceTexture(iconTextureLocation + "FenceWood.png"), StoneFenceTexture(iconTextureLocation + "FenceStone.png")
 {
 }
 
@@ -61,6 +62,12 @@ void Icon::RenderIcon(SDL_Renderer* renderer)
 		break;
 	case Item::ItemType::isSTONE:
 		StoneTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
+		break;
+	case Item::ItemType::isSTONEWALL:
+		StoneFenceTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
+		break;
+	case Item::ItemType::isWOODFENCE:
+		WoodFenceTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
 		break;
 	
 	}

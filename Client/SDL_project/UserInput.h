@@ -14,7 +14,7 @@ public:
 	~UserInput();
 
 	Inventory craftingInventory;
-	void UserInput::UseItemFromToolbar(int xPos, int yPos, ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings);
+	void UserInput::UseItemFromToolbar(int xPos, int yPos, ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings, SDL_Renderer* renderer);
 
 	void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& player, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, GameSettings& gameSettings, ToolBar& toolbar);
 

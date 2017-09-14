@@ -223,7 +223,7 @@ void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& pl
 	// Use Action
 	if (state[SDL_SCANCODE_F])
 	{
-		UseItemFromToolbar(player.getCellX(), player.getCellY(), toolbar, player, level, networkManager, gameSettings);
+		UseItemFromToolbar(player.getCellX(), player.getCellY(), toolbar, player, level, networkManager, gameSettings, renderer);
 	}
 	if (state[SDL_SCANCODE_M])
 	{
@@ -250,6 +250,19 @@ void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& pl
 			gameSettings.displayMouse = true;
 			player.InventoryPanel.CreateInventory(renderer, player.inventory);
 			player.InventoryPanel.setDisplayInventory(true);
+		}
+	}
+	if (state[SDL_SCANCODE_C])
+	{
+		if (player.craftingUI.getDispalayCrafting())
+		{
+			gameSettings.displayMouse = false;
+			player.craftingUI.setDisplayCrafting(false);
+		}
+		else
+		{
+			gameSettings.displayMouse = true;
+			player.craftingUI.setDisplayCrafting(true);
 		}
 	}
 	
@@ -289,7 +302,7 @@ void UserInput::ChangeCellsAroundPoint(Level& level, glm::vec2 point, int dist, 
 	*/
 }
 
-void UserInput::UseItemFromToolbar(int xPos, int yPos, ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings)
+void UserInput::UseItemFromToolbar(int xPos, int yPos, ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings, SDL_Renderer* renderer)
 {
 	// AXE
 	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isWOODAXE)
@@ -408,6 +421,7 @@ void UserInput::UseItemFromToolbar(int xPos, int yPos, ToolBar& toolbar, Player&
 	// Place wood on ground
 	if (toolbar.getSelectedItem().type.Resource == Item::ItemType::isWOOD)
 	{
+		PlaceItemTexture.render(renderer, gameSettings.mouseCellPos.x, gameSettings.mouseCellPos.y, level.getCellSize(), level.getCellSize());
 		if (level.getCell(player.getCellX(), player.getCellY())->isWood == false)
 		{
 			level.getCell(player.getCellX(), player.getCellY())->isWood = true;

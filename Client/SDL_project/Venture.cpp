@@ -240,6 +240,9 @@ void Venture::run()
 		{
 			//level.getCell(mouseX / level.getCellSize() , mouseY / level.getCellSize())->isWood = true;
 		}
+		gameSettings.mouseCellPos.x = mouseX / level.getCellSize() + camera.getX() / level.getCellSize();
+		gameSettings.mouseCellPos.y = mouseY / level.getCellSize() + camera.getY() / level.getCellSize();
+		//std::cout << gameSettings.mouseCellPos.y << std::endl;
 		// Do all the networking
 		if (gameSettings.useNetworking)
 			networkManager.NetworkUpdate(level, player, agentManager);
@@ -274,7 +277,7 @@ void Venture::run()
 		
 		toolbar.UpdateAndRenderToolbar(renderer, player, gameSettings);
 		player.craftingUI.renderCraftingMenu(renderer);
-		//+(menuCursorSize / 2)
+
 		if (gameSettings.displayMouse)
 			mousePointer.render(renderer, mouseX + (gameSettings.mousePointerSize / 2), mouseY + (gameSettings.mousePointerSize / 2), gameSettings.mousePointerSize, gameSettings.mousePointerSize);
 		SDL_RenderPresent(renderer);

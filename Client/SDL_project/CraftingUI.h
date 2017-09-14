@@ -12,7 +12,10 @@ public:
 	int getIconSize() { return craftingIconSize; }
 	int setIconSize(int newSize) { return craftingIconSize = newSize; }
 	void renderCraftingMenu(SDL_Renderer* renderer);
+	bool getDispalayCrafting() { return displayCrafing; }
+	bool setDisplayCrafting(bool newIn) { return displayCrafing = newIn; }
 private:
+	bool displayCrafing = false;
 	int numberOfCraftingItems = 0;
 	int craftingIconSize = 25;
 	std::vector<std::shared_ptr<Button>> CraftingButtons;

@@ -28,6 +28,8 @@ public:
 
 	glm::vec2 mouseCellPos;
 
+	float UIScale = 1;
+
 	//! Whether the game uses networking and false if singleplayer
 	bool useNetworking = true;
 

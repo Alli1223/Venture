@@ -109,7 +109,9 @@
     <ClCompile Include="InventoryUI.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="CraftingUI.cpp" />
+    <ClCompile Include="CraftingUI.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h">
@@ -229,7 +231,9 @@
     <ClInclude Include="InventoryUI.h">
       <Filter>Headers\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="CraftingUI.h" />
+    <ClInclude Include="CraftingUI.h">
+      <Filter>Headers\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />

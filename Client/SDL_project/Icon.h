@@ -34,6 +34,9 @@ private:
 
 	Texture WoodTexture;
 	Texture StoneTexture;
+	Texture WoodFenceTexture;
+	Texture StoneFenceTexture;
+	
 	Texture IconBackgroundTexture;
 
 	int iconID;
