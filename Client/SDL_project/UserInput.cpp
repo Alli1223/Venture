@@ -39,7 +39,7 @@ bool UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
 		return true;
 }
 
-void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, GameSettings& gameSettings, ToolBar& toolbar)
+void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& player, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, GameSettings& gameSettings, ToolBar& toolbar)
 {
 	int cellSize = level.getCellSize();
 	SDL_Event ev;
@@ -233,9 +233,16 @@ void UserInput::HandleUserInput(Level& level, Player& player, AgentManager& agen
 	if (state[SDL_SCANCODE_I])
 	{
 		if (player.InventoryPanel.getDispalayInventory())
+		{
 			player.InventoryPanel.setDisplayInventory(false);
+			player.InventoryPanel.getInventoryIcons().erase(player.InventoryPanel.getInventoryIcons().begin(), player.InventoryPanel.getInventoryIcons().end());
+		}
 		else
+		{
+			player.InventoryPanel.CreateInventory(renderer, player.inventory);
 			player.InventoryPanel.setDisplayInventory(true);
+		}
+			
 	}
 
 	

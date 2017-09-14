@@ -249,7 +249,7 @@ void Venture::run()
 			networkManager.NetworkUpdate(level, player, agentManager);
 		
 		// Handle the input
-		input.HandleUserInput(level, player, agentManager, networkManager, camera, gameSettings, toolbar);
+		input.HandleUserInput(renderer, level, player, agentManager, networkManager, camera, gameSettings, toolbar);
 
 		
 		glm::vec2 playerPos;
@@ -277,9 +277,9 @@ void Venture::run()
 		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents, networkManager.allPlayers);
 
 		player.InventoryPanel.RenderInventory(renderer, player.inventory);
+		
 		player.ItemInventoryPanel.RenderInventory(renderer, player.inventory);
-		toolbar.Update(player, gameSettings);
-		toolbar.RenderToolbar(renderer, gameSettings);
+		toolbar.UpdateAndRenderToolbar(renderer, player, gameSettings);
 		SDL_RenderPresent(renderer);
 		// End while running
 	}

@@ -15,7 +15,7 @@ public:
 	Item& getSelectedItem();
 	
 	//! Function that renders the toolbar
-	void ToolBar::RenderToolbar(SDL_Renderer* renderer, GameSettings& gameSettings);
+	void ToolBar::UpdateAndRenderToolbar(SDL_Renderer* renderer, Player& player, GameSettings& gameSettings);
 
 	std::vector<std::shared_ptr<Icon>> toolbarIcons;
 
@@ -23,11 +23,11 @@ public:
 	bool removeToolbarItem(int index);
 
 	void createToolbar(Player& player, GameSettings& gameSettings);
-	void Update(Player& player, GameSettings& gameSettings);
 
 	int getToolbarSelection() { return toolbarSelection; }
 	int setToolbarSelection(int newSelection) { return toolbarSelection = newSelection; }
 
+	int numOfItems;
 
 private:
 	Texture selectionTexture;

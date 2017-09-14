@@ -15,16 +15,22 @@ void InventoryUI::RenderInventory(SDL_Renderer* renderer, Inventory& inventory)
 {
 	if (displayInventory)
 	{
-		backgroundTexture.alterTransparency(150);
-		backgroundTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
-		for (int i = 0; i < inventory.getCurrentSize(); i++)
-			inventoryIcons[i]->setIconItem(inventory.get(i));
-		
+		if (numOfInventoryIcons != inventory.getCurrentSize())
+		{
+			inventoryIcons.erase(inventoryIcons.begin(), inventoryIcons.end());
+			CreateInventory(renderer, inventory);
+			numOfInventoryIcons = inventory.getCurrentSize();
+		}
+		else
+		{
+			backgroundTexture.alterTransparency(150);
+			backgroundTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
+			
+		}
 		for each (auto &icon in inventoryIcons)
 			icon->RenderIcon(renderer);
-		
+
 	}
-	
 }
 void InventoryUI::CreateInventory(SDL_Renderer* renderer, Inventory& inventory)
 {
@@ -48,5 +54,7 @@ void InventoryUI::CreateInventory(SDL_Renderer* renderer, Inventory& inventory)
 		inventoryIcons.push_back(sharedIcon);
 		x += iconSize;
 	}
-		
+
+	for (int i = 0; i < inventory.getCurrentSize(); i++)
+		inventoryIcons[i]->setIconItem(inventory.get(i));
 }
