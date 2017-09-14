@@ -19,12 +19,15 @@ public:
 	int WINDOW_WIDTH = 800;
 	int WINDOW_HEIGHT = 600;
 	int amountOfWoodInTrees = 3;
+	int amountOfStoneInRocks = 3;
 
 	//! Whether the game is fullscreen
 	bool fullscreen = false;
+	bool displayMouse = false;
+	int mousePointerSize = 25;
 
 	//! Whether the game uses networking and false if singleplayer
-	bool useNetworking = false;
+	bool useNetworking = true;
 
 	//! Whether the game is running or not
 	bool running = true;

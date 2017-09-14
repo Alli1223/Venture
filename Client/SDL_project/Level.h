@@ -58,7 +58,7 @@ protected:
 	ProceduralTerrain proceduralTerrain;
 
 	//! The size that the cell will be rendered at
-	int cellSize = 25;
+	int cellSize = 50;
 	//! chunkSizes value is set when level is constructed and is used for ease of access for the rest of the game to use
 	int chunkSize;
 

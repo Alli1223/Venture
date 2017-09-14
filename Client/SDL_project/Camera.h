@@ -19,8 +19,8 @@ public:
 	int setX(int newX) { return X = newX; }
 	int setY(int newY) { return Y = newY; }
 
-	int getCameraSpeed() { return cameraSpeed; }
-	int setCameraSpeed(int newSpeed) { return cameraSpeed = newSpeed; }
+	float getCameraSpeed() { return cameraSpeed; }
+	float setCameraSpeed(float newSpeed) { return cameraSpeed = newSpeed; }
 
 	void SetPos(int X, int Y);
 
@@ -42,7 +42,7 @@ private:
 
 	
 
-	int cameraSpeed = 3;
+	float cameraSpeed = 0.25;
 
 	int* TargetX;
 	int* TargetY;

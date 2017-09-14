@@ -83,7 +83,7 @@ GLuint loadShaders(const std::string& vertex_file_path, const std::string& fragm
 }
 
 
-Venture::Venture() : backgroundTexture("Resources\\background5.jpg")
+Venture::Venture() : backgroundTexture("Resources\\background5.jpg"), mousePointer("Resources\\Sprites\\Menu\\Cursor.png")
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0 || SDL_Init(SDL_INIT_TIMER) < 0)
 	{
@@ -139,8 +139,10 @@ Venture::~Venture()
 void Venture::run()
 {
 	// Run the main menu
-	//menu.MainMenu(gameSettings, camera, player, renderer);
-
+	menu.MainMenu(gameSettings, camera, player, renderer);
+	if (SDL_GetMouseState(&mouseX, &mouseY))
+	{
+	}
 	// Add starting items
 	Item hoe;
 	hoe.type.Tool = Item::ItemType::isHOE;
@@ -252,15 +254,13 @@ void Venture::run()
 		input.HandleUserInput(renderer, level, player, agentManager, networkManager, camera, gameSettings, toolbar);
 
 		
+		//Player pos for camera lerp
 		glm::vec2 playerPos;
 		playerPos.x = player.getX() - camera.WindowWidth / 2;
 		playerPos.y = player.getY() - camera.WindowHeight / 2;
 		
 		
-		camera.Lerp_To(playerPos, 0.25);
-		// Set camera to follow player and generate the world
-		//camera.setX(player.getX() - camera.WindowWidth / 2);
-		//camera.setY(player.getY() - camera.WindowHeight / 2);
+		camera.Lerp_To(playerPos, camera.getCameraSpeed());
 		level.GenerateWorld(camera);
 
 		// Clear Rendering process:
@@ -280,9 +280,17 @@ void Venture::run()
 		
 		player.ItemInventoryPanel.RenderInventory(renderer, player.inventory);
 		toolbar.UpdateAndRenderToolbar(renderer, player, gameSettings);
+
+		//+(menuCursorSize / 2)
+		if (gameSettings.displayMouse)
+			mousePointer.render(renderer, mouseX + (gameSettings.mousePointerSize / 2), mouseY + (gameSettings.mousePointerSize / 2), gameSettings.mousePointerSize, gameSettings.mousePointerSize);
 		SDL_RenderPresent(renderer);
 		// End while running
 	}
+
+	///// END GAME LOOP //////
+
+
 	// Save player settings when the game ends the game loop
 	gameSettings.savePlayerSettings(player);
 	if (gameSettings.useNetworking)

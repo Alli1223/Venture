@@ -45,7 +45,6 @@ void ToolBar::UpdateAndRenderToolbar(SDL_Renderer* renderer, Player& player, Gam
 		createToolbar(player, gameSettings);
 		numOfItems = player.inventory.getCurrentSize();
 	}
-	
 
 	// Toolbar selection texture
 	if (toolbarSelection >= toolbarIcons.size())

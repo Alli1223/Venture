@@ -18,6 +18,8 @@ public:
 private:
 	std::vector<std::shared_ptr<Icon>> inventoryIcons;
 	Texture backgroundTexture;
+	Texture selectionTexture;
+	SDL_Color selectionColour = { 255, 50, 50 };
 	std::string iconTextureLocation = "Resources\\Sprites\\\Toolbar\\";
 	bool displayInventory = true;
 	int numOfInventoryIcons = 0;

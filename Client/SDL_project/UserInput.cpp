@@ -13,7 +13,7 @@ UserInput::~UserInput()
 
 bool UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
 {
-
+	
 	int chunkX = (x / level.getCellSize()) / level.getChunkSize();
 	int chunkY = (y / level.getCellSize()) / level.getChunkSize();
 
@@ -77,7 +77,6 @@ void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& pl
 	if (state[SDL_SCANCODE_ESCAPE])
 		gameSettings.running = false;
 
-	
 	int playerX = player.getX();
 	int playerY = player.getY();
 	int playerSpeed = player.getSpeed();
@@ -234,11 +233,13 @@ void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& pl
 	{
 		if (player.InventoryPanel.getDispalayInventory())
 		{
+			gameSettings.displayMouse = false;
 			player.InventoryPanel.setDisplayInventory(false);
 			player.InventoryPanel.getInventoryIcons().erase(player.InventoryPanel.getInventoryIcons().begin(), player.InventoryPanel.getInventoryIcons().end());
 		}
 		else
 		{
+			gameSettings.displayMouse = true;
 			player.InventoryPanel.CreateInventory(renderer, player.inventory);
 			player.InventoryPanel.setDisplayInventory(true);
 		}
@@ -290,13 +291,12 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 		for (int x = -1; x <= 1; x++)
 			for (int y = -1; y <= 1; y++)
 			{
-				//level.getCell(player.getCellX() + x, player.getCellY() + y)->isWood = true;
 				if (level.getCell(player.getCellX() + x, player.getCellY() + y)->isTree)
 				{
 					//dump celldata of where the player has changed the cell
 					level.getCell(player.getCellX() + x, player.getCellY() + y)->isTree = false;
 					level.getCell(player.getCellX() + x, player.getCellY() + y)->isDirt = true;
-					//level.getCell(player.getCellX() + x, player.getCellY() + y)->isWalkable = true;
+					level.getCell(player.getCellX() + x, player.getCellY() + y)->isWalkable = true;
 					std::string seralisedData = level.getCell(player.getCellX() + x, player.getCellY() + y)->getCellData().dump();
 					std::cout << seralisedData << std::endl;
 					if (gameSettings.useNetworking)
@@ -313,6 +313,22 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 
 				}
 			}
+	}
+	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isPICKAXE)
+	{
+		for (int x = -1; x <= 1; x++)
+			for (int y = -1; y <= 1; y++)
+				if (level.getCell(player.getCellX(), player.getCellY())->isRock)
+					{
+						level.getCell(player.getCellX(), player.getCellY())->isRock = false;
+
+						for (int i = 0; i < gameSettings.amountOfStoneInRocks; i++)
+						{
+							Item stone;
+							stone.type.Resource = Item::ItemType::isSTONE;
+							player.inventory.add(stone);
+						}
+					}
 	}
 	// HOE
 	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isHOE)
@@ -398,13 +414,5 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 		}
 
 	}
-	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isPICKAXE)
-	{
-		if (level.getCell(player.getCellX(), player.getCellY())->isRock)
-		{
-			level.getCell(player.getCellX(), player.getCellY())->isRock = false;
-		}
-		
-		//toolbar.getSelectedItem().type.Tool = Item::ItemType::noTool;
-	}
+	
 }

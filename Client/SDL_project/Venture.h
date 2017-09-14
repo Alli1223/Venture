@@ -77,6 +77,7 @@ private:
 	SDL_GLContext glContext;
 
 	Texture backgroundTexture;
+	Texture mousePointer;
 
 	//! Some colours for text output
 	SDL_Color White = { 255, 255, 255 };

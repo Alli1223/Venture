@@ -239,10 +239,11 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 				// Create a new cell to replace the old one
 				Cell nc;
 				nc.setPos(x, y);
-				nc.isWoodFence = isFence;
-				nc.isDirt = isDirt;
-				nc.isWheat = isWheat;
-				nc.isWood = isWood;
+				nc.isWoodFence = element.at("Fence").get<bool>();
+				nc.isDirt = element.at("Dirt").get<bool>();
+				nc.isWheat = element.at("Wheat").get<bool>();
+				nc.isWood = element.at("Wood").get<bool>();
+				nc.isStone = element.at("Stone").get<bool>();
 				nc.seedsStage = (Cell::seedsGrowthStage)plantGrowthStage;
 				level.SetCell(x, y, nc);
 				cellsUpdated++;

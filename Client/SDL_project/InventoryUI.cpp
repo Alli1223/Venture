@@ -2,7 +2,7 @@
 #include "InventoryUI.h"
 
 
-InventoryUI::InventoryUI() : backgroundTexture("Resources\\Sprites\\Toolbar\\InventoryBackground.png")
+InventoryUI::InventoryUI() : backgroundTexture("Resources\\Sprites\\Toolbar\\InventoryBackground.png"), selectionTexture("Resources\\Sprites\\Toolbar\\InventoryBackground.png")
 {
 }
 
@@ -13,8 +13,12 @@ InventoryUI::~InventoryUI()
 
 void InventoryUI::RenderInventory(SDL_Renderer* renderer, Inventory& inventory)
 {
+	int mX, mY = 0;
 	if (displayInventory)
 	{
+		if (SDL_GetMouseState(&mX, &mY))
+		{
+		}
 		if (numOfInventoryIcons != inventory.getCurrentSize())
 		{
 			inventoryIcons.erase(inventoryIcons.begin(), inventoryIcons.end());
@@ -27,9 +31,19 @@ void InventoryUI::RenderInventory(SDL_Renderer* renderer, Inventory& inventory)
 			backgroundTexture.render(renderer, getX(), getY(), getWidth(), getHeight());
 			
 		}
+		// Render icons then selection texture over
 		for each (auto &icon in inventoryIcons)
+		{
 			icon->RenderIcon(renderer);
-
+			if (mX > icon->getX() - (icon->getWidth() / 2) && mX < icon->getX() + (icon->getWidth() / 2))
+				if (mY > icon->getY() - (icon->getHeight() / 2) && mY < icon->getY() + (icon->getHeight() / 2))
+				{
+					selectionTexture.alterTextureColour(selectionColour.r, selectionColour.g, selectionColour.b);
+					selectionTexture.alterTransparency(150);
+					selectionTexture.render(renderer, icon->getX(), icon->getY(), icon->getWidth(), icon->getHeight());
+				}
+			
+		}
 	}
 }
 void InventoryUI::CreateInventory(SDL_Renderer* renderer, Inventory& inventory)
