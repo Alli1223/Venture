@@ -22,6 +22,7 @@
 #include "TextUI.h"
 #include "Menu.h"
 #include "InventoryUI.h"
+#include "CraftingUI.h"
 
 
 //! The main class

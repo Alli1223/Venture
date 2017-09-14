@@ -1,6 +1,7 @@
 #pragma once
 #include "GUI.h"
 #include "TextUI.h"
+#include "Icon.h"
 class Button : public GUI
 {
 public:
@@ -21,7 +22,10 @@ public:
 	//! If the button has been pressed
 	bool isPressed();
 
+	Icon buttonIcon;
+
 private:
+	
 	//! Buttons text
 	std::string text;
 	float timeButtonWasPressed = 0;

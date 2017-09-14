@@ -8,6 +8,7 @@ Button::Button(std::string newText) : buttonText("Ostrich"), text(newText), butt
 
 Button::~Button()
 {
+	
 }
 bool Button::isPressed()
 {
@@ -23,6 +24,7 @@ bool Button::isPressed()
 
 void Button::render(SDL_Renderer* renderer, int x, int y, int width, int height)
 {
+	
 	// Set object variables
 	SDL_GetMouseState(&tx, &ty);
 	if (SDL_GetTicks() / 1000.0 > timeButtonWasPressed + buttonTimeout)
@@ -48,6 +50,12 @@ void Button::render(SDL_Renderer* renderer, int x, int y, int width, int height)
 		
 	//Render background
 	buttonBackground.render(renderer, getX(), getY(), getWidth(), getHeight());
+	
+	buttonIcon.setX(getX());
+	buttonIcon.setY(getY());
+	buttonIcon.setHeight(getHeight());
+	buttonIcon.setWidth(getWidth());
+	buttonIcon.RenderIcon(renderer);
 
 	// If the button has text, render it in the center of the button
 	if (text.size() > 0)

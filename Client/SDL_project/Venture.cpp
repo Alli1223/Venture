@@ -225,14 +225,11 @@ void Venture::run()
 	player.InventoryPanel.CreateInventory(renderer, player.inventory);
 	player.InventoryPanel.setDisplayInventory(false);
 	
-
-	player.CraftingPanel.setX(gameSettings.WINDOW_WIDTH / 4);
-	player.CraftingPanel.setY(gameSettings.WINDOW_HEIGHT / 2);
-	player.CraftingPanel.setHeight(gameSettings.WINDOW_HEIGHT - gameSettings.WINDOW_HEIGHT / 4);
-	player.CraftingPanel.setWidth(gameSettings.WINDOW_WIDTH / 3);
-	player.CraftingPanel.setIconSize(gameSettings.WINDOW_WIDTH / 25);
-	player.CraftingPanel.setDisplayInventory(false);
-	player.CraftingPanel.CreateInventory(renderer, player.inventory);
+	player.craftingUI.setX(gameSettings.WINDOW_WIDTH / 4);
+	player.craftingUI.setY(gameSettings.WINDOW_HEIGHT / 2);
+	player.craftingUI.setHeight(gameSettings.WINDOW_HEIGHT - gameSettings.WINDOW_HEIGHT / 4);
+	player.craftingUI.setWidth(gameSettings.WINDOW_WIDTH / 3);
+	player.craftingUI.setIconSize(gameSettings.WINDOW_WIDTH / 25);
 	
 	
 	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
@@ -275,9 +272,8 @@ void Venture::run()
 
 		player.InventoryPanel.RenderInventory(renderer, player.inventory);
 		
-		player.CraftingPanel.RenderInventory(renderer, player.inventory);
 		toolbar.UpdateAndRenderToolbar(renderer, player, gameSettings);
-
+		player.craftingUI.renderCraftingMenu(renderer);
 		//+(menuCursorSize / 2)
 		if (gameSettings.displayMouse)
 			mousePointer.render(renderer, mouseX + (gameSettings.mousePointerSize / 2), mouseY + (gameSettings.mousePointerSize / 2), gameSettings.mousePointerSize, gameSettings.mousePointerSize);
