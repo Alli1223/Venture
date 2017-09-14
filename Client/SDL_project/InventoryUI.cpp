@@ -41,6 +41,10 @@ void InventoryUI::RenderInventory(SDL_Renderer* renderer, Inventory& inventory)
 					selectionTexture.alterTextureColour(selectionColour.r, selectionColour.g, selectionColour.b);
 					selectionTexture.alterTransparency(150);
 					selectionTexture.render(renderer, icon->getX(), icon->getY(), icon->getWidth(), icon->getHeight());
+					if (SDL_GetMouseState(&mX, &mY) & SDL_BUTTON(SDL_BUTTON_LEFT))
+					{
+
+					}
 				}
 			
 		}

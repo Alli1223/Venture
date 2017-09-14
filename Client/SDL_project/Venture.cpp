@@ -140,9 +140,6 @@ void Venture::run()
 {
 	// Run the main menu
 	menu.MainMenu(gameSettings, camera, player, renderer);
-	if (SDL_GetMouseState(&mouseX, &mouseY))
-	{
-	}
 	// Add starting items
 	Item hoe;
 	hoe.type.Tool = Item::ItemType::isHOE;
@@ -229,22 +226,22 @@ void Venture::run()
 	player.InventoryPanel.setDisplayInventory(false);
 	
 
-	player.ItemInventoryPanel.setX(gameSettings.WINDOW_WIDTH / 4);
-	player.ItemInventoryPanel.setY(gameSettings.WINDOW_HEIGHT / 2);
-	player.ItemInventoryPanel.setHeight(gameSettings.WINDOW_HEIGHT - gameSettings.WINDOW_HEIGHT / 4);
-	player.ItemInventoryPanel.setWidth(gameSettings.WINDOW_WIDTH / 3);
-	player.ItemInventoryPanel.setIconSize(gameSettings.WINDOW_WIDTH / 25);
-	player.ItemInventoryPanel.setDisplayInventory(false);
-	player.ItemInventoryPanel.CreateInventory(renderer, player.inventory);
+	player.CraftingPanel.setX(gameSettings.WINDOW_WIDTH / 4);
+	player.CraftingPanel.setY(gameSettings.WINDOW_HEIGHT / 2);
+	player.CraftingPanel.setHeight(gameSettings.WINDOW_HEIGHT - gameSettings.WINDOW_HEIGHT / 4);
+	player.CraftingPanel.setWidth(gameSettings.WINDOW_WIDTH / 3);
+	player.CraftingPanel.setIconSize(gameSettings.WINDOW_WIDTH / 25);
+	player.CraftingPanel.setDisplayInventory(false);
+	player.CraftingPanel.CreateInventory(renderer, player.inventory);
 	
 	
 	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
 	while (gameSettings.running)
 	{
 		
-		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_RIGHT))
+		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
 		{
-			
+			//level.getCell(mouseX / level.getCellSize() , mouseY / level.getCellSize())->isWood = true;
 		}
 		// Do all the networking
 		if (gameSettings.useNetworking)
@@ -278,7 +275,7 @@ void Venture::run()
 
 		player.InventoryPanel.RenderInventory(renderer, player.inventory);
 		
-		player.ItemInventoryPanel.RenderInventory(renderer, player.inventory);
+		player.CraftingPanel.RenderInventory(renderer, player.inventory);
 		toolbar.UpdateAndRenderToolbar(renderer, player, gameSettings);
 
 		//+(menuCursorSize / 2)

@@ -244,6 +244,7 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 				nc.isWheat = element.at("Wheat").get<bool>();
 				nc.isWood = element.at("Wood").get<bool>();
 				nc.isStone = element.at("Stone").get<bool>();
+				nc.isStoneWall = element.at("StoneWall").get<bool>();
 				nc.seedsStage = (Cell::seedsGrowthStage)plantGrowthStage;
 				level.SetCell(x, y, nc);
 				cellsUpdated++;

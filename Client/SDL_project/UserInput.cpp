@@ -2,8 +2,9 @@
 #include "UserInput.h"
 
 
-UserInput::UserInput()
+UserInput::UserInput(): PlaceItemTexture("Resources\\Sprites\\Menu\\Background.png")
 {
+
 }
 
 
@@ -222,7 +223,7 @@ void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& pl
 	// Use Action
 	if (state[SDL_SCANCODE_F])
 	{
-		UseItemFromToolbar(toolbar, player, level, networkManager, gameSettings);
+		UseItemFromToolbar(player.getCellX(), player.getCellY(), toolbar, player, level, networkManager, gameSettings);
 	}
 	if (state[SDL_SCANCODE_M])
 	{
@@ -231,21 +232,26 @@ void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& pl
 	}
 	if (state[SDL_SCANCODE_I])
 	{
+		if (SDL_GetTicks() / 1000.0 > inventoryTimeout + 100)
+		{
+			inventoryTimeout = SDL_GetTicks() / 1000.0;
+			
+		}
+		// Close panel
 		if (player.InventoryPanel.getDispalayInventory())
 		{
 			gameSettings.displayMouse = false;
 			player.InventoryPanel.setDisplayInventory(false);
 			player.InventoryPanel.getInventoryIcons().erase(player.InventoryPanel.getInventoryIcons().begin(), player.InventoryPanel.getInventoryIcons().end());
 		}
+		//Open Panel
 		else
 		{
 			gameSettings.displayMouse = true;
 			player.InventoryPanel.CreateInventory(renderer, player.inventory);
 			player.InventoryPanel.setDisplayInventory(true);
 		}
-			
 	}
-
 	
 }
 
@@ -283,7 +289,7 @@ void UserInput::ChangeCellsAroundPoint(Level& level, glm::vec2 point, int dist, 
 	*/
 }
 
-void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings)
+void UserInput::UseItemFromToolbar(int xPos, int yPos, ToolBar& toolbar, Player& player, Level& level, NetworkManager& networkManager, GameSettings& gameSettings)
 {
 	// AXE
 	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isWOODAXE)
@@ -291,13 +297,13 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 		for (int x = -1; x <= 1; x++)
 			for (int y = -1; y <= 1; y++)
 			{
-				if (level.getCell(player.getCellX() + x, player.getCellY() + y)->isTree)
+				if (level.getCell(xPos + x, yPos + y)->isTree)
 				{
 					//dump celldata of where the player has changed the cell
-					level.getCell(player.getCellX() + x, player.getCellY() + y)->isTree = false;
-					level.getCell(player.getCellX() + x, player.getCellY() + y)->isDirt = true;
-					level.getCell(player.getCellX() + x, player.getCellY() + y)->isWalkable = true;
-					std::string seralisedData = level.getCell(player.getCellX() + x, player.getCellY() + y)->getCellData().dump();
+					level.getCell(xPos + x, yPos + y)->isTree = false;
+					level.getCell(xPos + x, yPos + y)->isDirt = true;
+					level.getCell(xPos + x, yPos + y)->isWalkable = true;
+					std::string seralisedData = level.getCell(xPos + x, yPos + y)->getCellData().dump();
 					std::cout << seralisedData << std::endl;
 					if (gameSettings.useNetworking)
 						networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
@@ -318,9 +324,9 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 	{
 		for (int x = -1; x <= 1; x++)
 			for (int y = -1; y <= 1; y++)
-				if (level.getCell(player.getCellX(), player.getCellY())->isRock)
+				if (level.getCell(xPos, yPos)->isRock)
 					{
-						level.getCell(player.getCellX(), player.getCellY())->isRock = false;
+						level.getCell(xPos, player.getCellY())->isRock = false;
 
 						for (int i = 0; i < gameSettings.amountOfStoneInRocks; i++)
 						{
@@ -333,11 +339,12 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 	// HOE
 	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isHOE)
 	{
-		if (!level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isDirt)
+		//level.getCell(xPos + x, yPos + y)->isTree = false;
+		if (level.getCell(xPos, yPos)->isDirt == false)
 		{
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isDirt = true;
+			level.getCell(xPos, yPos)->isDirt = true;
 			//dump celldata of where the player has changed the cell
-			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->getCellData().dump();
+			std::string seralisedData = level.getCell(xPos, yPos)->getCellData().dump();
 			std::cout << seralisedData << std::endl;
 			if (gameSettings.useNetworking)
 				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
@@ -346,18 +353,18 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 	// SCYTHE
 	if (toolbar.getSelectedItem().type.Tool == Item::ItemType::isSCYTHE)
 	{
-		if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWheat)
+		if (level.getCell(xPos, yPos)->isWheat)
 		{
-			if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->seedsStage == Cell::seedsGrowthStage::PlantStageFour)
+			if (level.getCell(xPos, yPos)->seedsStage == Cell::seedsGrowthStage::PlantStageFour)
 			{
 				Item wheat;
 				wheat.type.Food = Item::ItemType::isWHEAT;
 				player.inventory.add(wheat);
 			}
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWheat = false;
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->seedsStage = Cell::seedsGrowthStage::PlantStageZero;
+			level.getCell(xPos, yPos)->isWheat = false;
+			level.getCell(xPos, yPos)->seedsStage = Cell::seedsGrowthStage::PlantStageZero;
 			//dump celldata of where the player has changed the cell
-			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->getCellData().dump();
+			std::string seralisedData = level.getCell(xPos, yPos)->getCellData().dump();
 			std::cout << seralisedData << std::endl;
 			if (gameSettings.useNetworking)
 				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
@@ -366,12 +373,12 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 	// Wheat SEEDS
 	if (toolbar.getSelectedItem().type.Food == Item::ItemType::isSEEDS)
 	{
-		if (level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isDirt && !level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWheat)
+		if (level.getCell(xPos, yPos)->isDirt && !level.getCell(xPos, yPos)->isWheat)
 		{
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->isWheat = true;
-			level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->seedsStage = Cell::seedsGrowthStage::PlantStageOne;
+			level.getCell(xPos, yPos)->isWheat = true;
+			level.getCell(xPos, yPos)->seedsStage = Cell::seedsGrowthStage::PlantStageOne;
 			//dump celldata of where the player has changed the cell
-			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->getCellData().dump();
+			std::string seralisedData = level.getCell(xPos, yPos)->getCellData().dump();
 			std::cout << seralisedData << std::endl;
 			if (gameSettings.useNetworking)
 				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
@@ -407,12 +414,25 @@ void UserInput::UseItemFromToolbar(ToolBar& toolbar, Player& player, Level& leve
 			
 			player.inventory.remove(toolbar.getToolbarSelection());
 			toolbar.removeToolbarItem(toolbar.getToolbarSelection());
-			std::string seralisedData = level.World[playerChunkPos.x][playerChunkPos.y].tiles[playercellPos.x][playercellPos.y]->getCellData().dump();
+			std::string seralisedData = level.getCell(xPos, yPos)->getCellData().dump();
 			std::cout << seralisedData << std::endl;
 			if (gameSettings.useNetworking)
 				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
 		}
+	}
+	if (toolbar.getSelectedItem().type.Resource == Item::ItemType::isSTONEWALL)
+	{
+		if (level.getCell(player.getCellX(), player.getCellY())->isStoneWall == false)
+		{
+			level.getCell(player.getCellX(), player.getCellY())->isStoneWall = true;
 
+			player.inventory.remove(toolbar.getToolbarSelection());
+			toolbar.removeToolbarItem(toolbar.getToolbarSelection());
+			std::string seralisedData = level.getCell(xPos, yPos)->getCellData().dump();
+			std::cout << seralisedData << std::endl;
+			if (gameSettings.useNetworking)
+				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
+		}
 	}
 	
 }

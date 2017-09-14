@@ -22,7 +22,7 @@ public:
 	//! Player clothes
 	Clothing PlayerClothes;
 	InventoryUI InventoryPanel;
-	InventoryUI ItemInventoryPanel;
+	
 
 	Animation getWalkAnimation() { return walkHorizontalAnimation; }
 	SDL_Color gethairColour() { return hairColour; }

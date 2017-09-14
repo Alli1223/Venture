@@ -17,7 +17,9 @@ public:
 		{
 			noResource,
 			isWOOD,
-			isSTONE
+			isSTONE,
+			isSTONEWALL,
+			isWOODFENCE
 		} Resource;
 		enum Food
 		{

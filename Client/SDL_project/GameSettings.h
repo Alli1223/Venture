@@ -26,6 +26,8 @@ public:
 	bool displayMouse = false;
 	int mousePointerSize = 25;
 
+	glm::vec2 mouseCellPos;
+
 	//! Whether the game uses networking and false if singleplayer
 	bool useNetworking = true;
 
