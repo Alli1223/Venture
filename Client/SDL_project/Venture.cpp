@@ -276,7 +276,7 @@ void Venture::run()
 		player.InventoryPanel.RenderInventory(renderer, player.inventory);
 		
 		toolbar.UpdateAndRenderToolbar(renderer, player, gameSettings);
-		player.craftingUI.renderCraftingMenu(renderer);
+		player.craftingUI.renderCraftingMenu(renderer, player.inventory);
 
 		if (gameSettings.displayMouse)
 			mousePointer.render(renderer, mouseX + (gameSettings.mousePointerSize / 2), mouseY + (gameSettings.mousePointerSize / 2), gameSettings.mousePointerSize, gameSettings.mousePointerSize);

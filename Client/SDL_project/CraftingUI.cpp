@@ -25,7 +25,7 @@ CraftingUI::~CraftingUI()
 {
 }
 
-void CraftingUI::renderCraftingMenu(SDL_Renderer* renderer)
+void CraftingUI::renderCraftingMenu(SDL_Renderer* renderer, Inventory& playerInventory)
 {
 	if (displayCrafing)
 	{
@@ -66,7 +66,13 @@ void CraftingUI::renderCraftingMenu(SDL_Renderer* renderer)
 				button->buttonIcon.renderBackground = false;
 				button->setMouseOverIncreaseSize(false);
 				button->render(renderer, button->getX(), button->getY(), button->getWidth(), button->getHeight());
+
+				if (button->isPressed())
+				{
+					//button->buttonIcon.getIconItem().type
+				}
 			}
+			
 		}
 	}
 }
