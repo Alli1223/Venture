@@ -45,6 +45,7 @@ public:
 	
 	ItemType type;
 	bool isInInventory = false;
+	bool isPlaceable = false;
 private:
 	int itemHealth = 100;
 };

@@ -78,20 +78,22 @@ void CraftingUI::renderCraftingMenu(SDL_Renderer* renderer, Inventory& playerInv
 		}
 	}
 }
+
 void CraftingUI::CraftingButtonFunctionality(Button& button, Inventory& playerInventory)
 {
-
 	if(button.getButtonIconItem().type.Resource == Item::ItemType::isWOODFENCE)
 	{
 		for (int i = 0; i < playerInventory.getCurrentSize(); i++)
 		{
+			// IF the player has some of the resource create the item
 			if (playerInventory.get(i).type.Resource == Item::ItemType::isWOOD)
 			{
 				Item fence;
 				fence.type.Resource = Item::ItemType::isWOODFENCE;
 				playerInventory.remove(i);
-				playerInventory.add(fence);
-				playerInventory.add(fence);
+				for(int j = 0; j < numberOfFencesCreatedFromOneResource; j++)
+					playerInventory.add(fence);
+				
 				break;
 			}
 		}

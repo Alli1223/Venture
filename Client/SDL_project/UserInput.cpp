@@ -220,11 +220,27 @@ void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& pl
 	if (state[SDL_SCANCODE_F9])
 		level.setTimeOfDay(7.0);
 
-	// Use Action
 	if (state[SDL_SCANCODE_F])
 	{
-		UseItemFromToolbar(player.getCellX(), player.getCellY(), toolbar, player, level, networkManager, gameSettings, renderer);
+		//UseItemFromToolbar(player.getCellX(), player.getCellY(), toolbar, player, level, networkManager, gameSettings, renderer);
 	}
+	// Use Action
+	if (toolbar.getSelectedItem().type.Resource != Item::ItemType::noResource)
+	{
+			//UseItemFromToolbar(player.getCellX(), player.getCellY(), toolbar, player, level, networkManager, gameSettings, renderer);
+		int mouseX, mouseY = 0;
+		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
+		{
+			UseItemFromToolbar(gameSettings.mouseCellPos.x, gameSettings.mouseCellPos.y, toolbar, player, level, networkManager, gameSettings, renderer);
+		}
+		PlaceItemTexture.render(renderer, mouseX, mouseY, level.getCellSize(), level.getCellSize());
+		gameSettings.displayMouse = true;
+	}
+	else
+	{
+		gameSettings.displayMouse = false;
+	}
+
 	if (state[SDL_SCANCODE_M])
 	{
 		if(gameSettings.useNetworking)
@@ -422,9 +438,9 @@ void UserInput::UseItemFromToolbar(int xPos, int yPos, ToolBar& toolbar, Player&
 	if (toolbar.getSelectedItem().type.Resource == Item::ItemType::isWOOD)
 	{
 		PlaceItemTexture.render(renderer, gameSettings.mouseCellPos.x, gameSettings.mouseCellPos.y, level.getCellSize(), level.getCellSize());
-		if (level.getCell(player.getCellX(), player.getCellY())->isWood == false)
+		if (level.getCell(xPos, yPos)->isWood == false)
 		{
-			level.getCell(player.getCellX(), player.getCellY())->isWood = true;
+			level.getCell(xPos, yPos)->isWood = true;
 			
 			player.inventory.remove(toolbar.getToolbarSelection());
 			toolbar.removeToolbarItem(toolbar.getToolbarSelection());
@@ -436,9 +452,9 @@ void UserInput::UseItemFromToolbar(int xPos, int yPos, ToolBar& toolbar, Player&
 	}
 	if (toolbar.getSelectedItem().type.Resource == Item::ItemType::isSTONEWALL)
 	{
-		if (level.getCell(player.getCellX(), player.getCellY())->isStoneWall == false)
+		if (level.getCell(xPos, yPos)->isStoneWall == false)
 		{
-			level.getCell(player.getCellX(), player.getCellY())->isStoneWall = true;
+			level.getCell(xPos, yPos)->isStoneWall = true;
 
 			player.inventory.remove(toolbar.getToolbarSelection());
 			toolbar.removeToolbarItem(toolbar.getToolbarSelection());
@@ -450,9 +466,9 @@ void UserInput::UseItemFromToolbar(int xPos, int yPos, ToolBar& toolbar, Player&
 	}
 	if (toolbar.getSelectedItem().type.Resource == Item::ItemType::isWOODFENCE)
 	{
-		if (level.getCell(player.getCellX(), player.getCellY())->isWoodFence == false)
+		if (level.getCell(xPos, yPos)->isWoodFence == false)
 		{
-			level.getCell(player.getCellX(), player.getCellY())->isWoodFence = true;
+			level.getCell(xPos, yPos)->isWoodFence = true;
 
 			player.inventory.remove(toolbar.getToolbarSelection());
 			toolbar.removeToolbarItem(toolbar.getToolbarSelection());
