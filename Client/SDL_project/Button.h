@@ -22,10 +22,13 @@ public:
 	//! If the button has been pressed
 	bool isPressed();
 
-	Icon buttonIcon;
+	Icon getIconItem() { return buttonIcon; }
+	Icon setIconItem(Icon newIcon) { return buttonIcon = newIcon; }
+	Item setButtonIconItem(Item newItem) { return buttonIcon.setIconItem(newItem); }
+	Item getButtonIconItem() { return buttonIcon.getIconItem(); }
 
 private:
-	
+	Icon buttonIcon;
 	//! Buttons text
 	std::string text;
 	float timeButtonWasPressed = 0;

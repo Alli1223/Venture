@@ -48,7 +48,8 @@ void CraftingUI::renderCraftingMenu(SDL_Renderer* renderer, Inventory& playerInv
 
 				Button button("");
 				auto sharedButton = std::make_shared<Button>(button);
-				sharedButton->buttonIcon.setIconItem(CraftingInventoryList.get(i));
+				sharedButton->setButtonIconItem(CraftingInventoryList.get(i));
+				//sharedButton->buttonIcon.setIconItem(CraftingInventoryList.get(i));
 				sharedButton->setX(x);
 				sharedButton->setY(y);
 				sharedButton->setWidth(craftingIconSize);
@@ -63,16 +64,37 @@ void CraftingUI::renderCraftingMenu(SDL_Renderer* renderer, Inventory& playerInv
 
 			for each (auto &button in CraftingButtons)
 			{
-				button->buttonIcon.renderBackground = false;
+				
+				//button->getIconItem.renderBackground = true;
 				button->setMouseOverIncreaseSize(false);
 				button->render(renderer, button->getX(), button->getY(), button->getWidth(), button->getHeight());
 
 				if (button->isPressed())
 				{
-					//button->buttonIcon.getIconItem().type
+					CraftingButtonFunctionality(*button, playerInventory);
 				}
 			}
 			
 		}
+	}
+}
+void CraftingUI::CraftingButtonFunctionality(Button& button, Inventory& playerInventory)
+{
+
+	if(button.getButtonIconItem().type.Resource == Item::ItemType::isWOODFENCE)
+	{
+		for (int i = 0; i < playerInventory.getCurrentSize(); i++)
+		{
+			if (playerInventory.get(i).type.Resource == Item::ItemType::isWOOD)
+			{
+				Item fence;
+				fence.type.Resource = Item::ItemType::isWOODFENCE;
+				playerInventory.remove(i);
+				playerInventory.add(fence);
+				playerInventory.add(fence);
+				break;
+			}
+		}
+
 	}
 }

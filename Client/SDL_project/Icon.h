@@ -15,7 +15,7 @@ public:
 
 	bool renderBackground = false;
 
-	Item& getIconItem() { return iconItem; }
+	Item getIconItem() { return iconItem; }
 	Item setIconItem(Item newIcon) { return iconItem = newIcon; }
 	
 private:

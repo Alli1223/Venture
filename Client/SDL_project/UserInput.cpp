@@ -448,5 +448,19 @@ void UserInput::UseItemFromToolbar(int xPos, int yPos, ToolBar& toolbar, Player&
 				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
 		}
 	}
+	if (toolbar.getSelectedItem().type.Resource == Item::ItemType::isWOODFENCE)
+	{
+		if (level.getCell(player.getCellX(), player.getCellY())->isWoodFence == false)
+		{
+			level.getCell(player.getCellX(), player.getCellY())->isWoodFence = true;
+
+			player.inventory.remove(toolbar.getToolbarSelection());
+			toolbar.removeToolbarItem(toolbar.getToolbarSelection());
+			std::string seralisedData = level.getCell(xPos, yPos)->getCellData().dump();
+			std::cout << seralisedData << std::endl;
+			if (gameSettings.useNetworking)
+				networkManager.sendTCPMessage("[CellData]" + seralisedData + "\n");
+		}
+	}
 	
 }

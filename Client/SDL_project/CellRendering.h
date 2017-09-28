@@ -11,7 +11,7 @@ public:
 	CellRendering();
 	~CellRendering();
 
-	void RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, Player& player, std::vector<Agent>& allAgents, std::vector<std::shared_ptr<Player>> allPlayers);
+	void RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, Player& player, std::vector<Agent>& allAgents, std::vector<std::shared_ptr<Player>>& allPlayers);
 
 	void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Chunk& chunk, SDL_Renderer* renderer);
 

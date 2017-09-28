@@ -12,6 +12,7 @@ public:
 	int getIconSize() { return craftingIconSize; }
 	int setIconSize(int newSize) { return craftingIconSize = newSize; }
 	void renderCraftingMenu(SDL_Renderer* renderer, Inventory& playerInventory);
+	void CraftingButtonFunctionality(Button& button, Inventory& playerInventory);
 	bool getDispalayCrafting() { return displayCrafing; }
 	bool setDisplayCrafting(bool newIn) { return displayCrafing = newIn; }
 private:
