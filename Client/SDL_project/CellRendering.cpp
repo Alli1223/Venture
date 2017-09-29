@@ -248,8 +248,8 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 		else if (tree.isPine)
 			PineTreeTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
 	}
-
-	healthBarTexture.render(renderer, player.placeItemPos.x * level.getCellSize() - camera.getX(), player.placeItemPos.y * level.getCellSize() - camera.getY(), level.getCellSize(), level.getCellSize());
+	hungerBarTexture.alterTransparency(100);
+	hungerBarTexture.render(renderer, player.placeItemPos.x * level.getCellSize() + (level.getCellSize() / 2) - camera.getX() , player.placeItemPos.y * level.getCellSize() + (level.getCellSize() / 2) - camera.getY(), level.getCellSize(), level.getCellSize());
 	
 	// Erase the trees after rendering them
 	treesBelow.erase(treesBelow.begin(), treesBelow.end());

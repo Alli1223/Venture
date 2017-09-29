@@ -32,6 +32,8 @@ void InventoryUI::RenderInventory(SDL_Renderer* renderer, Inventory& inventory)
 			
 		}
 		// Render icons then selection texture over
+		const Uint8 *state = SDL_GetKeyboardState(NULL);
+
 		for each (auto &icon in inventoryIcons)
 		{
 			icon->RenderIcon(renderer);
@@ -41,9 +43,12 @@ void InventoryUI::RenderInventory(SDL_Renderer* renderer, Inventory& inventory)
 					selectionTexture.alterTextureColour(selectionColour.r, selectionColour.g, selectionColour.b);
 					selectionTexture.alterTransparency(150);
 					selectionTexture.render(renderer, icon->getX(), icon->getY(), icon->getWidth(), icon->getHeight());
-					if (SDL_GetMouseState(&mX, &mY) & SDL_BUTTON(SDL_BUTTON_LEFT))
+
+					// IF selected
+					if (SDL_GetMouseState(&mX, &mY) & SDL_BUTTON(SDL_BUTTON_LEFT) && state[SDL_SCANCODE_LSHIFT])
 					{
 
+			
 					}
 				}
 			

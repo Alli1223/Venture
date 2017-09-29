@@ -5,9 +5,13 @@
 class InventoryUI : public GUI
 {
 public:
+	//! Constructor
 	InventoryUI();
+	//! Destructor
 	~InventoryUI();
+	//! Render the inventory
 	void RenderInventory(SDL_Renderer* renderer, Inventory& inventory);
+	//! Create the inventory 
 	void CreateInventory(SDL_Renderer* renderer, Inventory& inventory);
 	int getIconSize() { return iconSize; }
 	int setIconSize(int newSize) { return iconSize = newSize; }
