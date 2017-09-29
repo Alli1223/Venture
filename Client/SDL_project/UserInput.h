@@ -23,7 +23,6 @@ public:
 	void ChangeCellsAroundPoint(Level& level, glm::vec2 point, int dist, std::string type);
 private:
 	float inventoryTimeout = 0;
-	Texture PlaceItemTexture;
 	glm::vec2 playerChunkPos;
 	glm::vec2 playercellPos;
 	glm::vec2 InterDir;

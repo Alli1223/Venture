@@ -18,6 +18,7 @@ public:
 	
 	glm::vec2 renderOffset;
 	glm::vec2 screenCenter;
+	glm::vec2 placeItemPos;
 	int xOffset, yOffset;
 
 	//! Player clothes

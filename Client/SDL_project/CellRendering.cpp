@@ -206,7 +206,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 
 
 //! Renders the chunks of cells
-void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, Player& player, std::vector<Agent>& allAgents, std::vector<std::shared_ptr<Player>>& allPlayers)
+void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, Player& player, std::vector<std::shared_ptr<Player>>& allPlayers)
 {	
 	// Alter the textures
 	AlterTextures(level);
@@ -217,13 +217,7 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 				RenderChunk(level,camera,player, level.World[i][j], renderer);
 
 
-	//Update and render multi players
-	for each (auto &player in allPlayers)
-	{
-		player->Update(level);
-		player->RenderPlayer(renderer, camera);
-	}
-
+	
 	// Render all the trees above the player
 	for each(auto &tree in treesAbove)
 	{
@@ -237,7 +231,12 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 
 	// Render the player
 	player.RenderPlayer(renderer, camera);
-	
+	//Update and render multi players
+	for each (auto &player in allPlayers)
+	{
+		player->Update(level);
+		player->RenderPlayer(renderer, camera);
+	}
 
 	// Render the trees below last
 	for each(auto &tree in treesBelow)
@@ -249,6 +248,8 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 		else if (tree.isPine)
 			PineTreeTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
 	}
+
+	healthBarTexture.render(renderer, player.placeItemPos.x * level.getCellSize() - camera.getX(), player.placeItemPos.y * level.getCellSize() - camera.getY(), level.getCellSize(), level.getCellSize());
 	
 	// Erase the trees after rendering them
 	treesBelow.erase(treesBelow.begin(), treesBelow.end());

@@ -34,6 +34,8 @@ public:
 	//! Lerp to target
 	void Camera::Lerp_To(glm::vec2 target, float increment);
 
+	
+
 	static Camera CameraControl;
 
 private:

@@ -267,11 +267,9 @@ void Venture::run()
 		// Update the position of the player
 		player.Update(level);
 
-		// update other characters positions OLD CODE
-		//agentManager.UpdateAgents(agentManager.allAgents, renderer, level, camera);
 
 		// Renders all the cells and players
-		cellrenderer.RenderObjects(level, renderer, camera, player, agentManager.allAgents, networkManager.allPlayers);
+		cellrenderer.RenderObjects(level, renderer, camera, player, networkManager.allPlayers);
 
 		player.InventoryPanel.RenderInventory(renderer, player.inventory);
 		

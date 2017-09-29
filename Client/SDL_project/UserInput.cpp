@@ -2,7 +2,7 @@
 #include "UserInput.h"
 
 
-UserInput::UserInput(): PlaceItemTexture("Resources\\Sprites\\Menu\\Background.png")
+UserInput::UserInput()
 {
 
 }
@@ -233,13 +233,11 @@ void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& pl
 		{
 			UseItemFromToolbar(gameSettings.mouseCellPos.x, gameSettings.mouseCellPos.y, toolbar, player, level, networkManager, gameSettings, renderer);
 		}
-		PlaceItemTexture.render(renderer, mouseX, mouseY, level.getCellSize(), level.getCellSize());
+		player.placeItemPos.x = gameSettings.mouseCellPos.x;
+		player.placeItemPos.y = gameSettings.mouseCellPos.y;
 		gameSettings.displayMouse = true;
 	}
-	else
-	{
-		gameSettings.displayMouse = false;
-	}
+
 
 	if (state[SDL_SCANCODE_M])
 	{
@@ -437,7 +435,7 @@ void UserInput::UseItemFromToolbar(int xPos, int yPos, ToolBar& toolbar, Player&
 	// Place wood on ground
 	if (toolbar.getSelectedItem().type.Resource == Item::ItemType::isWOOD)
 	{
-		PlaceItemTexture.render(renderer, gameSettings.mouseCellPos.x, gameSettings.mouseCellPos.y, level.getCellSize(), level.getCellSize());
+		//PlaceItemTexture.render(renderer, gameSettings.mouseCellPos.x, gameSettings.mouseCellPos.y, level.getCellSize(), level.getCellSize());
 		if (level.getCell(xPos, yPos)->isWood == false)
 		{
 			level.getCell(xPos, yPos)->isWood = true;
