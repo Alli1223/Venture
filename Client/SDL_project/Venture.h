@@ -79,7 +79,6 @@ private:
 
 	Texture backgroundTexture;
 	Texture mousePointer;
-	TextUI FPSTexture;
 	
 
 	//! Some colours for text output

@@ -14,7 +14,7 @@ public:
 private:
 	//! used to store the objects text and to compare if the text has changed
 	std::string textContent;
-	std::auto_ptr<SDL_Texture> texture(new *SDL_Texture);
+	
 	SDL_Texture* texture;
 	//SDL_Texture* Message;
 	SDL_Rect Message_rect;

@@ -7,32 +7,24 @@ public:
 	GameSettings();
 	~GameSettings();
 
-	std::ofstream playerSave;
-	
+
+	//! initial window settings
+	int WINDOW_WIDTH = 800;
+	int WINDOW_HEIGHT = 600;
 
 	void savePlayerSettings(Player& player);
 	Player getPlayerFromSave();
 
-
+	//! Get screen resolution
+	void getScreenResolution();
 	//! Calculate FPS
 	void CalculateFramesPerSecond();
-	//Set text color as black
-	SDL_Color textColor = { 0, 0, 0, 255 };
-
-
 
 	//Timer used to update the caption
 	Timer fpsTimer;
 	float getAverageFPS() { return avgFPS; }
 
-	//In memory text stream
-	std::stringstream timeText;
 
-
-
-	//! initial window settings
-	int WINDOW_WIDTH = 800;
-	int WINDOW_HEIGHT = 600;
 	int amountOfWoodInTrees = 3;
 	int amountOfStoneInRocks = 3;
 
@@ -43,6 +35,7 @@ public:
 
 	glm::vec2 mouseCellPos;
 
+	//TODO: implement UI scaling
 	float UIScale = 1.0;
 
 	//! Whether the game uses networking and false if singleplayer
@@ -52,8 +45,8 @@ public:
 	bool running = true;
 	//! stores screen resolution
 	SDL_DisplayMode currentDisplay;
-	void getScreenResolution();
-
+	
+	std::ofstream playerSave;
 private:
 	//The frames per second timer
 	//Timer used to calculate the frames per second

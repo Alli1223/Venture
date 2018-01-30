@@ -15,7 +15,7 @@ void TextUI::render(SDL_Renderer* renderer, std::string text, int x, int y, int 
 {
 	if (text != textContent && texture != nullptr)
 	{
-		std::auto_ptr<Object1> obj1(new Object1);
+
 	}
 	if (!texture)
 	{
