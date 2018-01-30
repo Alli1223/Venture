@@ -26,5 +26,7 @@ private:
 	glm::vec2 playerChunkPos;
 	glm::vec2 playercellPos;
 	glm::vec2 InterDir;
+
+	SDL_Joystick *joystick;
 };
 

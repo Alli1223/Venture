@@ -85,8 +85,9 @@ GLuint loadShaders(const std::string& vertex_file_path, const std::string& fragm
 
 Venture::Venture() : backgroundTexture("Resources\\background5.jpg"), mousePointer("Resources\\Sprites\\Menu\\Cursor.png")
 {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0 || SDL_Init(SDL_INIT_TIMER) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO) < 0 || SDL_Init(SDL_INIT_TIMER | SDL_INIT_JOYSTICK) < 0)
 	{
+		std::cout << (stderr, "Couldn't initialize SDL: %s\n", SDL_GetError()) << std::endl;
 		throw InitialisationError("SDL_Init failed");
 	}
 	
@@ -139,7 +140,7 @@ Venture::~Venture()
 void Venture::run()
 {
 	// Run the main menu
-	menu.MainMenu(gameSettings, camera, player, renderer);
+	//menu.MainMenu(gameSettings, camera, player, renderer);
 	// Add starting items
 	Item hoe;
 	hoe.type.Tool = Item::ItemType::isHOE;
@@ -221,7 +222,7 @@ void Venture::run()
 	player.InventoryPanel.setY(gameSettings.WINDOW_HEIGHT / 2);
 	player.InventoryPanel.setHeight(gameSettings.WINDOW_HEIGHT - gameSettings.WINDOW_HEIGHT / 4);
 	player.InventoryPanel.setWidth(gameSettings.WINDOW_WIDTH / 3);
-	player.InventoryPanel.setIconSize(gameSettings.WINDOW_WIDTH / 25);
+	player.InventoryPanel.setIconSize(gameSettings.WINDOW_WIDTH / 50);
 	player.InventoryPanel.CreateInventory(renderer, player.inventory);
 	player.InventoryPanel.setDisplayInventory(false);
 	
@@ -235,7 +236,9 @@ void Venture::run()
 	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
 	while (gameSettings.running)
 	{
-		
+		//TODO: re
+		//gameSettings.getScreenResolution();
+
 		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
 		{
 			//level.getCell(mouseX / level.getCellSize() , mouseY / level.getCellSize())->isWood = true;

@@ -11,6 +11,8 @@ public:
 	~Item();
 	int getItemHealth() { return itemHealth; }
 	int setItemHealth(int newHealth) { return itemHealth = newHealth; }
+	int increaseStack(int amount) { return stack += amount; }
+	int decreaseStack(int amount) { if (stack >= 0){ return stack -= amount; } }
 	typedef struct
 	{
 		enum Resource
@@ -48,5 +50,6 @@ public:
 	bool isPlaceable = false;
 private:
 	int itemHealth = 100;
+	int stack = 0;
 };
 

@@ -4,7 +4,7 @@
 
 UserInput::UserInput()
 {
-
+	
 }
 
 
@@ -43,17 +43,18 @@ bool UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
 void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& player, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, GameSettings& gameSettings, ToolBar& toolbar)
 {
 	int cellSize = level.getCellSize();
+	SDL_JoystickEventState(SDL_ENABLE);
 	SDL_Event ev;
-	if (SDL_PollEvent(&ev) != 0) 
+	while (SDL_PollEvent(&ev))
 	{
-		if (ev.type == SDL_QUIT) 
+		if (ev.type == SDL_QUIT)
 		{
 			gameSettings.running = false;
 		}
 		//Mouse wheel
 		switch (ev.type)
 		{
-		case SDL_MOUSEWHEEL:
+		case SDL_MOUSEWHEEL:  /* Handle Mousewheel Motion */
 			if (ev.wheel.x < 0)
 			{
 				std::cout << "MOUSE : WHEEL LEFT" << std::endl;
@@ -69,6 +70,25 @@ void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& pl
 			else if (ev.wheel.y > 0)
 			{
 				toolbar.setToolbarSelection(toolbar.getToolbarSelection() - 1);
+			}
+			break;
+
+		case SDL_JOYAXISMOTION:  /* Handle Joystick Motion */
+			//std::cout << ev.jaxis.which << std::endl;
+			if (ev.jaxis.axis == 0)
+			{
+				if (ev.jaxis.value < 0)
+					player.setX(player.getX() - player.getSpeed());
+				else if (ev.jaxis.value > 0)
+					player.setX(player.getX() + player.getSpeed());
+			}
+
+			else if (ev.jaxis.axis == 1)
+			{
+				if (ev.jaxis.value < 0)
+					player.setY(player.getY() - player.getSpeed());
+				else if (ev.jaxis.value > 0)
+					player.setY(player.getY() + player.getSpeed());
 			}
 			break;
 		}
