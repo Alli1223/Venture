@@ -43,7 +43,7 @@ bool UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
 void UserInput::HandleUserInput(SDL_Renderer* renderer, Level& level, Player& player, AgentManager& agentManager, NetworkManager& networkManager, Camera& camera, GameSettings& gameSettings, ToolBar& toolbar)
 {
 	int cellSize = level.getCellSize();
-	SDL_JoystickEventState(SDL_ENABLE);
+	//SDL_JoystickEventState(SDL_ENABLE);
 	SDL_Event ev;
 	while (SDL_PollEvent(&ev))
 	{

@@ -4,6 +4,7 @@
 
 GameSettings::GameSettings()
 {
+	//Calculate and correct fps
 }
 
 
@@ -29,6 +30,19 @@ void GameSettings::getScreenResolution()
 	WINDOW_WIDTH = currentDisplay.w;
 
 }
+
+void GameSettings::CalculateFramesPerSecond()
+{
+	avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
+	if (avgFPS > 2000000)
+	{
+		avgFPS = 0;
+	}
+	std::cout << avgFPS << std::endl;
+	countedFrames++;
+
+}
+
 
 //TODO: Create a mapdata json file for singleplayer
 void GameSettings::savePlayerSettings(Player& player)

@@ -112,6 +112,9 @@
     <ClCompile Include="CraftingUI.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h">
@@ -234,6 +237,9 @@
     <ClInclude Include="CraftingUI.h">
       <Filter>Headers\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Headers\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />
@@ -314,6 +320,12 @@
     </Filter>
     <Filter Include="Source Files\Character">
       <UniqueIdentifier>{f75a61e0-c2c9-4131-98b1-e2529cba3128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Tools">
+      <UniqueIdentifier>{6f9eed5a-b514-408f-b34a-8d97b275886b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tools">
+      <UniqueIdentifier>{e4ee06c1-726b-4fc0-a722-004963510a6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

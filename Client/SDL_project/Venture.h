@@ -79,6 +79,8 @@ private:
 
 	Texture backgroundTexture;
 	Texture mousePointer;
+	TextUI FPSTexture;
+	
 
 	//! Some colours for text output
 	SDL_Color White = { 255, 255, 255 };

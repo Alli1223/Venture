@@ -13,31 +13,37 @@ TextUI::~TextUI()
 
 void TextUI::render(SDL_Renderer* renderer, std::string text, int x, int y, int width, int height, SDL_Color Colour)
 {
-	if (!texture || text != textContent)
+	if (text != textContent && texture != nullptr)
 	{
+		std::auto_ptr<Object1> obj1(new Object1);
+	}
+	if (!texture)
+	{
+		
 		textContent = text;
-	
-	TTF_Font* font = TTF_OpenFont("Resources\\Fonts\\OpenSans.ttf", height);
-	if (FontType == "Ostrich")
-	{
-		TTF_Font* font = TTF_OpenFont("Resources\\Fonts\\ostrich.ttf", height);
-	}
-	else if (FontType == "Sans")
-	{
+
 		TTF_Font* font = TTF_OpenFont("Resources\\Fonts\\OpenSans.ttf", height);
-	}
-	else
-	{
-		throw InitialisationError("FontType is not correct, use \"Sans\" as default.");
-	}
-	// Create texture from surface
-	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, text.c_str(), Colour);
-	texture = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-	 //create a rect
-	Message_rect.x = x;  //controls the rect's x coordinate 
-	Message_rect.y = y; // controls the rect's y coordinte
-	Message_rect.w = width; // controls the width of the rect
-	Message_rect.h = height; // controls the height of the rect
+		if (FontType == "Ostrich")
+		{
+			TTF_Font* font = TTF_OpenFont("Resources\\Fonts\\ostrich.ttf", height);
+		}
+		else if (FontType == "Sans")
+		{
+			TTF_Font* font = TTF_OpenFont("Resources\\Fonts\\OpenSans.ttf", height);
+		}
+		//Default to sans
+		else
+		{
+			TTF_Font* font = TTF_OpenFont("Resources\\Fonts\\OpenSans.ttf", height);
+		}
+		// Create texture from surface
+		SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, text.c_str(), Colour);
+		texture = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+		//create a rect
+		Message_rect.x = x;  //controls the rect's x coordinate 
+		Message_rect.y = y; // controls the rect's y coordinte
+		Message_rect.w = width; // controls the width of the rect
+		Message_rect.h = height; // controls the height of the rect
 	}
 	else
 	{

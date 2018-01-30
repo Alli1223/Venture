@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include "Timer.h"
 class GameSettings
 {
 public:
@@ -12,8 +13,22 @@ public:
 	void savePlayerSettings(Player& player);
 	Player getPlayerFromSave();
 
-	//! int that will be used to control movement speed
-	const int FRAME_RATE = 60;
+
+	//! Calculate FPS
+	void CalculateFramesPerSecond();
+	//Set text color as black
+	SDL_Color textColor = { 0, 0, 0, 255 };
+
+
+
+	//Timer used to update the caption
+	Timer fpsTimer;
+	float getAverageFPS() { return avgFPS; }
+
+	//In memory text stream
+	std::stringstream timeText;
+
+
 
 	//! initial window settings
 	int WINDOW_WIDTH = 800;
@@ -38,5 +53,14 @@ public:
 	//! stores screen resolution
 	SDL_DisplayMode currentDisplay;
 	void getScreenResolution();
+
+private:
+	//The frames per second timer
+	//Timer used to calculate the frames per second
+	int frame = 0;
+	//Start counting frames per second
+	int countedFrames = 0;
+	float avgFPS = 0;
+
 };
 

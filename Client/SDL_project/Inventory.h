@@ -20,43 +20,11 @@ public:
 		return false;
 	}
 
-	bool add(const Item::ItemType type)
-	{
-		if (capacity > items.size())
-		{
-			Item item;
-			item.type = type;
-			items.push_back(item);
-			if (isItemTypeInInventory(type))
-			{
-				item.increaseStack(1);
-			}
-			//item.onInsertionFailed() /* A trick I've done in the past to give custom behavior */
-			return true;
-		}
-		return false;
-	}
-
-	int isItemTypeInInventory(Item::ItemType type)
-	{
-		for (int i = 0; i < capacity; i++)
-		{
-			if (items[i].type.Resource == type.Resource)
-				return i;
-			
-			if (items[i].type.Food == type.Food)
-				return i;
-
-			if (items[i].type.Tool == type.Tool)
-				return i;
-		}
-		return false;
-	}
-
 	void removeItemType(const Item::ItemType type)
 	{
 		for (unsigned int i = 0; i < getCurrentSize(); i++)
 		{
+
 				if (items[i].type.Resource == type.Resource)
 				{
 					items[i].type.Resource = Item::ItemType::noResource;
@@ -73,12 +41,9 @@ public:
 					items[i].type.Tool = Item::ItemType::noTool;
 					return;
 				}
+			
 		}
 	}
-
-	
-
-
 	// returns the size of inventory
 	unsigned int getCapacity(void) const
 	{

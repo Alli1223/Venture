@@ -83,7 +83,7 @@ GLuint loadShaders(const std::string& vertex_file_path, const std::string& fragm
 }
 
 
-Venture::Venture() : backgroundTexture("Resources\\background5.jpg"), mousePointer("Resources\\Sprites\\Menu\\Cursor.png")
+Venture::Venture() : backgroundTexture("Resources\\background5.jpg"), mousePointer("Resources\\Sprites\\Menu\\Cursor.png"), FPSTexture("Sans")
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0 || SDL_Init(SDL_INIT_TIMER | SDL_INIT_JOYSTICK) < 0)
 	{
@@ -231,14 +231,17 @@ void Venture::run()
 	player.craftingUI.setHeight(gameSettings.WINDOW_HEIGHT - gameSettings.WINDOW_HEIGHT / 4);
 	player.craftingUI.setWidth(gameSettings.WINDOW_WIDTH / 3);
 	player.craftingUI.setIconSize(gameSettings.WINDOW_WIDTH / 25);
-	
+	gameSettings.fpsTimer.start();
 	
 	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
 	while (gameSettings.running)
 	{
 		//TODO: re
 		//gameSettings.getScreenResolution();
+		
+		gameSettings.CalculateFramesPerSecond();
 
+		player.setSize(level.getCellSize());
 		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
 		{
 			//level.getCell(mouseX / level.getCellSize() , mouseY / level.getCellSize())->isWood = true;
@@ -278,6 +281,11 @@ void Venture::run()
 		
 		toolbar.UpdateAndRenderToolbar(renderer, player, gameSettings);
 		player.craftingUI.renderCraftingMenu(renderer, player.inventory);
+
+		std::ostringstream fpsString;
+		fpsString << gameSettings.getAverageFPS();
+		std::string s = fpsString.str();
+		FPSTexture.render(renderer, s, 100, 100, 100, 100, SDL_Color{ 255,255,255 });
 
 		if (gameSettings.displayMouse)
 			mousePointer.render(renderer, mouseX + (gameSettings.mousePointerSize / 2), mouseY + (gameSettings.mousePointerSize / 2), gameSettings.mousePointerSize, gameSettings.mousePointerSize);
