@@ -46,7 +46,7 @@ public:
 	void Level::CreateChunk(int initX, int initY);
 
 	//! The wold contains key value pairs of chunks
-	std::map<int, std::map<int, Chunk>> World;
+	std::map<int, std::map<int, std::shared_ptr<Chunk>>> World;
 
 	bool Level::isCellInChunk(int x, int y);
 

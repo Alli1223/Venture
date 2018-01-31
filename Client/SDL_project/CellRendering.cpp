@@ -77,7 +77,7 @@ void CellRendering::AlterTextures(Level& level)
 		FernTreeTexture.alterTextureColour(darkness, darkness, darkness);
 }
 
-void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Chunk& chunk, SDL_Renderer* renderer)
+void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, std::shared_ptr<Chunk>& chunk, SDL_Renderer* renderer)
 {
 	int newX = 0, newY = 0;
 	int xPos = 0, yPos = 0;
@@ -87,8 +87,8 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 	for (int x = 0; x < level.getChunkSize(); x++)
 		for (int y = 0; y < level.getChunkSize(); y++)
 		{
-			newX = chunk.tiles[x][y]->getX();
-			newY = chunk.tiles[x][y]->getY();
+			newX = chunk->tiles[x][y]->getX();
+			newY = chunk->tiles[x][y]->getY();
 
 			xPos = newX * cellSize + cellSize / 2;
 			yPos = newY * cellSize + cellSize / 2;
@@ -96,14 +96,14 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 			xPos -= camera.getX();
 			yPos -= camera.getY();
 
-			//int light = chunk.tiles[x][y]->cellLightness;
+			//int light = chunk->tiles[x][y]->cellLightness;
 			//LongGrass3.alterTextureColour(darkness + light, darkness + light, darkness + light);
 
-			if (chunk.tiles[x][y]->isWater)
+			if (chunk->tiles[x][y]->isWater)
 			{
 				// Code for ripples
-				//sin(sqrt(pow(chunk.tiles[x][y]->getX(),2) + pow(chunk.tiles[x][y]->getY(),2)) + SDL_GetTicks() / 500) > 0)
-				if (sin(chunk.tiles[x][y]->getX() + SDL_GetTicks() / 500) > 0)
+				//sin(sqrt(pow(chunk->tiles[x][y]->getX(),2) + pow(chunk->tiles[x][y]->getY(),2)) + SDL_GetTicks() / 500) > 0)
+				if (sin(chunk->tiles[x][y]->getX() + SDL_GetTicks() / 500) > 0)
 					WaterTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				else
 					WaterTexture2.render(renderer, xPos, yPos, cellSize, cellSize);
@@ -112,41 +112,41 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 			else
 			{
 				// Base Ground Textures rendered in decending order (Top layered textures at bottom of list)
-				if (chunk.tiles[x][y]->isGrass)
+				if (chunk->tiles[x][y]->isGrass)
 					Grass1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isFlower1)
+				if (chunk->tiles[x][y]->isFlower1)
 					Flower1Texture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isDirt)
+				if (chunk->tiles[x][y]->isDirt)
 					DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 
-				if (chunk.tiles[x][y]->isWood)
+				if (chunk->tiles[x][y]->isWood)
 					WoodTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isSand)
+				if (chunk->tiles[x][y]->isSand)
 					SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isStoneWall)
+				if (chunk->tiles[x][y]->isStoneWall)
 					StoneWallTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isFlower1)
+				if (chunk->tiles[x][y]->isFlower1)
 					Flower1Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
-				if (chunk.tiles[x][y]->isFlower2)
+				if (chunk->tiles[x][y]->isFlower2)
 					Flower2Texture.render(renderer, xPos, yPos, cellSize / 3, cellSize / 2);
-				if (chunk.tiles[x][y]->isBerryPlant)
+				if (chunk->tiles[x][y]->isBerryPlant)
 					BerryPlantTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
-				if (chunk.tiles[x][y]->isBush)
+				if (chunk->tiles[x][y]->isBush)
 					BushTexture.render(renderer, xPos, yPos, cellSize / 2, cellSize / 1.5);
-				if (chunk.tiles[x][y]->isLongGrass)
+				if (chunk->tiles[x][y]->isLongGrass)
 					LongGrass1.render(renderer, xPos - cellSize, yPos, cellSize * 2, cellSize);
-				if (chunk.tiles[x][y]->isLongGrass2)
+				if (chunk->tiles[x][y]->isLongGrass2)
 					LongGrass2.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isSnow)
+				if (chunk->tiles[x][y]->isSnow)
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if(chunk.tiles[x][y]->isRock)
+				if(chunk->tiles[x][y]->isRock)
 					rockTexture.render(renderer, xPos, yPos, cellSize, cellSize);
-				if (chunk.tiles[x][y]->isStone)
+				if (chunk->tiles[x][y]->isStone)
 					StoneTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 
-				if (chunk.tiles[x][y]->isWheat)
+				if (chunk->tiles[x][y]->isWheat)
 				{
-					switch (chunk.tiles[x][y]->seedsStage)
+					switch (chunk->tiles[x][y]->seedsStage)
 					{
 					case Cell::seedsGrowthStage::PlantStageOne:
 						WheatStageOne.render(renderer, xPos, yPos, cellSize, cellSize);
@@ -163,20 +163,20 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 					}
 				}
 				
-				if (chunk.tiles[x][y]->isTree)
+				if (chunk->tiles[x][y]->isTree)
 				{
 					// Above player
 
 					tree t;
-					if (chunk.tiles[x][y]->treeType == Cell::TreeType::oakTree)
+					if (chunk->tiles[x][y]->treeType == Cell::TreeType::oakTree)
 						t.isOak = true;
-					if (chunk.tiles[x][y]->treeType == Cell::TreeType::fernTree)
+					if (chunk->tiles[x][y]->treeType == Cell::TreeType::fernTree)
 						t.isFern = true;
-					if (chunk.tiles[x][y]->treeType == Cell::TreeType::pineTree)
+					if (chunk->tiles[x][y]->treeType == Cell::TreeType::pineTree)
 						t.isPine = true;
 					t.pos = glm::vec2(xPos, yPos - cellSize * 3 + cellSize);
 					t.treeSize = glm::vec2(cellSize * 3, cellSize * 6);
-					if (chunk.tiles[x][y]->getY() > player.getY() / level.getCellSize())
+					if (chunk->tiles[x][y]->getY() > player.getY() / level.getCellSize())
 						treesBelow.push_back(t);
 					else
 						treesAbove.push_back(t);
@@ -185,15 +185,15 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Ch
 					
 					
 				
-				if (chunk.tiles[x][y]->isWoodFence)
+				if (chunk->tiles[x][y]->isWoodFence)
 				{
 					WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
 					// Uncomment for fences to be combined
 					/*if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1) && level.isCellInChunk(x - 1, y) && level.isCellInChunk(x + 1, y))
 					{
-						if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && !chunk.tiles[x + 1][y]->isWoodFence && !chunk.tiles[x - 1][y]->isWoodFence)
+						if (chunk->tiles[x][y]->isWoodFence && chunk->tiles[x][y + 1]->isWoodFence && chunk->tiles[x][y - 1]->isWoodFence && !chunk->tiles[x + 1][y]->isWoodFence && !chunk->tiles[x - 1][y]->isWoodFence)
 							WoodFenceUP.render(renderer, xPos, yPos, cellSize, cellSize);
-						else if (chunk.tiles[x][y]->isWoodFence && chunk.tiles[x][y + 1]->isWoodFence && chunk.tiles[x][y - 1]->isWoodFence && chunk.tiles[x + 1][y]->isWoodFence && chunk.tiles[x - 1][y]->isWoodFence)
+						else if (chunk->tiles[x][y]->isWoodFence && chunk->tiles[x][y + 1]->isWoodFence && chunk->tiles[x][y - 1]->isWoodFence && chunk->tiles[x + 1][y]->isWoodFence && chunk->tiles[x - 1][y]->isWoodFence)
 							WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
 						else
 							WoodFenceSide.render(renderer, xPos, yPos, cellSize, cellSize);

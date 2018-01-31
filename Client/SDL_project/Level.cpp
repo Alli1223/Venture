@@ -4,13 +4,13 @@
 // Creates a grid of cells at a specified location
 void Level::CreateChunk(int initX, int initY)
 {
-	Chunk chunk(initX, initY);
-	
+	Chunk chunktemp(initX, initY);
+	auto& chunk = std::make_shared<Chunk>(chunktemp);
 	for (int x = 0; x < chunkSize; x++)
 	{
 		std::vector<std::shared_ptr<Cell>> column;
 		
-		World[initX][initY].tiles.push_back(column);
+		chunk->tiles.push_back(column);
 		for (int y = 0; y < chunkSize; y++)
 		{
 			// Populates the column with pointers to cells
@@ -18,9 +18,11 @@ void Level::CreateChunk(int initX, int initY)
 			cell.isWalkable = true;
 			
 			auto sharedCell = std::make_shared<Cell>(cell);
-			World[initX][initY].tiles[x].push_back(sharedCell);
+			chunk->tiles[x].push_back(sharedCell);
 		}
+		
 	}
+	World[initX][initY] = chunk;
 }
 
 // Generates a hashmap of chunks around the camera
@@ -35,7 +37,8 @@ void Level::GenerateWorld(Camera& camera)
 	{
 		for (int j = ((camera.getY() / cellSize) / chunkSize) - levelGenerationRadius; j < ((camera.getY() / cellSize) / chunkSize) + numOfChunksHeight; j++)
 		{
-			if (!World[i][j].tiles.size() > 0)
+			// If the chunk hasnt already been created
+			if (World[i][j] == NULL)
 			{
 				CreateChunk(i, j);
 				proceduralTerrain.populateTerrain(World[i][j]);
@@ -43,6 +46,7 @@ void Level::GenerateWorld(Camera& camera)
 			}
 		}
 	}
+	
 	if(numOfChunksGen > 0)
 		std::cout << "Generated " << numOfChunksGen << " chunks." << std::endl;
 }
@@ -64,10 +68,10 @@ glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY)
 		cellY = cellY - (chunkY * chunkSize);
 	
 	// ReturPoint is the value of the x/y values in the cell (takes into account the camera position)
-	returnPoint.x = World[chunkX][chunkY].tiles[cellX][cellY]->getX() + (camera.getX() * chunkSize);
-	returnPoint.y = World[chunkX][chunkY].tiles[cellX][cellY]->getY() - (camera.getY() * chunkSize);
+	returnPoint.x = World[chunkX][chunkY]->tiles[cellX][cellY]->getX() + (camera.getX() * chunkSize);
+	returnPoint.y = World[chunkX][chunkY]->tiles[cellX][cellY]->getY() - (camera.getY() * chunkSize);
 
-	double elevation = World[chunkX][chunkY].tiles[cellX][cellY]->terrainElevationValue;
+	double elevation = World[chunkX][chunkY]->tiles[cellX][cellY]->terrainElevationValue;
 
 	std::cout << returnPoint.x << " " << returnPoint.y << "|" << chunkX - (camera.getX() / chunkSize) << " " << chunkY - (camera.getY() / chunkSize) << "|" << cellX << " " << cellY << "| " << elevation << std::endl;
 	return returnPoint;
@@ -98,7 +102,7 @@ std::shared_ptr<Cell>& Level::getCell(int cellX, int cellY)
 	}
 	if (isCellInChunk(cellX, cellY))
 	{
-		return World[chunkX][chunkY].tiles[cellX][cellY];
+		return World[chunkX][chunkY]->tiles[cellX][cellY];
 	}
 }
 
@@ -133,9 +137,9 @@ void Level::SetCell(int x, int y, Cell& newcell)
 		{
 			//std::cout << "Cell update at pos: " << x << " " << y << std::endl;
 			// Make sure that the chunk has been created before trying to place the cell
-			if (World[chunkX][chunkY].tiles.size() > 0)
+			if (World[chunkX][chunkY]->tiles.size() > 0)
 			{
-				World[chunkX][chunkY].tiles[x][y] = sharedCell;
+				World[chunkX][chunkY]->tiles[x][y] = sharedCell;
 			}
 		}
 		
@@ -159,6 +163,7 @@ Level::Level()
 {
 	Chunk exampleChunk;
 	chunkSize = exampleChunk.getChunkSize();
+	
 	exampleChunk.~Chunk();
 }
 

@@ -87,7 +87,7 @@ void Agent::Update(Level& level)
 
 
 		// Change speed when the player enters water
-		if (level.World[chunkPos.x][chunkPos.y].tiles[cellPos.x][cellPos.y]->isWater)
+		if (level.World[chunkPos.x][chunkPos.y]->tiles[cellPos.x][cellPos.y]->isWater)
 			setSpeed(1);
 		else
 			setSpeed(5);

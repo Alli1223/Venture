@@ -31,13 +31,13 @@ public:
 	int setSeed(int newSeed) { return seed = newSeed; }
 
 	//! function that calls the functions below
-	void ProceduralTerrain::populateTerrain(Chunk& level);
+	void ProceduralTerrain::populateTerrain(std::shared_ptr<Chunk>& level);
 	//! Spawns the trees in a chunk
-	void ProceduralTerrain::spawnRandomTrees(Chunk& chunk);
+	void ProceduralTerrain::spawnRandomTrees(std::shared_ptr<Chunk>& chunk);
 	//! Spawn the vegetation
-	void ProceduralTerrain::spawnRandomVegetation(Chunk& level);
+	void ProceduralTerrain::spawnRandomVegetation(std::shared_ptr<Chunk>& chunk);
 	//! Generate the ground based of the elevation and climate
-	void ProceduralTerrain::generateGround(Chunk& level, int x, int y);
+	void ProceduralTerrain::generateGround(std::shared_ptr<Chunk>& chunk, int x, int y);
 
 private:
 	//! Seed values are random

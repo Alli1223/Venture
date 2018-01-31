@@ -16,4 +16,6 @@ Chunk::Chunk(int initX, int initY)
 
 Chunk::~Chunk()
 {
+	
+
 }

@@ -32,7 +32,7 @@ bool UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
 		chunkY -= 1;
 	}
 
-	if (!level.World[chunkX][chunkY].tiles[cellX][cellY]->isWalkable)
+	if (!level.World[chunkX][chunkY]->tiles[cellX][cellY]->isWalkable)
 	{
 		return false;
 	}

@@ -13,7 +13,7 @@ public:
 
 	void RenderObjects(Level& level, SDL_Renderer* renderer, Camera& camera, Player& player, std::vector<std::shared_ptr<Player>>& allPlayers);
 
-	void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, Chunk& chunk, SDL_Renderer* renderer);
+	void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, std::shared_ptr<Chunk>& chunk, SDL_Renderer* renderer);
 
 	void CellRendering::AlterTextures(Level& level);
 

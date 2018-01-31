@@ -14,12 +14,26 @@ Uint32 get_pixel_at(Uint32 * pixels, int x, int y, int w)
 {
 	return pixels[y * w + x];
 }
+
+std::shared_ptr<Button> get_instance(Button& n)
+{
+	return std::make_shared<Button>(n);
+}
+
+
 void Menu::MainMenu(GameSettings& gameSettings, Camera& camera, Player& player, SDL_Renderer* renderer)
 {
 	// Create buttons
 	Button characterScreen("Character Customisation");
 	Button exit("Exit");
 	Button useNetworking("Multiplayer");
+	//std::shared_ptr<Button> button;
+	Button button("");
+	//getInstance(button)->isPressed();
+	auto b = get_instance(button);
+	
+	//auto buttonPtr = std::make_shared<Button>(button);
+	//buttonPtr->render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2 + 150, 400, 100);
 
 	// Scale mouse correctly depending on resolution
 	menuCursorSize = gameSettings.WINDOW_WIDTH / 25;
@@ -41,11 +55,28 @@ void Menu::MainMenu(GameSettings& gameSettings, Camera& camera, Player& player, 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 		menuBackground.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, gameSettings.WINDOW_WIDTH, gameSettings.WINDOW_HEIGHT);
-
-
+		b->render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2 + 150, 400, 100);
+		
 
 		// Render buttons
 		exit.render(renderer, 50, 25, 100, 50);
+		
+		/*
+		if (button->isPressed())
+		{
+			if (gameSettings.fullscreen)
+			{
+				button->setText("Windowed");
+				gameSettings.fullscreen = true;
+			}
+			else
+			{
+				button->setText("Fullscreen");
+				gameSettings.fullscreen = false;
+			}
+			
+		}
+		*/
 		useNetworking.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, 400, 100);
 		if (useNetworking.isPressed())
 		{
