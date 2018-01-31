@@ -90,6 +90,7 @@ Venture::Venture() : backgroundTexture("Resources\\background5.jpg"), mousePoint
 		std::cout << (stderr, "Couldn't initialize SDL: %s\n", SDL_GetError()) << std::endl;
 		throw InitialisationError("SDL_Init failed");
 	}
+	SDL_ShowCursor(SDL_DISABLE);
 	
 	gameSettings.getScreenResolution();
 	gameSettings.WINDOW_HEIGHT /= 2;

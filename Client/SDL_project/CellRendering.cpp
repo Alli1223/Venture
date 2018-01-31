@@ -249,7 +249,7 @@ void CellRendering::RenderObjects(Level& level, SDL_Renderer* renderer, Camera& 
 			PineTreeTexture.render(renderer, tree.pos.x, tree.pos.y, tree.treeSize.x, tree.treeSize.y);
 	}
 	hungerBarTexture.alterTransparency(100);
-	hungerBarTexture.render(renderer, player.placeItemPos.x * level.getCellSize() + (level.getCellSize() / 4) - camera.getX() , player.placeItemPos.y * level.getCellSize()  - camera.getY(), level.getCellSize(), level.getCellSize());
+	hungerBarTexture.render(renderer, player.placeItemPos.x * level.getCellSize() + (level.getCellSize() / 2) - camera.getX() , player.placeItemPos.y * level.getCellSize() + (level.getCellSize() / 2) - camera.getY(), level.getCellSize(), level.getCellSize());
 	
 	// Erase the trees after rendering them
 	treesBelow.erase(treesBelow.begin(), treesBelow.end());
