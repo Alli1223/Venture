@@ -21,7 +21,7 @@ void AgentBehaviour::DecideTask(Level& level, Agent& agent)
 
 		// Set whether the actions are possible //TODO: make this run once every few seconds, not every frame
 		// Level has bed and agent is tired
-		if (levelHasBed && agent.getTiredness() > tirednessThreshold && agent.isMoving == false)
+		if (levelHasBed && agent.getTiredness() > tirednessThreshold)
 		{
 			// Find path to bed
 			std::vector<Point> testpath = agent.pathfinder.findPath(level, agent.getAgentPointLocation(), emptyBedLocations[0]);
@@ -32,7 +32,7 @@ void AgentBehaviour::DecideTask(Level& level, Agent& agent)
 		}
 
 		// Level has toilet and agent needs it
-		if (LevelHasToilet && agent.getToietNeed() > toiletThreshold && agent.isMoving == false)
+		if (LevelHasToilet && agent.getToietNeed() > toiletThreshold)
 		{
 			// Find path to toilet
 			std::vector<Point> testpath = agent.pathfinder.findPath(level, agent.getAgentPointLocation(), emptyToiletLocations[0]);
@@ -83,60 +83,3 @@ void AgentBehaviour::DecideTask(Level& level, Agent& agent)
 			agent.Move(level, agent.getAgentPointLocation(), emptyToiletLocations[0]);
 	}
 }
-
-// Updates the local class stats about the level
-void AgentBehaviour::UpdateLevelInfo(Level& level, int cellX, int cellY)
-{
-	if (level.tiles[cellX][cellY]->isBed)
-	{
-		levelHasBed = true;
-		emptyBedLocations.push_back(Point(cellX, cellY));
-	}
-	if (level.tiles[cellX][cellY]->isToilet)
-	{
-		LevelHasToilet = true;
-		emptyToiletLocations.push_back(Point(cellX, cellY));
-	}
-}
-
-// Will search an area around the agent to find a cell of cellType
-Point AgentBehaviour::FindNearestCelltoAgent(Agent& agent, Level& level, std::string cellType)
-{
-	Point endPoint;
-	
-	while (localSearchSize < level.tiles.size())
-	{
-		// Do a local search of nearest cells 
-		for (int x = agent.getCellX() - localSearchSize; x <= agent.getCellX() + localSearchSize; x++)
-		{
-			for (int y = agent.getCellY() - localSearchSize; y <= agent.getCellY() + localSearchSize; y++)
-			{
-				// If within grid
-				if (x > 0 && y > 0 && x < level.tiles.size() && y < level.tiles[x].size())
-				{
-					if (cellType == "BED" || cellType == "Bed")
-					{
-						if (level.tiles[x][y]->isBed)
-						{
-							endPoint = Point(x, y);
-							return endPoint;
-						}
-					}
-					else if (cellType == "TOILET" || cellType == "Toilet")
-					{
-						if (level.tiles[x][y]->isToilet)
-						{
-							endPoint = Point(x, y);
-							return endPoint;
-						}
-					}
-				}
-			}
-		}
-		// Double search size if not found
-		localSearchSize = localSearchSize * 2;
-	}
-	localSearchSize = 2;
-
-}
-

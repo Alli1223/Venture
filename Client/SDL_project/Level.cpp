@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Level.h"
 
-
+// Creates a grid of cells at a specified location
 void Level::CreateChunk(int initX, int initY)
 {
 	Chunk chunk(initX, initY);
@@ -15,22 +15,22 @@ void Level::CreateChunk(int initX, int initY)
 		{
 			// Populates the column with pointers to cells
 			Cell cell(x + (initX * chunkSize), y + (initY * chunkSize));
-			cell.isGrass = true;
+			cell.isWalkable = true;
+			
 			auto sharedCell = std::make_shared<Cell>(cell);
 			World[initX][initY].tiles[x].push_back(sharedCell);
 		}
 	}
-	
 }
 
-
+// Generates a hashmap of chunks around the camera
 void Level::GenerateWorld(Camera& camera)
 {
 	int numOfChunksWidth = ((camera.WindowWidth / cellSize) / chunkSize) + levelGenerationRadius;
 	int numOfChunksHeight = ((camera.WindowHeight /cellSize) / chunkSize) + levelGenerationRadius;
 	camera.ChunksOnScreen.x = numOfChunksWidth;
 	camera.ChunksOnScreen.y = numOfChunksHeight;
-	
+	int numOfChunksGen = 0;
 	for (int i = ((camera.getX() / cellSize) / chunkSize) - levelGenerationRadius; i < ((camera.getX() / cellSize) / chunkSize) + numOfChunksWidth; i++)
 	{
 		for (int j = ((camera.getY() / cellSize) / chunkSize) - levelGenerationRadius; j < ((camera.getY() / cellSize) / chunkSize) + numOfChunksHeight; j++)
@@ -39,10 +39,12 @@ void Level::GenerateWorld(Camera& camera)
 			{
 				CreateChunk(i, j);
 				proceduralTerrain.populateTerrain(World[i][j]);
-				std::cout << "Generating Chunk: " << i << " " << j << std::endl;
+				numOfChunksGen++;
 			}
 		}
 	}
+	if(numOfChunksGen > 0)
+		std::cout << "Generated " << numOfChunksGen << " chunks." << std::endl;
 }
 
 
@@ -67,28 +69,90 @@ glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY)
 
 	double elevation = World[chunkX][chunkY].tiles[cellX][cellY]->terrainElevationValue;
 
-	std::cout << returnPoint.x << " " << returnPoint.y << "|" << chunkX << " " << chunkY << "|" << cellX << " " << cellY << "| " << elevation << std::endl;
+	std::cout << returnPoint.x << " " << returnPoint.y << "|" << chunkX - (camera.getX() / chunkSize) << " " << chunkY - (camera.getY() / chunkSize) << "|" << cellX << " " << cellY << "| " << elevation << std::endl;
 	return returnPoint;
 }
 
-
-//NOt used
-void Level::SetGlobalCell(Camera& camera, int x, int y, glm::vec2 mousePos)
+std::shared_ptr<Cell>& Level::getCell(int cellX, int cellY)
 {
-	// ChunkX/Y is the chunk that the cell is in
-	int chunkX = x / chunkSize;
-	int chunkY = y / chunkSize;
+	
+	int chunkX = (cellX / chunkSize);
+	int chunkY = (cellY / chunkSize);
+	cellX = cellX - chunkX * chunkSize;
+	cellY = cellY - chunkY * chunkSize;
 
-	if (mousePos.x >= chunkSize)
-		mousePos.x = mousePos.x - (chunkX * chunkSize);
-	if (mousePos.y >= chunkSize)
-		mousePos.y = mousePos.y - (chunkY * chunkSize);
+	if (cellX > chunkSize)
+		cellX = cellX - (chunkX * chunkSize);
+	if (cellY > chunkSize)
+		cellY = cellY - (chunkY * chunkSize);
 
+	if (cellX < 0)
+	{
+		cellX += chunkSize;
+		chunkX -= 1;
+	}
+	if (cellY < 0)
+	{
+		cellY += chunkSize;
+		chunkY -= 1;
+	}
+	if (isCellInChunk(cellX, cellY))
+	{
+		return World[chunkX][chunkY].tiles[cellX][cellY];
+	}
+}
 
-	std::cout << "PlaceCell: " << x << " " << y << std::endl;
+// Set a cell with the values of another cell
+void Level::SetCell(int x, int y, Cell& newcell)
+{
+	try
+	{
+		auto sharedCell = std::make_shared<Cell>(newcell);
+		int chunkX = (x /chunkSize);
+		int chunkY = (y / chunkSize);
+		x = x - chunkX * chunkSize;
+		y = y - chunkY * chunkSize;
 
-	World[chunkX][chunkY].tiles[x][y]->isFlower1 = true;
+		if (x > chunkSize)
+			x = x - (chunkX * chunkSize);
+		if (y > chunkSize)
+			y = y - (chunkY * chunkSize);
 
+		if (x < 0)
+		{
+			x += chunkSize;
+			chunkX -= 1;
+		}
+		if (y < 0)
+		{
+			y += chunkSize;
+			chunkY -= 1;
+		}
+
+		if (isCellInChunk(x, y))
+		{
+			//std::cout << "Cell update at pos: " << x << " " << y << std::endl;
+			// Make sure that the chunk has been created before trying to place the cell
+			if (World[chunkX][chunkY].tiles.size() > 0)
+			{
+				World[chunkX][chunkY].tiles[x][y] = sharedCell;
+			}
+		}
+		
+	}
+	catch (std::exception e)
+	{
+		std::cout << "Error trying to set cell: " << x << ", " << y << ". " << e.what() << std::endl;
+	}
+
+}
+
+bool Level::isCellInChunk(int x, int y)
+{
+	if (x >= 0 && x <= chunkSize && y >= 0 && y <= chunkSize)
+		return true;
+	else
+		return false;
 }
 
 Level::Level()

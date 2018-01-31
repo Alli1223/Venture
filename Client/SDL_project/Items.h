@@ -9,22 +9,47 @@ public:
 	Item();
 	//! Destructor
 	~Item();
-
-	struct Item_Type
+	int getItemHealth() { return itemHealth; }
+	int setItemHealth(int newHealth) { return itemHealth = newHealth; }
+	int increaseStack(int amount) { return stack += amount; }
+	int decreaseStack(int amount) { if (stack >= 0){ return stack -= amount; } }
+	typedef struct
 	{
-		enum food
+		enum Resource
 		{
-			BERRY,
-			FISH
-		};
-	};
+			noResource,
+			isWOOD,
+			isSTONE,
+			isSTONEWALL,
+			isWOODFENCE
+		} Resource;
+		enum Food
+		{
+			noFood,
+			isBERRY,
+			isFISH,
+			isSEEDS,
+			isWHEAT
+		} Food;
 
-	bool isBerry = false;
-
+		enum Tool
+		{
+			noTool,
+			isWOODAXE,
+			isPICKAXE,
+			isHOE,
+			isSCYTHE,
+			isWATERINGCAN,
+			isFISHINGROD
+			
+		}Tool;
+	} ItemType;
+	
+	ItemType type;
 	bool isInInventory = false;
-
-
-	std::string itemFileDirectory = "Resources\\SpawnItems\\";
-	Texture berryTexture;
+	bool isPlaceable = false;
+private:
+	int itemHealth = 100;
+	int stack = 0;
 };
 

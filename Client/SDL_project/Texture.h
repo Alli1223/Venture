@@ -22,6 +22,8 @@ public:
 	void render(SDL_Renderer* renderer, int x, int y, int width, int height);
 	//! Renders the image in the window with rotation
 	void renderRotation(SDL_Renderer* renderer, int x, int y, int width, int height, int angle);
+	//! Renders  the animation
+	void renderAnim(SDL_Renderer* renderer, int sourceX, int sourceY, int destX, int destY, int pixelSize, int renderSize);
 	//! Alters the alpha value of the image to make it appear transparent in the window
 	void alterTransparency(int transparencyLevel);
 	//! Alters the r,g,b colours of the texture

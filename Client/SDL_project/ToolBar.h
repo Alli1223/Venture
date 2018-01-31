@@ -1,8 +1,9 @@
 #pragma once
 #include "GUI.h"
 #include "Level.h"
-#include "RoomDesign.h"
 #include "Icon.h"
+#include "GameSettings.h"
+#include "Texture.h"
 
 
 class ToolBar : public GUI
@@ -11,74 +12,33 @@ public:
 	ToolBar();
 	~ToolBar();
 
-	bool toolbarRender = false;
+	Item& getSelectedItem();
 	
 	//! Function that renders the toolbar
-	void ToolBar::RenderToolbar(SDL_Renderer* renderer, int& WINDOW_WIDTH, int& WINDOW_HEIGHT, int& mouseX, int& mouseY);
+	void ToolBar::UpdateAndRenderToolbar(SDL_Renderer* renderer, Player& player, GameSettings& gameSettings);
 
-	void ToolBar::ToolBarFunctionality(Level& level, RoomDesign& designroom, SDL_Renderer* renderer, int& mouseX, int& mouseY);
+	std::vector<std::shared_ptr<Icon>> toolbarIcons;
 
-	//! The getters and setters for the toolbar selection
-	int getToolbarSelection() const { return toolbarSelection; }
-	int setToolbarSelection(int newToolbarSelection) { return toolbarSelection = newToolbarSelection; }
+	//! Remove item from toolbar
+	bool removeToolbarItem(int index);
 
-	//! Getters
-	int getToolbarSizeX() { return toolbarSizeX; }
-	int getToolbarSizeY() { return toolbarSizeY; }
-	int getToolbarXpos() { return toolbarXpos; }
-	int getToolbarYpos() { return toolbarYpos; }
+	void createToolbar(Player& player, GameSettings& gameSettings);
 
-	// Setters
-	int setToolbarSizeX(int newsizeX) { return toolbarSizeX = newsizeX; }
-	int setToolbarSizeY(int newsizeY) { return toolbarSizeY = newsizeY; }
-	int setToolbarXpos(int newXpos) { return toolbarXpos; }
-	int setToolbarYpos(int newYpos) { return toolbarXpos; }
-		
+	int getToolbarSelection() { return toolbarSelection; }
+	int setToolbarSelection(int newSelection) { return toolbarSelection = newSelection; }
 
-	//! Is the texture for the toolbar background
-	Texture toolBarBackground;
-	//! Is the texture for the room cell
-	Texture roomCell;
-	//! Is the texture for teh empty cell
-	Texture emptyCell;
-	//! Is the texture for the empty cell icon
-	Texture emptyCellIcon;
-	//! Is the texture for the door
-	Texture DoorTexture;
-	//! Is the texture for the door
-	Texture HydroponicsIconTexture;
-	//! Is the texture for the bed
-	Texture BedIconTexture;
-	//! Is the texture for the shipDock
-	Texture ShipDockTexture;
-	//! Is the texture for the toilet
-	Texture ToiletIconTexture;
-
-	std::vector<std::shared_ptr<Icon>> allIcons;
-
-	//! IconSize
-	int toolbarIconSize = 50;
-
-	//! Numer of icons on the toolbar
-	int numberOfIcons = 7;
-
-	// How much they increase in size when mouseover
-	int mouseOverSizeIncrease = 10;
-
-	int numberOfItem1 = 15;
-	int numberOfItem2 = 15;
-	int numberOfItem3 = 15;
-	int numberOfItem4 = 15;
-	int numberOfItem5 = 15;
-	int numberOfItem6 = 15;
-
-	bool fillLevelWithCells = true;
-
+	int numOfItems;
 
 private:
-	int toolbarSelection = 1;
+	Texture selectionTexture;
+	std::string toolbarTextureLocation = "Resources\\Sprites\\Toolbar\\";
+	int toolbarSelection = 0;
+	int numberOfIcons = 10;
+	bool toolbarRender = true;
 
-	int toolbarSizeX, toolbarSizeY, toolbarXpos, toolbarYpos;
+	Texture playerHunger;
+	
+	
 
 };
 

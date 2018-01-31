@@ -7,15 +7,20 @@
 #include "Camera.h"
 
 
+
 class ProceduralTerrain
 {
 public:
 	ProceduralTerrain();
 	~ProceduralTerrain();
+	//! Elevation noise
 	PerlinNoise Elevation;
 	PerlinNoise ElevationLayerTwo;
 	PerlinNoise ElevationLayerThree;
+	SimplexNoise simNoise;
+	SimplexNoise grassNoise;
 
+	//! Other noise generations
 	PerlinNoise forrestNoise;
 	PerlinNoise riverNoise;
 	PerlinNoise riverNoiseLayerTwo;
@@ -25,28 +30,39 @@ public:
 	int getSeed() { return seed; }
 	int setSeed(int newSeed) { return seed = newSeed; }
 
-	void ProceduralTerrain::spawnTrees(Chunk& level);
-	void ProceduralTerrain::spawnVegetation(Chunk& level);
-	void ProceduralTerrain::generateGround(Chunk& level, int x, int y);
+	//! function that calls the functions below
 	void ProceduralTerrain::populateTerrain(Chunk& level);
-	void ProceduralTerrain::SpawnTown(Chunk& level);
+	//! Spawns the trees in a chunk
+	void ProceduralTerrain::spawnRandomTrees(Chunk& chunk);
+	//! Spawn the vegetation
+	void ProceduralTerrain::spawnRandomVegetation(Chunk& level);
+	//! Generate the ground based of the elevation and climate
+	void ProceduralTerrain::generateGround(Chunk& level, int x, int y);
 
 private:
-	int seed = 573932;
+	//! Seed values are random
+	int seed = 3210387;
 	int forrestSeed = seed + 30;
 	int elevationSeed = seed + 36945;
 	int riverSeed = seed + 1255;
 
-	int numOfTowns = 2;
-	int townSize = 50;
+	// Lower is more
+	int riverBendyness = 50;
+	int forrestJaggedness = 50;
+
+	//! Needs work
+	//! Makes the sin of the y cell pos to be the climate
+	//! Turns grass into snow and water into ice
+	bool thereIsClimate = false;
 
 	float terrainNoiseOffest = 180.0;
 	float forrestNoiseOffset = 180.0;
 
 	float forrestAmplifier = 1.5;
 
-	int numberOfTrees = 5;
-	int numberOfPlants = 8;
+	// Number of items randomly placed in chunk
+	int numberOfTrees = 2;
+	int numberOfPlants = 4;
 
 };
 

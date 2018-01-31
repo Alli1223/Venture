@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Fire.cpp">
-      <Filter>Source Files\Disaster Classes</Filter>
-    </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Source Files\Level Classes</Filter>
     </ClCompile>
@@ -12,9 +9,6 @@
     </ClCompile>
     <ClCompile Include="Cell.cpp">
       <Filter>Source Files\Level Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Oxygen.cpp">
-      <Filter>Source Files\Disaster Classes</Filter>
     </ClCompile>
     <ClCompile Include="InitialisationError.cpp">
       <Filter>Source Files\Main Game Classes</Filter>
@@ -27,9 +21,6 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\Main Game Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="RoomDesign.cpp">
-      <Filter>Source Files\Level Classes</Filter>
     </ClCompile>
     <ClCompile Include="PathFinder.cpp">
       <Filter>Source Files\Level Classes\PathFinding</Filter>
@@ -49,20 +40,11 @@
     <ClCompile Include="Items.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
-    <ClCompile Include="EscapeMenu.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="Icon.cpp">
-      <Filter>Source Files\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerStats.cpp">
       <Filter>Source Files\GUI</Filter>
     </ClCompile>
     <ClCompile Include="CellRendering.cpp">
       <Filter>Source Files\Main Game Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Agent.cpp">
-      <Filter>Source Files\AI Classes</Filter>
     </ClCompile>
     <ClCompile Include="AgentManager.cpp">
       <Filter>Source Files\AI Classes</Filter>
@@ -109,11 +91,32 @@
     <ClCompile Include="SimplexNoise.cpp">
       <Filter>Source Files\Level Classes\PCG</Filter>
     </ClCompile>
+    <ClCompile Include="Agent.cpp">
+      <Filter>Source Files\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files\Main Game Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="TextUI.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryUI.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CraftingUI.cpp">
+      <Filter>Source Files\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Fire.h">
-      <Filter>Headers\Disaster Classes</Filter>
-    </ClInclude>
     <ClInclude Include="Cell.h">
       <Filter>Headers\Level Classes</Filter>
     </ClInclude>
@@ -135,17 +138,11 @@
     <ClInclude Include="Texture.h">
       <Filter>Headers\Main Game Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Oxygen.h">
-      <Filter>Headers\Disaster Classes</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>Headers\Main Game Classes</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Headers\Main Game Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="RoomDesign.h">
-      <Filter>Headers\Level Classes</Filter>
     </ClInclude>
     <ClInclude Include="PathFinder.h">
       <Filter>Headers\Level Classes\PathFinding</Filter>
@@ -165,20 +162,11 @@
     <ClInclude Include="Items.h">
       <Filter>Headers\Items</Filter>
     </ClInclude>
-    <ClInclude Include="EscapeMenu.h">
-      <Filter>Headers\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Icon.h">
-      <Filter>Headers\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStats.h">
       <Filter>Headers\GUI</Filter>
     </ClInclude>
     <ClInclude Include="CellRendering.h">
       <Filter>Headers\Main Game Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Agent.h">
-      <Filter>Headers\AI Classes</Filter>
     </ClInclude>
     <ClInclude Include="AgentManager.h">
       <Filter>Headers\AI Classes</Filter>
@@ -228,6 +216,30 @@
     <ClInclude Include="SimplexNoise.h">
       <Filter>Headers\Level Classes\PCG</Filter>
     </ClInclude>
+    <ClInclude Include="Agent.h">
+      <Filter>Headers\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Headers\Main Game Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Headers\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TextUI.h">
+      <Filter>Headers\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Headers\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryUI.h">
+      <Filter>Headers\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CraftingUI.h">
+      <Filter>Headers\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Headers\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SDL_project.rc" />
@@ -246,17 +258,11 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{e1050c3b-6661-4e0f-ad9a-f78f73c03ba3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers\Disaster Classes">
-      <UniqueIdentifier>{c63de961-89a3-4296-9133-074379e47619}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Headers\Level Classes">
       <UniqueIdentifier>{08f85d67-6788-4104-9167-eb2fc004eebe}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Level Classes">
       <UniqueIdentifier>{fd541410-06d9-4c7a-8100-8879ba19dc6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Disaster Classes">
-      <UniqueIdentifier>{2c03c8d0-c3f1-46df-b2d4-4d9faff506ba}</UniqueIdentifier>
     </Filter>
     <Filter Include="Headers\Main Game Classes">
       <UniqueIdentifier>{dbf0ae6c-7b23-4079-96ed-6b6cddeddbed}</UniqueIdentifier>
@@ -314,6 +320,12 @@
     </Filter>
     <Filter Include="Source Files\Character">
       <UniqueIdentifier>{f75a61e0-c2c9-4131-98b1-e2529cba3128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\Tools">
+      <UniqueIdentifier>{6f9eed5a-b514-408f-b34a-8d97b275886b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tools">
+      <UniqueIdentifier>{e4ee06c1-726b-4fc0-a722-004963510a6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

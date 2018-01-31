@@ -18,11 +18,13 @@
 #include <tchar.h>
 #include <SDL_image.h>
 #include <SDL.h>
-#include <glm.hpp>
 
 
 
-// reference additional headers your program requires here
+
+
+
+// Additional headers
 #include <iostream>
 #include <memory>
 #include <map>
@@ -40,8 +42,18 @@
 #include <thread>
 #include <numeric>
 #include <random>
+
 #define PI 3.14159265
 
+// Graphics headers
+#include <glm.hpp>
+#include <GL\glew.h>
+
+//SDL TTF for writing to screen
+#include <SDL_ttf.h>
+
+
+// Networking headers
 #include <boost/asio.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/bind.hpp>
@@ -54,3 +66,7 @@
 #include <boost/asio/write.hpp>
 #include <boost/bind.hpp>
 using boost::asio::ip::tcp;
+
+// json parser
+#include "json.hpp"
+using json = nlohmann::json;

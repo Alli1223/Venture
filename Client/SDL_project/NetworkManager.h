@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "NetworkClient.h"
 #include "Agent.h"
+#include "Player.h"
 #include "Level.h"
 #include "AgentManager.h"
 
@@ -10,25 +11,32 @@ class NetworkManager
 public:
 	NetworkManager();
 	~NetworkManager();
-	void NetworkManager::Connect();
+	std::vector<std::shared_ptr<Player>> allPlayers;
+	int getPlayer(std::string ID);
+	void Connect();
 	//! Main Network update function
-	void NetworkManager::NetworkUpdate(Level& level, AgentManager& agentManager);
+	void NetworkUpdate(Level& level,Player& player, AgentManager& agentManager);
 	//! Send a message using TCP
-	void NetworkManager::sendTCPMessage(std::string message);
-	//! Process the players location from string
-	void NetworkManager::ProcessPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
-	//! Process a list of player locations
-	void NetworkManager::ProcessArrayOfPlayerLocations(std::string updateMessage, Level& level, AgentManager& agentManager);
-	//! Return a string from recieve message
-	std::string NetworkManager::RecieveMessage();
+	void sendTCPMessage(std::string message);
 
-	void NetworkManager::runMultiThread(Level& level, AgentManager& agentManager);
+	//! Process the players location from json
+	void ProcessPlayerLocations(Level& level, AgentManager& agentManager, Player& player);
+	//! Process cell data
+	void MapNetworkUpdate(Level& level);
+	//! Return a string from recieve message
+	std::string RecieveMessage();
+
+	void SpawnPlayer(Player& player);
+
+	
+
+	void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::asio::io_service& io_service);
 
 	// Server connection deets
 	int port = 2222;
 	
 	std::string ExternalIPAddress = "46.101.9.185";
-	std::string InternalIPAddresss = "127.0.0.1";
+	std::string InternalIPAddress = "127.0.0.1";
 
 	//! Whether the client should connect to external server
 	bool isServerLocal = true;
@@ -37,12 +45,21 @@ public:
 	//! Whether the client should request playernumers
 	bool GetNumPlayers = false;
 
-	//! Network update interval
-	int networkUpdateInterval = 250;
+	//! How frequent the client will update player positions
+	int networkPlayerUpdateInterval = 50;
+	//! How frequent the client will update the map from server
+	int networkMapUpdateInterval = 1000;
+
 	//! Stores the number of players in the game
 	int numberOfPlayers = 0;
 
-	
+	// Values for the network update timer
+	double lastTimeP = SDL_GetTicks();
+	double lastTimeM = SDL_GetTicks();
+	double timebehindP = 0;
+	double timebehindM = 0;
+	bool runPlayerNetworkTick = false;
+	bool runMapNetworkTick = false;
 
 	//! get and set server IP address
 	std::string getServerIP() { return IPAddress; }
@@ -59,6 +76,7 @@ public:
 	//! the io service for creating the socket
 	boost::asio::io_service io_service;
 	std::shared_ptr<tcp::socket> socket;
+	std::thread t;
 	
 
 private:

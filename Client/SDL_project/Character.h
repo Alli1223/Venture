@@ -4,12 +4,13 @@
 #include "Inventory.h"
 #include "Items.h"
 #include "PathFinder.h"
+#include "Animation.h"
 class Character
 {
 public:
 	Character();
 	~Character();
-
+	
 
 	//Getter methods
 	//! Gets the characters X value
@@ -26,20 +27,21 @@ public:
 	int getCellY() { return cellY; }
 	//! Gets the characters size
 	int getSize() { return size; }
+	//! Gets rotations
+	int getRotation() { return rotation; }
+	int getTargetRotation() { return targetRotation; }
+	int getRotationSpeed() { return rotationSpeed; }
 	//! Gets the characters speed
 	double getSpeed() { return speed; }
 	//! Gets and the agents health
 	double getHealth() { return health; }
-
-	//! Agent ID
-	std::string getID() { return ID; }
-	std::string setID(std::string newID) { return ID = newID; }
-
 	//Setter methods
 	//! Sets the characters X value
 	int setX(int newX) { return x = newX; }
 	//! Sets the characters Y value
 	int setY(int newY) { return y = newY; }
+	//! Sets the size of the character
+	int setSize(int newSize) { return size = newSize; }
 	//! Sets the characters cellX offset value
 	int setOffsetX(int newOffsetX) { return offsetX = newOffsetX; }
 	//! Sets the characters Y offset value
@@ -54,16 +56,58 @@ public:
 	double setSpeed(double newSpeed) { return speed = newSpeed; }
 	//! Sets the characters health
 	double setHealth(double newHealth) { return health = newHealth; }
-
+	//! Sets rotations
+	int setRotation(int newRotation) { return rotation = newRotation; }
+	int setTargetRotation(int newTarget) { return targetRotation = newTarget; }
+	int setRotationSpeed(int newSpeed) { return rotationSpeed = newSpeed; }
+	//! Player movement boolean
+	bool setPlayerMoving(bool yayornay) { return isMoving = yayornay; }
+	bool isPlayerMoving() { return isMoving; }
+	//! Agent ID
+	std::string getID() { return ID; }
+	std::string setID(std::string newID) { return ID = newID; }
 	//! Gets and sets the agents point location
 	Point getAgentPointLocation() { return agentPointLocation; }
 	Point setAgentPointLocation(Point newPointLocation) { return agentPointLocation = newPointLocation; }
+	//! Character Type
+	std::string characterType = "NPC";
 
-	bool isMoving = false;
+	//! Position in the world
+	glm::vec2 chunkPos, cellPos;
+	void Character::Update(Level& level);
+
+	//! Enum for chacter customisation
+	typedef struct
+	{
+		enum HeadWear {
+			noHeadWear,
+			shortHair,
+			longHair,
+			hat
+		}head;
+
+		enum BodyWear {
+			noShirt,
+			tshirt,
+			jacket,
+			dress
+		}body;
+		enum LegWear {
+			noLeg,
+			jeans,
+			chinos,
+			skirt
+		}leg;
+	} Clothing;
+
+	//! Character clothes
+	Clothing PlayerClothes;
 
 private:
 	//! string stores agent ID/Name
 	std::string ID = "";
+	//! Rotation values
+	int rotation = 0, targetRotation = 0, rotationSpeed = 5;
 	//! Integers for the agent's X and Y position
 	int offsetX = 0, offsetY = 0;
 	int x = 0; int y = 0;
@@ -72,10 +116,18 @@ private:
 	//! Point for where the agent is located
 	Point agentPointLocation;
 	//! Integer for the agent's size when rendered
-	int size = 25;
+	int size = 50;
 	//! Integer for the agent current speed
 	float speed = 2.0;
 	//! A double for the agents's health
 	double health = 100.0;
+	//! A double for agents hunger decrease speed
+	double hunger = 0.0;
+	//! If the Character can rotate
+	bool incrementalRotating = false;
+	//! if the Character is moving
+	bool isMoving = false;
+
+
 };
 

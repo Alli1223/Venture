@@ -7,6 +7,7 @@ public:
 	Inventory();
 	~Inventory();
 
+
 	// Add item to inventory
 	bool add(const Item& item)
 	{
@@ -19,11 +20,28 @@ public:
 		return false;
 	}
 
-	bool removeItem(const Item& item)
+	void removeItemType(const Item::ItemType type)
 	{
-		for (int i = 0; i < capacity; i++)
+		for (unsigned int i = 0; i < getCurrentSize(); i++)
 		{
-			//if(items[i].)
+
+				if (items[i].type.Resource == type.Resource)
+				{
+					items[i].type.Resource = Item::ItemType::noResource;
+					return;
+				}
+				if (items[i].type.Food == type.Food)
+				{
+					items[i].type.Food = Item::ItemType::noFood;
+					return;
+				}
+					
+				if (items[i].type.Tool == type.Tool)
+				{
+					items[i].type.Tool = Item::ItemType::noTool;
+					return;
+				}
+			
 		}
 	}
 	// returns the size of inventory
@@ -32,7 +50,7 @@ public:
 		return capacity;
 	}
 	//Get size of the current inventory
-	unsigned int getSize(void) const
+	unsigned int getCurrentSize(void) const
 	{
 		return items.size();
 	}
@@ -53,7 +71,10 @@ public:
 		}
 		return false;
 	}
-
+	unsigned int setCapacity(unsigned int newCapacity)
+	{ 
+		return capacity = newCapacity; 
+	}
 private:
 	unsigned int capacity = 20;
 	std::vector<Item> items;

@@ -39,8 +39,9 @@ public:
 	enum agentServicesStatus { NA, Hungry, Tired, WC, Suffocating };
 	agentServicesStatus agentNeed = NA;
 
-	glm::vec4 playerChunk;
-
+	//! Position in the world
+	glm::vec2 chunkPos, cellPos;
+	glm::vec2 cellInteractionDirection;
 
 
 	//! Gets and Sets the agents hunger
@@ -65,7 +66,7 @@ public:
 	bool agentWonderWhenIdle = false;
 
 	bool agentCanRotate = true;
-	int agentRotation = 0;
+	
 
 private:
 
