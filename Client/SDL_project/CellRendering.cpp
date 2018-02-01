@@ -189,7 +189,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, st
 				{
 					WoodFenceCenter.render(renderer, xPos, yPos, cellSize, cellSize);
 					// Uncomment for fences to be combined
-					/*if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1) && level.isCellInChunk(x - 1, y) && level.isCellInChunk(x + 1, y))
+					if (level.isCellInChunk(x, y - 1) && level.isCellInChunk(x, y + 1) && level.isCellInChunk(x - 1, y) && level.isCellInChunk(x + 1, y))
 					{
 						if (chunk->tiles[x][y]->isWoodFence && chunk->tiles[x][y + 1]->isWoodFence && chunk->tiles[x][y - 1]->isWoodFence && !chunk->tiles[x + 1][y]->isWoodFence && !chunk->tiles[x - 1][y]->isWoodFence)
 							WoodFenceUP.render(renderer, xPos, yPos, cellSize, cellSize);
@@ -198,7 +198,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, st
 						else
 							WoodFenceSide.render(renderer, xPos, yPos, cellSize, cellSize);
 					}
-					*/
+					
 				}
 			}
 		}

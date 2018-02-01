@@ -21,6 +21,7 @@ bool UserInput::CheckIfCellIsWalkable(Level& level, int x, int y)
 	int cellX = x / level.getCellSize() - (chunkX * level.getChunkSize());
 	int cellY = y / level.getCellSize() - (chunkY * level.getChunkSize());
 
+	//for negative cells
 	if (cellX < 0)
 	{
 		cellX += level.getChunkSize();

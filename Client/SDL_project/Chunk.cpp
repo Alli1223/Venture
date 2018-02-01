@@ -16,6 +16,7 @@ Chunk::Chunk(int initX, int initY)
 
 Chunk::~Chunk()
 {
-	
+	if(!tiles.empty())
+		tiles.erase(tiles.begin() , tiles.end());
 
 }

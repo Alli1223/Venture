@@ -63,11 +63,36 @@ void GameSettings::savePlayerSettings(Player& player)
 	playerData["PlayerData"]["eyeColour"]["b"] = player.getEyeColour().b;
 	playerData["PlayerData"]["bodyWear"] = player.PlayerClothes.body;
 	playerData["PlayerData"]["legWear"] = player.PlayerClothes.leg;
-	playerSave.open("Resources\\SaveData\\playerData.txt");
+	playerSave.open(playerSavePath);
 	playerSave << playerData.dump();
 	std::cout << "Saved Player settings." << std::endl;
 	playerSave.close();
 }
+
+void GameSettings::saveLevelData(Level& level)
+{
+	json levelData;
+	
+	
+	for (std::map<int, std::map<int, std::shared_ptr<Chunk>>>::iterator it = level.World.begin(); it != level.World.end(); ++it)
+	{
+		for (int x = 0; x < level.getChunkSize(); x++)
+		{
+			for (int y = 0; y < level.getChunkSize(); y++)
+			{
+				
+				levelData["Level"][0][x][y] = it->second[0]->tiles[x][y]->getCellData();
+			}
+		}
+	}
+
+
+	levelSave.open(levelSavePath);
+	levelSave << levelData.dump();
+	std::cout << "Level Saved." << std::endl;
+	levelSave.close();
+}
+
 
 Player GameSettings::getPlayerFromSave()
 {

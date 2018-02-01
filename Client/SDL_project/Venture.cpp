@@ -295,6 +295,7 @@ void Venture::run()
 
 	// Save player settings when the game ends the game loop
 	gameSettings.savePlayerSettings(player);
+	gameSettings.saveLevelData(level);
 	if (gameSettings.useNetworking)
 	{
 		// Send quit message and close socket when game ends

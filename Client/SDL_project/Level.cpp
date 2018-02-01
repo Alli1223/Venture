@@ -104,6 +104,7 @@ std::shared_ptr<Cell>& Level::getCell(int cellX, int cellY)
 	{
 		return World[chunkX][chunkY]->tiles[cellX][cellY];
 	}
+	
 }
 
 // Set a cell with the values of another cell

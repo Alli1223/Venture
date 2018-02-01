@@ -13,6 +13,7 @@ public:
 	int WINDOW_HEIGHT = 600;
 
 	void savePlayerSettings(Player& player);
+	void saveLevelData(Level& level);
 	Player getPlayerFromSave();
 
 	//! Get screen resolution
@@ -46,8 +47,15 @@ public:
 	//! stores screen resolution
 	SDL_DisplayMode currentDisplay;
 	
-	std::ofstream playerSave;
+	
 private:
+
+	std::ofstream playerSave;
+	std::ofstream levelSave;
+
+	std::string levelSavePath = "Resources\\SaveData\\levelData.txt";
+	std::string playerSavePath = "Resources\\SaveData\\playerData.txt";
+
 	//The frames per second timer
 	//Timer used to calculate the frames per second
 	int frame = 0;
