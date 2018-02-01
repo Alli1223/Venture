@@ -74,11 +74,13 @@ void GameSettings::saveLevelData(Level& level)
 	json levelData;
 	json array;
 	
+	std::cout << "Level Saving.." << std::endl;
 	//TODO: calculate explored area
 	for (int x = level.xMinExplored; x < level.xMaxExplored; x++)
 	{
 		for (int y = level.yMinExplored; y < level.yMaxExplored; y++)
 		{
+			std::cout << x << " out of " << level.xMaxExplored << std::endl;
 			array.push_back(level.getCell(x, y)->getCellData());
 		}
 	}
@@ -120,6 +122,8 @@ Level GameSettings::loadGameFromSave(Level& level)
 					nc.isGrass = element.at("Grass").get<bool>();
 				if (element.count("Water") > 0)
 					nc.isWater = element.at("Water").get<bool>();
+				if (element.count("Sand") > 0)
+					nc.isSand = element.at("Sand").get<bool>();
 				if (element.count("Fence") > 0)
 					nc.isWoodFence = element.at("Fence").get<bool>();
 				if (element.count("Dirt")  > 0)
