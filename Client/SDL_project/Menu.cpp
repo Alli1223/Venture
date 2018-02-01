@@ -56,22 +56,23 @@ void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Pla
 		menuBackground.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, gameSettings.WINDOW_WIDTH, gameSettings.WINDOW_HEIGHT);
 
 		
-
+		int menuButtonPositions = 50;
 		// Render buttons
 		exit.render(renderer, 50, 25, 100, 50);
 
-		justPlay->render(renderer, gameSettings.WINDOW_WIDTH / 4, gameSettings.WINDOW_HEIGHT - 150, 300, 100);
+		justPlay->render(renderer, gameSettings.WINDOW_WIDTH / 2, 50, 150, 50);
 		if (justPlay->isPressed())
 		{
 			displayMainMenu = false;
 		}
 
-		loadFromSave.render(renderer, gameSettings.WINDOW_WIDTH - 300, gameSettings.WINDOW_HEIGHT / 4, 400, 100);
+		loadFromSave.render(renderer, gameSettings.WINDOW_WIDTH / 2, 100, 150, 50);
 		if (loadFromSave.isPressed())
 		{
 			gameSettings.loadGameFromSave(level);
+			displayMainMenu = false;
 		}
-		toggleFullscreen->render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2 + 150, 400, 100);
+		toggleFullscreen->render(renderer, gameSettings.WINDOW_WIDTH / 2, 150, 150, 50);
 		
 		if (toggleFullscreen->isPressed())
 		{
@@ -88,7 +89,7 @@ void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Pla
 			
 		}
 		
-		useNetworking.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, 400, 100);
+		useNetworking.render(renderer, gameSettings.WINDOW_WIDTH / 2, 200, 150, 50);
 		if (useNetworking.isPressed())
 		{
 			//TODO: add delay to button so it's easier to change the setting
@@ -114,7 +115,7 @@ void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Pla
 
 
 		// Character Screen
-		characterScreen.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 4, 400, 100);
+		characterScreen.render(renderer, gameSettings.WINDOW_WIDTH / 2, 250, 150, 50);
 		if (characterScreen.isPressed())
 		{
 			CharacterCustomisationMenu(gameSettings,camera, player, renderer);

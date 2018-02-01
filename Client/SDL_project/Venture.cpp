@@ -140,9 +140,16 @@ Venture::~Venture()
 
 void Venture::run()
 {
-	// Run the main menu
-	menu.MainMenu(gameSettings,level, camera, player, renderer);
+	terrainGen.setSeed(0123);
 
+	level.GenerateWorld(camera);
+	// Run the main menu
+	if (gameSettings.mainMenu)
+	{
+		Menu menu;
+		menu.MainMenu(gameSettings, level, camera, player, renderer);
+		menu.~menu();
+	}
 	// Add starting items
 	Item hoe;
 	hoe.type.Tool = Item::ItemType::isHOE;
@@ -172,9 +179,7 @@ void Venture::run()
 	player.inventory.add(wood);
 
 	// Generates the world around the camera position
-	terrainGen.setSeed(0123);
-
-	level.GenerateWorld(camera);
+	
 
 	int cellSize = level.getCellSize();
 

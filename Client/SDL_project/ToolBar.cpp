@@ -39,6 +39,7 @@ void ToolBar::UpdateAndRenderToolbar(SDL_Renderer* renderer, Player& player, Gam
 			icon->RenderIcon(renderer);
 
 	// IF the inventory has changed reCreate the toolbar
+	//TODO: optimise this
 	if (numOfItems != player.inventory.getCurrentSize())
 	{
 		toolbarIcons.erase(toolbarIcons.begin(), toolbarIcons.end());

@@ -208,6 +208,7 @@ void NetworkManager::runMultiThread(std::shared_ptr<tcp::socket> socket, boost::
 void NetworkManager::MapNetworkUpdate(Level& level)
 {
 	sendTCPMessage("[RequestMapUpdate]\n");
+	//! What an empty map looks like
 	std::string EmptyMap = "{\"MapData\":[]}\r\n";
 	std::string mapData = RecieveMessage();
 	if (mapData != EmptyMap)

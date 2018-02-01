@@ -27,6 +27,10 @@ json Cell::getCellData()
 		cellData["Dirt"] = isDirt;
 	if(isGrass)
 		cellData["Grass"] = isGrass;
+	if (isWater)
+		cellData["Water"] = isWater;
+	if (isSand)
+		cellData["Sand"] = isSand;
 	if(isWood)
 		cellData["Wood"] = isWood;
 	if(isRock)

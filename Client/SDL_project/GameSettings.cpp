@@ -74,26 +74,15 @@ void GameSettings::saveLevelData(Level& level)
 	json levelData;
 	json array;
 	
-	for (int i = -100; i < 100; i++)
+	//TODO: calculate explored area
+	for (int x = level.xMinExplored; x < level.xMaxExplored; x++)
 	{
-		for (int j = -100; j < 100; j++)
+		for (int y = level.yMinExplored; y < level.yMaxExplored; y++)
 		{
-			if (level.World[i][j] != NULL)
-			{
-				for (int x = 0; x < level.getChunkSize(); x++)
-				{
-					for (int y = 0; y < level.getChunkSize(); y++)
-					{
-						if (level.World[i][j]->tiles.size() > 0)
-						{
-							
-							levelData["Level"][std::to_string(i)][std::to_string(j)][x][y] = level.World[i][j]->tiles[x][y]->getCellData();
-						}
-					}
-				}
-			}
+			array.push_back(level.getCell(x, y)->getCellData());
 		}
 	}
+	levelData["Level"] = array;
 
 	levelSave.open(levelSavePath);
 	levelSave << levelData.dump();
@@ -116,34 +105,41 @@ Level GameSettings::loadGameFromSave(Level& level)
 			json mapData = jsonData.at("Level");
 
 			// Range-based for loop to iterate through the map data
-			for (auto& chunk : mapData)
+			for (auto& element : mapData)
 			{
+				Cell nc;
+				
 
-				for (auto& element : mapData)
-				{
-					int x = element.at("X").get<int>();
-					int y = element.at("Y").get<int>();
-					bool isFence = element.at("Fence").get<bool>();
-					bool isDirt = element.at("Dirt").get<bool>();
-					bool isWheat = element.at("Wheat").get<bool>();
-					bool isWood = element.at("Wood").get<bool>();
-					int plantGrowthStage = element.at("PlantStage").get<int>();
+				int x = element.at("X").get<int>();
+				int y = element.at("Y").get<int>();
+				nc.setPos(x, y);
 
-					// Create a new cell to replace the old one
-					Cell nc;
-					nc.setPos(x, y);
+				int plantGrowthStage;
+
+				if (element.count("Grass") > 0)
+					nc.isGrass = element.at("Grass").get<bool>();
+				if (element.count("Water") > 0)
+					nc.isWater = element.at("Water").get<bool>();
+				if (element.count("Fence") > 0)
 					nc.isWoodFence = element.at("Fence").get<bool>();
+				if (element.count("Dirt")  > 0)
 					nc.isDirt = element.at("Dirt").get<bool>();
+				if (element.count("Wheat")  > 0)
 					nc.isWheat = element.at("Wheat").get<bool>();
+				if (element.count("Wood")  > 0)
 					nc.isWood = element.at("Wood").get<bool>();
+				if (element.count("Stone")  > 0)
 					nc.isStone = element.at("Stone").get<bool>();
+				if (element.count("StoneWall")  > 0)
 					nc.isStoneWall = element.at("StoneWall").get<bool>();
-					nc.seedsStage = (Cell::seedsGrowthStage)plantGrowthStage;
-					level.SetCell(x, y, nc);
-				}
+				if (element.count("PlantStage")  > 0)
+					plantGrowthStage = element.at("PlantStage").get<int>();
+
+				level.SetCell(x, y, nc);
 			}
 		}
 	}
+
 
 	return levelToReturn;
 }

@@ -44,7 +44,11 @@ public:
 
 	//! Creates a vector of vectors to store cells in
 	void Level::CreateChunk(int initX, int initY);
-	void Level::CreateChunk(json& newChunk);
+
+	int xMinExplored = 0;
+	int xMaxExplored = 0;
+	int yMinExplored = 0;
+	int yMaxExplored = 0;
 
 	//! The wold contains key value pairs of chunks
 	std::map<int, std::map<int, std::shared_ptr<Chunk>>> World;

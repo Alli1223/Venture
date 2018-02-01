@@ -16,6 +16,15 @@ void Level::CreateChunk(int initX, int initY)
 			// Populates the column with pointers to cells
 			Cell cell(x + (initX * chunkSize), y + (initY * chunkSize));
 			cell.isWalkable = true;
+			if (cell.getX() < xMinExplored)
+				xMinExplored = cell.getX() ;
+			if (cell.getX() > xMaxExplored)
+				xMaxExplored = cell.getX();
+			if (cell.getY() < yMinExplored)
+				yMinExplored = cell.getY();
+			if (cell.getY() > yMaxExplored)
+				yMaxExplored = cell.getY();
+
 			
 			auto sharedCell = std::make_shared<Cell>(cell);
 			chunk->tiles[x].push_back(sharedCell);
@@ -108,6 +117,7 @@ std::shared_ptr<Cell>& Level::getCell(int cellX, int cellY)
 }
 
 // Set a cell with the values of another cell
+// If the chunk doesn't exist it will create it
 void Level::SetCell(int x, int y, Cell& newcell)
 {
 	try
@@ -138,8 +148,14 @@ void Level::SetCell(int x, int y, Cell& newcell)
 		{
 			//std::cout << "Cell update at pos: " << x << " " << y << std::endl;
 			// Make sure that the chunk has been created before trying to place the cell
-			if (World[chunkX][chunkY]->tiles.size() > 0)
+			if (World[chunkX][chunkY] != NULL)
 			{
+				World[chunkX][chunkY]->tiles[x][y] = sharedCell;
+			}
+			// Else create the chunk
+			else
+			{
+				CreateChunk(chunkX, chunkY);
 				World[chunkX][chunkY]->tiles[x][y] = sharedCell;
 			}
 		}

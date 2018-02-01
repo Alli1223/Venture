@@ -53,7 +53,7 @@ public:
 	Camera camera;
 	UserInput input;
 	Player player;
-	Menu menu;
+	
 	
 
 	
