@@ -14,6 +14,7 @@ public:
 
 	void savePlayerSettings(Player& player);
 	void saveLevelData(Level& level);
+	Level loadGameFromSave(Level& level);
 	Player getPlayerFromSave();
 
 	//! Get screen resolution

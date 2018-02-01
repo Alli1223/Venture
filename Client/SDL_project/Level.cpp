@@ -19,8 +19,7 @@ void Level::CreateChunk(int initX, int initY)
 			
 			auto sharedCell = std::make_shared<Cell>(cell);
 			chunk->tiles[x].push_back(sharedCell);
-		}
-		
+		}	
 	}
 	World[initX][initY] = chunk;
 }
