@@ -73,7 +73,7 @@ void GameSettings::saveLevelData(Level& level)
 {
 	json levelData;
 	
-	
+	/*
 	for (std::map<int, std::map<int, std::shared_ptr<Chunk>>>::iterator it = level.World.begin(); it != level.World.end(); ++it)
 	{
 		for (int x = 0; x < level.getChunkSize(); x++)
@@ -85,7 +85,26 @@ void GameSettings::saveLevelData(Level& level)
 			}
 		}
 	}
-
+	*/
+	for (int i = -100; i < 100; i++)
+	{
+		for (int j = -100; j < 100; j++)
+		{
+			if (level.World[i][j] != NULL)
+			{
+				for (int x = 0; x < level.getChunkSize(); x++)
+				{
+					for (int y = 0; y < level.getChunkSize(); y++)
+					{
+						if (level.World[i][j]->tiles.size() > 0)
+						{
+							levelData["Level"][std::to_string(i)][std::to_string(j)][x][y] = level.World[i][j]->tiles[x][y]->getCellData();
+						}
+					}
+				}
+			}
+		}
+	}
 
 	levelSave.open(levelSavePath);
 	levelSave << levelData.dump();
@@ -98,7 +117,7 @@ Player GameSettings::getPlayerFromSave()
 {
 	Player existingPlayer;
 	std::string line;
-	std::ifstream readPlayerSave("Resources\\SaveData\\playerData.txt");
+	std::ifstream readPlayerSave(playerSavePath);
 	if (readPlayerSave.is_open())
 	{
 		while (std::getline(readPlayerSave, line))
