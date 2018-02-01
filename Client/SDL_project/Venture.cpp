@@ -141,7 +141,8 @@ Venture::~Venture()
 void Venture::run()
 {
 	// Run the main menu
-	//menu.MainMenu(gameSettings, camera, player, renderer);
+	menu.MainMenu(gameSettings,level, camera, player, renderer);
+
 	// Add starting items
 	Item hoe;
 	hoe.type.Tool = Item::ItemType::isHOE;
@@ -157,8 +158,10 @@ void Venture::run()
 	waterCan.type.Tool = Item::ItemType::isWATERINGCAN;
 	Item fishingPole;
 	fishingPole.type.Tool = Item::ItemType::isFISHINGROD;
+	Item wood;
+	wood.type.Resource = Item::ItemType::isWOOD;
 	
-
+	
 	player.inventory.add(WoodAxe);
 	player.inventory.add(PickAxe);
 	player.inventory.add(hoe);
@@ -166,7 +169,7 @@ void Venture::run()
 	//player.inventory.add(fishingPole);
 	player.inventory.add(Scythe);
 	player.inventory.add(seeds);
-
+	player.inventory.add(wood);
 
 	// Generates the world around the camera position
 	terrainGen.setSeed(0123);
@@ -294,8 +297,11 @@ void Venture::run()
 
 
 	// Save player settings when the game ends the game loop
-	gameSettings.savePlayerSettings(player);
-	gameSettings.saveLevelData(level);
+	if(gameSettings.saveLevelOnExit)
+		gameSettings.saveLevelData(level);
+	if(gameSettings.savePlayerOnExit)
+		gameSettings.savePlayerSettings(player);
+	
 	if (gameSettings.useNetworking)
 	{
 		// Send quit message and close socket when game ends

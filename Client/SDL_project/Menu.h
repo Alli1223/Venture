@@ -13,7 +13,7 @@ public:
 	~Menu();
 
 	//! Run main menu loop
-	void MainMenu(GameSettings& gameSettings,Camera& camera, Player& player, SDL_Renderer* renderer);
+	void MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Player& player, SDL_Renderer* renderer);
 
 	//! Run character screen loop
 	void CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera, Player& player, SDL_Renderer* renderer);

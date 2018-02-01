@@ -16,6 +16,8 @@ public:
 	//! Gets the cells data and returns it in json format
 	json getCellData();
 
+	void Cell::setCell(json& jsonData);
+
 	// Getter functions
 	//! Gets the Cell's X value
 	int getX() const { return x; }

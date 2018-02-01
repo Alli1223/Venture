@@ -24,6 +24,7 @@ void Level::CreateChunk(int initX, int initY)
 	World[initX][initY] = chunk;
 }
 
+
 // Generates a hashmap of chunks around the camera
 void Level::GenerateWorld(Camera& camera)
 {

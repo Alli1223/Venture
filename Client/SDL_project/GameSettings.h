@@ -43,6 +43,9 @@ public:
 	//! Whether the game uses networking and false if singleplayer
 	bool useNetworking = false;
 
+	//! Whether the game will save the game when it closes
+	bool saveLevelOnExit = true;
+	bool savePlayerOnExit = true;
 	//! Whether the game is running or not
 	bool running = true;
 	//! stores screen resolution

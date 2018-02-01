@@ -72,6 +72,7 @@ void GameSettings::savePlayerSettings(Player& player)
 void GameSettings::saveLevelData(Level& level)
 {
 	json levelData;
+	json array;
 	
 	for (int i = -100; i < 100; i++)
 	{
@@ -85,6 +86,7 @@ void GameSettings::saveLevelData(Level& level)
 					{
 						if (level.World[i][j]->tiles.size() > 0)
 						{
+							
 							levelData["Level"][std::to_string(i)][std::to_string(j)][x][y] = level.World[i][j]->tiles[x][y]->getCellData();
 						}
 					}
@@ -102,6 +104,7 @@ void GameSettings::saveLevelData(Level& level)
 //TODO: Load game from save
 Level GameSettings::loadGameFromSave(Level& level)
 {
+	Level levelToReturn;
 	std::string line;
 	std::ifstream readGameSave(levelSavePath);
 	if (readGameSave.is_open())
@@ -109,11 +112,40 @@ Level GameSettings::loadGameFromSave(Level& level)
 		while (std::getline(readGameSave, line))
 		{
 			json jsonData = json::parse(line.begin(), line.end());;
-			json levelData = jsonData.at("Level");
 
-			//level.World[levelData.at(""]
+			json mapData = jsonData.at("Level");
+
+			// Range-based for loop to iterate through the map data
+			for (auto& chunk : mapData)
+			{
+
+				for (auto& element : mapData)
+				{
+					int x = element.at("X").get<int>();
+					int y = element.at("Y").get<int>();
+					bool isFence = element.at("Fence").get<bool>();
+					bool isDirt = element.at("Dirt").get<bool>();
+					bool isWheat = element.at("Wheat").get<bool>();
+					bool isWood = element.at("Wood").get<bool>();
+					int plantGrowthStage = element.at("PlantStage").get<int>();
+
+					// Create a new cell to replace the old one
+					Cell nc;
+					nc.setPos(x, y);
+					nc.isWoodFence = element.at("Fence").get<bool>();
+					nc.isDirt = element.at("Dirt").get<bool>();
+					nc.isWheat = element.at("Wheat").get<bool>();
+					nc.isWood = element.at("Wood").get<bool>();
+					nc.isStone = element.at("Stone").get<bool>();
+					nc.isStoneWall = element.at("StoneWall").get<bool>();
+					nc.seedsStage = (Cell::seedsGrowthStage)plantGrowthStage;
+					level.SetCell(x, y, nc);
+				}
+			}
 		}
 	}
+
+	return levelToReturn;
 }
 
 

@@ -21,20 +21,19 @@ std::shared_ptr<Button> get_instance(Button& n)
 }
 
 
-void Menu::MainMenu(GameSettings& gameSettings, Camera& camera, Player& player, SDL_Renderer* renderer)
+void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Player& player, SDL_Renderer* renderer)
 {
 	// Create buttons
 	Button characterScreen("Character Customisation");
 	Button exit("Exit");
 	Button useNetworking("Multiplayer");
 	//std::shared_ptr<Button> button;
-	Button button("");
-	//getInstance(button)->isPressed();
-	auto b = get_instance(button);
+	Button fullscreen("Fullscreen");
+	auto& toggleFullscreen = get_instance(fullscreen);
+	Button loadFromSave("Load Save Game");
+	Button play("Just Play");
+	auto& justPlay = get_instance(play);
 	
-	//auto buttonPtr = std::make_shared<Button>(button);
-	//buttonPtr->render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2 + 150, 400, 100);
-
 	// Scale mouse correctly depending on resolution
 	menuCursorSize = gameSettings.WINDOW_WIDTH / 25;
 
@@ -55,28 +54,40 @@ void Menu::MainMenu(GameSettings& gameSettings, Camera& camera, Player& player, 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 		menuBackground.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, gameSettings.WINDOW_WIDTH, gameSettings.WINDOW_HEIGHT);
-		b->render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2 + 150, 400, 100);
+
 		
 
 		// Render buttons
 		exit.render(renderer, 50, 25, 100, 50);
+
+		justPlay->render(renderer, gameSettings.WINDOW_WIDTH / 4, gameSettings.WINDOW_HEIGHT - 150, 300, 100);
+		if (justPlay->isPressed())
+		{
+			displayMainMenu = false;
+		}
+
+		loadFromSave.render(renderer, gameSettings.WINDOW_WIDTH - 300, gameSettings.WINDOW_HEIGHT / 4, 400, 100);
+		if (loadFromSave.isPressed())
+		{
+			gameSettings.loadGameFromSave(level);
+		}
+		toggleFullscreen->render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2 + 150, 400, 100);
 		
-		/*
-		if (button->isPressed())
+		if (toggleFullscreen->isPressed())
 		{
 			if (gameSettings.fullscreen)
 			{
-				button->setText("Windowed");
-				gameSettings.fullscreen = true;
+				toggleFullscreen->setText("Windowed");
+				gameSettings.fullscreen = false;
 			}
 			else
 			{
-				button->setText("Fullscreen");
-				gameSettings.fullscreen = false;
+				toggleFullscreen->setText("Fullscreen");
+				gameSettings.fullscreen = true;
 			}
 			
 		}
-		*/
+		
 		useNetworking.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, 400, 100);
 		if (useNetworking.isPressed())
 		{
