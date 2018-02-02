@@ -7,6 +7,7 @@ class Button : public GUI
 public:
 	//! Constructor (takes in text for the button) Leave " "" "  for no text
 	Button(std::string newText);
+	Button(std::string newText, std::string backgroundType);
 	//! Destructor
 	~Button();
 	//! Render the button
@@ -42,7 +43,7 @@ private:
 	bool mouseOverIncreaseSize = true;
 	int mouseOverSizeInrease = 5;
 	//! buttons texture location
-	std::string buttonTextureLocation = "Resources\\Sprites\\Colours\\";
+	std::string buttonTextureLocation = "Resources\\Sprites\\GUI\\buttonTextures\\";
 	SDL_Color buttonTextColour = { 255, 255, 255 };
 	TextUI buttonText;
 	Texture buttonBackground;

@@ -143,6 +143,7 @@ void Venture::run()
 	terrainGen.setSeed(0123);
 
 	level.GenerateWorld(camera);
+	
 	// Run the main menu
 	if (gameSettings.mainMenu)
 	{

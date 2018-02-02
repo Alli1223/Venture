@@ -5,6 +5,10 @@
 Button::Button(std::string newText) : buttonText("Ostrich"), text(newText), buttonBackground(buttonTextureLocation + "Grey.png")
 {
 }
+Button::Button(std::string newText, std::string backgroundType) : buttonText("Ostrich"), text(newText), buttonBackground(buttonTextureLocation + backgroundType + ".png")
+{
+
+}
 
 Button::~Button()
 {
@@ -50,6 +54,7 @@ void Button::render(SDL_Renderer* renderer, int x, int y, int width, int height)
 		}
 		
 	//Render background
+	buttonBackground.alterTransparency(200);
 	buttonBackground.render(renderer, getX(), getY(), getWidth(), getHeight());
 	
 	buttonIcon.setX(getX());
