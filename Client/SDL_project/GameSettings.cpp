@@ -48,21 +48,8 @@ void GameSettings::CalculateFramesPerSecond()
 void GameSettings::savePlayerSettings(Player& player)
 {
 	
-	json playerData;
-	playerData["PlayerData"]["name"] = player.getID();
-	playerData["PlayerData"]["rotation"] = player.getTargetRotation();
-	playerData["PlayerData"]["X"] = player.getX();
-	playerData["PlayerData"]["Y"] = player.getY();
-	playerData["PlayerData"]["isMoving"] = player.isPlayerMoving();
-	playerData["PlayerData"]["headWear"] = player.PlayerClothes.head;
-	playerData["PlayerData"]["hairColour"]["r"] = player.gethairColour().r;
-	playerData["PlayerData"]["hairColour"]["g"] = player.gethairColour().g;
-	playerData["PlayerData"]["hairColour"]["b"] = player.gethairColour().b;
-	playerData["PlayerData"]["eyeColour"]["r"] = player.getEyeColour().r;
-	playerData["PlayerData"]["eyeColour"]["g"] = player.getEyeColour().g;
-	playerData["PlayerData"]["eyeColour"]["b"] = player.getEyeColour().b;
-	playerData["PlayerData"]["bodyWear"] = player.PlayerClothes.body;
-	playerData["PlayerData"]["legWear"] = player.PlayerClothes.leg;
+	json playerData = player.getPlayerJson();
+
 	playerSave.open(playerSavePath);
 	playerSave << playerData.dump();
 	std::cout << "Saved Player settings." << std::endl;
@@ -76,9 +63,9 @@ void GameSettings::saveLevelData(Level& level)
 	
 	std::cout << "Level Saving.." << std::endl;
 	//TODO: calculate explored area
-	for (int x = level.xMinExplored; x < level.xMaxExplored; x++)
+	for (int x = level.xMinExplored + level.getChunkSize(); x < level.xMaxExplored - level.getChunkSize(); x++)
 	{
-		for (int y = level.yMinExplored; y < level.yMaxExplored; y++)
+		for (int y = level.yMinExplored + level.getChunkSize(); y < level.yMaxExplored - level.getChunkSize(); y++)
 		{
 			std::cout << x << " out of " << level.xMaxExplored << std::endl;
 			array.push_back(level.getCell(x, y)->getCellData());
@@ -170,11 +157,27 @@ Player GameSettings::getPlayerFromSave()
 				bool isMoving = playerData.at("isMoving").get<bool>();
 
 				// Player clothes
-				int headWear = playerData.at("headWear").get<int>();
-				int bodyWear = playerData.at("bodyWear").get<int>();
-				int legWear = playerData.at("legWear").get<int>();
+				int headWear;
+				int bodyWear;
+				int legWear;
 
+				// Check to see if the data is there
+				if (playerData.count("headWear") > 0)
+				{
+					headWear = playerData.at("headWear").get<int>();
+				}
+				if (playerData.count("headWear") > 0)
+				{
+					bodyWear = playerData.at("bodyWear").get<int>();
+				}
+				if (playerData.count("headWear") > 0)
+				{
+					legWear = playerData.at("legWear").get<int>();
+				}
+				
+				
 
+				
 				json hairColour = playerData.at("hairColour");
 				int hr = hairColour.at("r").get<int>();
 				int hg = hairColour.at("g").get<int>();
@@ -183,9 +186,19 @@ Player GameSettings::getPlayerFromSave()
 				int er = eyeColour.at("r").get<int>();
 				int eg = eyeColour.at("g").get<int>();
 				int eb = eyeColour.at("b").get<int>();
-
+				json bodyColour = playerData.at("bodyColour");
+				int br = bodyColour.at("r").get<int>();
+				int bg = bodyColour.at("g").get<int>();
+				int bb = bodyColour.at("b").get<int>();
+				json legsColour = playerData.at("legsColour");
+				int lr = legsColour.at("r").get<int>();
+				int lg = legsColour.at("g").get<int>();
+				int lb = legsColour.at("b").get<int>();
+				
 				existingPlayer.setEyeColour(er, eg, eb);
 				existingPlayer.setHairColour(hr, hg, hb);
+				existingPlayer.setJacketColour(br, bg, bb);
+				existingPlayer.setJeansColour(lr, lg, lb);
 
 				existingPlayer.PlayerClothes.head = (Player::Clothing::HeadWear)headWear;
 				existingPlayer.PlayerClothes.body = (Player::Clothing::BodyWear)bodyWear;

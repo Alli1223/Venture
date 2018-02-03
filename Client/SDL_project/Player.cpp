@@ -5,7 +5,7 @@
 Player::Player() : characterIdleTexture(characterTextureLocation + "idle.png"), 
 shortHairTexture(clothesTextureLocation + "hair1.png"), longHairTexture(clothesTextureLocation + "hair2.png"),
 eyesTexture(characterTextureLocation + "eyesAnim.png"), walkTexture(characterTextureLocation + "walk.png"), sideBlinkTexture(characterTextureLocation + "sideBlink.png"),
-jacketTexture(clothesTextureLocation + "Jacket.png"), jeansTexture(clothesTextureLocation + "Jeans.png")
+jacketTexture(clothesTextureLocation + "Jacket.png"), jeansTexture(clothesTextureLocation + "Legs.png")
 {
 }
 
@@ -35,11 +35,15 @@ void Player::RenderPlayer(SDL_Renderer* renderer, Camera& camera)
 		idleAnimation.OnAnimate();
 	}
 
+	// Fixed a weird bug
 	renderOffset.x = getX() - camera.getX();
 	renderOffset.y = getY() - camera.getY();
 
+	// Alter clothes colors
 	shortHairTexture.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
 	longHairTexture.alterTextureColour(hairColour.r, hairColour.g, hairColour.b);
+	jacketTexture.alterTextureColour(JacketColour.r, JacketColour.g, JacketColour.b);
+	jeansTexture.alterTextureColour(JeansColour.r, JeansColour.g, JeansColour.b);
 	eyesTexture.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
 	sideBlinkTexture.alterTextureColour(eyeColour.r, eyeColour.g, eyeColour.b);
 
@@ -49,11 +53,19 @@ void Player::RenderPlayer(SDL_Renderer* renderer, Camera& camera)
 	if (getTargetRotation() == 0 || getTargetRotation() == 360)
 	{
 		if (isPlayerMoving())
+		{
 			walkTexture.renderAnim(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
+			renderCharacterClothes(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		}
+			
 		else
-			characterIdleTexture.renderAnim(renderer, idleAnimation.getCurrentFrame() * pixelSize, 0, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		{
+			walkTexture.renderAnim(renderer, pixelSize * 3, pixelSize * 3, renderOffset.x, renderOffset.y, pixelSize, getSize());
+			renderCharacterClothes(renderer, pixelSize * 3, pixelSize * 3, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		}
+			
 		eyesTexture.renderAnim(renderer, blinkAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
-		renderCharacterClothes(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
+		//renderCharacterClothes(renderer, walkVerticalAnimation.getCurrentFrame() * pixelSize, pixelSize * 2, renderOffset.x, renderOffset.y, pixelSize, getSize());
 	}
 	// Walk Left
 	else if (getTargetRotation() == 90)
@@ -79,6 +91,39 @@ void Player::RenderPlayer(SDL_Renderer* renderer, Camera& camera)
 void Player::renderCharacterClothes(SDL_Renderer* renderer, int frameX, int frameY, int x, int y, int pixelSize, int characterSize)
 {
 
+
+	//Render leg wear
+	switch (PlayerClothes.leg)
+	{
+	case Clothing::chinos:
+
+		break;
+
+	case Clothing::jeans:
+		jeansTexture.renderAnim(renderer, frameX, frameY, x, y, pixelSize, characterSize);
+		break;
+
+	case Clothing::skirt:
+
+		break;
+	}
+
+	//Render body
+	switch (PlayerClothes.body)
+	{
+	case Clothing::jacket:
+		jacketTexture.renderAnim(renderer, frameX, frameY, x, y, pixelSize, characterSize);
+		break;
+	case Clothing::dress:
+
+		break;
+
+	case Clothing::tshirt:
+		jacketTexture.renderAnim(renderer, frameX, frameY, x, y, pixelSize, characterSize);
+
+		break;
+	}
+
 	//Render head wear texture
 	switch (PlayerClothes.head)
 	{
@@ -89,35 +134,31 @@ void Player::renderCharacterClothes(SDL_Renderer* renderer, int frameX, int fram
 		longHairTexture.renderAnim(renderer, frameX, frameY, x, y, pixelSize, characterSize);
 		break;
 	}
+}
+json Player::getPlayerJson()
+{
+	json playerData;
+	playerData["PlayerData"]["name"] = getID();
+	playerData["PlayerData"]["rotation"] = getTargetRotation();
+	playerData["PlayerData"]["X"] = getX();
+	playerData["PlayerData"]["Y"] = getY();
+	playerData["PlayerData"]["isMoving"] = isPlayerMoving();
+	playerData["PlayerData"]["headWear"] = PlayerClothes.head;
+	playerData["PlayerData"]["hairColour"]["r"] = gethairColour().r;
+	playerData["PlayerData"]["hairColour"]["g"] = gethairColour().g;
+	playerData["PlayerData"]["hairColour"]["b"] = gethairColour().b;
+	playerData["PlayerData"]["eyeColour"]["r"] = getEyeColour().r;
+	playerData["PlayerData"]["eyeColour"]["g"] = getEyeColour().g;
+	playerData["PlayerData"]["eyeColour"]["b"] = getEyeColour().b;
+	playerData["PlayerData"]["bodyWear"] = PlayerClothes.body;
+	playerData["PlayerData"]["bodyColour"]["r"] = getJacketColour().r;
+	playerData["PlayerData"]["bodyColour"]["g"] = getJacketColour().g;
+	playerData["PlayerData"]["bodyColour"]["b"] = getJacketColour().b;
+	playerData["PlayerData"]["legWear"] = PlayerClothes.leg;
+	playerData["PlayerData"]["legsColour"]["r"] = getJeansColour().r;
+	playerData["PlayerData"]["legsColour"]["g"] = getJeansColour().g;
+	playerData["PlayerData"]["legsColour"]["b"] = getJeansColour().b;
 
-	//Render legs
-	switch (PlayerClothes.body)
-	{
-	case Clothing::jacket:
-		//jacket.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
-		break;
-	case Clothing::dress:
-
-		break;
-
-	case Clothing::tshirt:
-
-		break;
-	}
-	//Render leg wear
-	switch (PlayerClothes.leg)
-	{
-	case Clothing::chinos:
-
-		break;
-
-	case Clothing::jeans:
-		//jeans.renderRotation(renderer, renderOffset.x, renderOffset.y, getSize(), getSize(), getRotation());
-		break;
-
-	case Clothing::skirt:
-
-		break;
-	}
+	return playerData;
 }
 

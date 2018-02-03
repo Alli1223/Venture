@@ -15,6 +15,8 @@ public:
 	void RenderPlayer(SDL_Renderer* renderer, Camera& camera);
 	//! Renders the characters clothes
 	void renderCharacterClothes(SDL_Renderer* renderer, int frameX, int frameY, int x, int y, int pixelSize, int characterSize);
+
+	json getPlayerJson();
 	
 	glm::vec2 renderOffset;
 	glm::vec2 screenCenter;
@@ -30,8 +32,12 @@ public:
 	Animation getWalkAnimation() { return walkHorizontalAnimation; }
 	SDL_Color gethairColour() { return hairColour; }
 	SDL_Color getEyeColour() { return eyeColour; }
+	SDL_Color getJacketColour() { return JacketColour; }
+	SDL_Color getJeansColour() { return JeansColour; }
 	int setHairColour(int r, int g, int b) { return hairColour.r = r, hairColour.g = g, hairColour.b = b; }
 	int setEyeColour(int r, int g, int b) { return eyeColour.r = r, eyeColour.g = g, eyeColour.b = b; }
+	int setJacketColour(int r, int g, int b) { return JacketColour.r = r, JacketColour.g = g, JacketColour.b = b; }
+	int setJeansColour(int r, int g, int b) { return JeansColour.r = r, JeansColour.g = g, JeansColour.b = b; }
 	Inventory inventory;
 	
 private:
@@ -44,6 +50,8 @@ private:
 	//! Default colours
 	SDL_Color hairColour = { 255,255,255 };
 	SDL_Color eyeColour = { 255,255,255 };
+	SDL_Color JacketColour = { 255,255,255 };
+	SDL_Color JeansColour = { 255,255,255 };
 	//! Texture locations
 	std::string characterTextureLocation = "Resources\\Sprites\\Character\\";
 	std::string clothesTextureLocation = "Resources\\Sprites\\Character\\Clothes\\";

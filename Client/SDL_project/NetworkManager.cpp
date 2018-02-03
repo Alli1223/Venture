@@ -86,21 +86,7 @@ void NetworkManager::NetworkUpdate(Level& level, Player& player, AgentManager& a
 void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentManager, Player& player)
 {
 	//Create the json to send to the server
-	json playerData;
-	playerData["name"] = localPlayerName;
-	playerData["rotation"] = player.getTargetRotation();
-	playerData["X"] = player.getX();
-	playerData["Y"] = player.getY();
-	playerData["isMoving"] = player.isPlayerMoving();
-	playerData["headWear"] = player.PlayerClothes.head;
-	playerData["hairColour"]["r"] = player.gethairColour().r;
-	playerData["hairColour"]["g"] = player.gethairColour().g;
-	playerData["hairColour"]["b"] = player.gethairColour().b;
-	playerData["eyeColour"]["r"] = player.getEyeColour().r;
-	playerData["eyeColour"]["g"] = player.getEyeColour().g;
-	playerData["eyeColour"]["b"] = player.getEyeColour().b;
-	playerData["bodyWear"] = player.PlayerClothes.body;
-	playerData["legWear"] = player.PlayerClothes.leg;
+	json playerData = player.getPlayerJson();
 
 
 	sendTCPMessage("[PlayerUpdate]" + playerData.dump() + "\n");

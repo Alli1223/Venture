@@ -61,22 +61,23 @@ void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Pla
 		int menuX = gameSettings.WINDOW_WIDTH / 2;
 		int menuSeperationDistance = 75;
 		int buttonHeight = 50;
+		int buttonWidth = 200;
 		// Render buttons
 		exit.render(renderer, 50, 25, 100, 50);
 
-		justPlay->render(renderer, menuX, menuY - menuSeperationDistance * 2, 150, buttonHeight);
+		justPlay->render(renderer, menuX, menuY - menuSeperationDistance * 2, buttonWidth, buttonHeight);
 		if (justPlay->isPressed())
 		{
 			displayMainMenu = false;
 		}
 
-		loadFromSave.render(renderer, menuX, menuY - menuSeperationDistance, 150, buttonHeight);
+		loadFromSave.render(renderer, menuX, menuY - menuSeperationDistance, buttonWidth, buttonHeight);
 		if (loadFromSave.isPressed())
 		{
 			gameSettings.loadGameFromSave(level);
 			displayMainMenu = false;
 		}
-		toggleFullscreen->render(renderer, menuX, menuY, 150, buttonHeight);
+		toggleFullscreen->render(renderer, menuX, menuY, buttonWidth, buttonHeight);
 		
 		if (toggleFullscreen->isPressed())
 		{
@@ -93,7 +94,7 @@ void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Pla
 			
 		}
 		
-		useNetworking.render(renderer, menuX, menuY + menuSeperationDistance, 150, buttonHeight);
+		useNetworking.render(renderer, menuX, menuY + menuSeperationDistance, buttonWidth, buttonHeight);
 		if (useNetworking.isPressed())
 		{
 			//TODO: add delay to button so it's easier to change the setting
@@ -119,7 +120,7 @@ void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Pla
 
 
 		// Character Screen
-		characterScreen.render(renderer, menuX, menuY + menuSeperationDistance * 2, 150, buttonHeight);
+		characterScreen.render(renderer, menuX, menuY + menuSeperationDistance * 2, buttonWidth, buttonHeight);
 		if (characterScreen.isPressed())
 		{
 			CharacterCustomisationMenu(gameSettings,camera, player, renderer);
@@ -142,7 +143,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 	Button randomiseAll("Random");
 	Button startingProfession("Profession");
 	
-	Player playerCreation;
+	Player playerCreation = gameSettings.getPlayerFromSave();
 
 	playerCreation.PlayerClothes.leg = Player::Clothing::jeans;
 	playerCreation.PlayerClothes.body = Player::Clothing::jacket;
@@ -172,7 +173,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		
 		// Customisation buttons
 		changeHead.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() - 100, 100, 50);
-		changeBody.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() , 100, 50);
+		changeBody.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY(), 100, 50);
 		changeLegs.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() + 100, 100, 50);
 		randomiseAll.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 150, 150, 50);
 		startingProfession.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 200, 150, 50);
@@ -186,7 +187,9 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		//Legs
 		if (changeLegs.isPressed())
 		{
-			if(playerCreation.PlayerClothes.leg == Player::Clothing::chinos)
+			if (playerCreation.PlayerClothes.leg == Player::Clothing::noLeg)
+				playerCreation.PlayerClothes.leg = Player::Clothing::chinos;
+			else if(playerCreation.PlayerClothes.leg == Player::Clothing::chinos)
 				playerCreation.PlayerClothes.leg = Player::Clothing::jeans;
 			else if (playerCreation.PlayerClothes.leg == Player::Clothing::jeans)
 				playerCreation.PlayerClothes.leg = Player::Clothing::chinos;
@@ -194,10 +197,12 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		// Body
 		if (changeBody.isPressed())
 		{
-			if (playerCreation.PlayerClothes.body == Player::Clothing::jacket)
-				playerCreation.PlayerClothes.body = Player::Clothing::tshirt;
+			if (playerCreation.PlayerClothes.body == Player::Clothing::noShirt)
+				playerCreation.PlayerClothes.body = Player::Clothing::jacket;
 			else if (playerCreation.PlayerClothes.body == Player::Clothing::tshirt)
 				playerCreation.PlayerClothes.body = Player::Clothing::jacket;
+			
+
 		}
 		// Head
 		if (changeHead.isPressed())
@@ -234,6 +239,8 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		{
 			playerCreation.setHairColour(rand() % 255, rand() % 255, rand() % 255);
 			playerCreation.setEyeColour(rand() % 255, rand() % 255, rand() % 255);
+			playerCreation.setJacketColour(rand() % 255, rand() % 255, rand() % 255);
+			playerCreation.setJeansColour(rand() % 255, rand() % 255, rand() % 255);
 		}
 		if (startingProfession.isPressed())
 		{
@@ -299,11 +306,14 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 	}
 	
 
-	// Only copy over the customsiation stuff
+	 //Only copy over the customsiation stuff
 	playerCreation.setSize(50);
 	player.PlayerClothes = playerCreation.PlayerClothes;
 	player.setHairColour(playerCreation.gethairColour().r, playerCreation.gethairColour().g, playerCreation.gethairColour().b);
 	player.setEyeColour(playerCreation.getEyeColour().r, playerCreation.getEyeColour().g, playerCreation.getEyeColour().b);
+	player.setJacketColour(playerCreation.getJacketColour().r, playerCreation.getJacketColour().g, playerCreation.getJacketColour().b);
+	player.setJeansColour(playerCreation.getJeansColour().r, playerCreation.getJeansColour().g, playerCreation.getJeansColour().b);
+	
 }
 
 SDL_Color Menu::getColourWheelvalue(SDL_Renderer* renderer,int x, int y)
