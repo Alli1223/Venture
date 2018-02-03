@@ -155,9 +155,9 @@ json Player::getPlayerJson()
 	playerData["PlayerData"]["bodyColour"]["g"] = getJacketColour().g;
 	playerData["PlayerData"]["bodyColour"]["b"] = getJacketColour().b;
 	playerData["PlayerData"]["legWear"] = PlayerClothes.leg;
-	playerData["PlayerData"]["legsColour"]["r"] = getJeansColour().r;
-	playerData["PlayerData"]["legsColour"]["g"] = getJeansColour().g;
-	playerData["PlayerData"]["legsColour"]["b"] = getJeansColour().b;
+	playerData["PlayerData"]["legColour"]["r"] = getJeansColour().r;
+	playerData["PlayerData"]["legColour"]["g"] = getJeansColour().g;
+	playerData["PlayerData"]["legColour"]["b"] = getJeansColour().b;
 
 	return playerData;
 }

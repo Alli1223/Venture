@@ -68,6 +68,7 @@ void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Pla
 		justPlay->render(renderer, menuX, menuY - menuSeperationDistance * 2, buttonWidth, buttonHeight);
 		if (justPlay->isPressed())
 		{
+			player = gameSettings.getPlayerFromSave();
 			displayMainMenu = false;
 		}
 
@@ -133,7 +134,7 @@ void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Pla
 
 void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera, Player& player, SDL_Renderer* renderer)
 {
-	Button exit("Exit");
+	Button back("Back");
 	Button play("Play");
 	Button changeHead("Change Hair");
 	Button changeBody("Change Body");
@@ -285,13 +286,12 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		playerCreation.RenderPlayer(renderer, camera);
 
 		//rgb.render(renderer, gameSettings.WINDOW_WIDTH - (gameSettings.WINDOW_WIDTH / 4), gameSettings.WINDOW_HEIGHT - (gameSettings.WINDOW_HEIGHT / 4), 100, 100);
-		exit.render(renderer, 50, 25, 100, 50);
+		back.render(renderer, 100, 50, 100, 50);
 		// Exit button
-		if (exit.isPressed())
+		if (back.isPressed())
 		{
-			gameSettings.running = false;
 			displayCharacterMenu = false;
-			displayMainMenu = false;
+			return;
 		}
 		if (play.isPressed())
 		{

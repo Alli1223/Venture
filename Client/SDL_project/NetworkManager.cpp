@@ -131,6 +131,15 @@ void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentMan
 			int eg = eyeColour.at("g").get<int>();
 			int eb = eyeColour.at("b").get<int>();
 
+			json bodyColour = element.at("bodyColour");
+			int br = bodyColour.at("r").get<int>();
+			int bg = bodyColour.at("g").get<int>();
+			int bb = bodyColour.at("b").get<int>();
+			json legsColour = element.at("legColour");
+			int lr = legsColour.at("r").get<int>();
+			int lg = legsColour.at("g").get<int>();
+			int lb = legsColour.at("b").get<int>();
+
 			// IF player exists update deets
 			if (DoesPlayerExist(otherPlayerNames, name))
 			{
@@ -138,6 +147,8 @@ void NetworkManager::ProcessPlayerLocations(Level& level, AgentManager& agentMan
 				int val = getPlayer(name);
 				allPlayers[val]->setEyeColour(er, eg, eb);
 				allPlayers[val]->setHairColour(hr, hg, hb);
+				allPlayers[val]->setJacketColour(br, bg, bb);
+				allPlayers[val]->setJeansColour(lr, lg, lb);
 				allPlayers[val]->PlayerClothes.head = (Player::Clothing::HeadWear)headWear;
 				allPlayers[val]->PlayerClothes.body = (Player::Clothing::BodyWear)bodyWear;
 				allPlayers[val]->PlayerClothes.leg = (Player::Clothing::LegWear)legWear;

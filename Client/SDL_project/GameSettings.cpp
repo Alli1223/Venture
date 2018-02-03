@@ -175,9 +175,6 @@ Player GameSettings::getPlayerFromSave()
 					legWear = playerData.at("legWear").get<int>();
 				}
 				
-				
-
-				
 				json hairColour = playerData.at("hairColour");
 				int hr = hairColour.at("r").get<int>();
 				int hg = hairColour.at("g").get<int>();
@@ -190,7 +187,7 @@ Player GameSettings::getPlayerFromSave()
 				int br = bodyColour.at("r").get<int>();
 				int bg = bodyColour.at("g").get<int>();
 				int bb = bodyColour.at("b").get<int>();
-				json legsColour = playerData.at("legsColour");
+				json legsColour = playerData.at("legColour");
 				int lr = legsColour.at("r").get<int>();
 				int lg = legsColour.at("g").get<int>();
 				int lb = legsColour.at("b").get<int>();
