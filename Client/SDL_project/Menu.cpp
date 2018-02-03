@@ -199,10 +199,10 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		{
 			if (playerCreation.PlayerClothes.body == Player::Clothing::noShirt)
 				playerCreation.PlayerClothes.body = Player::Clothing::jacket;
-			else if (playerCreation.PlayerClothes.body == Player::Clothing::tshirt)
+			else if (playerCreation.PlayerClothes.body == Player::Clothing::jacket)
+				playerCreation.PlayerClothes.body = Player::Clothing::dress;
+			else if (playerCreation.PlayerClothes.body == Player::Clothing::dress)
 				playerCreation.PlayerClothes.body = Player::Clothing::jacket;
-			
-
 		}
 		// Head
 		if (changeHead.isPressed())
