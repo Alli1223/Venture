@@ -307,7 +307,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 	
 
 	 //Only copy over the customsiation stuff
-	playerCreation.setSize(50);
+	//playerCreation.setSize(100);
 	player.PlayerClothes = playerCreation.PlayerClothes;
 	player.setHairColour(playerCreation.gethairColour().r, playerCreation.gethairColour().g, playerCreation.gethairColour().b);
 	player.setEyeColour(playerCreation.getEyeColour().r, playerCreation.getEyeColour().g, playerCreation.getEyeColour().b);

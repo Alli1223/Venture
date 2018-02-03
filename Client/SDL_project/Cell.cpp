@@ -16,6 +16,7 @@ Cell::Cell(int x, int y)
 Cell::~Cell(){
 }
 
+//TO modify these values, the other values in classes gameSettings.loadGameFromSave and NetWorkManager.MapNetworkUpdate need to be modified
 json Cell::getCellData()
 {	
 	json cellData;

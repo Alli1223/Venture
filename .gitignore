@@ -7,8 +7,8 @@
 *.userosscache
 *.sln.docstates
 
-/Client/SDL_project/Libraries/boost_1_63_0
-/Client/SDL_project/Libraries/boost_1_63_0/*
+/Client/SDL_project/Libraries/boost_1_63_0/
+
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)
