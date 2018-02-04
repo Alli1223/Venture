@@ -33,6 +33,7 @@ void GameSettings::getScreenResolution()
 
 void GameSettings::CalculateFramesPerSecond()
 {
+	
 	avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
 	if (avgFPS > 2000000)
 	{
@@ -96,37 +97,11 @@ Level GameSettings::loadGameFromSave(Level& level)
 			// Range-based for loop to iterate through the map data
 			for (auto& element : mapData)
 			{
-				Cell nc;
-				
 
-				int x = element.at("X").get<int>();
-				int y = element.at("Y").get<int>();
-				nc.setPos(x, y);
 
-				int plantGrowthStage;
-
-				if (element.count("Grass") > 0)
-					nc.isGrass = element.at("Grass").get<bool>();
-				if (element.count("Water") > 0)
-					nc.isWater = element.at("Water").get<bool>();
-				if (element.count("Sand") > 0)
-					nc.isSand = element.at("Sand").get<bool>();
-				if (element.count("Fence") > 0)
-					nc.isWoodFence = element.at("Fence").get<bool>();
-				if (element.count("Dirt")  > 0)
-					nc.isDirt = element.at("Dirt").get<bool>();
-				if (element.count("Wheat")  > 0)
-					nc.isWheat = element.at("Wheat").get<bool>();
-				if (element.count("Wood")  > 0)
-					nc.isWood = element.at("Wood").get<bool>();
-				if (element.count("Stone")  > 0)
-					nc.isStone = element.at("Stone").get<bool>();
-				if (element.count("StoneWall")  > 0)
-					nc.isStoneWall = element.at("StoneWall").get<bool>();
-				if (element.count("PlantStage")  > 0)
-					plantGrowthStage = element.at("PlantStage").get<int>();
-
-				level.SetCell(x, y, nc);
+				Cell newCell;
+				newCell = level.GetCellFromJson(element);
+				level.SetCell(newCell.getX(), newCell.getY(), newCell);
 			}
 		}
 	}

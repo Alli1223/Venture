@@ -119,8 +119,7 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, st
 				if (chunk->tiles[x][y]->isDirt)
 					DirtTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 
-				if (chunk->tiles[x][y]->isWood)
-					WoodTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				
 				if (chunk->tiles[x][y]->isSand)
 					SandTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk->tiles[x][y]->isStoneWall)
@@ -141,6 +140,8 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, st
 					SnowTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if(chunk->tiles[x][y]->isRock)
 					rockTexture.render(renderer, xPos, yPos, cellSize, cellSize);
+				if (chunk->tiles[x][y]->isWood)
+					WoodTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 				if (chunk->tiles[x][y]->isStone)
 					StoneTexture.render(renderer, xPos, yPos, cellSize, cellSize);
 

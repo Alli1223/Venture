@@ -23,7 +23,6 @@ bool Button::isPressed()
 	}
 	else
 		return false;
-		
 }
 
 void Button::render(SDL_Renderer* renderer, int x, int y, int width, int height)

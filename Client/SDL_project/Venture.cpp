@@ -151,33 +151,6 @@ void Venture::run()
 		menu.MainMenu(gameSettings, level, camera, player, renderer);
 		menu.~menu();
 	}
-	// Add starting items
-	Item hoe;
-	hoe.type.Tool = Item::ItemType::isHOE;
-	Item WoodAxe;
-	WoodAxe.type.Tool = Item::ItemType::isWOODAXE;
-	Item PickAxe;
-	PickAxe.type.Tool = Item::ItemType::isPICKAXE;
-	Item Scythe;
-	Scythe.type.Tool = Item::ItemType::isSCYTHE;
-	Item seeds;
-	seeds.type.Food = Item::ItemType::isSEEDS;
-	Item waterCan;
-	waterCan.type.Tool = Item::ItemType::isWATERINGCAN;
-	Item fishingPole;
-	fishingPole.type.Tool = Item::ItemType::isFISHINGROD;
-	Item wood;
-	wood.type.Resource = Item::ItemType::isWOOD;
-	
-	
-	player.inventory.add(WoodAxe);
-	player.inventory.add(PickAxe);
-	player.inventory.add(hoe);
-	player.inventory.add(waterCan);
-	//player.inventory.add(fishingPole);
-	player.inventory.add(Scythe);
-	player.inventory.add(seeds);
-	player.inventory.add(wood);
 
 	// Generates the world around the camera position
 	
@@ -227,6 +200,39 @@ void Venture::run()
 	toolbar.createToolbar(player, gameSettings);
 
 	player.inventory.setCapacity(56);
+	// Add starting items
+	Item hoe;
+	hoe.type.Tool = Item::ItemType::isHOE;
+	Item WoodAxe;
+	WoodAxe.type.Tool = Item::ItemType::isWOODAXE;
+	Item PickAxe;
+	PickAxe.type.Tool = Item::ItemType::isPICKAXE;
+	Item Scythe;
+	Scythe.type.Tool = Item::ItemType::isSCYTHE;
+	Item seeds;
+	seeds.type.Food = Item::ItemType::isSEEDS;
+	Item waterCan;
+	waterCan.type.Tool = Item::ItemType::isWATERINGCAN;
+	Item fishingPole;
+	fishingPole.type.Tool = Item::ItemType::isFISHINGROD;
+	Item wood;
+	wood.type.Resource = Item::ItemType::isWOOD;
+	Item stone;
+	stone.type.Resource = Item::ItemType::isSTONE;
+
+
+	player.inventory.add(WoodAxe);
+	player.inventory.add(PickAxe);
+	player.inventory.add(hoe);
+	player.inventory.add(waterCan);
+	//player.inventory.add(fishingPole);
+	player.inventory.add(Scythe);
+	player.inventory.add(seeds);
+
+	for (int i = 0; i < 30; i++)
+		player.inventory.add(wood);
+	for (int i = 0; i < 30; i++)
+		player.inventory.add(stone);
 	
 	player.InventoryPanel.setX(gameSettings.WINDOW_WIDTH / 2 + gameSettings.WINDOW_WIDTH / 4);
 	player.InventoryPanel.setY(gameSettings.WINDOW_HEIGHT / 2);
@@ -246,19 +252,19 @@ void Venture::run()
 	/////////////////////////////////////////////// MAIN LOOP ///////////////////////////////////////
 	while (gameSettings.running)
 	{
-		//TODO: re
+		// Get mouse Position
+		SDL_GetMouseState(&mouseX, &mouseY);
 		//gameSettings.getScreenResolution();
 		
-		gameSettings.CalculateFramesPerSecond();
+		if(gameSettings.displayFPS)
+			gameSettings.CalculateFramesPerSecond();
 
+		
+		
 		player.setSize(level.getCellSize());
-		if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
-		{
-			//level.getCell(mouseX / level.getCellSize() , mouseY / level.getCellSize())->isWood = true;
-		}
 		gameSettings.mouseCellPos.x = mouseX / level.getCellSize() + camera.getX() / level.getCellSize();
 		gameSettings.mouseCellPos.y = mouseY / level.getCellSize() + camera.getY() / level.getCellSize();
-		//std::cout << gameSettings.mouseCellPos.y << std::endl;
+
 		// Do all the networking
 		if (gameSettings.useNetworking)
 			networkManager.NetworkUpdate(level, player, agentManager);
@@ -287,6 +293,7 @@ void Venture::run()
 		// Renders all the cells and players
 		cellrenderer.RenderObjects(level, renderer, camera, player, networkManager.allPlayers);
 
+		// Renders UI
 		player.InventoryPanel.RenderInventory(renderer, player.inventory);
 		
 		toolbar.UpdateAndRenderToolbar(renderer, player, gameSettings);
@@ -303,7 +310,7 @@ void Venture::run()
 
 
 	// Save player settings when the game ends the game loop
-	if(gameSettings.saveLevelOnExit)
+	if(gameSettings.saveLevelOnExit && !gameSettings.useNetworking)
 		gameSettings.saveLevelData(level);
 	if(gameSettings.savePlayerOnExit)
 		gameSettings.savePlayerSettings(player);

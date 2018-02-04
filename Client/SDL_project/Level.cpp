@@ -168,6 +168,40 @@ void Level::SetCell(int x, int y, Cell& newcell)
 
 }
 
+Cell& Level::GetCellFromJson(json& json)
+{
+	Cell nc;
+	int x = json.at("X").get<int>();
+	int y = json.at("Y").get<int>();
+	nc.setPos(x, y);
+
+	int plantGrowthStage;
+
+	if (json.count("Grass") > 0)
+		nc.isGrass = json.at("Grass").get<bool>();
+	if (json.count("Water") > 0)
+		nc.isWater = json.at("Water").get<bool>();
+	if (json.count("Sand") > 0)
+		nc.isSand = json.at("Sand").get<bool>();
+	if (json.count("Fence") > 0)
+		nc.isWoodFence = json.at("Fence").get<bool>();
+	if (json.count("Dirt") > 0)
+		nc.isDirt = json.at("Dirt").get<bool>();
+	if (json.count("Wheat") > 0)
+		nc.isWheat = json.at("Wheat").get<bool>();
+	if (json.count("Wood") > 0)
+		nc.isWood = json.at("Wood").get<bool>();
+	if (json.count("Stone") > 0)
+		nc.isStone = json.at("Stone").get<bool>();
+	if (json.count("StoneWall") > 0)
+		nc.isStoneWall = json.at("StoneWall").get<bool>();
+	if (json.count("PlantStage") > 0)
+		nc.seedsStage = (Cell::seedsGrowthStage)json.at("PlantStage").get<int>();
+
+	return nc;
+
+}
+
 bool Level::isCellInChunk(int x, int y)
 {
 	if (x >= 0 && x <= chunkSize && y >= 0 && y <= chunkSize)

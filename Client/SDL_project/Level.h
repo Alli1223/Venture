@@ -36,8 +36,12 @@ public:
 	//! Returns the cells x and y value for the cell
 	glm::vec2 Level::GetGlobalCell(Camera& camera, int cellX, int cellY);
 
+	//! Creates a cell from json file
+	
+
 	//! Sets the cells value (NOT USED)
 	void Level::SetCell(int x, int y, Cell& newcell);
+	Cell& Level::GetCellFromJson(json& newcell);
 
 	//! Generates the world around the camera
 	void Level::GenerateWorld(Camera& camera);

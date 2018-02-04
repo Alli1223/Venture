@@ -226,25 +226,10 @@ void NetworkManager::MapNetworkUpdate(Level& level)
 			// Range-based for loop to iterate through the map data
 			for (auto& element : mapData)
 			{
-				int x = element.at("X").get<int>();
-				int y = element.at("Y").get<int>();
-				bool isFence = element.at("Fence").get<bool>();
-				bool isDirt = element.at("Dirt").get<bool>();
-				bool isWheat = element.at("Wheat").get<bool>();
-				bool isWood = element.at("Wood").get<bool>();
-				int plantGrowthStage = element.at("PlantStage").get<int>();
-
-				// Create a new cell to replace the old one
-				Cell nc;
-				nc.setPos(x, y);
-				nc.isWoodFence = element.at("Fence").get<bool>();
-				nc.isDirt = element.at("Dirt").get<bool>();
-				nc.isWheat = element.at("Wheat").get<bool>();
-				nc.isWood = element.at("Wood").get<bool>();
-				nc.isStone = element.at("Stone").get<bool>();
-				nc.isStoneWall = element.at("StoneWall").get<bool>();
-				nc.seedsStage = (Cell::seedsGrowthStage)plantGrowthStage;
-				level.SetCell(x, y, nc);
+				
+				Cell newCell;
+				newCell = level.GetCellFromJson(element);
+				level.SetCell(newCell.getX(), newCell.getY(), newCell);
 				cellsUpdated++;
 			}
 			std::cout << "Cells Updated: " << cellsUpdated << std::endl;

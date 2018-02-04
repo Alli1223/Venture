@@ -31,7 +31,7 @@ void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Pla
 	Button fullscreen(" Fullscreen ", "wood");
 	auto& toggleFullscreen = get_instance(fullscreen);
 	Button loadFromSave("Load Save Game");
-	Button play("Just Play");
+	Button play("New Game");
 	auto& justPlay = get_instance(play);
 	
 	// Scale mouse correctly depending on resolution
@@ -65,24 +65,30 @@ void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Pla
 		// Render buttons
 		exit.render(renderer, 50, 25, 100, 50);
 
+		// New Game
 		justPlay->render(renderer, menuX, menuY - menuSeperationDistance * 2, buttonWidth, buttonHeight);
 		if (justPlay->isPressed())
 		{
+			displayCharacterMenu = true;
+			CharacterCustomisationMenu(gameSettings, camera, player, renderer);
+			//displayMainMenu = false;
+		}
+
+		loadFromSave.render(renderer, menuX, menuY - menuSeperationDistance, buttonWidth, buttonHeight);
+
+		// Load from save
+		if (loadFromSave.isPressed())
+		{
+			gameSettings.loadGameFromSave(level);
 			player = gameSettings.getPlayerFromSave();
 			displayMainMenu = false;
 		}
 
-		loadFromSave.render(renderer, menuX, menuY - menuSeperationDistance, buttonWidth, buttonHeight);
-		if (loadFromSave.isPressed())
-		{
-			gameSettings.loadGameFromSave(level);
-			displayMainMenu = false;
-		}
+		// windowed or fullscreen
 		toggleFullscreen->render(renderer, menuX, menuY, buttonWidth, buttonHeight);
-		
 		if (toggleFullscreen->isPressed())
 		{
-			if (gameSettings.fullscreen)
+			if (gameSettings.fullscreen == true)
 			{
 				toggleFullscreen->setText("Windowed");
 				gameSettings.fullscreen = false;
@@ -95,27 +101,12 @@ void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Pla
 			
 		}
 		
-		useNetworking.render(renderer, menuX, menuY + menuSeperationDistance, buttonWidth, buttonHeight);
-		if (useNetworking.isPressed())
-		{
-			//TODO: add delay to button so it's easier to change the setting
-			if (gameSettings.useNetworking == true)
-			{
-				gameSettings.useNetworking = false;
-				useNetworking.setText("SinglePlayer");
-			}
-			else
-			{
-				gameSettings.useNetworking = true;
-				useNetworking.setText("Multiplayer");
-			}
-		}
-
-
-		// IF exit is pressed
+		// Dont save data when exit is pressed
 		if (exit.isPressed())
 		{
 			gameSettings.running = false;
+			gameSettings.saveLevelOnExit = false;
+			gameSettings.savePlayerOnExit = false;
 			displayMainMenu = false;
 		}
 
@@ -135,7 +126,8 @@ void Menu::MainMenu(GameSettings& gameSettings,Level& level, Camera& camera, Pla
 void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera, Player& player, SDL_Renderer* renderer)
 {
 	Button back("Back");
-	Button play("Play");
+	Button singlePlayer("SinglePlayer");
+	Button multiPlayer("MultiPlayer");
 	Button changeHead("Change Hair");
 	Button changeBody("Change Body");
 	Button changeLegs("Change Trousers");
@@ -171,7 +163,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 		menuBackground.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT / 2, gameSettings.WINDOW_WIDTH, gameSettings.WINDOW_HEIGHT);
-		
+
 		// Customisation buttons
 		changeHead.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY() - 100, 100, 50);
 		changeBody.render(renderer, playerCreation.getX() + playerCreation.getSize(), playerCreation.getY(), 100, 50);
@@ -180,9 +172,8 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		startingProfession.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 200, 150, 50);
 		changeHairColour.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 100, 150, 50);
 		changeEyeColour.render(renderer, playerCreation.getX() + playerCreation.getSize() + 150, playerCreation.getY() - 50, 150, 50);
-		play.render(renderer, gameSettings.WINDOW_WIDTH / 2, gameSettings.WINDOW_HEIGHT - 50, 100, 50);
 
-		
+
 
 		// Button functionality
 		//Legs
@@ -190,7 +181,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		{
 			if (playerCreation.PlayerClothes.leg == Player::Clothing::noLeg)
 				playerCreation.PlayerClothes.leg = Player::Clothing::chinos;
-			else if(playerCreation.PlayerClothes.leg == Player::Clothing::chinos)
+			else if (playerCreation.PlayerClothes.leg == Player::Clothing::chinos)
 				playerCreation.PlayerClothes.leg = Player::Clothing::jeans;
 			else if (playerCreation.PlayerClothes.leg == Player::Clothing::jeans)
 				playerCreation.PlayerClothes.leg = Player::Clothing::chinos;
@@ -220,11 +211,11 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		{
 			changeEyes = false;
 			changeHair = true;
-			if(showColourWheel == false)
+			if (showColourWheel == false)
 				showColourWheel = true;
 			else
 				showColourWheel = false;
-			
+
 		}
 		// Eye colour
 		if (changeEyeColour.isPressed())
@@ -236,7 +227,7 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 			else
 				showColourWheel = false;
 		}
-		if(randomiseAll.isPressed())
+		if (randomiseAll.isPressed())
 		{
 			playerCreation.setHairColour(rand() % 255, rand() % 255, rand() % 255);
 			playerCreation.setEyeColour(rand() % 255, rand() % 255, rand() % 255);
@@ -256,14 +247,14 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		if (showColourWheel)
 		{
 			int size = 250;
-			rgb.render(renderer, playerCreation.getX() - size , playerCreation.getY() , size, size);
-			
+			rgb.render(renderer, playerCreation.getX() - size, playerCreation.getY(), size, size);
+
 
 			int ccX = playerCreation.getX() - playerCreation.getSize();
 			int ccY = playerCreation.getY() + 100;
-			if (mouseX > playerCreation.getX() + size - (size * 2) -150  && mouseX < playerCreation.getX() - (size / 2))
+			if (mouseX > playerCreation.getX() + size - (size * 2) - 150 && mouseX < playerCreation.getX() - (size / 2))
 			{
-				if (mouseY > playerCreation.getY() - size/ 2 && mouseY < playerCreation.getY() + (size / 2))
+				if (mouseY > playerCreation.getY() - size / 2 && mouseY < playerCreation.getY() + (size / 2))
 				{
 
 					if (SDL_GetMouseState(&mouseX, &mouseY) & SDL_BUTTON(SDL_BUTTON_LEFT))
@@ -272,9 +263,9 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 						int r = ccX - mouseX;
 						int g = ccY + mouseY;
 						int b = ccX + mouseX;
-						if(changeHair)
+						if (changeHair)
 							playerCreation.setHairColour(r, g, b);
-						else if(changeEyes)
+						else if (changeEyes)
 							playerCreation.setEyeColour(r, g, b);
 					}
 					renderCursor = false;
@@ -286,21 +277,34 @@ void Menu::CharacterCustomisationMenu(GameSettings& gameSettings, Camera& camera
 		playerCreation.RenderPlayer(renderer, camera);
 
 		//rgb.render(renderer, gameSettings.WINDOW_WIDTH - (gameSettings.WINDOW_WIDTH / 4), gameSettings.WINDOW_HEIGHT - (gameSettings.WINDOW_HEIGHT / 4), 100, 100);
-		back.render(renderer, 100, 50, 100, 50);
+		back.render(renderer, 50, 150, 100, 50);
 		// Exit button
 		if (back.isPressed())
 		{
 			displayCharacterMenu = false;
 			return;
 		}
-		if (play.isPressed())
+
+		// Networking
+		multiPlayer.render(renderer, gameSettings.WINDOW_WIDTH / 2 - 200, gameSettings.WINDOW_HEIGHT - 100, 200, 50);
+		if (multiPlayer.isPressed())
 		{
+			gameSettings.useNetworking = true;
+			displayCharacterMenu = false;
+			displayMainMenu = false;
+		}
+		singlePlayer.render(renderer, gameSettings.WINDOW_WIDTH / 2 + 200, gameSettings.WINDOW_HEIGHT - 100, 200, 50);
+		if (singlePlayer.isPressed())
+		{
+			gameSettings.useNetworking = false;
 			displayCharacterMenu = false;
 			displayMainMenu = false;
 		}
 
+
+
 		//Render the mouse cursor last
-		if(renderCursor)
+		if (renderCursor)
 			cursor.render(renderer, mouseX + (menuCursorSize / 2), mouseY + (menuCursorSize / 2), menuCursorSize, menuCursorSize);
 		SDL_RenderPresent(renderer);
 	}

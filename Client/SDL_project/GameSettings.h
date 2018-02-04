@@ -25,6 +25,7 @@ public:
 	//Timer used to update the caption
 	Timer fpsTimer;
 	float getAverageFPS() { return avgFPS; }
+	bool displayFPS = false;
 
 
 	int amountOfWoodInTrees = 3;
