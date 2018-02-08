@@ -1,1 +1,1 @@
-{"PlayerData":{"X":0,"Y":0,"bodyColour":{"b":92,"g":118,"r":180},"bodyWear":2,"eyeColour":{"b":76,"g":181,"r":14},"hairColour":{"b":233,"g":126,"r":55},"headWear":1,"isMoving":false,"legColour":{"b":71,"g":1,"r":45},"legWear":1,"name":"4470","rotation":0}}
+{"PlayerData":{"X":-145,"Y":5,"bodyColour":{"b":216,"g":102,"r":167},"bodyWear":2,"eyeColour":{"b":44,"g":254,"r":160},"hairColour":{"b":223,"g":113,"r":241},"headWear":1,"isMoving":false,"legColour":{"b":174,"g":208,"r":189},"legWear":1,"name":"3264","rotation":0}}

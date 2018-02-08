@@ -38,6 +38,7 @@ int AgentManager::GetAgentNumberFomID(std::string ID)
 			return i;
 		}
 	}
+	return NULL;
 }
 
 void AgentManager::EraseAllAgentPaths(std::vector<Agent>& allAgents) 

@@ -32,7 +32,7 @@ public:
 	glm::vec2 ChunksOnScreen;
 
 	//! Lerp to target
-	void Camera::Lerp_To(glm::vec2 target, float increment);
+	void Camera::Lerp_To(glm::vec2 target);
 
 	
 
@@ -44,7 +44,7 @@ private:
 
 	
 
-	float cameraSpeed = 0.25;
+	float cameraSpeed = 0.10;
 
 	int* TargetX;
 	int* TargetY;

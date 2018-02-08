@@ -109,9 +109,18 @@ std::shared_ptr<Cell>& Level::getCell(int cellX, int cellY)
 		cellY += chunkSize;
 		chunkY -= 1;
 	}
-	if (isCellInChunk(cellX, cellY))
+	try
 	{
-		return World[chunkX][chunkY]->tiles[cellX][cellY];
+
+
+		if (isCellInChunk(cellX, cellY))
+		{
+			return World[chunkX][chunkY]->tiles[cellX][cellY];
+		}
+	}
+	catch(std::exception e)
+	{
+		std::cout << "Error accessing cell: " << chunkX << ", " << chunkY << ": " << cellX << ", " << cellY << std::endl;
 	}
 	
 }

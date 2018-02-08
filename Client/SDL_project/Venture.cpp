@@ -279,7 +279,7 @@ void Venture::run()
 		playerPos.y = player.getY() - camera.WindowHeight / 2;
 		
 		
-		camera.Lerp_To(playerPos, camera.getCameraSpeed());
+		camera.Lerp_To(playerPos);
 		level.GenerateWorld(camera);
 
 		// Clear Rendering process:

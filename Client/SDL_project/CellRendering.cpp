@@ -19,10 +19,10 @@ LongGrass3(TerrainSpriteTextureLocation + "LongGrass3.png"),
 rockTexture(TerrainSpriteTextureLocation + "Rock.png"),
 StoneWallTexture(TerrainSpriteTextureLocation + "StoneWall.png"),
 StoneTexture(TerrainSpriteTextureLocation + "Stone.png"),
-OakTreeTexture(TerrainSpriteTextureLocation + "OakTree.png"),
+OakTreeTexture(TerrainSpriteTextureLocation + "tree-orange.png"),
 FernTreeTexture(TerrainSpriteTextureLocation + "FernTree.png"),
 PineTreeTexture(TerrainSpriteTextureLocation + "PineTree.png"),
-TreePixelTexture(TreeTerrainSpriteTextureLocation + "pixelTree.png"),
+TreePixelTexture(TreeTerrainSpriteTextureLocation + "tree-orange.png"),
 TreeTwoTexture(TreeTerrainSpriteTextureLocation + "Tree2.png"),
 TreeThreeTexture(TreeTerrainSpriteTextureLocation + "Tree3.png"),
 SnowTexture(TerrainSpriteTextureLocation + "Snow.png"),
@@ -175,8 +175,8 @@ void CellRendering::RenderChunk(Level& level, Camera& camera, Player& player, st
 						t.isFern = true;
 					if (chunk->tiles[x][y]->treeType == Cell::TreeType::pineTree)
 						t.isPine = true;
-					t.pos = glm::vec2(xPos, yPos - cellSize * 3 + cellSize);
-					t.treeSize = glm::vec2(cellSize * 3, cellSize * 6);
+					t.pos = glm::vec2(xPos, yPos - cellSize * 3);
+					t.treeSize = glm::vec2(cellSize * 6, cellSize * 6);
 					if (chunk->tiles[x][y]->getY() > player.getY() / level.getCellSize())
 						treesBelow.push_back(t);
 					else

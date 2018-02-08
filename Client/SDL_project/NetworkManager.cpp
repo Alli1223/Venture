@@ -293,4 +293,5 @@ std::string NetworkManager::RecieveMessage()
 	{
 		std::cerr << e.what() << std::endl;
 	}
+	return NULL;
 }

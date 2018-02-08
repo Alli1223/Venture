@@ -18,10 +18,10 @@ Camera::~Camera()
 {
 }
 
-void Camera::Lerp_To(glm::vec2 target, float increment)
+void Camera::Lerp_To(glm::vec2 target)
 {
-	float lerp_x = X + (target.x - X) * increment;
-	float lerp_y = Y + (target.y - Y) * increment;
+	float lerp_x = X + (target.x - X) * cameraSpeed;
+	float lerp_y = Y + (target.y - Y) * cameraSpeed;
 
 	X = lerp_x;
 	Y = lerp_y;

@@ -38,13 +38,13 @@ void ProceduralTerrain::spawnRandomTrees(std::shared_ptr<Chunk>& chunk)
 			{
 				chunk->tiles[x][y]->isTree = true;
 				chunk->tiles[x][y]->isWalkable = false;
-				chunk->tiles[x][y]->treeType = Cell::fernTree;
+				chunk->tiles[x][y]->treeType = Cell::oakTree;
 			}
 			else if (treeType == 1)
 			{
 				chunk->tiles[x][y]->isTree = true;
 				chunk->tiles[x][y]->isWalkable = false;
-				chunk->tiles[x][y]->treeType = Cell::pineTree;
+				chunk->tiles[x][y]->treeType = Cell::oakTree;
 			}
 			else
 			{
@@ -97,8 +97,8 @@ void ProceduralTerrain::populateTerrain(std::shared_ptr<Chunk>& chunk)
 		}
 	}
 	//Cant spawn random items because that will cause de-sync between clients
-	//spawnRandomTrees(chunk);
-	//spawnRandomVegetation(chunk);
+	spawnRandomTrees(chunk);
+	spawnRandomVegetation(chunk);
 }
 
 //TODO: Put all constant values in the headder
